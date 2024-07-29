@@ -1,0 +1,230 @@
+body {
+  font-family: Arial, sans-serif;
+  background-image: url('https://static.vecteezy.com/system/resources/previews/007/677/104/non_2x/white-background-with-blue-geometric-and-white-line-pattern-free-vector.jpg');
+  background-size: cover;
+  color: white;
+  font-size: 15px;
+  background-attachment: fixed;
+}
+#powered-by-text {
+  position: fixed;
+  top: 20px; /* Adjust the distance from the top */
+  right: 20px; /* Adjust the distance from the right */
+  color: blue; /* Text color */
+  font-size: 12px; /* Font size */
+  font-family: Arial, sans-serif; /* Font family */
+}
+
+#chat-container {
+  position: relative; /* Added to position the overlay */
+  width: 600px;
+  margin: 40px auto;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: black;
+  background: white;
+
+}
+#chat-messages {
+  height: 300px;
+  overflow-y: auto;
+}
+
+#user-input {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-top: 10px;
+}
+#user-info-table {
+  margin-top: 0px;
+  border-collapse: collapse;
+  width: 80%;
+  margin-left:100px;
+  color: black;
+}
+#user-info-table th, #user-info-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: white;
+}
+#section-below-chatbox {
+  background-color: #f1f1f1;
+  padding: 20px; /* Adjust padding as needed */
+  border-radius: 10px; /* Add border radius for rounded corners */
+}
+#section-below-export {
+  background-color: white;
+  padding: 20px; /* Adjust padding as needed */
+  border-radius: 10px; /* Add border radius for rounded corners */
+  margin-top: 10px;
+}
+#export-btn {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#export-btn:hover {
+  background-color: #45a049;
+}
+#clear-btn {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #FF4C4C;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#clear-btn:hover {
+  background-color: #B20000;
+}
+#export-csv-btn {
+  background-image: url('https://iconape.com/wp-content/png_logo_vector/csv-icon.png'); 
+  background-size: cover;
+  border: none;
+  cursor: pointer;
+}
+#export-csv-btn {
+  width: 30px; /* Adjust the width of the button */
+  height: 30px; /* Adjust the height of the button */
+  background-image: url('https://iconape.com/wp-content/png_logo_vector/csv-icon.png'); 
+  background-size: cover;
+  border: none;
+  cursor: pointer;
+  top: 10px;
+  position: relative;
+  left: 260px;
+  border-radius: 4px;
+}
+
+.delete-button {
+  background-color: grey;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  position: absolute; /* Ensure it's positioned relative to the parent container */
+  left: 0; /* Adjust as needed */
+  margin-left: 40px; /* Add margin to separate from the table */
+}
+
+.delete-button:hover {
+  background-color: #363636; 
+}
+
+.bubble-option {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 8px 16px;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.bubble-option.selected {
+  background-color: #00008b;
+  color: white;
+}
+.message-bubble {
+  background-color: #add8e6;
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: white;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.message-bubble.visible {
+  opacity: 1;
+}
+
+.bot-message {
+  background-color: #00008b;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.bot-message.visible {
+  opacity: 1;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 10px;
+}
+
+.modal p {
+  margin-bottom: 10px;
+}
+
+.modal .bubble-option {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 8px 16px;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.modal .bubble-option:hover {
+  background-color: #ddd;
+}
+
+/* Overlay styles */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent black */
+  z-index: 0; /* Behind the modal */
+  display: none;
+}
+.small-image {
+	width: 200px; /* Set the width of the image to make it smaller */
+	height: auto; /* Maintain aspect ratio */
+	display: block; /* Set image display mode to block */
+	margin: 0 auto; /* Center-align the image */
+}
+/* Media Queries for Mobile Optimization*/ 
+@media (max-width: 768px) {
+  body {
+    font-size: 14px; /* Adjust font size for smaller screens */
+  }
+  
+  #chat-container {
+    width: 95%; /* Increase width for mobile */
+  }
+
+  #user-info-table {
+    margin-left: 0; /* Remove left margin for mobile */
+    width: 100%; /* Ensure full width for the table */
+  }
+}
