@@ -54,7 +54,6 @@ app.post('/export', async (req, res) => {
       perbaikiperkhidmatanawam, perbaikilainlain, tiadapositifkeperluanasas, tiadapositifinfrastruktur, tiadapositifekonomi, tiadapositifperkhidmatanawam, 
       tiadapositiflainlain, kriteriapemimpinbaik, pilihanpemimpinsabah, pilihanpemimpinsabahlain) VALUES ${placeholders}`;
 
-	res.send('Please wait while we process your request...');
     // Execute the query
     await pool.query(queryText, values);
     res.status(200).send('Data saved successfully');
