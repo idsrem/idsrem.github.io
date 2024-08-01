@@ -51,6 +51,8 @@ let userData = {
   pilihanpemimpinsabahlain: ''
 };
 
+let pengesahan = {isiboranglagi: ''};
+
 //DATE
 function getCurrentDate() {
   const currentDate = new Date();
@@ -330,8 +332,8 @@ function processInput(message) {
 	userData.dun = message;
     console.log('Dun:', userData.dun);
 	closeModal();
-    displayMessage(`En. Rem: Hi! Sila nyatakan umur anda.`, true, 500); //ASK AGE
-  } else if (!userData.umur) {
+    displayMessage(`En. Rem: Bagaimana pula umur anda?`, true, 500); //ASK AGE
+  /*} else if (!userData.umur) {
     if (!isNaN(message) && message > 17 && message < 200 ) { //IF NUMERIC / NOT STRING AND AGE IS BETWEEN 6-179
       userData.umur = message;
       console.log('Umur:', userData.umur);
@@ -342,7 +344,12 @@ function processInput(message) {
       }, 800); // Delay of 0.5 second
     } else {
       displayMessage(`En. Rem: Sila nyatakan umur yang betul`, true, 500); //ASK AGE
-    }
+    }*/
+  } else if (!userData.umur) {
+    userData.umur = message;
+    console.log('Umur:', userData.umur);
+    hideInput();
+	
   } else if (!userData.jantina) {
     userData.jantina = message;
     hideInput();
@@ -594,15 +601,19 @@ function selectOption(selectedOption, field) {
     // If dun is not yet provided, ask for dun
     displayMessage(`En. Rem: Sila pilih DUN anda`, true);
     closeModal('dun-options-modal');
+	
   } else if (!userData.umur) {
+	closeModal();
     // If age is not yet provided, ask for age
 	displayMessage(`En. Rem: Saya pasti banyak tempat yang menarik di ${userData.dun}`, true);
-    displayMessage(`En. Rem: Sila nyatakan umur anda`, true);
-    closeModal('umur-options-modal');
+    displayMessage(`En. Rem: Sila pilih umur anda`, true);
+    openModal('umur-options-modal');
+	
   } else if (!userData.jantina) {
+	closeModal();
     // If gender is not yet provided, ask for gender
     displayMessage(`En. Rem: Sila pilih jantina anda`, true);
-    closeModal('jantina-options-modal');
+    openModal('jantina-options-modal');
   
   } else if (!userData.agama) {
     // If religion is not yet provided, ask for religion
