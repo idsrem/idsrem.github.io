@@ -222,11 +222,24 @@ body {
   #chat-container {
     width: 95%; /* Increase width for mobile */
   }
-  .small-image {
-  margin: 60px auto;
-  }
+
   #user-info-table {
     margin-left: 0; /* Remove left margin for mobile */
     width: 100%; /* Ensure full width for the table */
+  }
+  
+  /*add*/
+  #export-csv-btn {
+    left: 0;
+    top: 10px;
+  }
+
+  .delete-button {
+    position: relative;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+  .small-image {
+  margin: 60px auto;
   }
 }
