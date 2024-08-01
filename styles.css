@@ -2,32 +2,31 @@ body {
   font-family: Arial, sans-serif;
   background-image: url('https://static.vecteezy.com/system/resources/previews/007/677/104/non_2x/white-background-with-blue-geometric-and-white-line-pattern-free-vector.jpg');
   background-size: cover;
+  background-attachment: fixed;
   color: white;
   font-size: 15px;
-  background-attachment: fixed;
 }
+
 #powered-by-text {
   position: fixed;
-  top: 20px; /* Adjust the distance from the top */
-  right: 20px; /* Adjust the distance from the right */
-  color: blue; /* Text color */
-  font-size: 12px; /* Font size */
-  font-family: Arial, sans-serif; /* Font family */
+  top: 20px;
+  right: 20px;
+  color: blue;
+  font-size: 12px;
 }
 
 #chat-container {
-  position: relative; /* Added to position the overlay */
+  position: relative;
   width: 600px;
-  margin: 40px auto;
-  margin-top: 5px;
-  border: 1px solid #ccc;
+  margin: 5px auto 40px;
   padding: 20px;
+  border: 1px solid #ccc;
   border-radius: 10px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
   color: black;
   background: white;
-
 }
+
 #chat-messages {
   height: 300px;
   overflow-y: auto;
@@ -39,70 +38,71 @@ body {
   box-sizing: border-box;
   margin-top: 10px;
 }
+
 #user-info-table {
-  margin-top: 0px;
+  margin-top: 0;
   border-collapse: collapse;
   width: 80%;
-  margin-left:100px;
+  margin-left: 100px;
   color: black;
 }
-#user-info-table th, #user-info-table td {
+
+#user-info-table th,
+#user-info-table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: center;
   background-color: white;
 }
-#section-below-chatbox {
+
+#section-below-chatbox,
+#section-below-export {
   background-color: #f1f1f1;
-  padding: 20px; /* Adjust padding as needed */
-  border-radius: 10px; /* Add border radius for rounded corners */
+  padding: 20px;
+  border-radius: 10px;
 }
+
 #section-below-export {
   background-color: white;
-  padding: 20px; /* Adjust padding as needed */
-  border-radius: 10px; /* Add border radius for rounded corners */
   margin-top: 10px;
 }
-#export-btn {
-  margin-top: 10px;
-  padding: 10px 20px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-#export-btn:hover {
-  background-color: #45a049;
-}
+
+#export-btn,
 #clear-btn {
   margin-top: 10px;
   padding: 10px 20px;
-  background-color: #FF4C4C;
-  color: white;
   border: none;
   border-radius: 4px;
+  color: white;
   cursor: pointer;
 }
+
+#export-btn {
+  background-color: #4CAF50;
+}
+
+#export-btn:hover {
+  background-color: #45a049;
+}
+
+#clear-btn {
+  background-color: #FF4C4C;
+}
+
 #clear-btn:hover {
   background-color: #B20000;
 }
+
 #export-csv-btn {
-  background-image: url('https://iconape.com/wp-content/png_logo_vector/csv-icon.png'); 
+  width: 30px;
+  height: 30px;
+  background-image: url('https://iconape.com/wp-content/png_logo_vector/csv-icon.png');
   background-size: cover;
   border: none;
   cursor: pointer;
-}
-#export-csv-btn {
-  width: 30px; /* Adjust the width of the button */
-  height: 30px; /* Adjust the height of the button */
-  background-image: url('https://iconape.com/wp-content/png_logo_vector/csv-icon.png'); 
-  background-size: cover;
-  border: none;
-  cursor: pointer;
-  top: 10px;
   position: relative;
   left: 260px;
+  top: 10px;
   border-radius: 4px;
 }
 
@@ -111,19 +111,17 @@ body {
   color: white;
   border: none;
   padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
   font-size: 12px;
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.3s;
-  position: absolute; /* Ensure it's positioned relative to the parent container */
-  left: 0; /* Adjust as needed */
-  margin-left: 40px; /* Add margin to separate from the table */
+  position: absolute;
+  left: 0;
+  margin-left: 40px;
 }
 
 .delete-button:hover {
-  background-color: #363636; 
+  background-color: #363636;
 }
 
 .bubble-option {
@@ -135,36 +133,35 @@ body {
   border-radius: 20px;
   cursor: pointer;
 }
+
 .bubble-option.selected {
   background-color: #00008b;
   color: white;
 }
-.message-bubble {
-  background-color: #add8e6;
+
+.message-bubble,
+.bot-message {
   padding: 8px 16px;
   border-radius: 20px;
   color: white;
   opacity: 0;
   transition: opacity 1s ease;
 }
-.message-bubble.visible {
+
+.message-bubble {
+  background-color: #add8e6;
+}
+
+.message-bubble.visible,
+.bot-message.visible {
   opacity: 1;
 }
 
 .bot-message {
   background-color: #00008b;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
-  display: inline-block;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  opacity: 0;
-  transition: opacity 1s ease;
+  margin: 20px 0;
 }
-.bot-message.visible {
-  opacity: 1;
-}
+
 .modal {
   display: none;
   position: fixed;
@@ -196,35 +193,106 @@ body {
   background-color: #ddd;
 }
 
-/* Overlay styles */
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent black */
-  z-index: 0; /* Behind the modal */
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 0;
   display: none;
 }
+
 .small-image {
-	width: 200px; /* Set the width of the image to make it smaller */
-	height: auto; /* Maintain aspect ratio */
-	display: block; /* Set image display mode to block */
-	margin: 0 auto; /* Center-align the image */
+  width: 200px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
-/* Media Queries for Mobile Optimization*/ 
+
+/* Media Queries for Mobile Optimization */
 @media (max-width: 768px) {
   body {
-    font-size: 14px; /* Adjust font size for smaller screens */
+    font-size: 14px;
   }
-  
+
   #chat-container {
-    width: 95%; /* Increase width for mobile */
+    width: 95%;
   }
 
   #user-info-table {
-    margin-left: 0; /* Remove left margin for mobile */
-    width: 100%; /* Ensure full width for the table */
+    margin-left: 0;
+    width: 100%;
+  }
+
+  #export-csv-btn {
+    left: 0;
+    top: 10px;
+  }
+
+  .delete-button {
+    position: relative;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+  .small-image {
+  margin: 60px auto;
+  }
+
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 12px;
+  }
+
+  #powered-by-text {
+    font-size: 10px;
+    top: 10px;
+    right: 10px;
+  }
+
+  #chat-container {
+    padding: 10px;
+  }
+
+  #export-btn,
+  #clear-btn {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  #user-input {
+    padding: 8px;
+  }
+
+  #user-info-table th,
+  #user-info-table td {
+    padding: 6px;
+  }
+
+  .bubble-option {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding: 6px 12px;
+  }
+
+  .message-bubble,
+  .bot-message {
+    padding: 6px 12px;
+  }
+
+  .modal {
+    width: 90%;
+    padding: 10px;
+    max-width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal .bubble-option {
+    padding: 6px 12px;
   }
 }
