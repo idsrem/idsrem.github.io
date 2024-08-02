@@ -16,8 +16,8 @@
       <div id="chat-messages"></div>
       <input type="text" id="user-input" placeholder="Taip mesej anda...">
     </div>
-    <button id="export-btn">Export Database</button>
-    <button id="clear-btn">Clear Conversation</button>
+    <button id="export-btn">Simpan Data</button>
+    <button id="clear-btn">Padam Mesej</button>
     <button id="export-csv-btn"></button>
     <button id="toggle-table-btn">Hide Table</button>
 	
@@ -75,12 +75,10 @@
       <!-- Bangsa Modal content -->
       <div class="modal-content">
         <p>Sila pilih bangsa anda:</p>
-        <div class="bubble-option" onclick="selectOption('Kadazandusun', 'bangsa')">Kadazandusun</div>
+        <div class="bubble-option" onclick="selectOption('KDMR', 'bangsa')">KDMR</div>
         <div class="bubble-option" onclick="selectOption('Bajau', 'bangsa')">Bajau</div>
+		<div class="bubble-option" onclick="selectOption('Cina', 'bangsa')">Cina</div>
 		<div class="bubble-option" onclick="selectOption('Melayu', 'bangsa')">Melayu</div>
-		<div class="bubble-option" onclick="selectOption('Murut', 'bangsa')">Murut</div>
-        <div class="bubble-option" onclick="selectOption('Rungus', 'bangsa')">Rungus</div>
-        <div class="bubble-option" onclick="selectOption('Cina', 'bangsa')">Cina</div>
         <div class="bubble-option" onclick="selectOption('India', 'bangsa')">India</div>
         <div class="bubble-option" onclick="selectOption('Lain-lain', 'bangsa')">Lain-lain</div>
       </div>
@@ -95,6 +93,7 @@
 		<div class="bubble-option" onclick="selectOption('Menegah Atas', 'tahappendidikan')">Menegah Atas</div>
 		<div class="bubble-option" onclick="selectOption('STPM/Diploma/Sijil Kemahiran', 'tahappendidikan')">STPM/Diploma/Sijil Kemahiran</div>
         <div class="bubble-option" onclick="selectOption('Sarjana Muda/Sarjana', 'tahappendidikan')">Sarjana Muda/Sarjana</div>
+		<div class="bubble-option" onclick="selectOption('Doktor Falsafah (PHD)', 'tahappendidikan')">Doktor Falsafah (PHD)</div>
       </div>
     </div>	
 
@@ -139,7 +138,7 @@
     <div id="tidakpuasdgnpembangunansemasa-options-modal" class="modal">
       <!-- Tidak Berpuas Hati Dengan Pembangunan Semasa di Kawasan Anda Modal content -->
       <div class="modal-content">
-        <p>Apakah yang membuatkan anda tidak berpuas hati?:</p>
+        <p>Apakah yang membuatkan anda TIDAK berpuas hati?:</p>
         <div class="bubble-option" onclick="selectOption('Keperluan Asas', 'tidakpuasdgnpembangunansemasa')">Keperluan Asas</div>
 		<div class="bubble-option" onclick="selectOption('Infrastruktur', 'tidakpuasdgnpembangunansemasa')">Infrastruktur</div>
 		<div class="bubble-option" onclick="selectOption('Kebajikan', 'tidakpuasdgnpembangunansemasa')">Kebajikan</div>
@@ -183,7 +182,7 @@
     <div id="keperluanasastidakpuashati-options-modal" class="modal">
       <!-- Tidak Berpuas Hati Dengan Keperluan Asas di Kawasan Anda Modal content -->
       <div class="modal-content">
-        <p>Bolehkah kami tahu bahagian mana yang anda tidak berpuas hati?:</p>
+        <p>Bolehkah kami tahu bahagian mana yang anda TIDAK berpuas hati?:</p>
         <div class="bubble-option" onclick="selectOption('Bekalan Air', 'keperluanasastidakpuashati')">Bekalan Air</div>
 		<div class="bubble-option" onclick="selectOption('Bekalan Elektrik', 'keperluanasastidakpuashati')">Bekalan Elektrik</div>
 		<div class="bubble-option" onclick="selectOption('Perumahan', 'keperluanasastidakpuashati')">Perumahan</div>
@@ -194,7 +193,7 @@
     <div id="infrastrukturtidakpuashati-options-modal" class="modal">
       <!-- Tidak Berpuas Hati Dengan Infrastruktur di Kawasan Anda Modal content -->
       <div class="modal-content">
-        <p>Bolehkah kami tahu bahagian mana yang anda tidak berpuas hati?:</p>
+        <p>Bolehkah kami tahu bahagian mana yang anda TIDAK berpuas hati?:</p>
         <div class="bubble-option" onclick="selectOption('Jalan Raya', 'infrastrukturtidakpuashati')">Jalan Raya</div>
 		<div class="bubble-option" onclick="selectOption('Pengangkutan', 'infrastrukturtidakpuashati')">Pengangkutan</div>
 		<div class="bubble-option" onclick="selectOption('Perparitan/Saliran', 'infrastrukturtidakpuashati')">Perparitan/Saliran</div>
@@ -204,7 +203,7 @@
     <div id="kebajikantidakpuashati-options-modal" class="modal">
       <!-- Tidak Berpuas Hati Dengan Kebajikan di Kawasan Anda Modal content -->
       <div class="modal-content">
-        <p>Bolehkah kami tahu bahagian mana yang anda tidak berpuas hati?:</p>
+        <p>Bolehkah kami tahu bahagian mana yang anda TIDAK berpuas hati?:</p>
         <div class="bubble-option" onclick="selectOption('Agihan', 'kebajikantidakpuashati')">Agihan</div>
 		<div class="bubble-option" onclick="selectOption('Saluran Maklumat', 'kebajikantidakpuashati')">Saluran Maklumat</div>
 		<div class="bubble-option" onclick="selectOption('Jenis Bantuan (Tidak Cukup/Tidak Sesuai)', 'kebajikantidakpuashati')">Jenis Bantuan (Tidak Cukup/Tidak Sesuai)</div>
@@ -216,7 +215,7 @@
     <div id="dunjalanidgnbaik-options-modal" class="modal">
       <!-- Adakah YB DUN Menjalankan Tanggungjawab dengan Baik Modal content -->
       <div class="modal-content">
-        <p>Adakah YB DUN anda menjalankan tanggungjawab dengan baik?:</p>
+        <p>Adakah YB ADUN anda menjalankan tanggungjawab dengan baik?:</p>
         <div class="bubble-option" onclick="selectOption('Ya', 'dunjalanidgnbaik')">Ya</div>
 		<div class="bubble-option" onclick="selectOption('Tidak', 'dunjalanidgnbaik')">Tidak</div>
 		<div class="bubble-option" onclick="selectOption('Tidak Pasti', 'dunjalanidgnbaik')">Tidak Pasti</div>
@@ -226,7 +225,7 @@
     <div id="dunmenyelesaikanmasalah-options-modal" class="modal">
       <!-- Adakah YB DUN Berusaha Menyelesaikan Masalah Modal content -->
       <div class="modal-content">
-        <p>Adakah YB DUN anda berusaha untuk menyelesaikan masalah yang dihadapi?:</p>
+        <p>Adakah YB ADUN anda berusaha untuk menyelesaikan masalah yang dihadapi?:</p>
         <div class="bubble-option" onclick="selectOption('Ya', 'dunmenyelesaikanmasalah')">Ya</div>
 		<div class="bubble-option" onclick="selectOption('Tidak', 'dunmenyelesaikanmasalah')">Tidak</div>
 		<div class="bubble-option" onclick="selectOption('Tidak Pasti', 'dunmenyelesaikanmasalah')">Tidak Pasti</div>
@@ -236,7 +235,7 @@
     <div id="undidun-options-modal" class="modal">
       <!-- Mengundi YB DUN di Pilihan Raya Akan Datang Modal content -->
       <div class="modal-content">
-        <p>Adakah anda akan mengundi YB DUN anda untuk pilihan raya negeri yang akan datang?:</p>
+        <p>Adakah anda akan mengundi YB ADUN anda untuk pilihan raya negeri yang akan datang?:</p>
         <div class="bubble-option" onclick="selectOption('Ya', 'undidun')">Ya</div>
 		<div class="bubble-option" onclick="selectOption('Tidak', 'undidun')">Tidak</div>
 		<div class="bubble-option" onclick="selectOption('Tidak Pasti', 'undidun')">Tidak Pasti</div>
@@ -248,7 +247,7 @@
     <div id="kmperubahanpositif-options-modal" class="modal">
       <!-- Adakah Ketua Menteri Membawa Perubahan Positif Modal content -->
       <div class="modal-content">
-        <p>Adakah ketua menteri sabah membawa perubahan positif kepada negeri sabah sejak tahun 2020?:</p>
+        <p>Adakah anda berpuas hati dengan kepimpinan Ketua Menteri Sabah sekarang?</p>
         <div class="bubble-option" onclick="selectOption('Ya', 'kmperubahanpositif')">Ya</div>
 		<div class="bubble-option" onclick="selectOption('Tidak', 'kmperubahanpositif')">Tidak</div>
 		<div class="bubble-option" onclick="selectOption('Tidak Pasti', 'kmperubahanpositif')">Tidak Pasti</div>
@@ -272,7 +271,7 @@
     <div id="tiadakesanpositif-options-modal" class="modal">
       <!-- Tiada Kesan Positif Diberikan Modal content -->
       <div class="modal-content">
-        <p>Dari sudut manakah yang tidak memberi sebarang kesan yang positif?:</p>
+        <p>Dari sudut manakah yang TIDAK memberi sebarang kesan yang positif?:</p>
         <div class="bubble-option" onclick="selectOption('Keperluan Asas', 'tiadakesanpositif')">Keperluan Asas</div>
 		<div class="bubble-option" onclick="selectOption('Infrastruktur', 'tiadakesanpositif')">Infrastruktur</div>
 		<div class="bubble-option" onclick="selectOption('Ekonomi', 'tiadakesanpositif')">Ekonomi</div>
@@ -333,7 +332,7 @@
     <div id="tiadapositifkeperluanasas-options-modal" class="modal">
       <!-- Tiada Kesan Positif Keperluan Asas Modal content -->
       <div class="modal-content">
-        <p>Sila pilih yang mana tidak memberi sebarang kesan yang positif?:</p>
+        <p>Sila pilih yang mana TIDAK memberi sebarang kesan yang positif?:</p>
         <div class="bubble-option" onclick="selectOption('Bekalan Air', 'tiadapositifkeperluanasas')">Bekalan Air</div>
 		<div class="bubble-option" onclick="selectOption('Bekalan Elektrik', 'tiadapositifkeperluanasas')">Bekalan Elektrik</div>
 		<div class="bubble-option" onclick="selectOption('Perumahan', 'tiadapositifkeperluanasas')">Perumahan</div>
@@ -345,7 +344,7 @@
     <div id="tiadapositifinfrastruktur-options-modal" class="modal">
       <!-- Tiada Kesan Positif Infrastruktur Modal content -->
       <div class="modal-content">
-        <p>Sila pilih yang mana tidak memberi sebarang kesan yang positif?:</p>
+        <p>Sila pilih yang mana TIDAK memberi sebarang kesan yang positif?:</p>
         <div class="bubble-option" onclick="selectOption('Jalan Raya', 'tiadapositifinfrastruktur')">Jalan Raya</div>
 		<div class="bubble-option" onclick="selectOption('Pengangkutan', 'tiadapositifinfrastruktur')">Pengangkutan</div>
 		<div class="bubble-option" onclick="selectOption('Perparitan/Saliran', 'tiadapositifinfrastruktur')">Perparitan/Saliran</div>
@@ -356,7 +355,7 @@
     <div id="tiadapositifekonomi-options-modal" class="modal">
       <!-- Tiada Kesan Positif Ekonomi Modal content -->
       <div class="modal-content">
-        <p>Sila pilih yang mana tidak memberi sebarang kesan yang positif?:</p>
+        <p>Sila pilih yang mana TIDAK memberi sebarang kesan yang positif?:</p>
         <div class="bubble-option" onclick="selectOption('Harga Barang Dapur', 'tiadapositifekonomi')">Harga Barang Dapur</div>
 		<div class="bubble-option" onclick="selectOption('Kos Sara Hidup', 'tiadapositifekonomi')">Kos Sara Hidup</div>
 		<div class="bubble-option" onclick="selectOption('Barangan Mentah', 'tiadapositifekonomi')">Barangan Mentah</div>
@@ -367,7 +366,7 @@
     <div id="tiadapositifperkhidmatanawam-options-modal" class="modal">
       <!-- Tiada Kesan Positif Perkhidmatan Awam Modal content -->
       <div class="modal-content">
-        <p>Sila pilih yang mana tidak memberi sebarang kesan yang positif?:</p>
+        <p>Sila pilih yang mana TIDAK memberi sebarang kesan yang positif?:</p>
         <div class="bubble-option" onclick="selectOption('Pendidikan', 'tiadapositifperkhidmatanawam')">Pendidikan</div>
 		<div class="bubble-option" onclick="selectOption('Kesihatan', 'tiadapositifperkhidmatanawam')">Kesihatan</div>
 		<div class="bubble-option" onclick="selectOption('Keselamatan', 'tiadapositifperkhidmatanawam')">Keselamatan</div>
