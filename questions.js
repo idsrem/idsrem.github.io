@@ -466,14 +466,23 @@ function processInput(message) {
 	console.log('Tiada Kesan Positif Pada Lain-lain:', userData.tiadapositiflainlain);
 
    //siapa layak mempimpin sabah - lain-lain-------------------------------------------------------------------------------------------->
-  } else if (userData.pilihanpemimpinsabah) {
+  } else if (l === 'false' && userData.pilihanpemimpinsabah) {
     userData.pilihanpemimpinsabahlain = message;
     console.log('Yang Layak Memimpin Sabah:', userData.pilihanpemimpinsabahlain);
     hideInput();
 	displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah maju jaya!`, true);
-    displayUserInfo(userData);
-    closeModal();
-    initiateConversation();
+    //displayUserInfo(userData);
+	openModal('isiboranglagi-options-modal');
+	//userData.isiboranglagi = message;
+    //closeModal();
+	//userData.isiboranglagi = message;
+	//pengesahanEnd();
+    //initiateConversation(); 020824	  
+	  
+  } else if (!userData.isiboranglagi) {
+    userData.isiboranglagi = message;
+    console.log('Isi borang lagi:', userData.isiboranglagi);
+    hideInput();	
 	
 //Puas Hati - keperluanasas
   } else if (!userData.keperluanasaspuashati) {
@@ -590,11 +599,15 @@ var g = '';
 //FOR LAIN-LAIN
 var i = '';
 
+//FOR ISI BORANG LAGI AFTER PICKED LAIN-LAIN MEMIMPIN
+var l = 'na';
+
 //BOT QUESTIONS AFTER RECEIVING INPUT FROM USER - HANDLING USER OPTION SELECTION ~^-^~ \\starterfirst
 function selectOption(selectedOption, field) {
   userData[field] = selectedOption;
   console.log(`${field}:`, userData[field]);
   displayMessage(`Anda: ${selectedOption}`);
+  console.log('l:', l);
  
 //-------->SECTION 1  
   if (!userData.dun) {
@@ -858,22 +871,45 @@ function selectOption(selectedOption, field) {
 
   //siapa layak memimpin sabah
   } else if (!userData.pilihanpemimpinsabah){
+	l = 'true';
 	closeModal();
     displayMessage(`En. Rem: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin sabah? 🤔`, true);
     openModal('pilihanpemimpinsabah-options-modal');
 
    //siapa layak mempimpin sabah - lain-lain
-   } else if (userData.pilihanpemimpinsabah.trim() === 'Lain-lain'){
+   } else if (l === 'true' && userData.pilihanpemimpinsabah.trim() === 'Lain-lain'){
 	g = 'false';
 	b = 'false';
 	c = 'false';
 	d = 'false';
 	i = 'false';
+	l = 'false';
 	closeModal();
     displayMessage(`En. Rem: Sila nyatakan siapakah yang layak untuk memimpin Sabah?`, true);
 	//closeModal();
-	showInput();   
+	showInput(); 
 	
+  //isi borang lagi/*
+  } else if (!userData.isiboranglagi){
+	closeModal();
+    displayMessage(`En. Rem: Adakah anda ingin mengisi borang lagi sekali?`, true);
+    openModal('isiboranglagi-options-modal');
+	
+	
+  //isi borang lagi - ya
+  } else if (userData.isiboranglagi.trim() === 'Ya, isi lagi'){
+	  closeModal();
+	  console.log('Anda pilih ya.')
+	  displayUserInfo(userData);
+	  initiateConversation();
+
+  //isi borang lagi - ya
+  } else if (userData.isiboranglagi.trim() === 'Tidak'){
+	  console.log('Anda pilih tidak.')
+	  displayUserInfo(userData);
+	  closeModal();
+	  hideInput(); 
+	  
   } else {
     // All information collected, finish conversation
     displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah maju jaya!`, true);
@@ -883,6 +919,10 @@ function selectOption(selectedOption, field) {
   }  
   
 }
+
+
+
+
 
 //OPEN POP UP BOX FOR SELECTION CHOICE QUESTIONS
 function openModal(modalId) {
@@ -1024,6 +1064,14 @@ function exportToCSV() {
 // Bind the export CSV function to the button
 const exportCSVBtn = document.getElementById('export-csv-btn');
 exportCSVBtn.addEventListener('click', exportToCSV);
+
+function pengesahanEnd() {
+  displayMessage(`En. Rem: Adakah anda ingin mengisi borang lagi sekali?`, true, 300);
+  setTimeout(function () {
+      openModal('isiboranglagi-options-modal'); //OPEN POP UP BOX
+  }, 1000);
+  showInput();
+}
 
 //FUNCTION TO INITIATE CONVERSATION TO BEGINNING
 function initiateConversation() {
