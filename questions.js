@@ -535,7 +535,7 @@ function processInput(message) {
 
   } else if (!userData.undidun) {
     userData.undidun  = message;
-    console.log('Undi YB DUN lagi:', userData.undidun);
+    console.log('Undi YB ADUN lagi:', userData.undidun);
     hideInput();
 
   } else if (!userData.kmperubahanpositif) {
@@ -721,7 +721,7 @@ function selectOption(selectedOption, field) {
 //jika puas hati; dunjalanidgnbaik 
   } else if (!userData.dunjalanidgnbaik && userData.puasdgnpembangunansemasa === 'Ya'){
 	closeModal();
-    displayMessage(`En. Rem: Adakah YB DUN anda menjalankan tanggungjawab dengan baik?`, true);
+    displayMessage(`En. Rem: Adakah YB ADUN anda menjalankan tanggungjawab dengan baik?`, true);
     openModal('dunjalanidgnbaik-options-modal');
   
   
@@ -757,13 +757,13 @@ function selectOption(selectedOption, field) {
 //jika tidak puas hati; dunmenyelesaikanmasalah 
   } else if (!userData.dunmenyelesaikanmasalah && userData.puasdgnpembangunansemasa === 'Tidak'){
 	closeModal();
-    displayMessage(`En. Rem: Adakah YB DUN anda berusaha untuk menyelesaikan masalah yang dihadapi?`, true);
+    displayMessage(`En. Rem: Adakah YB ADUN anda berusaha untuk menyelesaikan masalah yang dihadapi?`, true);
     openModal('dunmenyelesaikanmasalah-options-modal'); 
   
  //mengundi yb dun anda lagi
   } else if (!userData.undidun){
 	closeModal();
-    displayMessage(`En. Rem: Adakah anda akan mengundi YB DUN anda untuk pilihan raya negeri yang akan datang?`, true);
+    displayMessage(`En. Rem: Adakah anda akan mengundi YB ADUN anda untuk pilihan raya negeri yang akan datang?`, true);
     openModal('undidun-options-modal');  
   
 //-------->SECTION 3  
@@ -1003,8 +1003,7 @@ exportBtn.addEventListener('click', async function () {
 
   console.log('Data to export:', userDataArray);
 
-//AFTER CLICK EXPORT TO DATABASE, DATA WILL BE POST AND SEND TO DATABASE/EXPORT//https://atiqahst-github-io.onrender.com/export
-//https://dpg-cqc93d56l47c73cvsot0-a.singapore-postgres.render.com/export
+//AFTER CLICK EXPORT TO DATABASE, DATA WILL BE POST AND SEND TO DATABASE/EXPORT
   try {
     const response = await fetch('https://atiqahst-github-io.onrender.com/export', {
       method: 'POST',
@@ -1118,8 +1117,10 @@ function initiateConversation() {
   };
   messagesDiv.innerHTML = '';
   getCurrentDate();
-  displayMessage(`En. Rem: Hi saya En. Rem, saya ingin mendapatkan sedikit maklum balas berkaitan kawasan DUN anda.`, true);
-  displayMessage(`En. Rem: Jom kita mulakan dengan DUN pilihan anda. Sila pilih DUN anda:`, true, 300);
+  displayMessage(`En. Rem: Selamat datang ke kaji selidik bagi Pemantauan Dinamika Pembangunan Kerajaan Fasa 2 2024. Pandangan anda amat penting untuk membantu dan memahami sentimen isu-isu kepimpinan dan pembangunan negeri sabah
+Mohon kerjasama tuan/puan untuk mengisi kaji selidik ini dengan jujur dan teliti. Isi & berpeluang memenangi lucky draw! 🎁
+`, true);
+  displayMessage(`En. Rem: Hi! Memperkenalkan saya En. Rem, mari kita mula kan kaji selidik ini 😃 Sila pilih DUN anda:`, true, 300);
   setTimeout(function () {
       openModal('dun-options-modal'); //OPEN POP UP BOX
   }, 1000);
