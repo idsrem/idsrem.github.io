@@ -32,7 +32,8 @@ let userData = {
   lainlaintidakpuashati: '',  
   dunjalanidgnbaik: '',         
   dunmenyelesaikanmasalah: '',  
-  undidun: '',  
+  undidun: '',
+  cadangancalonyb: '',  
   kmperubahanpositif: '', 
   penambahbaikanmasadepan: '', 
   tiadakesanpositif: '',    
@@ -138,7 +139,8 @@ function displayUserInfo(userData) {
 	<td style="display: none;">${userData.lainlaintidakpuashati}</td>	
 	<td style="display: none;">${userData.dunjalanidgnbaik}</td>
 	<td style="display: none;">${userData.dunmenyelesaikanmasalah}</td>
-	<td style="display: none;">${userData.undidun}</td>
+	<td style="display: none;">${userData.undidun}</td>  
+	<td style="display: none;">${userData.cadangancalonyb}</td>  
 	<td style="display: none;">${userData.kmperubahanpositif}</td>
 	<td style="display: none;">${userData.penambahbaikanmasadepan}</td>
 	<td style="display: none;">${userData.tiadakesanpositif}</td>
@@ -218,6 +220,7 @@ function saveToLocalStorage(userData) {
 	  data.dunjalanidgnbaik === userData.dunjalanidgnbaik &&  
 	  data.dunmenyelesaikanmasalah === userData.dunmenyelesaikanmasalah &&  
 	  data.undidun === userData.undidun &&  
+	  data.cadangancalonyb === userData.cadangancalonyb &&
 	  data.kmperubahanpositif === userData.kmperubahanpositif && 
 	  data.penambahbaikanmasadepan === userData.penambahbaikanmasadepan && 
 	  data.tiadakesanpositif === userData.tiadakesanpositif && 
@@ -274,6 +277,7 @@ function removeFromLocalStorage(userData) {
 	  data.dunjalanidgnbaik !== userData.dunjalanidgnbaik ||
 	  data.dunmenyelesaikanmasalah !== userData.dunmenyelesaikanmasalah || 
 	  data.undidun !== userData.undidun || 
+	  data.cadangancalonyb !== userData.cadangancalonyb ||
 	  data.kmperubahanpositif !== userData.kmperubahanpositif || 
 	  data.penambahbaikanmasadepan !== userData.penambahbaikanmasadepan ||
 	  data.tiadakesanpositif !== userData.tiadakesanpositif ||
@@ -478,7 +482,13 @@ function processInput(message) {
 	//userData.isiboranglagi = message;
 	//pengesahanEnd();
     //initiateConversation(); 020824	  
-	  
+
+  } else if (m === 'false' && userData.undidun.trim() === 'Tidak') {
+    userData.cadangancalonyb  = message;
+    console.log('Cadangan calon yb:', userData.cadangancalonyb);
+    hideInput();
+	openModal('kmperubahanpositif-options-modal');  
+	
   } else if (!userData.isiboranglagi) {
     userData.isiboranglagi = message;
     console.log('Isi borang lagi:', userData.isiboranglagi);
@@ -537,6 +547,7 @@ function processInput(message) {
     userData.undidun  = message;
     console.log('Undi YB ADUN lagi:', userData.undidun);
     hideInput();
+		
 
   } else if (!userData.kmperubahanpositif) {
     userData.kmperubahanpositif  = message;
@@ -601,6 +612,8 @@ var i = '';
 
 //FOR ISI BORANG LAGI AFTER PICKED LAIN-LAIN MEMIMPIN
 var l = 'na';
+
+var m = '';
 
 //BOT QUESTIONS AFTER RECEIVING INPUT FROM USER - HANDLING USER OPTION SELECTION ~^-^~ \\starterfirst
 function selectOption(selectedOption, field) {
@@ -765,12 +778,22 @@ function selectOption(selectedOption, field) {
 	closeModal();
     displayMessage(`En. Rem: Adakah anda akan mengundi YB ADUN anda untuk pilihan raya negeri yang akan datang?`, true);
     openModal('undidun-options-modal');  
+ 
+ //mengundi yb dun anda lagi - tidak
+  } else if (!userData.cadangancalonyb && userData.undidun === 'Tidak'){
+	m = 'false';
+	closeModal();
+    displayMessage(`En. Rem: Siapakah cadangan calon YB yang boleh mewakili kawasan anda pada PRU akan datang?`, true);
+	closeModal();
+	showInput();  
+  
   
 //-------->SECTION 3  
   //ketua menteri sabah membawa perubahan positif
   } else if (!userData.kmperubahanpositif){
+    m = 'true';
 	closeModal();
-    displayMessage(`En. Rem: Adakah ketua menteri sabah membawa perubahan positif kepada negeri sabah sejak tahun 2020?`, true);
+    displayMessage(`En. Rem: Adakah anda berpuas hati dengan kepimpinan Ketua Menteri Sabah sekarang?`, true);
     openModal('kmperubahanpositif-options-modal');   
   
   //ya membawa positif - penambaikan
@@ -920,10 +943,6 @@ function selectOption(selectedOption, field) {
   
 }
 
-
-
-
-
 //OPEN POP UP BOX FOR SELECTION CHOICE QUESTIONS
 function openModal(modalId) {
   const modal = document.getElementById(modalId);
@@ -981,22 +1000,23 @@ exportBtn.addEventListener('click', async function () {
 	  dunjalanidgnbaik: columns[20].textContent,         
 	  dunmenyelesaikanmasalah: columns[21].textContent,  
 	  undidun: columns[22].textContent,  
-	  kmperubahanpositif: columns[23].textContent, 
-	  penambahbaikanmasadepan: columns[24].textContent,
-	  tiadakesanpositif: columns[25].textContent,    
-	  perbaikikeperluanasas: columns[26].textContent,    
-	  perbaikiinfrastruktur: columns[27].textContent,	  
-	  perbaikiekonomi: columns[28].textContent,         
-	  perbaikiperkhidmatanawam: columns[29].textContent,
-	  perbaikilainlain: columns[30].textContent,
-	  tiadapositifkeperluanasas: columns[31].textContent,
-	  tiadapositifinfrastruktur: columns[32].textContent, 
-	  tiadapositifekonomi: columns[33].textContent,            
-	  tiadapositifperkhidmatanawam: columns[34].textContent, 
-      tiadapositiflainlain: columns[35].textContent,
-	  kriteriapemimpinbaik: columns[36].textContent,   
-	  pilihanpemimpinsabah: columns[37].textContent,
-	  pilihanpemimpinsabahlain: columns[38].textContent,
+	  cadangancalonyb: columns[23].textContent,
+	  kmperubahanpositif: columns[24].textContent, 
+	  penambahbaikanmasadepan: columns[25].textContent,
+	  tiadakesanpositif: columns[26].textContent,    
+	  perbaikikeperluanasas: columns[27].textContent,    
+	  perbaikiinfrastruktur: columns[28].textContent,	  
+	  perbaikiekonomi: columns[29].textContent,         
+	  perbaikiperkhidmatanawam: columns[30].textContent,
+	  perbaikilainlain: columns[31].textContent,
+	  tiadapositifkeperluanasas: columns[32].textContent,
+	  tiadapositifinfrastruktur: columns[33].textContent, 
+	  tiadapositifekonomi: columns[34].textContent,            
+	  tiadapositifperkhidmatanawam: columns[35].textContent, 
+      tiadapositiflainlain: columns[36].textContent,
+	  kriteriapemimpinbaik: columns[37].textContent,   
+	  pilihanpemimpinsabah: columns[38].textContent,
+	  pilihanpemimpinsabahlain: columns[39].textContent,
     };
     userDataArray.push(userData);
   });
@@ -1039,8 +1059,8 @@ function exportToCSV() {
   // Define the headers
   const headers = ["tarikh" ,"dun", "umur", "jantina", "agama", "bangsa", "tahappendidikan", "pekerjaan", "pendapatanbulanan", "puasdgnpembangunansemasa",
   "yapuasdgnpembangunansemasa", "tidakpuasdgnpembangunansemasa","keperluanasaspuashati", "infrastrukturpuashati", "kebajikanpuashati", "lainlainpuashati",
-  "keperluanasastidakpuashati", "infrastrukturtidakpuashati", "kebajikantidakpuashati", "lainlaintidakpuashati", "dunjalanidgnbaik", "dunmenyelesaikanmasalah", "undidun",
-  "kmperubahanpositif", "penambahbaikanmasadepan", "tiadakesanpositif", "perbaikikeperluanasas", "perbaikiinfrastruktur", "perbaikiekonomi", 
+  "keperluanasastidakpuashati", "infrastrukturtidakpuashati", "kebajikantidakpuashati", "lainlaintidakpuashati", "dunjalanidgnbaik", "dunmenyelesaikanmasalah", "undidun", 
+  "cadangancalonyb", "kmperubahanpositif", "penambahbaikanmasadepan", "tiadakesanpositif", "perbaikikeperluanasas", "perbaikiinfrastruktur", "perbaikiekonomi", 
   "perbaikiperkhidmatanawam", "perbaikilainlain", "tiadapositifkeperluanasas", "tiadapositifinfrastruktur", "tiadapositifekonomi", "tiadapositifperkhidmatanawam", 
   "tiadapositiflainlain", "kriteriapemimpinbaik", "pilihanpemimpinsabah", "pilihanpemimpinsabahlain"];
   csvContent += headers.join(",") + "\r\n";
@@ -1098,6 +1118,7 @@ function initiateConversation() {
 	dunjalanidgnbaik: '',         
 	dunmenyelesaikanmasalah: '',  
 	undidun: '',  
+	cadangancalonyb: '',
 	kmperubahanpositif: '', 
 	penambahbaikanmasadepan: '', 
 	tiadakesanpositif: '',    
