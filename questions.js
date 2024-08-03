@@ -932,6 +932,7 @@ function selectOption(selectedOption, field) {
 	  displayUserInfo(userData);
 	  closeModal();
 	  hideInput(); 
+	  displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah maju jaya!`, true);
 	  
   } else {
     // All information collected, finish conversation
