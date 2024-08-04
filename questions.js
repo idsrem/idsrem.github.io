@@ -1139,8 +1139,8 @@ function initiateConversation() {
   };
   messagesDiv.innerHTML = '';
   getCurrentDate();
-  displayMessage(`En. Rem: Selamat datang ke kaji selidik bagi Pemantauan Dinamika Pembangunan Kerajaan Fasa 2 2024. Pandangan anda amat penting untuk membantu dan memahami sentimen isu-isu kepimpinan dan pembangunan negeri sabah
-Mohon kerjasama tuan/puan untuk mengisi kaji selidik ini dengan jujur dan teliti. Isi & berpeluang memenangi lucky draw! 🎁
+  displayMessage(`En. Rem: Selamat datang ke kaji selidik bagi Pemantauan Dinamika Pembangunan Kerajaan Fasa 2 2024. Pandangan anda amat penting untuk membantu dan memahami sentimen isu-isu kepimpinan dan pembangunan negeri Sabah
+Mohon kerjasama tuan/puan untuk mengisi kaji selidik ini dengan jujur dan teliti.
 `, true);
   displayMessage(`En. Rem: Hi! Memperkenalkan saya En. Rem, mari kita mula kan kaji selidik ini 😃 Sila pilih DUN anda:`, true, 300);
   setTimeout(function () {
