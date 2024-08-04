@@ -474,7 +474,7 @@ function processInput(message) {
     userData.pilihanpemimpinsabahlain = message;
     console.log('Yang Layak Memimpin Sabah:', userData.pilihanpemimpinsabahlain);
     hideInput();
-	displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah maju jaya!`, true);
+	//displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah maju jaya!`, true);
     //displayUserInfo(userData);
 	openModal('isiboranglagi-options-modal');
 	//userData.isiboranglagi = message;
