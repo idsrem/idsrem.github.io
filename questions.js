@@ -55,10 +55,25 @@ let userData = {
 let pengesahan = {isiboranglagi: ''};
 
 //DATE
+//function getCurrentDate() {
+  //const currentDate = new Date();
+  // Format the date as desired
+  //const formattedDate = currentDate.toLocaleDateString();
+  
+  // Update userData with the current date
+  //userData.tarikh = formattedDate;
+//}
+
 function getCurrentDate() {
   const currentDate = new Date();
-  // Format the date as desired
-  const formattedDate = currentDate.toLocaleDateString();
+  
+  // Extract day, month, and year
+  const day = String(currentDate.getDate()).padStart(2, '0');
+  const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const year = currentDate.getFullYear();
+  
+  // Format the date as dd/mm/yyyy
+  const formattedDate = `${day}/${month}/${year}`;
   
   // Update userData with the current date
   userData.tarikh = formattedDate;
