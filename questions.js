@@ -718,13 +718,13 @@ function selectOption(selectedOption, field) {
     openModal('tidakpuasdgnpembangunansemasa-options-modal');
 
 //jika puas hati; keperluan asas
-  } else if (!userData.keperluanasaspuashati && userData.yapuasdgnpembangunansemasa.trim() === 'Keperluan Asas'){
+  } else if (!userData.keperluanasaspuashati && userData.yapuasdgnpembangunansemasa.trim() === 'Air/Letrik/Internet'){
 	closeModal();
     displayMessage(`En. Rem: Bolehkah kami tahu bahagian mana yang anda berpuas hati?`, true);
     openModal('keperluanasaspuashati-options-modal');
 	
 //jika puas hati; infrastruktur
-  } else if (!userData.infrastrukturpuashati && userData.yapuasdgnpembangunansemasa.trim() === 'Infrastruktur'){
+  } else if (!userData.infrastrukturpuashati && userData.yapuasdgnpembangunansemasa.trim() === 'Jalan/Parit/Pengangkutan'){
 	closeModal();
     displayMessage(`En. Rem: Bolehkah kami tahu bahagian mana yang anda berpuas hati?`, true);
     openModal('infrastrukturpuashati-options-modal');
@@ -754,13 +754,13 @@ function selectOption(selectedOption, field) {
   
   
 //jika tidak puas hati; keperluan asas
-  } else if (!userData.keperluanasastidakpuashati && userData.tidakpuasdgnpembangunansemasa.trim() === 'Keperluan Asas'){
+  } else if (!userData.keperluanasastidakpuashati && userData.tidakpuasdgnpembangunansemasa.trim() === 'Air/Letrik/Internet'){
 	closeModal();
     displayMessage(`En. Rem: Bolehkah kami tahu bahagian mana yang anda tidak berpuas hati?`, true);
     openModal('keperluanasastidakpuashati-options-modal');
 	
 //jika tidak puas hati; infrastruktur
-  } else if (!userData.infrastrukturtidakpuashati && userData.tidakpuasdgnpembangunansemasa.trim() === 'Infrastruktur'){
+  } else if (!userData.infrastrukturtidakpuashati && userData.tidakpuasdgnpembangunansemasa.trim() === 'Jalan/Parit/Pengangkutan'){
 	closeModal();
     displayMessage(`En. Rem: Bolehkah kami tahu bahagian mana yang anda tidak berpuas hati?`, true);
     openModal('infrastrukturtidakpuashati-options-modal');
@@ -830,13 +830,13 @@ function selectOption(selectedOption, field) {
     openModal('tiadakesanpositif-options-modal'); 
   
    //ya membawa positif - penambaikan keperluan asas
-  } else if (!userData.perbaikikeperluanasas && userData.penambahbaikanmasadepan.trim() === 'Keperluan Asas'){
+  } else if (!userData.perbaikikeperluanasas && userData.penambahbaikanmasadepan.trim() === 'Air/Letrik/Internet'){
 	closeModal();
     displayMessage(`En. Rem: Bahagian manakah yang perlu ditambahbaik, mengikut pilihan anda di masa akan datang?`, true);
     openModal('perbaikikeperluanasas-options-modal');
 	
    //ya membawa positif - penambaikan infrastruktur
-  } else if (!userData.perbaikiinfrastruktur && userData.penambahbaikanmasadepan.trim() === 'Infrastruktur'){
+  } else if (!userData.perbaikiinfrastruktur && userData.penambahbaikanmasadepan.trim() === 'Jalan/Parit/Pengangkutan'){
 	closeModal();
     displayMessage(`En. Rem: Bahagian manakah yang perlu ditambahbaik, mengikut pilihan anda di masa akan datang?`, true);
     openModal('perbaikiinfrastruktur-options-modal');
@@ -866,13 +866,13 @@ function selectOption(selectedOption, field) {
 	showInput();  
 
    //tiada kesan positif - keperluan asas
-  } else if (!userData.tiadapositifkeperluanasas && userData.tiadakesanpositif.trim() === 'Keperluan Asas'){
+  } else if (!userData.tiadapositifkeperluanasas && userData.tiadakesanpositif.trim() === 'Air/Letrik/Internet'){
 	closeModal();
     displayMessage(`En. Rem: Sila pilih yang mana tidak memberi sebarang kesan yang positif?`, true);
     openModal('tiadapositifkeperluanasas-options-modal');
 	
    //tiada kesan positif - infrastruktur
-  } else if (!userData.tiadapositifinfrastruktur && userData.tiadakesanpositif.trim() === 'Infrastruktur'){
+  } else if (!userData.tiadapositifinfrastruktur && userData.tiadakesanpositif.trim() === 'Jalan/Parit/Pengangkutan'){
 	closeModal();
     displayMessage(`En. Rem: Sila pilih yang mana tidak memberi sebarang kesan yang positif?`, true);
     openModal('tiadapositifinfrastruktur-options-modal');
@@ -911,7 +911,7 @@ function selectOption(selectedOption, field) {
   } else if (!userData.pilihanpemimpinsabah){
 	l = 'true';
 	closeModal();
-    displayMessage(`En. Rem: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin sabah? 🤔`, true);
+    displayMessage(`En. Rem: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah? 🤔`, true);
     openModal('pilihanpemimpinsabah-options-modal');
 
    //siapa layak mempimpin sabah - lain-lain
