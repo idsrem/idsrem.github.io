@@ -352,18 +352,7 @@ function processInput(message) {
     console.log('Dun:', userData.dun);
 	closeModal();
     displayMessage(`En. Rem: Bagaimana pula umur anda?`, true, 500); //ASK AGE
-  /*} else if (!userData.umur) {
-    if (!isNaN(message) && message > 17 && message < 200 ) { //IF NUMERIC / NOT STRING AND AGE IS BETWEEN 6-179
-      userData.umur = message;
-      console.log('Umur:', userData.umur);
-      hideInput();
-	  displayMessage(`En. Rem: Bagaimana pula jantina anda`, true); //ASK GENDER
-      setTimeout(function () {
-        openModal('jantina-options-modal'); //OPEN POP UP BOX
-      }, 800); // Delay of 0.5 second
-    } else {
-      displayMessage(`En. Rem: Sila nyatakan umur yang betul`, true, 500); //ASK AGE
-    }*/
+
   } else if (!userData.umur) {
     userData.umur = message;
     console.log('Umur:', userData.umur);
@@ -635,7 +624,13 @@ function selectOption(selectedOption, field) {
   userData[field] = selectedOption;
   console.log(`${field}:`, userData[field]);
   displayMessage(`Anda: ${selectedOption}`);
+  /*console.log('b:', b);
+  console.log('c:', c);
+  console.log('d:', d);
+  console.log('g:', g);
+  console.log('i:', i);
   console.log('l:', l);
+  console.log('m:', m);*/
  
 //-------->SECTION 1  
   if (!userData.dun) {
@@ -648,6 +643,13 @@ function selectOption(selectedOption, field) {
     // If age is not yet provided, ask for age
 	displayMessage(`En. Rem: Saya pasti banyak tempat yang menarik di ${userData.dun}`, true);
     displayMessage(`En. Rem: Sila pilih umur anda`, true);
+	b = '';
+	c = '';
+	d = '';
+	g = '';
+	i = '';
+	l = 'na';
+	m = '';
     openModal('umur-options-modal');
 	
   } else if (!userData.jantina) {
