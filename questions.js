@@ -3,6 +3,9 @@
 //FUNCTIONS
 const messagesDiv = document.getElementById('chat-messages');
 const userInput = document.getElementById('user-input');
+const sendButton = document.getElementById('send-button');
+
+
 const userTable = document.getElementById('user-info');
 const exportBtn = document.getElementById('export-btn');
 const clearBtn = document.getElementById('clear-btn');
@@ -345,6 +348,21 @@ userInput.addEventListener('keypress', function (event) {
   }
 });
 
+// ADD EVENT LISTENER FOR SEND BUTTON
+sendButton.addEventListener('click', function () {
+  sendMessage(); // Call the function to process the input
+});
+
+// FUNCTION TO PROCESS AND DISPLAY MESSAGE
+function sendMessage() {
+  const message = userInput.value.trim();
+  if (message !== '') { // Ensure empty messages are not sent
+    displayMessage(`Anda: ${message}`);
+    processInput(message);
+    userInput.value = ''; // Clear the input field after sending
+  }
+}
+
 //BOT QUESTIONS AFTER RECEIVING INPUT FROM USER - HANDLING RAW INPUT TEXT ~^-^~ //second
 function processInput(message) {
   if (!userData.dun) {
@@ -369,12 +387,12 @@ function processInput(message) {
 
   } else if (!userData.agama) {  
 	userData.agama = message;
-	console.log('Agama1:', userData.agama);
 	hideInput();
 	
   } else if (userData.agama && !userData.bangsa) {
     userData.agama = message;
     console.log('Agama (Lain-lain):', userData.agama);
+	displayMessage(`En. Rem: Sila pilih bangsa anda`, true);
     hideInput();
 	setTimeout(function () {
 	  openModal('bangsa-options-modal'); //OPEN POP UP BOX FOR NEXT QUESTION IF ANY
@@ -388,6 +406,7 @@ function processInput(message) {
   } else if (userData.bangsa && !userData.tahappendidikan) {
     userData.bangsa = message;
     console.log('Bangsa (Lain-lain):', userData.bangsa);
+	displayMessage(`En. Rem: Sila pilih tahap pendidikan anda`, true);
     hideInput();
     setTimeout(function () {
       openModal('tahappendidikan-options-modal'); //OPEN POP UP BOX
@@ -478,7 +497,7 @@ function processInput(message) {
     userData.pilihanpemimpinsabahlain = message;
     console.log('Yang Layak Memimpin Sabah:', userData.pilihanpemimpinsabahlain);
     hideInput();
-	//displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah maju jaya!`, true);
+	//displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
     //displayUserInfo(userData);
 	openModal('isiboranglagi-options-modal');
 	//userData.isiboranglagi = message;
@@ -782,7 +801,7 @@ function selectOption(selectedOption, field) {
     g = 'true'; 
     displayMessage(`En. Rem: Anda pilih lain-lain, sila nyatakan apakah yang membuatkan anda tidak berpuas hati?`, true);
 	closeModal();
-	showInput();  
+	showInput();
  
 //jika tidak puas hati; dunmenyelesaikanmasalah 
   } else if (!userData.dunmenyelesaikanmasalah && userData.puasdgnpembangunansemasa === 'Tidak'){
@@ -802,7 +821,7 @@ function selectOption(selectedOption, field) {
 	closeModal();
     displayMessage(`En. Rem: Siapakah cadangan calon YB yang boleh mewakili kawasan anda pada PRU akan datang?`, true);
 	closeModal();
-	showInput();  
+	showInput();
   
   
 //-------->SECTION 3  
@@ -865,7 +884,7 @@ function selectOption(selectedOption, field) {
 	closeModal();
     displayMessage(`En. Rem: Sila nyatakan apakah yang dapat diperbaiki di masa akan datang?`, true);
 	closeModal();
-	showInput();  
+	showInput();
 
    //tiada kesan positif - keperluan asas
   } else if (!userData.tiadapositifkeperluanasas && userData.tiadakesanpositif.trim() === 'Air/Letrik/Internet'){
@@ -980,11 +999,13 @@ function closeModal() {
 //HIDE CURRENT DATA INPUT
 function hideInput() {
   userInput.style.display = 'none';
+  sendButton.style.display = 'none';
 }
 
 //SHOW DATA INPUT
 function showInput() {
   userInput.style.display = 'block';
+  sendButton.style.display = 'block';
 }
 
 //EXPORT TO DATABASE BUTTON - USEFUL WHEN NO NETWORK. TO BE DONE MANUALLY BY USER (CLICK)
@@ -1107,7 +1128,7 @@ function pengesahanEnd() {
   setTimeout(function () {
       openModal('isiboranglagi-options-modal'); //OPEN POP UP BOX
   }, 1000);
-  showInput();
+  hideInput();
 }
 
 //FUNCTION TO INITIATE CONVERSATION TO BEGINNING
@@ -1156,14 +1177,14 @@ function initiateConversation() {
   };
   messagesDiv.innerHTML = '';
   getCurrentDate();
-  displayMessage(`En. Rem: Selamat datang ke kaji selidik bagi Pemantauan Dinamika Pembangunan Kerajaan Fasa 2 2024. Pandangan anda amat penting untuk membantu dan memahami sentimen isu-isu kepimpinan dan pembangunan negeri Sabah
+  displayMessage(`En. Rem: Selamat datang ke kaji selidik bagi Pemantauan Dinamika Pembangunan Kerajaan Fasa 2 2024. Pandangan anda amat penting untuk membantu dan memahami sentimen isu-isu kepimpinan dan pembangunan negeri Sabah.
 Mohon kerjasama tuan/puan untuk mengisi kaji selidik ini dengan jujur dan teliti.
 `, true);
   displayMessage(`En. Rem: Hi! Memperkenalkan saya En. Rem, mari kita mula kan kaji selidik ini 😃 Sila pilih DUN anda:`, true, 300);
   setTimeout(function () {
       openModal('dun-options-modal'); //OPEN POP UP BOX
   }, 1000);
-  showInput();
+  hideInput();
 }
 
 //AS DEFAULT, THESE 2 FUNCTIONS ARE CALLED

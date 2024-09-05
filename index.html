@@ -15,6 +15,7 @@
     <div id="section-below-chatbox">
       <div id="chat-messages"></div>
       <input type="text" id="user-input" placeholder="Taip mesej anda...">
+	  <button id="send-button">Hantar</button>
     </div>
     <button id="export-btn">Simpan Data</button>
     <button id="clear-btn">Padam Mesej</button>
@@ -38,6 +39,12 @@
 		<div class="bubble-option" onclick="selectOption('N36 Kundasang', 'dun')">N36 Kundasang</div>
         <div class="bubble-option" onclick="selectOption('N37 Karanaan', 'dun')">N37 Karanaan</div>
 		<div class="bubble-option" onclick="selectOption('N38 Paginatan', 'dun')">N38 Paginatan</div>
+		<div class="bubble-option" onclick="selectOption('N64 Sulabayan', 'dun')">N64 Sulabayan</div>
+		<div class="bubble-option" onclick="selectOption('N65 Senallang', 'dun')">N65 Senallang</div>
+		<div class="bubble-option" onclick="selectOption('N66 Bugaya', 'dun')">N66 Bugaya</div>
+		<div class="bubble-option" onclick="selectOption('N67 Balung', 'dun')">N67 Balung</div>
+		<div class="bubble-option" onclick="selectOption('N68 Apas', 'dun')">N68 Apas</div>
+		<div class="bubble-option" onclick="selectOption('N69 Sri Tanjong', 'dun')">N69 Sri Tanjong</div>
       </div>
     </div>
 
@@ -72,7 +79,7 @@
         <div class="bubble-option" onclick="selectOption('Kristian', 'agama')">Kristian</div>
 		<div class="bubble-option" onclick="selectOption('Buddha', 'agama')">Buddha</div>
 		<div class="bubble-option" onclick="selectOption('Hindu', 'agama')">Hindu</div>
-        <div class="bubble-option" onclick="selectOption('Lain-lain', 'agama')">Lain-lain</div>
+        <div class="bubble-option" style="background-color: blue; color: white;" onclick="selectOption('Lain-lain', 'agama')">Lain-lain</div>
       </div>
     </div>
 	
@@ -85,7 +92,7 @@
 		<div class="bubble-option" onclick="selectOption('Cina', 'bangsa')">Cina</div>
 		<div class="bubble-option" onclick="selectOption('Melayu', 'bangsa')">Melayu</div>
         <div class="bubble-option" onclick="selectOption('India', 'bangsa')">India</div>
-        <div class="bubble-option" onclick="selectOption('Lain-lain', 'bangsa')">Lain-lain</div>
+        <div class="bubble-option" style="background-color: blue; color: white;" onclick="selectOption('Lain-lain', 'bangsa')">Lain-lain</div>
       </div>
     </div>	
 	
@@ -126,8 +133,8 @@
       <!-- Adakah Berpuas Hati Dengan Pembangunan Semasa di Kawasan Anda Modal content -->
       <div class="modal-content">
         <p>Adakah anda berpuas hati dengan pembangunan semasa di kawasan anda?:</p>
-        <div class="bubble-option" onclick="selectOption('Ya', 'puasdgnpembangunansemasa')">Ya</div>
-        <div class="bubble-option" onclick="selectOption('Tidak', 'puasdgnpembangunansemasa')">Tidak</div>
+        <div class="bubble-option" style="background-color: green; color: white;" onclick="selectOption('Ya', 'puasdgnpembangunansemasa')">Ya</div>
+        <div class="bubble-option" style="background-color: red; color: white;" onclick="selectOption('Tidak', 'puasdgnpembangunansemasa')">Tidak</div>
       </div>
     </div>	
 
@@ -138,7 +145,7 @@
         <div class="bubble-option" onclick="selectOption('Air/Letrik/Internet', 'yapuasdgnpembangunansemasa')">Air/Letrik/Internet</div>
 		<div class="bubble-option" onclick="selectOption('Jalan/Parit/Pengangkutan', 'yapuasdgnpembangunansemasa')">Jalan/Parit/Pengangkutan</div>
 		<div class="bubble-option" onclick="selectOption('Kebajikan', 'yapuasdgnpembangunansemasa')">Kebajikan</div>
-		<div class="bubble-option" onclick="selectOption('Lain-lain', 'yapuasdgnpembangunansemasa')">Lain-lain</div>
+		<div class="bubble-option" style="background-color: blue; color: white;" onclick="selectOption('Lain-lain', 'yapuasdgnpembangunansemasa')">Lain-lain</div>
       </div>
     </div>
     <div id="tidakpuasdgnpembangunansemasa-options-modal" class="modal">
@@ -148,7 +155,7 @@
         <div class="bubble-option" onclick="selectOption('Air/Letrik/Internet', 'tidakpuasdgnpembangunansemasa')">Air/Letrik/Internet</div>
 		<div class="bubble-option" onclick="selectOption('Jalan/Parit/Pengangkutan', 'tidakpuasdgnpembangunansemasa')">Jalan/Parit/Pengangkutan</div>
 		<div class="bubble-option" onclick="selectOption('Kebajikan', 'tidakpuasdgnpembangunansemasa')">Kebajikan</div>
-		<div class="bubble-option" onclick="selectOption('Lain-lain', 'tidakpuasdgnpembangunansemasa')">Lain-lain</div>
+		<div class="bubble-option" style="background-color: blue; color: white;" onclick="selectOption('Lain-lain', 'tidakpuasdgnpembangunansemasa')">Lain-lain</div>
       </div>
     </div>	
 	
@@ -222,9 +229,9 @@
       <!-- Adakah YB DUN Menjalankan Tanggungjawab dengan Baik Modal content -->
       <div class="modal-content">
         <p>Adakah YB ADUN anda menjalankan tanggungjawab dengan baik?:</p>
-        <div class="bubble-option" onclick="selectOption('Ya', 'dunjalanidgnbaik')">Ya</div>
-		<div class="bubble-option" onclick="selectOption('Tidak', 'dunjalanidgnbaik')">Tidak</div>
-		<div class="bubble-option" onclick="selectOption('Tidak Pasti', 'dunjalanidgnbaik')">Tidak Pasti</div>
+        <div class="bubble-option" style="background-color: green; color: white;" onclick="selectOption('Ya', 'dunjalanidgnbaik')">Ya</div>
+		<div class="bubble-option" style="background-color: red; color: white;" onclick="selectOption('Tidak', 'dunjalanidgnbaik')">Tidak</div>
+		<div class="bubble-option" style="background-color: orange; color: white;" onclick="selectOption('Tidak Pasti', 'dunjalanidgnbaik')">Tidak Pasti</div>
       </div>
     </div>	
 	<!--- ADAKAH YB DUN BERUSAHA MENYELESAIKAN MASALAH? -->
@@ -232,9 +239,9 @@
       <!-- Adakah YB DUN Berusaha Menyelesaikan Masalah Modal content -->
       <div class="modal-content">
         <p>Adakah YB ADUN anda berusaha untuk menyelesaikan masalah yang dihadapi?:</p>
-        <div class="bubble-option" onclick="selectOption('Ya', 'dunmenyelesaikanmasalah')">Ya</div>
-		<div class="bubble-option" onclick="selectOption('Tidak', 'dunmenyelesaikanmasalah')">Tidak</div>
-		<div class="bubble-option" onclick="selectOption('Tidak Pasti', 'dunmenyelesaikanmasalah')">Tidak Pasti</div>
+        <div class="bubble-option" style="background-color: green; color: white;" onclick="selectOption('Ya', 'dunmenyelesaikanmasalah')">Ya</div>
+		<div class="bubble-option" style="background-color: red; color: white;" onclick="selectOption('Tidak', 'dunmenyelesaikanmasalah')">Tidak</div>
+		<div class="bubble-option" style="background-color: orange; color: white;" onclick="selectOption('Tidak Pasti', 'dunmenyelesaikanmasalah')">Tidak Pasti</div>
       </div>
     </div>		
 	<!--- MENGUNDI YB DUN ANDA DI PILIHAN RAYA AKAN DATANG -->
@@ -242,9 +249,9 @@
       <!-- Mengundi YB DUN di Pilihan Raya Akan Datang Modal content -->
       <div class="modal-content">
         <p>Adakah anda akan mengundi YB ADUN anda untuk pilihan raya negeri yang akan datang?:</p>
-        <div class="bubble-option" onclick="selectOption('Ya', 'undidun')">Ya</div>
-		<div class="bubble-option" onclick="selectOption('Tidak', 'undidun')">Tidak</div>
-		<div class="bubble-option" onclick="selectOption('Tidak Pasti', 'undidun')">Tidak Pasti</div>
+        <div class="bubble-option" style="background-color: green; color: white;" onclick="selectOption('Ya', 'undidun')">Ya</div>
+		<div class="bubble-option" style="background-color: red; color: white;" onclick="selectOption('Tidak', 'undidun')">Tidak</div>
+		<div class="bubble-option" style="background-color: orange; color: white;" onclick="selectOption('Tidak Pasti', 'undidun')">Tidak Pasti</div>
       </div>
     </div>
 	
@@ -254,9 +261,9 @@
       <!-- Adakah Ketua Menteri Membawa Perubahan Positif Modal content -->
       <div class="modal-content">
         <p>Adakah anda berpuas hati dengan kepimpinan Ketua Menteri Sabah sekarang?</p>
-        <div class="bubble-option" onclick="selectOption('Ya', 'kmperubahanpositif')">Ya</div>
-		<div class="bubble-option" onclick="selectOption('Tidak', 'kmperubahanpositif')">Tidak</div>
-		<div class="bubble-option" onclick="selectOption('Tidak Pasti', 'kmperubahanpositif')">Tidak Pasti</div>
+        <div class="bubble-option" style="background-color: green; color: white;" onclick="selectOption('Ya', 'kmperubahanpositif')">Ya</div>
+		<div class="bubble-option" style="background-color: red; color: white;" onclick="selectOption('Tidak', 'kmperubahanpositif')">Tidak</div>
+		<div class="bubble-option" style="background-color: orange; color: white;" onclick="selectOption('Tidak Pasti', 'kmperubahanpositif')">Tidak Pasti</div>
       </div>
     </div>
 	
@@ -270,7 +277,7 @@
 		<div class="bubble-option" onclick="selectOption('Ekonomi', 'penambahbaikanmasadepan')">Ekonomi</div>
 		<div class="bubble-option" onclick="selectOption('Perkhidmatan Awam', 'penambahbaikanmasadepan')">Perkhidmatan Awam</div>
 		<div class="bubble-option" onclick="selectOption('Hak Rakyat Sabah (MA63)', 'penambahbaikanmasadepan')">Hak Rakyat Sabah (MA63)</div>
-		<div class="bubble-option" onclick="selectOption('Lain-lain', 'penambahbaikanmasadepan')">Lain-lain</div>
+		<div class="bubble-option" style="background-color: blue; color: white;" onclick="selectOption('Lain-lain', 'penambahbaikanmasadepan')">Lain-lain</div>
       </div>
     </div>	
 	<!--- KETUA MENTERI SABAH - TIADA SEBARANG KESAN POSITIF DIBERIKAN-->	
@@ -283,7 +290,7 @@
 		<div class="bubble-option" onclick="selectOption('Ekonomi', 'tiadakesanpositif')">Ekonomi</div>
 		<div class="bubble-option" onclick="selectOption('Perkhidmatan Awam', 'tiadakesanpositif')">Perkhidmatan Awam</div>
 		<div class="bubble-option" onclick="selectOption('Hak Rakyat Sabah (MA63)', 'tiadakesanpositif')">Hak Rakyat Sabah (MA63)</div>
-		<div class="bubble-option" onclick="selectOption('Lain-lain', 'tiadakesanpositif')">Lain-lain</div>
+		<div class="bubble-option" style="background-color: blue; color: white;" onclick="selectOption('Lain-lain', 'tiadakesanpositif')">Lain-lain</div>
       </div>
     </div>	
 	
@@ -398,11 +405,82 @@
       <!-- Pemimpin Seterusnya Modal content -->
       <div class="modal-content">
         <p>Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin sabah? 🤔:</p>
+        <div class="bubble-option" onclick="selectOption('Mohammad Mohamarin', 'pilihanpemimpinsabah')">Mohammad Mohamarin</div>
+		<div class="bubble-option" onclick="selectOption('Harun Durabi', 'pilihanpemimpinsabah')">Harun Durabi</div>
+		<div class="bubble-option" onclick="selectOption('Ruddy Awah', 'pilihanpemimpinsabah')">Ruddy Awah</div>
+		<div class="bubble-option" onclick="selectOption('Ben Chong Chen Bin', 'pilihanpemimpinsabah')">Ben Chong Chen Bin</div>
+		<div class="bubble-option" onclick="selectOption('Julita Mojungki', 'pilihanpemimpinsabah')">Julita Mojungki</div>
+		<div class="bubble-option" onclick="selectOption('Wetrom @ Mohd Fikri Bahanda', 'pilihanpemimpinsabah')">Wetrom @ Mohd Fikri Bahanda</div>
+		<div class="bubble-option" onclick="selectOption('Hendrus Anding', 'pilihanpemimpinsabah')">Hendrus Anding</div>
+		<div class="bubble-option" onclick="selectOption('Fairuz Renddan', 'pilihanpemimpinsabah')">Fairuz Renddan</div>
+		<div class="bubble-option" onclick="selectOption('Mohd Arsad Bistari', 'pilihanpemimpinsabah')">Mohd Arsad Bistari</div>
+		<div class="bubble-option" onclick="selectOption('Salleh Said Keruak', 'pilihanpemimpinsabah')">Salleh Said Keruak</div>
+		<div class="bubble-option" onclick="selectOption('Ewon Benedick', 'pilihanpemimpinsabah')">Ewon Benedick</div>		
         <div class="bubble-option" onclick="selectOption('Hajiji Noor', 'pilihanpemimpinsabah')">Hajiji Noor</div>
+		<div class="bubble-option" onclick="selectOption('Jasnih Daya', 'pilihanpemimpinsabah')">Jasnih Daya</div>
+		<div class="bubble-option" onclick="selectOption('Jahid Jahim', 'pilihanpemimpinsabah')">Jahid Jahim</div>
+		<div class="bubble-option" onclick="selectOption('Joniston Bangkuai', 'pilihanpemimpinsabah')">Joniston Bangkuai</div>
+		<div class="bubble-option" onclick="selectOption('Yakubah Khan', 'pilihanpemimpinsabah')">Yakubah Khan</div>
+		<div class="bubble-option" onclick="selectOption('Azhar Matussin', 'pilihanpemimpinsabah')">Azhar Matussin</div>
+		<div class="bubble-option" onclick="selectOption('Peto Galim', 'pilihanpemimpinsabah')">Peto Galim</div>
+		<div class="bubble-option" onclick="selectOption('Tan Lee Fatt', 'pilihanpemimpinsabah')">Tan Lee Fatt</div>
+		<div class="bubble-option" onclick="selectOption('Christina Liew Chin Jin', 'pilihanpemimpinsabah')">Christina Liew Chin Jin</div>
+		<div class="bubble-option" onclick="selectOption('Phoong Jin Zhe', 'pilihanpemimpinsabah')">Phoong Jin Zhe</div>
+		<div class="bubble-option" onclick="selectOption('Junz Wong Hong Jun', 'pilihanpemimpinsabah')">Junz Wong Hong Jun</div>
+		<div class="bubble-option" onclick="selectOption('Awang Ahmad Sah Awang Sahari', 'pilihanpemimpinsabah')">Awang Ahmad Sah Awang Sahari</div>
+		<div class="bubble-option" onclick="selectOption('Shahelmey Yahya', 'pilihanpemimpinsabah')">Shahelmey Yahya</div>
+		<div class="bubble-option" onclick="selectOption('Jannie Lasimbang', 'pilihanpemimpinsabah')">Jannie Lasimbang</div>
+		<div class="bubble-option" onclick="selectOption('Darell Leiking', 'pilihanpemimpinsabah')">Darell Leiking</div>
+		<div class="bubble-option" onclick="selectOption('Juil Nuatim', 'pilihanpemimpinsabah')">Juil Nuatim</div>
+		<div class="bubble-option" onclick="selectOption('Ghulamhaidar @ Yusof Khan Bahadar', 'pilihanpemimpinsabah')">Ghulamhaidar @ Yusof Khan Bahadar</div>
+		<div class="bubble-option" onclick="selectOption('Mohd Tamin Zainal', 'pilihanpemimpinsabah')">Mohd Tamin Zainal</div>
+		<div class="bubble-option" onclick="selectOption('Daud Yusof', 'pilihanpemimpinsabah')">Daud Yusof</div>
+		<div class="bubble-option" onclick="selectOption('Mohd Arifin Mohd Arif', 'pilihanpemimpinsabah')">Mohd Arifin Mohd Arif</div>
+		<div class="bubble-option" onclick="selectOption('Isnin Aliasnih', 'pilihanpemimpinsabah')">Isnin Aliasnih</div>
+		<div class="bubble-option" onclick="selectOption('Limus Jury', 'pilihanpemimpinsabah')">Limus Jury</div>
+		<div class="bubble-option" onclick="selectOption('Ruslan Muharam', 'pilihanpemimpinsabah')">Ruslan Muharam</div>
+		<div class="bubble-option" onclick="selectOption('Yusof Yacob', 'pilihanpemimpinsabah')">Yusof Yacob</div>
+		<div class="bubble-option" onclick="selectOption('Joachim Gunsalam', 'pilihanpemimpinsabah')">Joachim Gunsalam</div>
+		<div class="bubble-option" onclick="selectOption('Masidi Manjun', 'pilihanpemimpinsabah')">Masidi Manjun</div>
+		<div class="bubble-option" onclick="selectOption('Abidin Madingkir', 'pilihanpemimpinsabah')">Abidin Madingkir</div>
+		<div class="bubble-option" onclick="selectOption('Jeffrey Kitingan', 'pilihanpemimpinsabah')">Jeffrey Kitingan</div>
+		<div class="bubble-option" onclick="selectOption('Robert Tawik @ Nordin', 'pilihanpemimpinsabah')">Robert Tawik @ Nordin</div>
+		<div class="bubble-option" onclick="selectOption('Annuar Ayub', 'pilihanpemimpinsabah')">Annuar Ayub</div>
+		<div class="bubble-option" onclick="selectOption('Peter Anthony', 'pilihanpemimpinsabah')">Peter Anthony</div>
+		<div class="bubble-option" onclick="selectOption('Rubin Balang', 'pilihanpemimpinsabah')">Rubin Balang</div>
+		<div class="bubble-option" onclick="selectOption('Flovia Ng', 'pilihanpemimpinsabah')">Flovia Ng</div>
+		<div class="bubble-option" onclick="selectOption('Ellron Alfred Angin', 'pilihanpemimpinsabah')">Ellron Alfred Angin</div>
+		<div class="bubble-option" onclick="selectOption('Abdul Ghani Mohamed Yassin', 'pilihanpemimpinsabah')">Abdul Ghani Mohamed Yassin</div>
+		<div class="bubble-option" onclick="selectOption('Jonnybone Kurum', 'pilihanpemimpinsabah')">Jonnybone Kurum</div>
+		<div class="bubble-option" onclick="selectOption('James Ratib', 'pilihanpemimpinsabah')">James Ratib</div>
+		<div class="bubble-option" onclick="selectOption('Samad Jambri', 'pilihanpemimpinsabah')">Samad Jambri</div>
+		<div class="bubble-option" onclick="selectOption('Arunarnsin Taib', 'pilihanpemimpinsabah')">Arunarnsin Taib</div>
+		<div class="bubble-option" onclick="selectOption('Mokran Ingkat', 'pilihanpemimpinsabah')">Mokran Ingkat</div>
+		<div class="bubble-option" onclick="selectOption('Mohamad Hamsan', 'pilihanpemimpinsabah')">Mohamad Hamsan</div>
+		<div class="bubble-option" onclick="selectOption('Alias Sani', 'pilihanpemimpinsabah')">Alias Sani</div>
+		<div class="bubble-option" onclick="selectOption('George Hiew Vun Zin', 'pilihanpemimpinsabah')">George Hiew Vun Zin</div>
+		<div class="bubble-option" onclick="selectOption('Calvin Chong Ket Kiun', 'pilihanpemimpinsabah')">Calvin Chong Ket Kiun</div>
+		<div class="bubble-option" onclick="selectOption('Poon Ming Fun', 'pilihanpemimpinsabah')">Poon Ming Fun</div>
+		<div class="bubble-option" onclick="selectOption('Masiung Banah', 'pilihanpemimpinsabah')">Masiung Banah</div>
+		<div class="bubble-option" onclick="selectOption('Bung Moktar Radin', 'pilihanpemimpinsabah')">Bung Moktar Radin</div>
+		<div class="bubble-option" onclick="selectOption('Jafry Ariffin', 'pilihanpemimpinsabah')">Jafry Ariffin</div>
+		<div class="bubble-option" onclick="selectOption('Assaffal P. Alian', 'pilihanpemimpinsabah')">Assaffal P. Alian</div>
+		<div class="bubble-option" onclick="selectOption('Mohamaddin Ketapi', 'pilihanpemimpinsabah')">Mohamaddin Ketapi</div>
+		<div class="bubble-option" onclick="selectOption('Dumi Masdal', 'pilihanpemimpinsabah')">Dumi Masdal</div>
+		<div class="bubble-option" onclick="selectOption('Norazlinah Arif', 'pilihanpemimpinsabah')">Norazlinah Arif</div>
+		<div class="bubble-option" onclick="selectOption('Jaujan Sambakong', 'pilihanpemimpinsabah')">Jaujan Sambakong</div>
 		<div class="bubble-option" onclick="selectOption('Shafie Apdal', 'pilihanpemimpinsabah')">Shafie Apdal</div>
-		<div class="bubble-option" onclick="selectOption('Bung Moktar', 'pilihanpemimpinsabah')">Bung Moktar</div>
-		<div class="bubble-option" onclick="selectOption('Lain-lain', 'pilihanpemimpinsabah')">Lain-lain</div>
-		<div class="bubble-option" onclick="selectOption('Tidak Pasti', 'pilihanpemimpinsabah')">Tidak Pasti</div>
+		<div class="bubble-option" onclick="selectOption('Jamil Hamzah', 'pilihanpemimpinsabah')">Jamil Hamzah</div>
+		<div class="bubble-option" onclick="selectOption('Manis Muka Mohd Darah', 'pilihanpemimpinsabah')">Manis Muka Mohd Darah</div>
+		<div class="bubble-option" onclick="selectOption('Hamild @ Hamid Awang', 'pilihanpemimpinsabah')">Hamild @ Hamid Awang</div>
+		<div class="bubble-option" onclick="selectOption('Nizam Abu Bakar Titingan', 'pilihanpemimpinsabah')">Nizam Abu Bakar Titingan</div>
+		<div class="bubble-option" onclick="selectOption('Justin Wong Yung Bin', 'pilihanpemimpinsabah')">Justin Wong Yung Bin</div>
+		<div class="bubble-option" onclick="selectOption('Rina Jainal', 'pilihanpemimpinsabah')">Rina Jainal</div>
+		<div class="bubble-option" onclick="selectOption('Andi Muhammad Suryady Bandy', 'pilihanpemimpinsabah')">Andi Muhammad Suryady Bandy</div>
+		<div class="bubble-option" onclick="selectOption('Sarifuddin Hata', 'pilihanpemimpinsabah')">Sarifuddin Hata</div>
+		<div class="bubble-option" onclick="selectOption('Hassan A Gani Pg Amir', 'pilihanpemimpinsabah')">Hassan A Gani Pg Amir</div>		
+		<div class="bubble-option" style="background-color: blue; color: white;" onclick="selectOption('Lain-lain', 'pilihanpemimpinsabah')">Lain-lain</div>
+		<div class="bubble-option" style="background-color: orange; color: white;" onclick="selectOption('Tidak Pasti', 'pilihanpemimpinsabah')">Tidak Pasti</div>
       </div>
     </div>
 	
