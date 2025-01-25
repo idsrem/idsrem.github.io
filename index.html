@@ -21,7 +21,184 @@
     <button id="clear-btn">Padam Mesej</button>
     <button id="export-csv-btn"></button>
     <button id="toggle-table-btn">Hide Table</button>
-	
+    
+    <!-- parlimen modal -->
+    <div id="parlimen-options-modal" class="modal">
+      <div class="modal-content">
+        <p>Sila pilih Parlimen anda:</p>
+
+        <div class="bubble-option" onclick="selectParlimen('P168')">P168 Kota Marudu</div>
+        <div class="bubble-option" onclick="selectParlimen('P169')">P169 Kota Belud</div>
+        <div class="bubble-option" onclick="selectParlimen('P171')">P171 Sepanggar</div>
+        <div class="bubble-option" onclick="selectParlimen('P173')">P173 Putatan</div>
+        <!-- <div class="bubble-option" onclick="selectParlimen('P176')">P176 Kimanis</div> -->
+        <div class="bubble-option" onclick="selectParlimen('P177')">P177 Beaufort</div>
+        <div class="bubble-option" onclick="selectParlimen('P178')">P178 Sipitang</div>
+        <div class="bubble-option" onclick="selectParlimen('P181')">P181 Tenom</div>
+        <div class="bubble-option" onclick="selectParlimen('P182')">P182 Pensiangan</div>
+        <div class="bubble-option" onclick="selectParlimen('P183')">P183 Beluran</div>
+        <div class="bubble-option" onclick="selectParlimen('P187')">P187 Kinabatangan</div>
+        <div class="bubble-option" onclick="selectParlimen('P188')">P188 Lahad Datu</div>
+        <div class="bubble-option" onclick="selectParlimen('P191')">P191 Kalabakan</div>
+
+      </div>
+    </div>
+
+    <!-- p168 Kota Marudu -->
+    <div id="p168-modal" class="modal">
+      <div class="modal-content">
+        <p>Sila pilih DUN anda:</p>
+
+		    <div class="bubble-option" onclick="selectOption('N5 Matunggong', 'dun')">N5 Matunggong</div>
+		    <div class="bubble-option" onclick="selectOption('N6 Bandau', 'dun')">N6 Bandau</div>
+		    <div class="bubble-option" onclick="selectOption('N7 Tandek', 'dun')">N7 Tandek</div>
+
+      </div>
+    </div>
+
+     <!-- p169 Kota Belud -->
+     <div id="p169-modal" class="modal">
+      <div class="modal-content">
+        <p>Sila pilih DUN anda:</p>
+
+        <div class="bubble-option" onclick="selectOption('N8 Pintasan', 'dun')">N8 Pintasan</div>
+        <div class="bubble-option" onclick="selectOption('N9 Tempasuk', 'dun')">N9 Tempasuk</div>
+        <div class="bubble-option" onclick="selectOption('N10 Usukan', 'dun')">N10 Usukan</div>
+        <div class="bubble-option" onclick="selectOption('N11 Kedamaian', 'dun')">N11 Kedamaian</div>
+
+      </div>
+    </div>
+
+    <!-- p171 Sepanggar -->
+    <div id="p171-modal" class="modal">
+      <div class="modal-content">
+        <p>Sila pilih DUN anda:</p>
+
+        <div class="bubble-option" onclick="selectOption('N16 Karambunai', 'dun')">N16 Karambunai</div>
+		    <div class="bubble-option" onclick="selectOption('N17 Darau', 'dun')">N17 Darau</div>
+		    <div class="bubble-option" onclick="selectOption('N18 Inanam', 'dun')">N18 Inanam</div>
+
+      </div>
+    </div>
+
+     <!-- p173 Putatan -->
+     <div id="p173-modal" class="modal">
+      <div class="modal-content">
+        <p>Sila pilih DUN anda:</p>
+
+        <div class="bubble-option" onclick="selectOption('N22 Tanjong Aru', 'dun')">N22 Tanjong Aru</div>
+        <div class="bubble-option" onclick="selectOption('N23 Petagas', 'dun')">N23 Petagas</div>
+        <div class="bubble-option" onclick="selectOption('N24 Tanjung Keramat', 'dun')">N24 Tanjung Keramat</div>
+
+      </div>
+    </div>
+    
+    <!-- p176 Kimanis -->
+    <div id="p176-modal" class="modal">
+      <div class="modal-content">
+        <p>Sila pilih DUN anda:</p>
+            
+        <div class="bubble-option" onclick="selectOption('N30 Bongawan', 'dun')">N30 Bongawan</div>
+        <div class="bubble-option" onclick="selectOption('N31 Membakut', 'dun')">N31 Membakut</div>
+
+      </div>
+    </div>
+
+    <!-- p177 Beaufort -->
+    <div id="p177-modal" class="modal">
+      <div class="modal-content">
+        <p>Sila pilih DUN anda:</p>
+            
+        <div class="bubble-option" onclick="selectOption('N32 Klias', 'dun')">N32 Klias</div>
+        <div class="bubble-option" onclick="selectOption('N33 Kuala Penyu', 'dun')">N33 Kuala Penyu</div>
+
+      </div>
+    </div>
+
+    <!-- p178 Sipitang -->
+    <div id="p178-modal" class="modal">
+      <div class="modal-content">
+        <p>Sila pilih DUN anda:</p>
+            
+        <div class="bubble-option" onclick="selectOption('N34 Lumadan', 'dun')">N34 Lumadan</div>
+        <div class="bubble-option" onclick="selectOption('N35 Sindumin', 'dun')">N35 Sindumin</div>
+
+      </div>
+    </div>
+
+    <!-- p181 Tenom -->
+    <div id="p181-modal" class="modal">
+      <div class="modal-content">
+        <p>Sila pilih DUN anda:</p>
+            
+        <div class="bubble-option" onclick="selectOption('N42 Melalap', 'dun')">N42 Melalap</div>
+        <div class="bubble-option" onclick="selectOption('N43 Kemabong', 'dun')">N43 Kemabong</div>
+
+      </div>
+    </div>
+
+    <!-- p182 Pensiangan -->
+    <div id="p182-modal" class="modal">
+      <div class="modal-content">
+        <p>Sila pilih DUN anda:</p>
+            
+        <div class="bubble-option" onclick="selectOption('N44 Tulid', 'dun')">N44 Tulid</div>
+        <div class="bubble-option" onclick="selectOption('N45 Sook', 'dun')">N45 Sook</div>
+        <div class="bubble-option" onclick="selectOption('N46 Nabawan', 'dun')">N46 Nabawan</div>
+
+      </div>
+    </div>
+
+    <!-- p183 Beluran -->
+    <div id="p183-modal" class="modal">
+      <div class="modal-content">
+        <p>Sila pilih DUN anda:</p>
+            
+        <div class="bubble-option" onclick="selectOption('N47 Telupid', 'dun')">N47 Telupid</div>
+        <div class="bubble-option" onclick="selectOption('N48 Sugut', 'dun')">N48 Sugut</div>
+        <div class="bubble-option" onclick="selectOption('N49 Labuk', 'dun')">N49 Labuk</div>
+
+      </div>
+    </div>
+
+   <!-- p187 Kinabatangan -->
+   <div id="p187-modal" class="modal">
+    <div class="modal-content">
+      <p>Sila pilih DUN anda:</p>
+          
+      <div class="bubble-option" onclick="selectOption('N57 Kuamut', 'dun')">N57 Kuamut</div>
+      <div class="bubble-option" onclick="selectOption('N58 Lamag', 'dun')">N58 Lamag</div>
+      <div class="bubble-option" onclick="selectOption('N59 Sukau', 'dun')">N59 Sukau</div>
+
+    </div>
+  </div>
+
+  <!-- p188 Lahad Datu -->
+  <div id="p188-modal" class="modal">
+    <div class="modal-content">
+      <p>Sila pilih DUN anda:</p>
+          
+      <div class="bubble-option" onclick="selectOption('N60 Tungku', 'dun')">N60 Tungku</div>
+      <div class="bubble-option" onclick="selectOption('N61 Segama', 'dun')">N61 Segama</div>
+      <div class="bubble-option" onclick="selectOption('N62 Silam', 'dun')">N62 Silam</div>
+      <div class="bubble-option" onclick="selectOption('N63 Kunak', 'dun')">N63 Kunak</div>
+
+    </div>
+  </div>
+
+  <!-- p191 Kalabakan -->
+  <div id="p191-modal" class="modal">
+    <div class="modal-content">
+      <p>Sila pilih DUN anda:</p>
+          
+      <div class="bubble-option" onclick="selectOption('N70 Kukusan', 'dun')">N70 Kukusan</div>
+      <div class="bubble-option" onclick="selectOption('N71 Tanjung Batu', 'dun')">N71 Tanjung Batu</div>
+      <div class="bubble-option" onclick="selectOption('N72 Merotai', 'dun')">N72 Merotai</div>
+      <div class="bubble-option" onclick="selectOption('N73 Sebatik', 'dun')">N73 Sebatik</div>
+
+    </div>
+  </div>
+
 	<!-- Pop up box: options -->
     <div id="dun-options-modal" class="modal">
       <!-- Dun Modal content -->
@@ -36,6 +213,16 @@
         <div class="bubble-option" onclick="selectOption('N13 Pantai Dalit', 'dun')">N13 Pantai Dalit</div>
 		<div class="bubble-option" onclick="selectOption('N14 Tamparuli', 'dun')">N14 Tamparuli</div>
         <div class="bubble-option" onclick="selectOption('N15 Kiulu', 'dun')">N15 Kiulu</div> -->
+		<!-- 
+		<div class="bubble-option" onclick="selectOption('N5 Matunggong', 'dun')">N5 Matunggong</div>
+		<div class="bubble-option" onclick="selectOption('N6 Bandau', 'dun')">N6 Bandau</div>
+		<div class="bubble-option" onclick="selectOption('N7 Tandek', 'dun')">N7 Tandek</div> -->
+		
+		<!--
+		<div class="bubble-option" onclick="selectOption('N8 Pintasan', 'dun')">N8 Pintasan</div>
+		<div class="bubble-option" onclick="selectOption('N9 Tempasuk', 'dun')">N9 Tempasuk</div>
+		<div class="bubble-option" onclick="selectOption('N10 Usukan', 'dun')">N10 Usukan</div>
+		<div class="bubble-option" onclick="selectOption('N11 Kedamaian', 'dun')">N11 Kedamaian</div> -->
 		
 		<div class="bubble-option" onclick="selectOption('N16 Karambunai', 'dun')">N16 Karambunai</div>
 		<div class="bubble-option" onclick="selectOption('N17 Darau', 'dun')">N17 Darau</div>
@@ -57,9 +244,9 @@
         <div class="bubble-option" onclick="selectOption('N28 Kawang', 'dun')">N28 Kawang</div>
         <div class="bubble-option" onclick="selectOption('N29 Pantai Manis', 'dun')">N29 Pantai Manis</div> -->
 		
-		
+		<!--
 		<div class="bubble-option" onclick="selectOption('N30 Bongawan', 'dun')">N30 Bongawan</div>
-		<div class="bubble-option" onclick="selectOption('N31 Membakut', 'dun')">N31 Membakut</div>
+		<div class="bubble-option" onclick="selectOption('N31 Membakut', 'dun')">N31 Membakut</div> -->
 		
 		<!--
 		<div class="bubble-option" onclick="selectOption('N36 Kundasang', 'dun')">N36 Kundasang</div>

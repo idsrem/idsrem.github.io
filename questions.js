@@ -638,6 +638,83 @@ var l = 'na';
 
 var m = '';
 
+function selectParlimen(parlimen) {
+  // console.log(parlimen);
+  
+  switch (parlimen) {
+    case "P168":
+      closeModal('parlimen-options-modal')
+      openModal('p168-modal')
+      break;
+
+    case "P169":
+      closeModal('parlimen-options-modal')
+      openModal('p169-modal')
+      break;
+
+      case "P171":
+        closeModal('parlimen-options-modal')
+        openModal('p171-modal')
+        break;
+
+      case "P173":
+        closeModal('parlimen-options-modal')
+        openModal('p173-modal')
+        break
+
+    case "P176":
+        closeModal('parlimen-options-modal')
+        openModal('p176-modal')
+        break;
+
+    case "P177":
+        closeModal('parlimen-options-modal')
+        openModal('p177-modal')
+        break;
+  
+    case "P178":
+          closeModal('parlimen-options-modal')
+          openModal('p178-modal')
+          break;
+
+    case "P181":
+        closeModal('parlimen-options-modal')
+        openModal('p181-modal')
+        break;
+        
+    case "P182":
+        closeModal('parlimen-options-modal')
+        openModal('p182-modal')
+        break;
+    
+    case "P183":
+        closeModal('parlimen-options-modal')
+        openModal('p183-modal')
+        break;
+
+    case "P187":
+        closeModal('parlimen-options-modal')
+        openModal('p187-modal')
+        break;
+
+    case "P188":
+        closeModal('parlimen-options-modal')
+        openModal('p188-modal')
+        break;
+    
+    case "P191":
+        closeModal('parlimen-options-modal')
+        openModal('p191-modal')
+        break;
+        
+    default:
+      console.log("no parlimen selected");
+      
+  }
+
+  
+}
+
 //BOT QUESTIONS AFTER RECEIVING INPUT FROM USER - HANDLING USER OPTION SELECTION ~^-^~ \\starterfirst
 function selectOption(selectedOption, field) {
   userData[field] = selectedOption;
@@ -1182,7 +1259,8 @@ Mohon kerjasama tuan/puan untuk mengisi kaji selidik ini dengan jujur dan teliti
 `, true);
   displayMessage(`En. Rem: Hi! Memperkenalkan saya En. Rem, mari kita mula kan kaji selidik ini 😃 Sila pilih DUN anda:`, true, 300);
   setTimeout(function () {
-      openModal('dun-options-modal'); //OPEN POP UP BOX
+      // openModal('dun-options-modal'); //OPEN POP UP BOX
+      openModal('parlimen-options-modal');
   }, 1000);
   hideInput();
 }
