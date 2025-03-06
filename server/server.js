@@ -63,6 +63,47 @@ app.post('/export', async (req, res) => {
   }
 });
 
+
+//work in progress for cycle 2
+// app.post('/exportNewTable', async (req, res) => {
+//   const newDataArray = req.body; // The new data array
+
+//   try {
+//     // Construct placeholders for the new data
+//     // const newPlaceholders = newDataArray.map((_, index) => `($${index * 3 + 1}, $${index * 3 + 2}, $${index * 3 + 3})`).join(',');
+   
+//     const newPlaceholders = newDataArray.map((_, index) => 
+//       // Generate 18 placeholders for each record
+//       `(${
+//         Array.from({ length: 18 }, (_, i) => `$${index * 18 + i + 1}`).join(', ')
+//       })`
+//     ).join(',');
+
+//     // Flatten the new data array into a single array of values
+//     // const newValues = newDataArray.reduce((acc, { field1, field2, field3 }) => {
+//     //   acc.push(field1 || '', field2 || '', field3 || '');  // Push the values for the new table's fields
+//     //   return acc;
+//     // }, []);
+
+//     const values = dataArray.reduce((acc, { 
+//       tarikh , dun, umur, jantina, bangsa, bangsalain,pengaruhmediasemasa,persepsi,persepsilain,
+//       pengaruhberita,faktorlain,pendapatperibadi,partiataucalon,cenderunguntukundi,pilihanpartinasional,pilihanpartitempatan,
+//       pemimpinsabah,pemimpinsabahlain,isiboranglagi}))
+
+//     // Construct the SQL query dynamically for the new table !!change new_table to new table in database
+//     const newQueryText = `INSERT INTO new_table (tarikh , dun, umur, jantina, bangsa, bangsalain,pengaruhmediasemasa,persepsi,persepsilain,
+//       pengaruhberita,faktorlain,pendapatperibadi,partiataucalon,cenderunguntukundi,pilihanpartinasional,pilihanpartitempatan,
+//       pemimpinsabah,pemimpinsabahlain,isiboranglagi) VALUES ${newPlaceholders}`;
+
+//     // Execute the query to insert into the new table
+//     await pool.query(newQueryText, newValues);
+//     res.status(200).send('Data saved successfully to new table');
+//   } catch (error) {
+//     console.error('Error saving data to new table', error);
+//     res.status(500).send('Error saving data to new table');
+//   }
+// });
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
