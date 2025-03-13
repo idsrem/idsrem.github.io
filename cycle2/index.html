@@ -31,6 +31,16 @@
       </div>
     </div>
 
+    <!-- kod input modal -->
+    <div id="kod-modal" class="modal">
+      <div class="modal-content">
+        <p>Sila isi Kod anda:</p>
+        <input id="kod-input" type="text" placeholder="e.g., 0001">
+        <button id="export-btn" onclick="submitKod('kod')">Simpan Data</button>
+        <!-- <img src="ids logo.png" class="small-image"> -->
+      </div>
+    </div>
+
     <!-- parlimen modal -->
     <div id="parlimen-options-modal" class="modal">
       <div class="modal-content">
@@ -213,6 +223,7 @@
     <div id="umur-options-modal" class="modal">
       <!-- Jantina Modal content -->
       <div class="modal-content">
+        <!-- <button onclick="backBtn()">back</button> -->
         <p>Bagaimana pula umur anda:</p>
         <div class="bubble-option" onclick="selectOption('18-25', 'umur')">18-25</div>
         <div class="bubble-option" onclick="selectOption('26-35', 'umur')">26-35</div>
@@ -226,6 +237,7 @@
 
     <div id="jantina-options-modal" class="modal">
       <!-- Jantina Modal content -->
+      <!-- <button onclick="nextBtn()">Next</button> -->
       <div class="modal-content">
         <p>Sila pilih jantina anda:</p>
         <div class="bubble-option" onclick="selectOption('Lelaki', 'jantina')">Lelaki</div>
@@ -382,7 +394,7 @@
     <!-- pengaruh berita -->
     <div id="pengaruhberita-options-modal" class="modal">
       <div class="modal-content">
-        <p>Bagaimanakah Berita Tersebut Mempengaruhi Pilihan Pengundian Anda?</p>
+        <p>Bagaimanakah berita tersebut mempengaruhi pilihan pengundian anda?</p>
         <div class="bubble-option" style="background-color: green; color: white;" onclick="selectOption('Sangat Terkesan', 'pengaruhberita')">Sangat Terkesan</div>
 		<div class="bubble-option" style="background-color: red; color: white;" onclick="selectOption('Terkesan', 'pengaruhberita')">Terkesan</div>
 		<div class="bubble-option" style="background-color: orange; color: white;" onclick="selectOption('Kurang Terkesan', 'pengaruhberita')">Kurang Terkesan</div>
@@ -459,7 +471,7 @@
      <!-- Pemimpin sabah -->
      <div id="pemimpinsabah-options-modal" class="modal">
       <div class="modal-content">
-        <p>Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin sabah?</p>
+        <p>Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah?</p>
         <div class="bubble-option" onclick="selectOption('Hajiji Noor', 'pemimpinsabah')">Hajiji Noor (GRS)</div>
         <div class="bubble-option" onclick="selectOption('Shafie Apdal', 'pemimpinsabah')">Shafie Apdal (WARISAN)</div>
 		    <div class="bubble-option" onclick="selectOption('Bung Moktar', 'pemimpinsabah')">Bung Moktar (BN)</div>

@@ -14,6 +14,7 @@ const overlay = document.querySelector('.overlay');
 //INITIALIZE VARIABLES
 let userData = {
   tarikh: '',
+  kod:'',
   dun: '',
   umur: '',
   jantina: '',
@@ -84,9 +85,134 @@ let pengesahan = {isiboranglagi: ''};
 
 // new functions
 
+var ques = 0;
+
+function nextBtn(){
+  closeModal();
+  ques = ques++
+
+  if (!userData.dun) {
+    ques++
+    console.log(ques);
+    
+    // If dun is not yet provided, ask for dun
+    displayMessage(`En. Rem: Sila pilih DUN anda`, true);
+    closeModal('dun-options-modal');
+	
+  } 
+
+  else if (ques == 1) {
+    ques++
+    console.log("Jantina:"+ ques);
+    closeModal();
+      // If gender is not yet provided, ask for gender
+      openModal('jantina-options-modal');
+    
+    } 
+  
+  else if (!userData.umur && ques == 2) {
+	closeModal();
+    // If age is not yet provided, ask for age
+	// displayMessage(`En. Rem: Saya pasti banyak tempat yang menarik di ${userData.dun}`, true);
+    // displayMessage(`En. Rem: Sila pilih umur anda`, true);
+	b = '';
+	c = '';
+	d = '';
+	g = '';
+	i = '';
+	l = 'na';
+	m = '';
+    openModal('umur-options-modal');
+	
+  } 
+}
+
+function backBtn(){
+  closeModal();
+  ques = ques-1
+  console.log(ques);
+
+  if (!userData.dun) {
+    ques++
+    console.log(ques);
+    
+    // If dun is not yet provided, ask for dun
+    displayMessage(`En. Rem: Sila pilih DUN anda`, true);
+    closeModal('dun-options-modal');
+	
+  } 
+
+  else if (ques == 1) {
+    ques++
+    console.log("Jantina:"+ ques);
+    closeModal();
+      // If gender is not yet provided, ask for gender
+      openModal('jantina-options-modal');
+    
+    } 
+  
+  else if (!userData.umur && ques == 2) {
+	closeModal();
+    // If age is not yet provided, ask for age
+	// displayMessage(`En. Rem: Saya pasti banyak tempat yang menarik di ${userData.dun}`, true);
+    // displayMessage(`En. Rem: Sila pilih umur anda`, true);
+	b = '';
+	c = '';
+	d = '';
+	g = '';
+	i = '';
+	l = 'na';
+	m = '';
+    openModal('umur-options-modal');
+	
+  } 
+  
+}
+
+function submitKod (field){
+  const kodInput = document.getElementById('kod-input').value;
+  
+  console.log("userID: " + kodInput);
+
+  // Store the value in localStorage
+  localStorage.setItem('userKod', kodInput);
+  //push to array
+  userData[field] = localStorage.getItem('userKod');
+
+  closeModal();
+  openModal('parlimen-options-modal');
+  
+}
+
 function startSurvey(){
   closeModalStart('starting-modal');
-  openModal('parlimen-options-modal');
+  // openModal('parlimen-options-modal');
+  const kod = localStorage.getItem('userKod');
+ 
+  //push to array
+  
+  if(kod == null){
+    // if kod exist
+    openModal('kod-modal');
+    ques++
+  }
+  else{
+    userData['kod'] = localStorage.getItem('userKod');
+    openModal('parlimen-options-modal');
+    ques++
+  }
+
+
+  
+
+}
+
+function closeModalStart() {
+  const modals = document.querySelectorAll('.fixed-modal');
+  modals.forEach(modal => {
+    modal.style.display = 'none';
+  });
+  overlay.style.display = 'none';
 }
 
 // new functions
@@ -161,6 +287,7 @@ function displayUserInfo(userData) {
   row.innerHTML = `
 	<td>${userData.tarikh}</td>
     <td>${userData.dun}</td>
+    <td style="display: none;" >${userData.kod}</td>
     <td>${userData.umur}</td>
     <td>${userData.jantina}</td>
     <td>${userData.bangsa}</td>
@@ -232,6 +359,8 @@ function deleteUserRow(row, userData) {
   removeFromLocalStorage(userData);
 }
 
+
+
 //SAVE USER INPUT TO LOCAL STORAGE
 function saveToLocalStorage(userData) {
   if (typeof Storage !== "undefined") {
@@ -244,6 +373,7 @@ function saveToLocalStorage(userData) {
     const index = savedUserData.findIndex(data =>
     
       data.tarikh === userData.tarikh &&
+      data.kod === userData.kod &&
       data.dun === userData.dun &&
       data.umur === userData.umur &&
       data.jantina === userData.jantina &&
@@ -301,6 +431,8 @@ function saveToLocalStorage(userData) {
     if (index === -1) {
       // If userData does not exist, push it to savedUserData
       savedUserData.push(userData);
+      // console.log(savedUserData);
+      
       localStorage.setItem("userData", JSON.stringify(savedUserData));
     }
   } else {
@@ -314,6 +446,7 @@ function removeFromLocalStorage(userData) {
     let savedUserData = JSON.parse(localStorage.getItem("userData")) || [];
     savedUserData = savedUserData.filter(data =>
 	  data.tarikh !== userData.tarikh ||
+    data.kod !== userData.kod ||
     data.dun !== userData.dun ||
     data.umur !== userData.umur ||
     data.jantina !== userData.jantina ||
@@ -855,6 +988,9 @@ function selectOption(selectedOption, field) {
  
 //-------->SECTION 1  
   if (!userData.dun) {
+    ques++
+    console.log(ques);
+    
     // If dun is not yet provided, ask for dun
     displayMessage(`En. Rem: Sila pilih DUN anda`, true);
     closeModal('dun-options-modal');
@@ -862,6 +998,8 @@ function selectOption(selectedOption, field) {
   } 
 
   else if (!userData.jantina) {
+    ques++
+    console.log("Jantina:"+ ques);
     closeModal();
       // If gender is not yet provided, ask for gender
       displayMessage(`En. Rem: Sila pilih jantina anda`, true);
@@ -869,7 +1007,7 @@ function selectOption(selectedOption, field) {
     
     } 
   
-  else if (!userData.umur) {
+  else if (!userData.umur && ques==2) {
 	closeModal();
     // If age is not yet provided, ask for age
 	// displayMessage(`En. Rem: Saya pasti banyak tempat yang menarik di ${userData.dun}`, true);
@@ -888,6 +1026,8 @@ function selectOption(selectedOption, field) {
   //-------->SECTION 2
   else if (!userData.bangsa) {
     closeModal();
+    ques++
+    console.log(ques);
     // ask for bangsa
     displayMessage(`En. Rem: Sila pilih bangsa anda`, true);
     openModal('bangsa-options-modal');
@@ -1027,13 +1167,15 @@ function selectOption(selectedOption, field) {
       console.log('Anda pilih tidak.')
       displayUserInfo(userData);
       console.log(userData);
+      // remove user kod (end user session)
+      localStorage.removeItem('userKod');
       closeModal();
       hideInput(); 
-      displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah maju jaya!`, true);
+      displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
       
     } else {
       // All information collected, finish conversation
-      displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah maju jaya!`, true);
+      displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
       displayUserInfo(userData);
       closeModal();
       initiateConversation();
@@ -1358,13 +1500,7 @@ function closeModal() {
   overlay.style.display = 'none';
 }
 
-function closeModalStart() {
-  const modals = document.querySelectorAll('.fixed-modal');
-  modals.forEach(modal => {
-    modal.style.display = 'none';
-  });
-  overlay.style.display = 'none';
-}
+
 
 //HIDE CURRENT DATA INPUT
 function hideInput() {
@@ -1383,6 +1519,7 @@ function buttonhijau(){
   alert("Demo Purposes Only")
 }
 
+//api for saving to db
 //EXPORT TO DATABASE BUTTON - USEFUL WHEN NO NETWORK. TO BE DONE MANUALLY BY USER (CLICK)
 // exportBtn.addEventListener('click', async function () {
 //   const tableRows = userTable.querySelectorAll('tr');
@@ -1472,6 +1609,7 @@ function exportToCSV() {
   // Define the headers
   const headers =
    ["tarikh" ,
+    "kod",
     "dun", 
     "umur", 
     "jantina", 
@@ -1532,6 +1670,7 @@ function pengesahanEnd() {
 function initiateConversation() {
   userData = {
     tarikh: '',
+    kod:'',
     dun: '',
     umur: '',
     jantina: '',
@@ -1561,8 +1700,7 @@ Mohon kerjasama tuan/puan untuk mengisi kaji selidik ini dengan jujur dan teliti
       // openModal('dun-options-modal'); //OPEN POP UP BOX
       // openModal('parlimen-options-modal');
       openModal('starting-modal');
-      console.log(userData);
-      
+
   }, 1000);
   hideInput();
 }
