@@ -96,7 +96,7 @@ function nextBtn(){
     console.log(ques);
     
     // If dun is not yet provided, ask for dun
-    displayMessage(`En. Rem: Sila pilih DUN anda`, true);
+    displayMessage(`Tuan Awang: Sila pilih DUN anda`, true);
     closeModal('dun-options-modal');
 	
   } 
@@ -113,8 +113,8 @@ function nextBtn(){
   else if (!userData.umur && ques == 2) {
 	closeModal();
     // If age is not yet provided, ask for age
-	// displayMessage(`En. Rem: Saya pasti banyak tempat yang menarik di ${userData.dun}`, true);
-    // displayMessage(`En. Rem: Sila pilih umur anda`, true);
+	// displayMessage(`Tuan Awang: Saya pasti banyak tempat yang menarik di ${userData.dun}`, true);
+    // displayMessage(`Tuan Awang: Sila pilih umur anda`, true);
 	b = '';
 	c = '';
 	d = '';
@@ -137,7 +137,7 @@ function backBtn(){
     console.log(ques);
     
     // If dun is not yet provided, ask for dun
-    displayMessage(`En. Rem: Sila pilih DUN anda`, true);
+    displayMessage(`Tuan Awang: Sila pilih DUN anda`, true);
     closeModal('dun-options-modal');
 	
   } 
@@ -154,8 +154,8 @@ function backBtn(){
   else if (!userData.umur && ques == 2) {
 	closeModal();
     // If age is not yet provided, ask for age
-	// displayMessage(`En. Rem: Saya pasti banyak tempat yang menarik di ${userData.dun}`, true);
-    // displayMessage(`En. Rem: Sila pilih umur anda`, true);
+	// displayMessage(`Tuan Awang: Saya pasti banyak tempat yang menarik di ${userData.dun}`, true);
+    // displayMessage(`Tuan Awang: Sila pilih umur anda`, true);
 	b = '';
 	c = '';
 	d = '';
@@ -557,7 +557,7 @@ function processInput(message) {
 	userData.dun = message;
     console.log('Dun:', userData.dun);
 	closeModal();
-    displayMessage(`En. Rem: Bagaimana pula umur anda?`, true, 500); //ASK AGE
+    displayMessage(`Tuan Awang: Bagaimana pula umur anda?`, true, 500); //ASK AGE
 
   } else if (!userData.umur) {
     userData.umur = message;
@@ -567,7 +567,7 @@ function processInput(message) {
   } else if (!userData.jantina) {
     userData.jantina = message;
     hideInput();
-	displayMessage(`En. Rem: Sila pilih agama anda`, true); //ASK RELIGION
+	displayMessage(`Tuan Awang: Sila pilih agama anda`, true); //ASK RELIGION
     setTimeout(function () {
       openModal('agama-options-modal'); //OPEN POP UP BOX
     }, 800); // Delay of 0.5 second
@@ -585,7 +585,7 @@ function processInput(message) {
   // else if (userData.agama && !userData.bangsa) {
   //   userData.agama = message;
   //   console.log('Agama (Lain-lain):', userData.agama);
-	// displayMessage(`En. Rem: Sila pilih bangsa anda`, true);
+	// displayMessage(`Tuan Awang: Sila pilih bangsa anda`, true);
   //   hideInput();
 	// setTimeout(function () {
 	//   openModal('bangsa-options-modal'); //OPEN POP UP BOX FOR NEXT QUESTION IF ANY
@@ -601,7 +601,7 @@ function processInput(message) {
   } else if (userData.bangsa && !userData.persepsi) {
     userData.bangsalain = message;
     console.log('Bangsa (Lain-lain):', userData.bangsalain);
-	displayMessage(`En. Rem: Adakah Media Semasa akan mempengaruhi pilihan pengundian anda?`, true);
+	displayMessage(`Tuan Awang: Adakah Media Semasa akan mempengaruhi pilihan pengundian anda?`, true);
     hideInput();
     setTimeout(function () {
       openModal('mediasemasa-options-modal'); //OPEN POP UP BOX
@@ -619,7 +619,7 @@ function processInput(message) {
       userData.persepsilain = message;
       console.log('Persepsi (Lain-lain):', userData.persepsilain);
       console.log(userData)
-    displayMessage(`En. Rem: Bagaimanakah berita tersebut mempengaruhi pilihan anda?`, true);
+    displayMessage(`Tuan Awang: Bagaimanakah berita tersebut mempengaruhi pilihan anda?`, true);
       hideInput();
       setTimeout(function () {
         openModal('pengaruhberita-options-modal'); //OPEN POP UP BOX
@@ -637,7 +637,7 @@ function processInput(message) {
         userData.pemimpinsabahlain = message;
         console.log('Pemimpin sabah:', userData.pemimpinsabahlain);
         console.log(userData)
-      displayMessage(`En. Rem: Adakah anda ingin mengisi borang lagi sekali?`, true);
+      displayMessage(`Tuan Awang: Adakah anda ingin mengisi borang lagi sekali?`, true);
         hideInput();
         setTimeout(function () {
           openModal('isiboranglagi-options-modal'); //OPEN POP UP BOX
@@ -651,7 +651,7 @@ function processInput(message) {
 //         userData.pilihanpemimpinsabahlain = message;
 //         console.log('Yang Layak Memimpin Sabah:', userData.pilihanpemimpinsabahlain);
 //         hideInput();
-//       //displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
+//       //displayMessage(`Tuan Awang: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
 //         //displayUserInfo(userData);
 //       openModal('isiboranglagi-options-modal');
 //       //userData.isiboranglagi = message;
@@ -750,7 +750,7 @@ function processInput(message) {
   //   userData.pilihanpemimpinsabahlain = message;
   //   console.log('Yang Layak Memimpin Sabah:', userData.pilihanpemimpinsabahlain);
   //   hideInput();
-	// //displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
+	// //displayMessage(`Tuan Awang: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
   //   //displayUserInfo(userData);
 	// openModal('isiboranglagi-options-modal');
 	// //userData.isiboranglagi = message;
@@ -992,7 +992,7 @@ function selectOption(selectedOption, field) {
     console.log(ques);
     
     // If dun is not yet provided, ask for dun
-    displayMessage(`En. Rem: Sila pilih DUN anda`, true);
+    displayMessage(`Tuan Awang: Sila pilih DUN anda`, true);
     closeModal('dun-options-modal');
 	
   } 
@@ -1002,7 +1002,7 @@ function selectOption(selectedOption, field) {
     console.log("Jantina:"+ ques);
     closeModal();
       // If gender is not yet provided, ask for gender
-      displayMessage(`En. Rem: Sila pilih jantina anda`, true);
+      displayMessage(`Tuan Awang: Sila pilih jantina anda`, true);
       openModal('jantina-options-modal');
     
     } 
@@ -1010,8 +1010,8 @@ function selectOption(selectedOption, field) {
   else if (!userData.umur && ques==2) {
 	closeModal();
     // If age is not yet provided, ask for age
-	// displayMessage(`En. Rem: Saya pasti banyak tempat yang menarik di ${userData.dun}`, true);
-    displayMessage(`En. Rem: Sila pilih umur anda`, true);
+	// displayMessage(`Tuan Awang: Saya pasti banyak tempat yang menarik di ${userData.dun}`, true);
+    displayMessage(`Tuan Awang: Sila pilih umur anda`, true);
 	b = '';
 	c = '';
 	d = '';
@@ -1029,14 +1029,14 @@ function selectOption(selectedOption, field) {
     ques++
     console.log(ques);
     // ask for bangsa
-    displayMessage(`En. Rem: Sila pilih bangsa anda`, true);
+    displayMessage(`Tuan Awang: Sila pilih bangsa anda`, true);
     openModal('bangsa-options-modal');
 
   } else if (userData.bangsa.trim() === 'Lain-lain'  && !userData.pengaruhmediasemasa) {
     // If user choose lain-lain under bangsa
     console.log(userData);
     
-    displayMessage(`En. Rem: Sila nyatakan bangsa anda`, true);
+    displayMessage(`Tuan Awang: Sila nyatakan bangsa anda`, true);
 	closeModal();
 	showInput();
   } 
@@ -1044,14 +1044,14 @@ function selectOption(selectedOption, field) {
   else if (!userData.pengaruhmediasemasa) {
     // ask for puasdgnpembangunansemasa
 	closeModal();
-    displayMessage(`En. Rem: Adakah Media Semasa akan mempengaruhi pilihan pengundian anda?`, true);
+    displayMessage(`Tuan Awang: Adakah Media Semasa akan mempengaruhi pilihan pengundian anda?`, true);
     openModal('mediasemasa-options-modal');
 
   } 
 
   else if (!userData.persepsi){
     closeModal();
-    displayMessage(`En. Rem: Adakah perkara-perkara berikut mempengaruhi persepsi anda?`, true);
+    displayMessage(`Tuan Awang: Adakah perkara-perkara berikut mempengaruhi persepsi anda?`, true);
     displayMessage("Integriti, Isu-isu moral, Kepimpinan", true);
 
     openModal('persepsi-options-modal');
@@ -1062,43 +1062,43 @@ function selectOption(selectedOption, field) {
     // If user choose lain-lain under bangsa
     // console.log("here ni");
     
-    displayMessage(`En. Rem: Sila nyatakan apa yang mempengaruhi persepsi anda:`, true);
+    displayMessage(`Tuan Awang: Sila nyatakan apa yang mempengaruhi persepsi anda:`, true);
 	closeModal();
 	showInput();
   } 
 
   else if (!userData.pengaruhberita){
     closeModal();
-    displayMessage(`En. Rem: Bagaimanakah berita tersebut mempengaruhi pilihan anda?`, true);
+    displayMessage(`Tuan Awang: Bagaimanakah berita tersebut mempengaruhi pilihan anda?`, true);
     openModal('pengaruhberita-options-modal');
 
   } 
 
   else if (!userData.faktorlain){
     closeModal();
-    displayMessage(`En. Rem: Selain daripada Media Semasa, apakah faktor lain yang mempengaruhi anda untuk mengundi?`, true);
+    displayMessage(`Tuan Awang: Selain daripada Media Semasa, apakah faktor lain yang mempengaruhi anda untuk mengundi?`, true);
     openModal('faktorlain-options-modal');
 
   } 
 
   else if (userData.faktorlain == 'Pendapat Peribadi' && !userData.pendapatperibadi){
     closeModal();
-    displayMessage(`En. Rem: Selain daripada Media Semasa, apakah faktor lain yang mempengaruhi anda untuk mengundi?`, true);
+    displayMessage(`Tuan Awang: Selain daripada Media Semasa, apakah faktor lain yang mempengaruhi anda untuk mengundi?`, true);
     openModal('pendapatperibadi-options-modal');
 
   } 
 
   else if (!userData.partiataucalon){
     closeModal();
-    displayMessage(`En. Rem: Adakah anda mengundi bedasarkan Parti atau Calon?`, true);
+    displayMessage(`Tuan Awang: Adakah anda mengundi bedasarkan Parti atau Calon?`, true);
     openModal('partiataucalon-options-modal');
 
   } 
 
   else if (!userData.cenderunguntukundi){
     closeModal();
-    displayMessage(`En. Rem: Merujuk kepada pilihan dinyatakan di bawah, yang manakah lebih cenderung untuk anda undi?`, true);
-    displayMessage(`En. Rem: 1) Parti Nasional 2) Parti Tempatan 3) Tiada Kecenderungan`, true);
+    displayMessage(`Tuan Awang: Merujuk kepada pilihan dinyatakan di bawah, yang manakah lebih cenderung untuk anda undi?`, true);
+    displayMessage(`Tuan Awang: 1) Parti Nasional 2) Parti Tempatan 3) Tiada Kecenderungan`, true);
     openModal('cenderunguntukundi-options-modal');
 
   } 
@@ -1107,7 +1107,7 @@ function selectOption(selectedOption, field) {
 
   else if (!userData.pilihanpartinasional && userData.cenderunguntukundi == 'Parti Nasional'){
     closeModal();
-    displayMessage(`En. Rem: Parti Nasional pilihan anda?`, true);
+    displayMessage(`Tuan Awang: Parti Nasional pilihan anda?`, true);
     openModal('partinasional-options-modal');
     // console.log("siniii");
     
@@ -1115,7 +1115,7 @@ function selectOption(selectedOption, field) {
 
   else if (userData.pilihanpartinasional && userData.cenderunguntukundi == 'Parti Nasional' && !userData.pilihanpartitempatan){
     closeModal();
-    displayMessage(`En. Rem: Parti tempatan pilihan anda?`, true);
+    displayMessage(`Tuan Awang: Parti tempatan pilihan anda?`, true);
     openModal('partitempatan-options-modal');
     // console.log("ani tang baru");
     
@@ -1123,7 +1123,7 @@ function selectOption(selectedOption, field) {
 
   else if (!userData.pilihanpartitempatan && userData.cenderunguntukundi == 'Parti Tempatan'){
     closeModal();
-    displayMessage(`En. Rem: Parti tempatan pilihan anda?`, true);
+    displayMessage(`Tuan Awang: Parti tempatan pilihan anda?`, true);
     openModal('partitempatan-options-modal');
     console.log("Tempatan");
     
@@ -1131,7 +1131,7 @@ function selectOption(selectedOption, field) {
 
   else if (!userData.pemimpinsabah ){
     closeModal();
-    displayMessage(`En. Rem: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin sabah?`, true);
+    displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin sabah?`, true);
     openModal('pemimpinsabah-options-modal');
     console.log('hereeee');
     
@@ -1141,14 +1141,14 @@ function selectOption(selectedOption, field) {
     // If user choose lain-lain under bangsa
     // console.log("here ni");
     
-    displayMessage(`En. Rem: Sila nyatakan pilihan pemimpin sabah anda:`, true);
+    displayMessage(`Tuan Awang: Sila nyatakan pilihan pemimpin sabah anda:`, true);
 	closeModal();
 	showInput();
   } 
 
   else if (!userData.isiboranglagi){
     closeModal();
-      displayMessage(`En. Rem: Adakah anda ingin mengisi borang lagi sekali?`, true);
+      displayMessage(`Tuan Awang: Adakah anda ingin mengisi borang lagi sekali?`, true);
       openModal('isiboranglagi-options-modal');
     
     
@@ -1171,11 +1171,11 @@ function selectOption(selectedOption, field) {
       localStorage.removeItem('userKod');
       closeModal();
       hideInput(); 
-      displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
+      displayMessage(`Tuan Awang: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
       
     } else {
       // All information collected, finish conversation
-      displayMessage(`En. Rem: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
+      displayMessage(`Tuan Awang: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
       displayUserInfo(userData);
       closeModal();
       initiateConversation();
@@ -1184,14 +1184,14 @@ function selectOption(selectedOption, field) {
 
    // else if (!userData.agama) {
   //   // If religion is not yet provided, ask for religion
-  //   displayMessage(`En. Rem: Sila pilih agama anda`, true);
+  //   displayMessage(`Tuan Awang: Sila pilih agama anda`, true);
 	// openModal('agama-options-modal');
 
   // } 
   
   // else if (!userData.bangsa && userData.agama.trim() === 'Lain-lain') {
   //   // If user choose lain-lain under agama
-  //   displayMessage(`En. Rem: Sila nyatakan agama anda`, true);
+  //   displayMessage(`Tuan Awang: Sila nyatakan agama anda`, true);
 	// closeModal();
 	// showInput();
 	
@@ -1199,20 +1199,20 @@ function selectOption(selectedOption, field) {
   
   // else if (!userData.tahappendidikan) {
   //   // ask for tahap pendidikan
-  //   displayMessage(`En. Rem: Sila pilih tahap pendidikan anda`, true);
+  //   displayMessage(`Tuan Awang: Sila pilih tahap pendidikan anda`, true);
   //   openModal('tahappendidikan-options-modal');
 
   // } else if (!userData.pekerjaan) {
   //   // ask for jenis pekerjaan
 	// closeModal();
-  //   displayMessage(`En. Rem: Apakah status pekerjaan anda?`, true);
+  //   displayMessage(`Tuan Awang: Apakah status pekerjaan anda?`, true);
   //   openModal('pekerjaan-options-modal');
 	
   // } else if (!userData.pendapatanbulanan && userData.pekerjaan.trim() === 'Bekerja') {
   //   // If user choose Bekerja under pekerjaan
 	// b = 'true';
 	// closeModal();
-  //   displayMessage(`En. Rem: Sila pilih jumlah pendapatan bulanan anda`, true);
+  //   displayMessage(`Tuan Awang: Sila pilih jumlah pendapatan bulanan anda`, true);
 	// openModal('pendapatanbulanan-options-modal');
 	
 
@@ -1252,14 +1252,14 @@ function selectOption(selectedOption, field) {
   //   // ask for yapuasdgnpembangunansemasa
 	// d = 'true';
 	// closeModal();
-  //   displayMessage(`En. Rem: Apakah yang membuatkan anda berpuas hati?`, true);
+  //   displayMessage(`Tuan Awang: Apakah yang membuatkan anda berpuas hati?`, true);
   //   openModal('yapuasdgnpembangunansemasa-options-modal');
 	
   // } else if (!userData.tidakpuasdgnpembangunansemasa && userData.pengaruhmediasemasa.trim() === 'Tidak'){
   //   // ask for tidakpuasdgnpembangunansemasa
 	// c = 'true';
 	// closeModal();
-  //   displayMessage(`En. Rem: Apakah yang membuatkan anda tidak berpuas hati?`, true);
+  //   displayMessage(`Tuan Awang: Apakah yang membuatkan anda tidak berpuas hati?`, true);
   //   openModal('tidakpuasdgnpembangunansemasa-options-modal');
   // } 
 //jika puas hati; keperluan asas
@@ -1267,19 +1267,19 @@ function selectOption(selectedOption, field) {
   
 //   else if (!userData.keperluanasaspuashati && userData.yapuasdgnpembangunansemasa.trim() === 'Air/Letrik/Internet'){
 // 	closeModal();
-//     displayMessage(`En. Rem: Bolehkah kami tahu bahagian mana yang anda berpuas hati?`, true);
+//     displayMessage(`Tuan Awang: Bolehkah kami tahu bahagian mana yang anda berpuas hati?`, true);
 //     openModal('keperluanasaspuashati-options-modal');
 	
 // //jika puas hati; infrastruktur
 //   } else if (!userData.infrastrukturpuashati && userData.yapuasdgnpembangunansemasa.trim() === 'Jalan/Parit/Pengangkutan'){
 // 	closeModal();
-//     displayMessage(`En. Rem: Bolehkah kami tahu bahagian mana yang anda berpuas hati?`, true);
+//     displayMessage(`Tuan Awang: Bolehkah kami tahu bahagian mana yang anda berpuas hati?`, true);
 //     openModal('infrastrukturpuashati-options-modal');
 	
 // //jika puas hati; kebajikan
 //   } else if (!userData.kebajikanpuashati && userData.yapuasdgnpembangunansemasa.trim() === 'Kebajikan'){
 // 	closeModal();
-//     displayMessage(`En. Rem: Bolehkah kami tahu bahagian mana yang anda berpuas hati?`, true);
+//     displayMessage(`Tuan Awang: Bolehkah kami tahu bahagian mana yang anda berpuas hati?`, true);
 //     openModal('kebajikanpuashati-options-modal');
 
 // //jika puas hati; lain-lain
@@ -1289,7 +1289,7 @@ function selectOption(selectedOption, field) {
 // 	c = 'false';
 // 	d = 'false';
 // 	g = 'true'; //
-//     displayMessage(`En. Rem: Anda pilih lain-lain, sila nyatakan apakah yang membuatkan anda berpuas hati?`, true);
+//     displayMessage(`Tuan Awang: Anda pilih lain-lain, sila nyatakan apakah yang membuatkan anda berpuas hati?`, true);
 // 	closeModal();
 // 	showInput();
 //   } 
@@ -1299,26 +1299,26 @@ function selectOption(selectedOption, field) {
   
 //   else if (!userData.dunjalanidgnbaik && userData.pengaruhmediasemasa === 'Ya'){
 // 	closeModal();
-//     displayMessage(`En. Rem: Adakah YB ADUN anda menjalankan tanggungjawab dengan baik?`, true);
+//     displayMessage(`Tuan Awang: Adakah YB ADUN anda menjalankan tanggungjawab dengan baik?`, true);
 //     openModal('dunjalanidgnbaik-options-modal');
   
   
 // //jika tidak puas hati; keperluan asas
 //   } else if (!userData.keperluanasastidakpuashati && userData.tidakpuasdgnpembangunansemasa.trim() === 'Air/Letrik/Internet'){
 // 	closeModal();
-//     displayMessage(`En. Rem: Bolehkah kami tahu bahagian mana yang anda tidak berpuas hati?`, true);
+//     displayMessage(`Tuan Awang: Bolehkah kami tahu bahagian mana yang anda tidak berpuas hati?`, true);
 //     openModal('keperluanasastidakpuashati-options-modal');
 	
 // //jika tidak puas hati; infrastruktur
 //   } else if (!userData.infrastrukturtidakpuashati && userData.tidakpuasdgnpembangunansemasa.trim() === 'Jalan/Parit/Pengangkutan'){
 // 	closeModal();
-//     displayMessage(`En. Rem: Bolehkah kami tahu bahagian mana yang anda tidak berpuas hati?`, true);
+//     displayMessage(`Tuan Awang: Bolehkah kami tahu bahagian mana yang anda tidak berpuas hati?`, true);
 //     openModal('infrastrukturtidakpuashati-options-modal');
 	
 // //jika tidak puas hati; kebajikan
 //   } else if (!userData.kebajikantidakpuashati && userData.tidakpuasdgnpembangunansemasa.trim() === 'Kebajikan'){
 // 	closeModal();
-//     displayMessage(`En. Rem: Bolehkah kami tahu bahagian mana yang anda tidak berpuas hati?`, true);
+//     displayMessage(`Tuan Awang: Bolehkah kami tahu bahagian mana yang anda tidak berpuas hati?`, true);
 //     openModal('kebajikantidakpuashati-options-modal');
 
 // //jika tidak puas hati; lain-lain
@@ -1328,27 +1328,27 @@ function selectOption(selectedOption, field) {
 // 	c = 'false';
 // 	d = 'false';
 //     g = 'true'; 
-//     displayMessage(`En. Rem: Anda pilih lain-lain, sila nyatakan apakah yang membuatkan anda tidak berpuas hati?`, true);
+//     displayMessage(`Tuan Awang: Anda pilih lain-lain, sila nyatakan apakah yang membuatkan anda tidak berpuas hati?`, true);
 // 	closeModal();
 // 	showInput();
  
 // //jika tidak puas hati; dunmenyelesaikanmasalah 
 //   } else if (!userData.dunmenyelesaikanmasalah && userData.pengaruhmediasemasa === 'Tidak'){
 // 	closeModal();
-//     displayMessage(`En. Rem: Adakah YB ADUN anda berusaha untuk menyelesaikan masalah yang dihadapi?`, true);
+//     displayMessage(`Tuan Awang: Adakah YB ADUN anda berusaha untuk menyelesaikan masalah yang dihadapi?`, true);
 //     openModal('dunmenyelesaikanmasalah-options-modal'); 
   
 //  //mengundi yb dun anda lagi
 //   } else if (!userData.undidun){
 // 	closeModal();
-//     displayMessage(`En. Rem: Adakah anda akan mengundi YB ADUN anda untuk pilihan raya negeri yang akan datang?`, true);
+//     displayMessage(`Tuan Awang: Adakah anda akan mengundi YB ADUN anda untuk pilihan raya negeri yang akan datang?`, true);
 //     openModal('undidun-options-modal');  
  
 //  //mengundi yb dun anda lagi - tidak
 //   } else if (!userData.cadangancalonyb && userData.undidun === 'Tidak'){
 // 	m = 'false';
 // 	closeModal();
-//     displayMessage(`En. Rem: Siapakah cadangan calon YB yang boleh mewakili kawasan anda pada PRU akan datang?`, true);
+//     displayMessage(`Tuan Awang: Siapakah cadangan calon YB yang boleh mewakili kawasan anda pada PRU akan datang?`, true);
 // 	closeModal();
 // 	showInput();
   
@@ -1358,49 +1358,49 @@ function selectOption(selectedOption, field) {
   // } else if (!userData.kmperubahanpositif){
   //   m = 'true';
 	// closeModal();
-  //   displayMessage(`En. Rem: Adakah anda berpuas hati dengan kepimpinan Ketua Menteri Sabah sekarang?`, true);
+  //   displayMessage(`Tuan Awang: Adakah anda berpuas hati dengan kepimpinan Ketua Menteri Sabah sekarang?`, true);
   //   openModal('kmperubahanpositif-options-modal');   
   
   // //ya membawa positif - penambaikan
   // } else if (!userData.penambahbaikanmasadepan && userData.kmperubahanpositif.trim() === 'Ya'){ 
 	// closeModal();
-  //   displayMessage(`En. Rem: Apakah perkara utama yang anda harapkan dapat diperbaiki di masa yang akan datang?`, true);
+  //   displayMessage(`Tuan Awang: Apakah perkara utama yang anda harapkan dapat diperbaiki di masa yang akan datang?`, true);
   //   openModal('penambahbaikanmasadepan-options-modal'); 
  
   // //tidak pasti membawa positif - penambaikan
   // } else if (!userData.penambahbaikanmasadepan && userData.kmperubahanpositif.trim() === 'Tidak Pasti'){ 
 	// closeModal();
-  //   displayMessage(`En. Rem: Apakah perkara utama yang anda harapkan dapat diperbaiki di masa yang akan datang?`, true);
+  //   displayMessage(`Tuan Awang: Apakah perkara utama yang anda harapkan dapat diperbaiki di masa yang akan datang?`, true);
   //   openModal('penambahbaikanmasadepan-options-modal'); 
 	
   // //tidak membawa positif - tiada kesan positif
   // } else if (!userData.tiadakesanpositif && userData.kmperubahanpositif.trim() === 'Tidak'){ 
 	// closeModal();
-  //   displayMessage(`En. Rem: Dari sudut manakah yang tidak memberi sebarang kesan yang positif?`, true);
+  //   displayMessage(`Tuan Awang: Dari sudut manakah yang tidak memberi sebarang kesan yang positif?`, true);
   //   openModal('tiadakesanpositif-options-modal'); 
   
   //  //ya membawa positif - penambaikan keperluan asas
   // } else if (!userData.perbaikikeperluanasas && userData.penambahbaikanmasadepan.trim() === 'Air/Letrik/Internet'){
 	// closeModal();
-  //   displayMessage(`En. Rem: Bahagian manakah yang perlu ditambahbaik, mengikut pilihan anda di masa akan datang?`, true);
+  //   displayMessage(`Tuan Awang: Bahagian manakah yang perlu ditambahbaik, mengikut pilihan anda di masa akan datang?`, true);
   //   openModal('perbaikikeperluanasas-options-modal');
 	
   //  //ya membawa positif - penambaikan infrastruktur
   // } else if (!userData.perbaikiinfrastruktur && userData.penambahbaikanmasadepan.trim() === 'Jalan/Parit/Pengangkutan'){
 	// closeModal();
-  //   displayMessage(`En. Rem: Bahagian manakah yang perlu ditambahbaik, mengikut pilihan anda di masa akan datang?`, true);
+  //   displayMessage(`Tuan Awang: Bahagian manakah yang perlu ditambahbaik, mengikut pilihan anda di masa akan datang?`, true);
   //   openModal('perbaikiinfrastruktur-options-modal');
 	
   //  //ya membawa positif - penambaikan ekonomi
   // } else if (!userData.perbaikiekonomi && userData.penambahbaikanmasadepan.trim() === 'Ekonomi'){
 	// closeModal();
-  //   displayMessage(`En. Rem: Bahagian manakah yang perlu ditambahbaik, mengikut pilihan anda di masa akan datang?`, true);
+  //   displayMessage(`Tuan Awang: Bahagian manakah yang perlu ditambahbaik, mengikut pilihan anda di masa akan datang?`, true);
   //   openModal('perbaikiekonomi-options-modal');
 	
   //  //ya membawa positif - penambaikan perkhidmatan awam
   // } else if (!userData.perbaikiperkhidmatanawam && userData.penambahbaikanmasadepan.trim() === 'Perkhidmatan Awam'){
 	// closeModal();
-  //   displayMessage(`En. Rem: Bahagian manakah yang perlu ditambahbaik, mengikut pilihan anda di masa akan datang?`, true);
+  //   displayMessage(`Tuan Awang: Bahagian manakah yang perlu ditambahbaik, mengikut pilihan anda di masa akan datang?`, true);
   //   openModal('perbaikiperkhidmatanawam-options-modal');
 	
   //  //ya membawa positif - penambaikan lain-lain
@@ -1411,32 +1411,32 @@ function selectOption(selectedOption, field) {
 	// d = 'false';
 	// i = 'true';
 	// closeModal();
-  //   displayMessage(`En. Rem: Sila nyatakan apakah yang dapat diperbaiki di masa akan datang?`, true);
+  //   displayMessage(`Tuan Awang: Sila nyatakan apakah yang dapat diperbaiki di masa akan datang?`, true);
 	// closeModal();
 	// showInput();
 
   //  //tiada kesan positif - keperluan asas
   // } else if (!userData.tiadapositifkeperluanasas && userData.tiadakesanpositif.trim() === 'Air/Letrik/Internet'){
 	// closeModal();
-  //   displayMessage(`En. Rem: Sila pilih yang mana tidak memberi sebarang kesan yang positif?`, true);
+  //   displayMessage(`Tuan Awang: Sila pilih yang mana tidak memberi sebarang kesan yang positif?`, true);
   //   openModal('tiadapositifkeperluanasas-options-modal');
 	
   //  //tiada kesan positif - infrastruktur
   // } else if (!userData.tiadapositifinfrastruktur && userData.tiadakesanpositif.trim() === 'Jalan/Parit/Pengangkutan'){
 	// closeModal();
-  //   displayMessage(`En. Rem: Sila pilih yang mana tidak memberi sebarang kesan yang positif?`, true);
+  //   displayMessage(`Tuan Awang: Sila pilih yang mana tidak memberi sebarang kesan yang positif?`, true);
   //   openModal('tiadapositifinfrastruktur-options-modal');
 	
   //  //tiada kesan positif - ekonomi
   // } else if (!userData.tiadapositifekonomi && userData.tiadakesanpositif.trim() === 'Ekonomi'){
 	// closeModal();
-  //   displayMessage(`En. Rem: Sila pilih yang mana tidak memberi sebarang kesan yang positif?`, true);
+  //   displayMessage(`Tuan Awang: Sila pilih yang mana tidak memberi sebarang kesan yang positif?`, true);
   //   openModal('tiadapositifekonomi-options-modal');
 	
   //  //tiada kesan positif positif - perkhidmatan awam
   // } else if (!userData.tiadapositifperkhidmatanawam && userData.tiadakesanpositif.trim() === 'Perkhidmatan Awam'){
 	// closeModal();
-  //   displayMessage(`En. Rem: Sila pilih yang mana tidak memberi sebarang kesan yang positif?`, true);
+  //   displayMessage(`Tuan Awang: Sila pilih yang mana tidak memberi sebarang kesan yang positif?`, true);
   //   openModal('tiadapositifperkhidmatanawam-options-modal');
    
   //  //tiada kesan positif positif - lain-lain
@@ -1447,21 +1447,21 @@ function selectOption(selectedOption, field) {
 	// d = 'false';
   //   i = 'true';
 	// closeModal();
-  //   displayMessage(`En. Rem: Sila nyatakan apakah yang tidak memberikan sebarang kesan yang positif?`, true);
+  //   displayMessage(`Tuan Awang: Sila nyatakan apakah yang tidak memberikan sebarang kesan yang positif?`, true);
 	// closeModal();
 	// showInput();
 
   // //kriteria KM yang baik
   // } else if (!userData.kriteriapemimpinbaik){
 	// closeModal();
-  //   displayMessage(`En. Rem: Apakah ciri-ciri ketua menteri yang baik mengikut pendapat anda?`, true);
+  //   displayMessage(`Tuan Awang: Apakah ciri-ciri ketua menteri yang baik mengikut pendapat anda?`, true);
   //   openModal('kriteriapemimpinbaik-options-modal');
 
   // //siapa layak memimpin sabah
   // } else if (!userData.pilihanpemimpinsabah){
 	// l = 'true';
 	// closeModal();
-  //   displayMessage(`En. Rem: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah? 🤔`, true);
+  //   displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah? 🤔`, true);
   //   openModal('pilihanpemimpinsabah-options-modal');
 
   //  //siapa layak mempimpin sabah - lain-lain
@@ -1473,7 +1473,7 @@ function selectOption(selectedOption, field) {
 	// i = 'false';
 	// l = 'false';
 	// closeModal();
-  //   displayMessage(`En. Rem: Sila nyatakan siapakah yang layak untuk memimpin Sabah?`, true);
+  //   displayMessage(`Tuan Awang: Sila nyatakan siapakah yang layak untuk memimpin Sabah?`, true);
 	// //closeModal();
 	// showInput(); 
 	
@@ -1659,7 +1659,7 @@ const exportCSVBtn = document.getElementById('export-csv-btn');
 exportCSVBtn.addEventListener('click', exportToCSV);
 
 function pengesahanEnd() {
-  displayMessage(`En. Rem: Adakah anda ingin mengisi borang lagi sekali?`, true, 300);
+  displayMessage(`Tuan Awang: Adakah anda ingin mengisi borang lagi sekali?`, true, 300);
   setTimeout(function () {
       openModal('isiboranglagi-options-modal'); //OPEN POP UP BOX
   }, 1000);
@@ -1692,10 +1692,10 @@ function initiateConversation() {
   };
   messagesDiv.innerHTML = '';
   getCurrentDate();
-  displayMessage(`En. Rem: Selamat datang ke kaji selidik bagi Pemantauan Dinamika Pembangunan Kerajaan Fasa 2 2024. Pandangan anda amat penting untuk membantu dan memahami sentimen isu-isu kepimpinan dan pembangunan negeri Sabah.
+  displayMessage(`Tuan Awang: Selamat datang ke kaji selidik bagi Pemantauan Dinamika Pembangunan Kerajaan Fasa 2 2024. Pandangan anda amat penting untuk membantu dan memahami sentimen isu-isu kepimpinan dan pembangunan negeri Sabah.
 Mohon kerjasama tuan/puan untuk mengisi kaji selidik ini dengan jujur dan teliti.
 `, true);
-  displayMessage(`En. Rem: Hi! Memperkenalkan saya En. Rem, mari kita mula kan kaji selidik ini 😃 Sila pilih DUN anda:`, true, 300);
+  displayMessage(`Tuan Awang: Hi! Memperkenalkan saya Tuan Awang, mari kita mula kan kaji selidik ini 😃 Sila pilih DUN anda:`, true, 300);
   setTimeout(function () {
       // openModal('dun-options-modal'); //OPEN POP UP BOX
       // openModal('parlimen-options-modal');
