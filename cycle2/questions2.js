@@ -2568,35 +2568,57 @@ function buttonhijau() {
 
 //api for saving to db
 async function sendDataToBackend(data) {
-  try {
-      //change endpoint to .env to be safe
-      // change this to https
-      const response = await fetch('https://atiqahst-github-io.onrender.com/exportResponse', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data), // Send one object at a time
-      });
+  // try {
+  //     //change endpoint to .env to be safe
+  //     // change this to https
+  //     const response = await fetch('https://atiqahst-github-io.onrender.com/exportResponse', {
+  //         method: 'POST',
+  //         headers: {
+  //             'Content-Type': 'application/json',
+  //         },
+  //         body: JSON.stringify(data), // Send one object at a time
+  //     });
 
-      // Check if the response status is OK
-      if (!response.ok) {
-          // alert("error")
-          throw new Error('Failed to send data');
-      }
+  //     // Check if the response status is OK
+  //     if (!response.ok) {
+  //         // alert("error")
+  //         throw new Error('Failed to send data');
+  //     }
 
-      const responseData = await response.json();
-      // alert("success!")
-      // localStorage.removeItem("userData");
-      // console.log("item removed");
+  //     const responseData = await response.json();
+  //     // alert("success!")
+  //     // localStorage.removeItem("userData");
+  //     // console.log("item removed");
       
-      console.log('Data successfully sent:', responseData);
-      return responseData; 
+  //     console.log('Data successfully sent:', responseData);
+  //     return responseData; 
 
+  // } catch (error) {
+  //     // alert("error bawah")
+  //     console.error('Error sending data:', error);
+  //     throw error; 
+  // }
+
+  try {
+    // Assuming this is the correct endpoint
+    const response = await fetch('https://atiqahst-github-io.onrender.com/exportResponse', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data), // Send the entire array of objects
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to send data');
+    }
+
+    const responseData = await response.json();
+    console.log('Data successfully sent:', responseData);
+    return responseData;
   } catch (error) {
-      // alert("error bawah")
-      console.error('Error sending data:', error);
-      throw error; 
+    console.error('Error sending data:', error);
+    throw error;
   }
 }
 

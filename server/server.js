@@ -175,10 +175,13 @@ app.post('/exportResponse', async (req, res) => {
 
     // Execute the query
     await pool.query(queryText, values);
-    res.status(200).send('Data saved successfully');
+
+
+   // Send a JSON response
+    res.status(200).json({ message: 'Data saved successfully' });
   } catch (error) {
     console.error('Error saving data', error);
-    res.status(500).send('Error saving data');
+    res.status(500).json({ message: 'Error saving data', error: error.message });
   }
 });
 
