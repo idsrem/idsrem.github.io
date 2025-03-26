@@ -2513,19 +2513,18 @@ function showInput() {
 
 
 function buttonhijau() {
+
   const data = JSON.parse(localStorage.getItem('userData'));
 
-  // Make sure there's data in localStorage
+  // Make sure there's data in localStorage and it's an array
   if (data && Array.isArray(data) && data.length > 0) {
-    // Use Promise.all to wait for all POST requests to finish
-    const promises = data.map(dataItem => sendDataToBackend(dataItem));
+    // Send the entire data array to the backend in one request
+    sendDataToBackend(data)  // Pass the whole array (not individual items) to the backend
 
-    // Once all promises are resolved, handle success or failure
-    Promise.all(promises)
       .then(() => {
         alert("Success! All data has been saved.");
         localStorage.removeItem("userData"); // Clear userData after successful upload
-        userTable.innerHTML = '';
+        userTable.innerHTML = ''; // Assuming you have a userTable to clear
         console.log("item removed");
       })
       .catch(() => {
@@ -2535,6 +2534,32 @@ function buttonhijau() {
   } else {
     alert("No valid data found in localStorage");
   }
+
+   // this function disects the array and send the object one by one
+  // const data = JSON.parse(localStorage.getItem('userData'));
+  // // Make sure there's data in localStorage
+  // if (data && Array.isArray(data) && data.length > 0) {
+  //   // Use Promise.all to wait for all POST requests to finish
+  //   const promises = data.map(dataItem => sendDataToBackend(dataItem));
+
+  //   // Once all promises are resolved, handle success or failure
+  //   Promise.all(promises)
+  //     .then(() => {
+  //       alert("Success! All data has been saved.");
+  //       localStorage.removeItem("userData"); // Clear userData after successful upload
+  //       userTable.innerHTML = '';
+  //       console.log("item removed");
+  //     })
+  //     .catch(() => {
+  //       alert("Error! Some data failed to save.");
+  //       console.error('Error sending data to one or more items');
+  //     });
+  // } else {
+  //   alert("No valid data found in localStorage");
+  // }
+
+
+  
 }
 
 //api for saving to db
