@@ -520,8 +520,8 @@ function displayUserInfo(userData) {
   const row = document.createElement('tr');
   row.innerHTML = `
 	<td>${userData.tarikh}</td>
+  <td style="display: none;" >${userData.kod}</td>
     <td>${userData.dun}</td>
-    <td style="display: none;" >${userData.kod}</td>
     <td>${userData.umur}</td>
     <td>${userData.jantina}</td>
     <td>${userData.bangsa}</td>
@@ -2542,7 +2542,7 @@ async function sendDataToBackend(data) {
   try {
       //change endpoint to .env to be safe
       // change this to https
-      const response = await fetch('http://46.202.163.155:3003/responses', {
+      const response = await fetch('https://atiqahst-github-io.onrender.com/exportResponse', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',

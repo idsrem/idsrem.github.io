@@ -65,7 +65,7 @@ app.post('/export', async (req, res) => {
 
 
 //work in progress for cycle 2
-// app.post('/exportNewTable', async (req, res) => {
+// app.post('/exportResponse', async (req, res) => {
 //   const newDataArray = req.body; // The new data array
 
 //   try {
@@ -103,6 +103,41 @@ app.post('/export', async (req, res) => {
 //     res.status(500).send('Error saving data to new table');
 //   }
 // });
+
+// new post 
+app.post('/exportResponse', async (req, res) => {
+  const userDataArray = req.body;  // The array of user data
+
+  try {
+    // Construct the placeholders for the values
+    const placeholders = userDataArray.map((_, index) => `($${index * 26 + 1}, $${index * 26 + 2}, $${index * 26 + 3}, $${index * 26 + 4}, $${index * 26 + 5}, $${index * 26 + 6}, 
+      $${index * 26 + 7}, $${index * 26 + 8}, $${index * 26 + 9}, $${index * 26 + 10}, $${index * 26 + 11}, $${index * 26 + 12}, $${index * 26 + 13}, $${index * 26 + 14}, 
+      $${index * 26 + 15}, $${index * 26 + 16}, $${index * 26 + 17}, $${index * 26 + 18}, $${index * 26 + 19}, $${index * 26 + 20}, $${index * 26 + 21}, $${index * 26 + 22}, 
+      $${index * 26 + 23}, $${index * 26 + 24}, $${index * 26 + 25}, $${index * 26 + 26})`).join(',');
+
+    // Flatten the userDataArray into a single array of values
+    const values = userDataArray.reduce((acc, { 
+      tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain, pendapatperibadi, partiataucalon,
+      mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi 
+    }) => {
+      acc.push(tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain, pendapatperibadi, partiataucalon,
+        mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi || '');
+      return acc;
+    }, []);
+
+    // Construct the SQL query dynamically | table name + column name
+    const queryText = `INSERT INTO new_table (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain,
+      pendapatperibadi, partiataucalon, mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi) 
+      VALUES ${placeholders}`;
+
+    // Execute the query
+    await pool.query(queryText, values);
+    res.status(200).send('Data saved successfully');
+  } catch (error) {
+    console.error('Error saving data', error);
+    res.status(500).send('Error saving data');
+  }
+});
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
