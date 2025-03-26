@@ -105,28 +105,69 @@ app.post('/export', async (req, res) => {
 // });
 
 // new post 
+// app.post('/exportResponse', async (req, res) => {
+//   const userDataArray = req.body;  // The array of user data
+
+//   console.log("Hi Habri")
+//   try {
+//     // Construct the placeholders for the values
+//     const placeholders = userDataArray.map((_, index) => `($${index * 26 + 1}, $${index * 26 + 2}, $${index * 26 + 3}, $${index * 26 + 4}, $${index * 26 + 5}, $${index * 26 + 6}, 
+//       $${index * 26 + 7}, $${index * 26 + 8}, $${index * 26 + 9}, $${index * 26 + 10}, $${index * 26 + 11}, $${index * 26 + 12}, $${index * 26 + 13}, $${index * 26 + 14}, 
+//       $${index * 26 + 15}, $${index * 26 + 16}, $${index * 26 + 17}, $${index * 26 + 18}, $${index * 26 + 19}, $${index * 26 + 20}, $${index * 26 + 21}, $${index * 26 + 22}, 
+//       $${index * 26 + 23}, $${index * 26 + 24}, $${index * 26 + 25}, $${index * 26 + 26})`).join(',');
+
+//     // Flatten the userDataArray into a single array of values
+//     const values = userDataArray.reduce((acc, { 
+//       tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain, pendapatperibadi, partiataucalon,
+//       mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi 
+//     }) => {
+//       acc.push(tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain, pendapatperibadi, partiataucalon,
+//         mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi || '');
+//       return acc;
+//     }, []);
+
+//     // here
+//     // Construct the SQL query dynamically | table name + column name
+//     const queryText = `INSERT INTO cycle2 (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain,
+//       pendapatperibadi, partiataucalon, mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi) 
+//       VALUES ${placeholders}`;
+
+//     // Execute the query
+//     await pool.query(queryText, values);
+//     res.status(200).send('Data saved successfully');
+//   } catch (error) {
+//     console.error('Error saving data', error);
+//     res.status(500).send('Error saving data');
+//   }
+// });
+
 app.post('/exportResponse', async (req, res) => {
   const userDataArray = req.body;  // The array of user data
 
-  console.log("Hi Habri")
+  console.log("Hi Habri");
+  
+  // Ensure the array is valid
+  if (!Array.isArray(userDataArray) || userDataArray.length === 0) {
+    return res.status(400).send('Invalid data');
+  }
+
   try {
-    // Construct the placeholders for the values
-    const placeholders = userDataArray.map((_, index) => `($${index * 26 + 1}, $${index * 26 + 2}, $${index * 26 + 3}, $${index * 26 + 4}, $${index * 26 + 5}, $${index * 26 + 6}, 
-      $${index * 26 + 7}, $${index * 26 + 8}, $${index * 26 + 9}, $${index * 26 + 10}, $${index * 26 + 11}, $${index * 26 + 12}, $${index * 26 + 13}, $${index * 26 + 14}, 
-      $${index * 26 + 15}, $${index * 26 + 16}, $${index * 26 + 17}, $${index * 26 + 18}, $${index * 26 + 19}, $${index * 26 + 20}, $${index * 26 + 21}, $${index * 26 + 22}, 
-      $${index * 26 + 23}, $${index * 26 + 24}, $${index * 26 + 25}, $${index * 26 + 26})`).join(',');
+    // Construct the placeholders for the values dynamically
+    const columnCount = 22;  // Adjust based on the number of columns in your table
+    const placeholders = userDataArray.map((_, index) => {
+      return `(${Array.from({ length: columnCount }, (_, i) => `$${index * columnCount + (i + 1)}`).join(', ')})`;
+    }).join(',');
 
     // Flatten the userDataArray into a single array of values
-    const values = userDataArray.reduce((acc, { 
+    const values = userDataArray.reduce((acc, {
       tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain, pendapatperibadi, partiataucalon,
-      mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi 
+      mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi
     }) => {
       acc.push(tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain, pendapatperibadi, partiataucalon,
         mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi || '');
       return acc;
     }, []);
 
-    // here
     // Construct the SQL query dynamically | table name + column name
     const queryText = `INSERT INTO cycle2 (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain,
       pendapatperibadi, partiataucalon, mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi) 
@@ -144,3 +185,5 @@ app.post('/exportResponse', async (req, res) => {
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+

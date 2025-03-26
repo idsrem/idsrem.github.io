@@ -532,13 +532,17 @@ function displayUserInfo(userData) {
 	<td style="display: none;">${userData.persepsilain}</td>
 	<td style="display: none;">${userData.pengaruhberita}</td>
 	<td style="display: none;">${userData.faktorlain}</td>
+  
 	<td style="display: none;">${userData.pendapatperibadi}</td>
 	<td style="display: none;">${userData.partiataucalon}</td>
+  <td style="display: none;">${userData.mengundiAdun}</td>
+  <td style="display: none;">${userData.tidakundi}</td>
 	<td style="display: none;">${userData.cenderunguntukundi}</td>
 	<td style="display: none;">${userData.pilihanpartinasional}</td>
 	<td style="display: none;">${userData.pilihanpartitempatan}</td>
 	<td style="display: none;">${userData.pemimpinsabah}</td>
-	<td style="display: none;">${userData.pemimpinsabahlain}</td>`;
+	<td style="display: none;">${userData.pemimpinsabahlain}</td>
+  <td style="display: none;">${userData.isiboranglagi}</td>`;
 
 
   // <td style="display: none;">${userData.kebajikantidakpuashati}</td>
