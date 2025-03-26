@@ -108,6 +108,7 @@ app.post('/export', async (req, res) => {
 app.post('/exportResponse', async (req, res) => {
   const userDataArray = req.body;  // The array of user data
 
+  console.log("Hi Habri")
   try {
     // Construct the placeholders for the values
     const placeholders = userDataArray.map((_, index) => `($${index * 26 + 1}, $${index * 26 + 2}, $${index * 26 + 3}, $${index * 26 + 4}, $${index * 26 + 5}, $${index * 26 + 6}, 
@@ -125,6 +126,7 @@ app.post('/exportResponse', async (req, res) => {
       return acc;
     }, []);
 
+    // here
     // Construct the SQL query dynamically | table name + column name
     const queryText = `INSERT INTO new_table (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain,
       pendapatperibadi, partiataucalon, mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi) 
