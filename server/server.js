@@ -128,7 +128,7 @@ app.post('/exportResponse', async (req, res) => {
 
     // here
     // Construct the SQL query dynamically | table name + column name
-    const queryText = `INSERT INTO new_table (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain,
+    const queryText = `INSERT INTO cycle2 (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain,
       pendapatperibadi, partiataucalon, mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi) 
       VALUES ${placeholders}`;
 
