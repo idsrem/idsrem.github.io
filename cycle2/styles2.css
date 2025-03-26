@@ -1,6 +1,7 @@
 body {
   font-family: Arial, sans-serif;
-  background-image: url('https://static.vecteezy.com/system/resources/previews/007/677/104/non_2x/white-background-with-blue-geometric-and-white-line-pattern-free-vector.jpg');
+  /* background-image: url('https://static.vecteezy.com/system/resources/previews/007/677/104/non_2x/white-background-with-blue-geometric-and-white-line-pattern-free-vector.jpg'); */
+  background-image:url(IDS\ Final\ Design.png);
   background-size: cover;
   color: white;
   font-size: 15px;
@@ -16,6 +17,7 @@ body {
 }
 
 #chat-container {
+  padding-top: 5%;
   position: relative; /* Added to position the overlay */
   width: 600px;
   margin: 40px auto;
@@ -114,14 +116,14 @@ body {
   background-color: #B20000;
 }
 #export-csv-btn {
-  background-image: url('https://iconape.com/wp-content/png_logo_vector/csv-icon.png'); 
+  background-image: url('csv.png'); 
   background-size: cover;
   border: none;
   cursor: pointer;
 }
 #export-csv-btn {
-  width: 30px; /* Adjust the width of the button */
-  height: 30px; /* Adjust the height of the button */
+  /* width: 30px; 
+  height: 30px; 
   background-image: url('https://iconape.com/wp-content/png_logo_vector/csv-icon.png'); 
   background-size: cover;
   border: none;
@@ -129,7 +131,74 @@ body {
   top: 10px;
   position: relative;
   left: 320px;
+  border-radius: 4px; */
+  height: 40px;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  color: white;
+  border: none;
   border-radius: 4px;
+  cursor: pointer;  
+}
+
+#bubble-input-container{
+  text-align: center;
+  display: block;
+}
+
+.bubble-input{
+  display: block;
+  align-items: center;
+  margin-top: 10px;
+  width: 100%;
+  height: 40px;
+}
+
+
+
+.backBtn {
+  background-color:#00008b;      /* Grey background */
+  color:white;                 /* White text */
+  font-size: 12px;                   /* Font size */
+  border: 2px solid #00008b;      /* Grey border */
+  padding: 5px 15px;               /* Padding for size */
+  cursor: pointer;                  /* Pointer cursor on hover */
+  text-decoration: none;             /* No underline */
+  position: relative;                /* For positioning the pseudo-element */
+  display: inline-flex;              /* Align text inline */
+  align-items: center;               /* Vertically center the text */
+  border-radius: 10px;               /* Rounded corners for the button */
+  transition: all 0.3s ease;         /* Smooth transition for color changes */
+}
+
+/* Create the pointed rectangle using ::before */
+.backBtn::before {
+  content: '';                        /* Empty content for the pseudo-element */
+  position: absolute;                 /* Position the point relative to the button */
+  top: 50%;                           /* Vertically center the point */
+  left: -9.5px;                        /* Move it slightly to the left */
+  width: 0;                           /* No width */
+  height: 0;                          /* No height */
+  border-top: 13px solid transparent;  /* Transparent top border */
+  border-bottom: 13px solid transparent; /* Transparent bottom border */
+  border-right: 12px solid #00008b;     /* Right side creates the point */
+  transform: translateY(-50%);        /* Adjust for vertical centering */
+}
+
+
+/* Focus outline styling for accessibility */
+.backBtn:focus {
+  outline: none;                      /* Remove outline when clicked */
+}
+
+.saveBtn{
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  text-align: center;
+  /* width: 100%; */
+  /* height: 40px; */
 }
 
 .delete-button {
@@ -163,7 +232,6 @@ body {
   padding: 8px 16px;
   background-color: #f1f1f1;
   border-radius: 20px;
-  cursor: pointer;
   text-align: center;
 }
 
@@ -222,6 +290,24 @@ body {
   overflow-y: auto; /* Enable vertical scrolling if needed */
 }
 
+.btn-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.table-btn{
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #0c3d5c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
 .fixed-modal {
   display: none;
   position: fixed;
@@ -233,8 +319,8 @@ body {
   padding: 20px;
   border: 1px solid #888;
   border-radius: 10px;
-  height: 50%;
-  width: 30%;
+  max-width: 30vw; /* Set a max width for the modal */
+  max-height: 80vh;
   overflow-y: auto; /* Enable vertical scrolling if needed */
 }
 
@@ -254,6 +340,15 @@ body {
 
 .modal .bubble-option:hover {
   background-color: #ddd;
+}
+
+.center-div{
+  display: flex;     
+  flex-direction: column;             /* Use Flexbox layout */
+  justify-content: center;     /* Center items horizontally */
+  align-items: center;         /* Center items vertically */
+  width: 100%;                 /* Full width of the parent container */
+  text-align: center;          /* Center text inside the div */
 }
 
 /* Overlay styles */
@@ -291,9 +386,10 @@ body {
   /*add*/
   #export-csv-btn {
     left: 0;
-    top: 10px;
+    /* top: 10px; */
   }
 
+  
   .delete-button {
     position: relative;
     margin-left: 0;
