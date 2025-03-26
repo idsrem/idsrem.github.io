@@ -2541,7 +2541,7 @@ function buttonhijau() {
 async function sendDataToBackend(data) {
   try {
       //change endpoint to .env to be safe
-      const response = await fetch('http://localhost:3000/responses', {
+      const response = await fetch('http://46.202.163.155:3003/responses', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
