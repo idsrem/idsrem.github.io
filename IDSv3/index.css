@@ -1,0 +1,256 @@
+*{
+    font-family: Hind Madurai, sans-serif;
+}
+body {
+
+    background-image: url("IDS_Final_Design.png");
+    background-size: cover;
+    color: white;
+    font-size: 15px;
+    background-attachment: fixed;
+  }
+
+
+  .idsLogo{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .surveyQuestions{
+    position: relative;
+    padding-top: 50px;
+    color: black;
+    text-align: center;
+    justify-content: center; 
+    width: 40%;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    display: block;
+    font-size: 16px;
+  }
+
+  .survey-question {
+    margin-top: 35px;
+    margin-left: 10px;
+    margin-bottom: -10px;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.survey-question.fade-out{
+    opacity: 0;
+}
+
+.survey-option {
+    padding: 10px 20px;
+    background-color: #808080;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    margin: 3px;
+}
+
+.survey-option:hover {
+    background-color: #F6F6F6;
+    border: 1px black;
+    color: black;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+    margin: 5px;
+}
+
+.lain-lain-option{
+    background-color: #007bff;
+}
+
+.options-container {
+    margin-bottom: 20px;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+.dataBlu{
+    width: 150px;
+    margin-top: -10px;
+    margin-bottom: 30px;
+}
+
+
+footer{
+    color: black;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-align: center;
+    width: 80%;
+}
+
+
+table {
+    width: 50%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.container-view{
+    display: flex;
+    width: 80%;
+    padding: 10px;
+    flex-wrap: wrap;
+    margin-right: auto;
+    margin-left: auto;
+    grid-template-columns: 40% 45%;
+    gap: 10px;
+}
+
+#survey-container {
+    position: relative;
+    overflow-y: auto;
+    width: 80%;
+    max-width: 700px;
+    max-height: 350px;
+    text-align: center;
+    padding: 15px 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    overflow: scroll;
+    transition: height 0.3s ease;
+    scroll-behavior: smooth;
+  }
+
+  .previous-button {
+    position: absolute;
+    top: 10px; /* Keeps it at the top */
+    left: 10px; /* Aligns it to the left */
+    clip-path: polygon(100% 0%, 20% 0%, 0% 50%, 20% 100%, 100% 100%);
+    left: 10px;
+    padding: 10px 20px 10px 30px;
+    background-color: #007bff;
+ 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.previous-button:hover {
+    background-color: #0056b3;
+}
+
+
+.surveyQuestions {
+    white-space: pre-line;
+}
+
+
+.submit-button {
+    padding: 10px 20px;
+    background-color: green;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    margin: 5px;
+}
+
+
+#message-view {
+    flex: 1;
+    padding: 20px;
+    background: #f9f9f9;
+    max-height: 350px;
+    overflow-y: auto;
+    width: 100%;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    scroll-behavior: smooth;
+}
+
+.message-bubble {
+    animation: fadeIn 1s ease-out; /* 0.5s duration, easing function for smooth effect */
+    display: flex;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.question-bubble {
+    background-color: #060faa; /* Light gray for question */
+    display: block;
+    max-width: 100%; /* Set the maximum width for questions */
+    margin-right: auto; /* Align questions to the left */
+    padding: 10px;
+}
+
+.answer-bubble {
+    background-color: #325dd0; /* Green for answers */
+    color: white; /* Text color for answer */
+    max-width: 70%; /* Set the maximum width for answers */
+    margin-left: auto; /* Align answers to the right */
+    text-align: center;
+    padding: 10px;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px); /* Slightly move the element up from its position */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* Element returns to its original position */
+    }
+}
+
+@media (max-width: 1300px) {
+    .container-view {
+        flex-direction: column; /* Stack elements */
+        align-items: center; /* Center them */
+    }
+
+    #message-view, #survey-container {
+        max-width: 100%; /* Take full width */
+    }
+
+    #message-view{
+        width: 100%;
+        scroll-behavior: smooth;
+        max-height: 250px;
+        overflow-y: scroll;
+    }
+}

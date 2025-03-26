@@ -1,0 +1,2065 @@
+//importing the listOfQuestions.js file from here to reference all of the questions provided
+import { surveyQuestions } from "./listOfQuestions.js";
+
+document.addEventListener("DOMContentLoaded", function () {
+    const surveyContainer = document.getElementById("survey-container");
+    let currentQuestionIndex = 0;
+    let currentUserId = localStorage.getItem("currentUserId") || null; // Get ID if stored
+    let userResponses = {};
+
+
+    function showIdInput() {
+
+
+        surveyContainer.innerHTML = "";
+
+        const messageView = document.getElementById("message-view"); // Ensure message view is referenced
+
+        // Ensure the message view is cleared before appending new content
+        if (!messageView) {
+            console.error("message-view element not found!");
+            return;
+        }
+
+        // Define the question text directly (or ensure question exists)
+        const questionText = "Sila masukkan kod anda untuk memulakan kaji selidik:";
+
+        const questionBubble = document.createElement("div");
+        questionBubble.classList.add("message-bubble", "question-bubble");
+        questionBubble.textContent = questionText;
+        messageView.appendChild(questionBubble);
+
+
+        const questionTitle = document.createElement("p");
+        questionTitle.textContent = "Sila masukkan kod anda untuk memulakan kaji selidik:";
+        questionTitle.style.textAlign = "center";
+        questionTitle.style.marginTop = "35px";
+
+        const inputField = document.createElement("input");
+        inputField.type = "text";
+        inputField.style.width = "40%";
+        inputField.style.borderRadius = "10px";
+        inputField.style.padding = "10px";
+        inputField.style.marginBottom = "10px";
+        inputField.placeholder = "Masukkan ID anda...";
+        inputField.classList.add("custom-input");
+
+        if (currentUserId) inputField.value = currentUserId; // Auto-fill if ID exist
+
+        const nextButton = document.createElement("button");
+        nextButton.textContent = "Seterusnya";
+        nextButton.classList.add("submit-button");
+        nextButton.addEventListener("click", () => {
+            if (inputField.value.trim()) {
+
+                currentUserId = inputField.value.trim(); // Store the entered ID
+                localStorage.setItem("currentUserId", currentUserId); // Store ID permanently
+
+                //Show user input in message view
+                const userMessage = document.createElement("div");
+                userMessage.classList.add("message-bubble", "answer-bubble");
+                userMessage.innerHTML = `Anda: ${inputField.value.trim()}`;  // Display the typed answer, not the input field
+                messageView.appendChild(userMessage);
+                
+
+                startSurvey();
+            } else {
+                alert("Sila masukkan ID sebelum meneruskan.");
+            }
+        });
+
+        surveyContainer.append(questionTitle, inputField, nextButton);
+    }
+
+    //When execute the web - app survey it will go to the first question.
+    function startSurvey() {
+        currentQuestionIndex = 0;
+        showQuestion(currentQuestionIndex);
+    }
+
+
+    function showQuestion(index) {
+
+        const messageView = document.getElementById("message-view");
+
+
+        if (index >= surveyQuestions.length) {
+            surveyContainer.innerHTML = "<h3>Terima kasih kerana menjawab kaji selidik ini!</h3>";
+            saveSurveyResponses();
+            displayAllSurveyResponses(true); // Ensure the table appears
+            return;
+        }
+
+        const question = surveyQuestions[index];
+        surveyContainer.innerHTML = "";
+
+
+        const questionBubble = document.createElement("div");
+        questionBubble.classList.add("message-bubble", "question-bubble");
+        questionBubble.innerHTML = `<strong>Tuan Awang:</strong> &nbsp; ${question.text}`;
+        messageView.appendChild(questionBubble);
+
+           // Create answer options
+        const answerContainer = document.createElement("div");
+
+
+        question.options.forEach(option => {
+            const label = document.createElement("label");
+            label.classList.add("answer-option");
+        
+            const input = document.createElement("input");
+            input.value = option.name;
+        
+            // Move to next question **only after user selects an option**
+            input.addEventListener("change", () => {
+                handleOptionClick(question, option, index);
+            });
+        
+            label.appendChild(input);
+            label.appendChild(document.createTextNode(option.name));
+            answerContainer.appendChild(label);
+            scrollToBottom();
+        });
+
+
+
+            const questionDiv = document.createElement("div");
+            questionDiv.classList.add("survey-question");
+
+
+        if (question.picture?.trim()) {
+            const img = document.createElement("img");
+            Object.assign(img, {
+                src: question.picture,
+                alt: "IDS Logo",
+                style: "width:30%;display:block;margin:auto;margin-bottom:10px;margin-top:-40px;"
+            });
+            questionDiv.appendChild(img);
+        }
+
+        const textElement = document.createElement("p");
+        textElement.textContent = question.text;
+        questionDiv.appendChild(textElement);    
+
+        // Create the Previous Button if it's not the first question
+        if (index > 1) {
+            const backButton = document.createElement("button");
+            backButton.textContent = "Kembali";
+            backButton.classList.add("previous-button"); // Apply custom class
+            backButton.addEventListener("click", () => {
+                if (question.id === "jantina"){
+                    showQuestion(1);
+                }
+                else{
+                showQuestion(index - 1); // Show the previous question
+                }
+            });
+            surveyContainer.appendChild(backButton);
+        }
+
+
+        if (question.id === "umur") {  
+            showAgeInput(question.text, question.id, index + 1);
+        }  
+        else {
+            const optionsDiv = document.createElement("div");
+            optionsDiv.classList.add("options-container");
+
+            question.options.forEach(option => {
+                const button = document.createElement("button");
+
+                // Check if the question is about "parlimen" and has a code
+                if (question.id === "parlimen" && option.code) {
+                    button.textContent = `${option.name} (${option.code})`; // Show name + code
+
+                }else if (option.name === "Lain - Lain"){
+                    button.classList.add("lain-lain-option");
+                    button.textContent = "Lain - Lain";
+                } 
+
+                //Question Rank CSS Colour
+                else if (option.name === "Sangat Negatif"){
+                    button.style.backgroundColor = "#D7191C";
+                    button.style.color = "#FFFFFF";
+                    button.textContent = "Sangat Negatif";
+                }    
+                else if (option.name === "Agak Negatif"){
+                    button.style.backgroundColor = "#FDAE61";
+                    button.style.color = "#FFFFFF";
+                    button.textContent = "Agak Negatif";
+                }  
+                else if (option.name === "Agak Positif"){
+                    button.style.backgroundColor = "#339A00";
+                    button.style.color = "#FFFFFF";
+                    button.textContent = "Agak Positif";
+                }  
+                else if (option.name === "Sangat Positif"){
+                    button.style.backgroundColor = "#4CE600";
+                    button.style.color = "#FFFFFF";
+                    button.textContent = "Sangat Positif";
+                }                
+                else {
+                    button.textContent = option.name || option.code; // Default behavior for other questions
+                }
+                
+                button.classList.add("survey-option");
+                button.addEventListener("click", () => handleOptionClick(question, option, index));
+                optionsDiv.appendChild(button);
+            });
+
+
+            surveyContainer.append(questionDiv, optionsDiv);
+            // showTranslateButton(); // Call this function when loading the survey
+        }
+
+      
+    }
+
+    window.onload = function(){
+        hideLoadingScreen();
+    }
+
+    function showAnswerInMessageView(answer) {
+        const messageView = document.getElementById("message-view");
+
+        // Create an answer bubble
+        const answerBubble = document.createElement("div");
+        answerBubble.classList.add("message-bubble", "answer-bubble");
+        answerBubble.innerHTML = `<strong>Anda: </strong> &nbsp; ${answer}`;
+    
+        // Append answer to message view
+        messageView.appendChild(answerBubble);
+    
+    }
+
+
+    function handleOptionClick(question, option, index) {
+
+        showAnswerInMessageView(option.name);
+        userResponses[question.id] = option.name
+
+        console.log("User Responses: ", userResponses); // Check if it gets added here
+
+        if(option.name === "Lain - Lain") {
+            showInputField(question.text, question.id, index + 1);
+
+        } else if (question.id === "zone"){
+        handleAnswer(question.id, option)
+
+
+        const parlimenQuestion = surveyQuestions.find(q => q.id === "parlimen");
+
+        if (parlimenQuestion && parlimenQuestion.options) {
+            const filteredParliments = parlimenQuestion.options.filter(p => option.parlimenCodes.includes(p.code));
+            if (filteredParliments.length > 0) {
+                showFilteredParliments(filteredParliments, index + 1);
+            } else {
+                alert("Tiada parlimen dalam zon ini.");
+            }
+        } else {
+            console.error("Parlimen question or options not found in surveyQuestions.");
+        }
+
+            //For the last question of the survey, a condition of ya and tidak...
+        } else if (question.id === "parlimen"){
+            handleAnswer(question.id, option);
+            showDUNOptions(option.dun, index + 1);
+                
+        }else if (question.id === "isiBorangLagi" && option.name.toLowerCase() === "ya, isi lagi") {
+            saveSurveyResponses();//Save the response and..
+            showQuestion(0); //Restart form parlimen with the same ID
+
+        }else if (question.id === "isiBorangLagi" && option.name.toLowerCase() === "tidak, siap sudah") {
+            //currentUserId = null; // Reset to new id for the next survey
+            //localStorage.removeItem("currentUserId");
+            saveSurveyResponses();
+            alert("Respon anda telah disimpan! Terima kasih!😊");
+
+            surveyContainer.innerHTML = "<h3>Terima kasih diatas kerjasama anda dalam menyertai kaji selidik ini! <br><br> Sekian dan Terima Kasih. <br><br> SABAH MAJU JAYA!<br><br> </h3>";
+            displayAllSurveyResponses(true);
+            redoSurvey();
+        
+        } else if (question.id === "cendurungUntukMenundi") { 
+            // Custom flow based on user selection
+            if (option.name === "Parti National (BN, PH...)") {
+                showQuestion(index + 1); // Move to 'Parti Tempatan' options
+            } else if (option.name === "Parti Tempatan (PRGS, WARISAN...)") {
+                showQuestion(index + 2); // Skip Parti Nasional and go to Parti Tempatan
+            } else if (option.name === "Tiada Kecendurungan") {
+                showQuestion(index + 3); //Skip to Pemimpin Sabah Options
+            } 
+
+        } 
+        else if (option.name === "Tidak"){
+            showInputField(question.text, question.id, index + 1);
+        } else {
+            handleAnswer(question.id, option);
+              question.id === "parlimen" && option.dun ? showDUNOptions(option.dun, index + 1) : showQuestion(index + 1);
+        }
+
+  
+    }
+    //Automatically scroll down if the message contact surpasses the height pixels
+    function scrollToBottom() {
+        const contentContainer = document.getElementById('message-view');
+        contentContainer.scrollTop = contentContainer.scrollHeight;
+    }
+
+
+    function showInputField(questionText, questionId, nextIndex) {
+
+        const messageView = document.getElementById("message-view"); // Ensure message view is referenced
+        surveyContainer.innerHTML = ""; 
+
+        if (!document.querySelector(".question-bubble")) {
+            const questionBubble = document.createElement("div");
+            showQuestion(nextIndex);
+            questionBubble.classList.add("message-bubble", "question-bubble", "dun-question", "answer-bubble"); 
+            questionBubble.textContent = questionText;
+            messageView.appendChild(questionBubble);
+        }
+
+    
+    
+
+        const questionTitle = document.createElement("p");
+        questionTitle.textContent = questionText;
+        questionTitle.style.textAlign = "center";
+
+        const inputField = document.createElement("input");
+        inputField.type = "text";
+        inputField.style.width = "80%";
+        inputField.style.borderRadius = "10px";
+        inputField.style.padding = "10px";
+        inputField.style.marginBottom = "10px";
+        inputField.placeholder = "Sila masukkan jawapan anda...";
+        inputField.classList.add("custom-input");
+
+        const nextButton = document.createElement("button");
+        nextButton.textContent = "Seterusnya";
+        nextButton.style.backgroundColor = "Green";
+        nextButton.classList.add("survey-option");
+        nextButton.addEventListener("click", () => {
+            if (inputField.value.trim()) {
+                handleAnswer(questionId, { name: inputField.value.trim() });
+                    
+                //Show user input in message view
+                const userMessage = document.createElement("div");
+                userMessage.classList.add("message-bubble", "answer-bubble");
+                userMessage.innerHTML = `${inputField.value.trim()}`;  // Display the typed answer, not the input field
+                messageView.appendChild(userMessage);
+
+                showQuestion(nextIndex);
+            } else alert("Sila masukkan jawapan sebelum meneruskan.");
+        });
+
+        surveyContainer.append(questionTitle, inputField, nextButton);
+    }
+
+function showFilteredParliments(parlimen, nextIndex) {
+
+    const messageView = document.getElementById("message-view"); // Ensure message view is referenced
+    surveyContainer.innerHTML = ""; 
+
+             // ✅ Ensure the question is added only ONCE to the message view
+        const questionBubble = document.createElement("div");
+        questionBubble.textContent = "Sila pilih Parlimen anda:";
+        showQuestion(nextIndex);
+        questionBubble.classList.add("message-bubble", "question-bubble", "parlimen-question", "answer-bubble"); // Unique class for age question
+
+    surveyContainer.innerHTML = "<p>Sila pilih Parlimen anda:</p>";
+
+    surveyContainer.style.paddingTop = "45px";
+    if (parlimen.length === 0) {
+        surveyContainer.innerHTML += "<p>Tiada parlimen dalam zon ini.</p>";
+        return;
+    }
+
+    parlimen.forEach(p => {
+
+        const button = document.createElement("button");
+        button.textContent = `${p.name} (${p.code})`;
+        button.classList.add("survey-option");
+        button.addEventListener("click", () => {
+            handleAnswer("parlimen", p);
+
+
+                //Show user input in message view
+                const userMessage = document.createElement("div");
+           
+                userMessage.classList.add("message-bubble", "answer-bubble");
+                userMessage.innerHTML = `<strong>Anda: </strong> &nbsp;${p.name} (${p.code})`;
+                messageView.appendChild(userMessage);
+
+            showDUNOptions(p.dun, nextIndex);  // Move to next question
+        });
+        surveyContainer.appendChild(button);
+    });
+
+    // Add "Previous" button to return to zone selection
+    const backButton = document.createElement("button");
+    backButton.textContent = "Kembali";
+    backButton.classList.add("previous-button");
+    backButton.addEventListener("click", () => {
+        showQuestion(1); // Go back to Zone selection
+    });
+    surveyContainer.appendChild(backButton);
+}
+
+    function showDUNOptions(dunList, nextIndex) {
+        
+    const messageView = document.getElementById("message-view"); // Ensure message view is referenced
+    surveyContainer.innerHTML = ""; 
+
+    // ✅ Ensure question is correctly retrieved
+    let questionText = "Sila pilih DUN anda:"; // Default text for the DUN question
+
+    // ✅ Ensure the DUN question is always added to the message view
+    const existingDUNQuestion = document.querySelector(".dun-question");
+
+    if (!existingDUNQuestion) {
+        const questionBubble = document.createElement("div");
+        questionBubble.classList.add("message-bubble", "question-bubble", "dun-question");
+        questionBubble.innerHTML = `<strong>Tuan Awang: </strong> &nbsp; ${questionText}`;
+
+        messageView.appendChild(questionBubble);
+    }
+
+        surveyContainer.innerHTML = "<p>Sila pilih DUN anda:</p>";
+
+        dunList.forEach(dun => {
+            const button = document.createElement("button");
+            button.textContent = dun;
+            button.classList.add("survey-option");
+            button.addEventListener("click", () => {
+                handleAnswer("dun", { name: dun });
+
+
+                //Show user input in message view
+                const userMessage = document.createElement("div");
+                userMessage.classList.add("message-bubble", "answer-bubble");
+                userMessage.innerHTML = `<strong>Anda: </strong> &nbsp; ${dun}`;
+                messageView.appendChild(userMessage);
+
+                showQuestion(nextIndex + 1);
+            });
+            surveyContainer.appendChild(button);
+        });
+
+            // ✅ Add "Previous" button below the options
+            const backButton = document.createElement("button");
+            backButton.textContent = "Kembali";
+            backButton.classList.add("previous-button"); // Apply custom class
+            backButton.classList.add("survey-option");
+            backButton.addEventListener("click", () => {
+                showQuestion(nextIndex - 1); // Go back to the "Parlimen" selection
+
+        });
+
+        surveyContainer.appendChild(backButton);
+        
+    }
+    
+
+    function showAgeInput(questionText, questionId, nextIndex) {
+
+        const messageView = document.getElementById("message-view"); // Ensure message view is referenced
+        surveyContainer.innerHTML = ""; 
+
+         // ✅ Ensure the question is added only ONCE to the message view
+        if (!document.querySelector(".question-bubble")) {
+        const questionBubble = document.createElement("div");
+        questionBubble.classList.add("message-bubble", "question-bubble", "age-question", "answer-Bubble"); // Unique class for age question
+        questionBubble.textContent = questionText;
+        messageView.appendChild(questionBubble);
+    }
+
+
+        surveyContainer.innerHTML = ""; 
+        const questionTitle = document.createElement("p");
+        questionTitle.textContent = questionText;
+        questionTitle.style.textAlign = "center";
+        questionTitle.style.marginTop = "50px";
+
+
+        const inputField = document.createElement("input");
+        inputField.type = "text";
+        inputField.style.width = "50%";
+        inputField.style.borderRadius = "20px";
+        inputField.style.padding = "10px";
+        inputField.style.marginBottom = "10px";
+        inputField.min = 18;
+        inputField.max = 100;
+        inputField.placeholder = "Masukkan umur anda (18-100)";
+        inputField.classList.add("custom-input");
+
+        const submitButton = document.createElement("button");
+        submitButton.textContent = "Seterusnya";
+        submitButton.classList.add("submit-button");
+
+        submitButton.addEventListener("click", () => {
+            const age = parseInt(inputField.value.trim());
+            if (age < 18){
+                alert("Minta maaf, umur 18 tahun kebawah tidak mendapat meneruskan survey ini. Sila cuba lagi")
+            }
+            else if (age > 100){
+                alert("Minta maaf, umur 100 tahun keatas tidak mendapat meneruskan survey ini. Sila cuba lagi")
+            }
+            else if (age >= 18 && age <= 100) {
+                handleAnswer(questionId, { name: age });
+
+                document.querySelectorAll(".answer-bubble.age-answer").forEach(el => el.remove());
+
+                //Show user input in message view
+                const userMessage = document.createElement("div");
+                userMessage.classList.add("message-bubble", "answer-bubble");
+                userMessage.innerHTML = `Anda : ${age} Tahun`;
+                messageView.appendChild(userMessage);
+
+                showQuestion(nextIndex);
+
+            } else {
+                alert("Sila masukkan umur. Pastikan umur anda antara 18 hingga 100.");
+            }
+        });
+
+        // Add "Back" button
+        const backButton = document.createElement("button");
+        backButton.textContent = "Kembali";
+        backButton.classList.add("previous-button"); // Apply custom class
+        backButton.classList.add("survey-option");
+
+        backButton.addEventListener("click", () => {
+        showQuestion(nextIndex - 2); // Go back to previous Parliment Question
+        });
+
+        surveyContainer.append(questionTitle, inputField, submitButton, backButton);
+    }
+
+    function handleAnswer(questionId, selectedOption) {
+        let survey = JSON.parse(localStorage.getItem("currentSurvey")) || { userId: Date.now(), answers: {} };
+        survey.answers["date"] = new Date().toLocaleDateString("en-GB");
+        survey.answers[questionId] = selectedOption.name || selectedOption.code;
+
+        localStorage.setItem("currentSurvey", JSON.stringify(survey));
+    }
+
+    function saveSurveyResponses() {
+
+        let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+        let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey"));
+
+        currentSurvey.userId = currentUserId;
+
+        if (currentSurvey) {
+            allSurveys.push(currentSurvey);
+            localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+            localStorage.removeItem("currentSurvey");
+        }
+
+    }
+
+    function displayAllSurveyResponses(hideTable = false) {
+
+
+        document.getElementById("table-container")?.remove();
+
+        let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+        const tableDiv = document.createElement("div");
+        tableDiv.id = "table-container";
+        tableDiv.style.display = hideTable ? "none" : "block"; 
+
+        const table = document.createElement("table");
+        table.style.width = "100%";
+        table.style.borderCollapse = "collapse";
+
+        const headers = ["Tarikh", "Parlimen", "Dun", "Umur", "Jantina", "Bangsa", "Actions"];
+        table.innerHTML = `<tr>${headers.map(h => `<th style='border:1px solid #ddd;padding:8px;font-weight:bold;'>${h}</th>`).join('')}</tr>`;
+
+        allSurveys.forEach((survey, index) => {
+            const row = document.createElement("tr");
+            ["date", "parlimen", "dun", "umur", "jantina", "bangsa"].forEach(q => {
+                row.innerHTML += `<td style='border:1px solid #ddd;padding:8px;'>${survey.answers[q] || "-"}</td>`;
+            });
+            row.innerHTML += `<td style='padding:8px;'><button style='color:white;background:red;padding:5px 10px;cursor:pointer;' onclick='deleteSurveyResponse(${index})'>Delete</button></td>`;
+            table.appendChild(row);
+        });
+
+        tableDiv.appendChild(table);
+        surveyContainer.appendChild(tableDiv);
+
+        let toggleButton = document.getElementById("toggle-table-button");
+        if (!toggleButton) {
+            toggleButton = document.createElement("button");
+            toggleButton.id = "toggle-table-button";
+            toggleButton.textContent = "Show Table";
+            toggleButton.classList.add("survey-option");
+            toggleButton.style.marginBottom = "10px";
+            surveyContainer.insertBefore(toggleButton, tableDiv);
+        }
+
+        toggleButton.onclick = function () {
+            const isHidden = tableDiv.style.display === "none";
+            tableDiv.style.display = isHidden ? "block" : "none";
+            toggleButton.textContent = isHidden ? "Hide Table" : "Show Table";
+        };
+
+        downloadInExcelDoc(true) //Download excel button
+    }
+
+    window.deleteSurveyResponse = function (index) {
+        let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+        allSurveys.splice(index, 1);
+        localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+        displayAllSurveyResponses();
+    };
+
+    function redoSurvey() {
+
+        if (!document.getElementById("redo-survey")) {
+            const redoSurvey = document.createElement("button");
+            redoSurvey.id = "redo-survey"   ;
+            redoSurvey.textContent = "Redo Survey";
+            redoSurvey.classList.add("survey-option"); 
+            redoSurvey.style.marginTop = "10px";
+    
+            // When clicked, reset and go back to ID input
+            redoSurvey.addEventListener("click", () => {
+
+                const messageView = document.getElementById("message-view");
+                const surveyContainer = document.getElementById("survey-container");
+            
+                // Clear the message view (any previous messages)
+                messageView.innerHTML = "";
+            
+                // Clear survey container (e.g., remove any previously shown questions or answers)
+                surveyContainer.innerHTML = "";
+                
+                localStorage.removeItem("currentSurvey"); // Clear current survey
+                showIdInput(); // Go back to the ID input screen
+            });
+    
+            // Append to the survey container
+            document.getElementById("survey-container").appendChild(redoSurvey);
+        }
+    }
+    
+
+    function downloadInExcelDoc(){
+
+        if(!document.getElementById("download-excel")){
+            const downloadExcelDocButton = document.createElement("button");
+            downloadExcelDocButton.id = "download-excel";
+            downloadExcelDocButton.textContent = "Download in Excel";
+            downloadExcelDocButton.classList.add("survey-option");
+            downloadExcelDocButton.style.marginTop = "10px";
+
+            downloadExcelDocButton.addEventListener("click", function() {
+
+                let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+
+                if (allSurveys.length === 0){
+                    alert ("No survey data available to download");
+                    return;
+                }
+                
+                const headers = ["OperatorID", "Tarikh", "Zone", "Parlimen", "DUN", "Umur", "Jantina", "Bangsa", "Sumber Utama", "Pengaruh Persepsi", "Berita Terkini", "Faktor Lain", "Parti/Calon", "Mengundi Adun", "Cedurung Untuk Menundi", "Parti Nasional", "Parti Tempatan", "Pemimpin Sabah"];
+                const data = allSurveys.map (survey => [
+                    survey.userId ? survey.userId : (survey.answers.userId || "-"),
+                    survey.answers.date || "-",
+                    survey.answers.zone || "-",
+                    survey.answers.parlimen || "-",
+                    survey.answers.dun || "-",
+                    survey.answers.umur || "-",
+                    survey.answers.jantina || "-",
+                    survey.answers.bangsa || "-",
+                    survey.answers.sumberUtama || "-",
+                    survey.answers.pengaruhPersepsi || "-",
+                    survey.answers.beritaTerkini || "-",
+                    survey.answers.faktorLain || "-",
+                    survey.answers.partiDanCalon || "-",
+                    survey.answers.mengundiAdun || "-",
+                    survey.answers.cendurungUntukMenundi ||"-",
+                    survey.answers.partiNasional || "-", 
+                    survey.answers.partiTempatan || "-",
+                    survey.answers.pemimpinSabah || "-"
+                ]);
+
+                const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+                const wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "Survey Data");
+                XLSX.writeFile(wb, "Latest_Data_2025.xlsx");
+            });
+
+            surveyContainer.appendChild(downloadExcelDocButton);
+        }
+    }
+    showIdInput();
+
+});
+
+
+
+// USE THIS CODE IF YOU MESSED ON THE LATEST ONE 22.03.2025
+// import { surveyQuestions } from "./listOfQuestions.js";
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     const surveyContainer = document.getElementById("survey-container");
+//     let currentQuestionIndex = 0;
+//     let currentUserId = localStorage.getItem("currentUserId") || null; // Get ID if stored
+
+//     function showIdInput() {
+//         surveyContainer.innerHTML = "";
+
+//         const questionTitle = document.createElement("p");
+//         questionTitle.textContent = "Sila masukkan kod anda untuk memulakan kaji selidik:";
+//         questionTitle.style.textAlign = "center";
+
+//         const inputField = document.createElement("input");
+//         inputField.type = "text";
+//         inputField.placeholder = "Masukkan ID anda...";
+//         inputField.classList.add("custom-input");
+
+//         if (currentUserId) inputField.value = currentUserId; // Auto-fill if ID exist
+
+//         const nextButton = document.createElement("button");
+//         nextButton.textContent = "Next";
+//         nextButton.classList.add("survey-option");
+//         nextButton.addEventListener("click", () => {
+//             if (inputField.value.trim()) {
+//                 currentUserId = inputField.value.trim(); // Store the entered ID
+//                 localStorage.setItem("currentUserId", currentUserId); // Store ID permanently
+//                 startSurvey();
+//             } else {
+//                 alert("Sila masukkan ID sebelum meneruskan.");
+//             }
+//         });
+
+//         surveyContainer.append(questionTitle, inputField, nextButton);
+//     }
+
+//     function startSurvey() {
+//         currentQuestionIndex = 0;
+//         showQuestion(currentQuestionIndex);
+//     }
+
+//     function showQuestion(index) {
+//         if (index >= surveyQuestions.length) {
+//             surveyContainer.innerHTML = "<h3>Terima kasih kerana menjawab kaji selidik ini!</h3>";
+//             saveSurveyResponses();
+//             displayAllSurveyResponses(true); // Ensure the table appears
+//             return;
+//         }
+
+//         const question = surveyQuestions[index];
+//         surveyContainer.innerHTML = "";
+
+//         const questionDiv = document.createElement("div");
+//         questionDiv.classList.add("survey-question");
+
+
+//         if (question.picture?.trim()) {
+//             const img = document.createElement("img");
+//             Object.assign(img, {
+//                 src: question.picture,
+//                 alt: "IDS Logo",
+//                 style: "width:30%;display:block;margin:auto;margin-bottom:10px;"
+//             });
+//             questionDiv.appendChild(img);
+//         }
+
+//         const textElement = document.createElement("p");
+//         textElement.textContent = question.text;
+//         questionDiv.appendChild(textElement);
+
+//         // Create the Previous Button if it's not the first question
+//         if (index > 1) {
+//             const backButton = document.createElement("button");
+//             backButton.textContent = "Back";
+//             backButton.classList.add("previous-button"); // Apply custom class
+//             backButton.addEventListener("click", () => {
+//                 showQuestion(index - 1); // Show the previous question
+//             });
+//             surveyContainer.appendChild(backButton);
+//         }
+
+
+//         if (question.id === "umur") {  
+//             showAgeInput(question.text, question.id, index + 1);
+//         }  
+//         else {
+//             const optionsDiv = document.createElement("div");
+//             optionsDiv.classList.add("options-container");
+
+//             question.options.forEach(option => {
+//                 const button = document.createElement("button");
+                
+//                 // Check if the question is about "parlimen" and has a code
+//                 if (question.id === "parlimen" && option.code) {
+//                     button.textContent = `${option.name} (${option.code})`; // Show name + code
+//                 } else {
+//                     button.textContent = option.name || option.code; // Default behavior for other questions
+//                 }
+                
+//                 button.classList.add("survey-option");
+//                 button.addEventListener("click", () => handleOptionClick(question, option, index));
+//                 optionsDiv.appendChild(button);
+//             });
+
+//             surveyContainer.append(questionDiv, optionsDiv);
+//             // showTranslateButton(); // Call this function when loading the survey
+//         }
+//     }
+
+//     function handleOptionClick(question, option, index) {
+        
+//         if(option.name === "Lain - Lain") {
+//             showInputField(question.text, question.id, index + 1);
+//             //For the last question of the survey, a condition of ya and tidak...
+//         } else if (question.id === "isiBorangLagi" && option.name.toLowerCase() === "ya, isi lagi") {
+//             saveSurveyResponses();//Save the response and..
+//             showQuestion(1); //Restart form parlimen with the same ID
+            
+//         } else if (question.id === "isiBorangLagi" && option.name.toLowerCase() === "tidak") {
+//             //currentUserId = null; // Reset to new id for the next survey
+//             //localStorage.removeItem("currentUserId");
+//             saveSurveyResponses();
+//             showIdInput();
+//             surveyContainer.innerHTML = "<h3>Terima kasih diatas kerjasama anda dalam menyertai kaji selidik ini! <br><br> Sekian dan Terima Kasih. <br><br> SABAH MAJU JAYA!<br><br> </h3>";
+//             displayAllSurveyResponses(true);
+//             redoSurvey();
+
+//         //Conditions of where the user is in the Question of "Cendurung Untuk Menundi"
+
+//         } else if (question.id === "cendurungUntukMenundi") {  
+//             // Custom flow based on user selection
+//             if (option.name === "Parti National (BN, PH...)") {
+//                 showQuestion(index + 1); // Move to 'Parti Tempatan' options
+//             } else if (option.name === "Parti Tempatan (PRGS, WARISAN...)") {
+//                 showQuestion(index + 2); // Skip Parti Nasional and go to Parti Tempatan
+//             } else if (option.name === "Tiada Kecendurungan") {
+//                 showQuestion(index + 3); //Skip to Pemimpin Sabah Options
+//             }
+
+//         } else {
+//             handleAnswer(question.id, option);
+//             question.id === "parlimen" && option.dun
+//                 ? showDUNOptions(option.dun, index + 1)
+//                 : showQuestion(index + 1);
+//         }
+//     }
+
+//     function showInputField(questionText, questionId, nextIndex) {
+//         surveyContainer.innerHTML = ""; 
+
+//         const questionTitle = document.createElement("h3");
+//         questionTitle.textContent = questionText;
+//         questionTitle.style.textAlign = "center";
+
+//         const inputField = document.createElement("input");
+//         inputField.type = "text";
+//         inputField.placeholder = "Sila masukkan jawapan anda...";
+//         inputField.classList.add("custom-input");
+
+//         const nextButton = document.createElement("button");
+//         nextButton.textContent = "Next";
+//         nextButton.classList.add("survey-option");
+//         nextButton.addEventListener("click", () => {
+//             if (inputField.value.trim()) {
+//                 handleAnswer(questionId, { name: inputField.value.trim() });
+//                 showQuestion(nextIndex);
+//             } else alert("Sila masukkan jawapan sebelum meneruskan.");
+//         });
+
+//         surveyContainer.append(questionTitle, inputField, nextButton);
+//     }
+
+//     function showDUNOptions(dunList, nextIndex) {
+//         surveyContainer.innerHTML = "<h3>Sila pilih DUN anda:</h3>";
+//         dunList.forEach(dun => {
+//             const button = document.createElement("button");
+//             button.textContent = dun;
+//             button.classList.add("survey-option");
+//             button.addEventListener("click", () => {
+//                 handleAnswer("dun", { name: dun });
+//                 showQuestion(nextIndex);
+//             });
+//             surveyContainer.appendChild(button);
+
+//                 // ✅ Add "Previous" button below the options
+//             const backButton = document.createElement("button");
+//             backButton.textContent = "Previous";
+//             backButton.classList.add("previous-button"); // Apply custom class
+//             backButton.classList.add("survey-option");
+//             backButton.addEventListener("click", () => {
+//                 showQuestion(nextIndex - 1); // Go back to the "Parlimen" selection
+//     });
+
+//         });
+        
+//     }
+    
+
+//     function showAgeInput(questionText, questionId, nextIndex) {
+//         surveyContainer.innerHTML = ""; 
+
+//         const questionTitle = document.createElement("h3");
+//         questionTitle.textContent = questionText;
+//         questionTitle.style.textAlign = "center";
+
+//         const inputField = document.createElement("input");
+//         inputField.type = "text";
+//         inputField.min = 18;
+//         inputField.max = 100;
+//         inputField.placeholder = "Masukkan umur anda (18-100)";
+//         inputField.classList.add("custom-input");
+
+//         const submitButton = document.createElement("button");
+//         submitButton.textContent = "Submit";
+//         submitButton.classList.add("survey-option");
+
+//         submitButton.addEventListener("click", () => {
+//             const age = parseInt(inputField.value.trim());
+//             if (age < 18){
+//                 alert("Minta maaf, umur 18 tahun kebawah tidak mendapat meneruskan survey ini. Sila cuba lagi")
+//             }
+
+//             else if (age > 100){
+//                 alert("Minta maaf, umur 100 tahun keatas tidak mendapat meneruskan survey ini. Sila cuba lagi")
+//             }
+//             else if (age >= 18 && age <= 100) {
+//                 handleAnswer(questionId, { name: age });
+//                 showQuestion(nextIndex);
+//             } else {
+//                 alert("Sila masukkan umur. Pastikan umur anda antara 18 hingga 100.");
+//             }
+//         });
+
+//         // ✅ Add "Back" button
+//         const backButton = document.createElement("button");
+//         backButton.textContent = "Back";
+//         backButton.classList.add("previous-button"); // Apply custom class
+//         backButton.classList.add("survey-option");
+
+//         backButton.addEventListener("click", () => {
+//         showQuestion(nextIndex - 2); // Go back to previous Parliment Question
+//         });
+
+//         surveyContainer.append(questionTitle, inputField, submitButton, backButton);
+//     }
+
+//     function handleAnswer(questionId, selectedOption) {
+//         let survey = JSON.parse(localStorage.getItem("currentSurvey")) || { userId: Date.now(), answers: {} };
+//         survey.answers["date"] = new Date().toLocaleDateString("en-GB");
+//         survey.answers[questionId] = selectedOption.name || selectedOption.code;
+//         localStorage.setItem("currentSurvey", JSON.stringify(survey));
+//     }
+
+//     function saveSurveyResponses() {
+//         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+//         let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey"));
+
+//         currentSurvey.userId = currentUserId;
+
+//         if (currentSurvey) {
+//             allSurveys.push(currentSurvey);
+//             localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+//             localStorage.removeItem("currentSurvey");
+//         }
+//     }
+
+//     function displayAllSurveyResponses(hideTable = false) {
+//         document.getElementById("table-container")?.remove();
+
+//         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+//         const tableDiv = document.createElement("div");
+//         tableDiv.id = "table-container";
+//         tableDiv.style.display = hideTable ? "none" : "block"; 
+
+//         const table = document.createElement("table");
+//         table.style.width = "100%";
+//         table.style.borderCollapse = "collapse";
+
+//         const headers = ["Tarikh", "Parlimen", "Dun", "Umur", "Jantina", "Bangsa", "Actions"];
+//         table.innerHTML = `<tr>${headers.map(h => `<th style='border:1px solid #ddd;padding:8px;font-weight:bold;'>${h}</th>`).join('')}</tr>`;
+
+//         allSurveys.forEach((survey, index) => {
+//             const row = document.createElement("tr");
+//             ["date", "parlimen", "dun", "umur", "jantina", "bangsa"].forEach(q => {
+//                 row.innerHTML += `<td style='border:1px solid #ddd;padding:8px;'>${survey.answers[q] || "-"}</td>`;
+//             });
+//             row.innerHTML += `<td style='padding:8px;'><button style='color:white;background:red;padding:5px 10px;cursor:pointer;' onclick='deleteSurveyResponse(${index})'>Delete</button></td>`;
+//             table.appendChild(row);
+//         });
+
+//         tableDiv.appendChild(table);
+//         surveyContainer.appendChild(tableDiv);
+
+//         let toggleButton = document.getElementById("toggle-table-button");
+//         if (!toggleButton) {
+//             toggleButton = document.createElement("button");
+//             toggleButton.id = "toggle-table-button";
+//             toggleButton.textContent = "Show Table";
+//             toggleButton.classList.add("survey-option");
+//             toggleButton.style.marginBottom = "10px";
+//             surveyContainer.insertBefore(toggleButton, tableDiv);
+//         }
+
+//         toggleButton.onclick = function () {
+//             const isHidden = tableDiv.style.display === "none";
+//             tableDiv.style.display = isHidden ? "block" : "none";
+//             toggleButton.textContent = isHidden ? "Hide Table" : "Show Table";
+//         };
+
+//         downloadInExcelDoc(true) //Download excel button
+//     }
+
+//     window.deleteSurveyResponse = function (index) {
+//         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+//         allSurveys.splice(index, 1);
+//         localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+//         displayAllSurveyResponses();
+//     };
+
+//     function redoSurvey() {
+//         if (!document.getElementById("redo-survey")) {
+//             const redoSurvey = document.createElement("button");
+//             redoSurvey.id = "redo-survey";
+//             redoSurvey.textContent = "Redo Survey";
+//             redoSurvey.classList.add("survey-option"); 
+//             redoSurvey.style.marginTop = "10px";
+    
+//             // When clicked, reset and go back to ID input
+//             redoSurvey.addEventListener("click", () => {
+//                 localStorage.removeItem("currentSurvey"); // Clear current survey
+//                 showIdInput(); // Go back to the ID input screen
+//             });
+    
+//             // Append to the survey container
+//             document.getElementById("survey-container").appendChild(redoSurvey);
+//         }
+//     }
+
+//     function downloadInExcelDoc(){
+//         if(!document.getElementById("download-excel")){
+//             const downloadExcelDocButton = document.createElement("button");
+//             downloadExcelDocButton.id = "download-excel";
+//             downloadExcelDocButton.textContent = "Download in Excel";
+//             downloadExcelDocButton.classList.add("survey-option");
+//             downloadExcelDocButton.style.marginTop = "10px";
+
+//             downloadExcelDocButton.addEventListener("click", function() {
+
+//                 let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+
+//                 if (allSurveys.length === 0){
+//                     alert ("No survey data available to download");
+//                     return;
+//                 }
+                
+//                 const headers = ["Tarikh", "Parlimen", "DUN", "Umur", "Jantina", "Bangsa"];
+//                 const data = allSurveys.map (survey => [
+//                     survey.answers.date || "-",
+//                     survey.answers.parlimen || "-",
+//                     survey.answers.dun || "-",
+//                     survey.answers.umur || "-",
+//                     survey.answers.jantina || "-",
+//                     survey.answers.bangsa || "-",
+//                 ]);
+
+//                 const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+//                 const wb = XLSX.utils.book_new();
+//                 XLSX.utils.book_append_sheet(wb, ws, "Survey Data");
+//                 XLSX.writeFile(wb, "survey_data.xlsx");
+//             });
+
+//             surveyContainer.appendChild(downloadExcelDocButton);
+//         }
+//     }
+//     showIdInput();
+
+// });
+
+
+//CHAT DESIGN
+// import { surveyQuestions } from "./listOfQuestions.js";
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     const surveyContainer = document.getElementById("survey-container");
+//     let currentQuestionIndex = 0;
+
+    
+
+//     function showQuestion(index) {
+//         if (index >= surveyQuestions.length) {
+//             surveyContainer.innerHTML = "<h3>Terima kasih kerana menjawab kaji selidik ini!</h3>";
+//             saveSurveyResponses();
+//             displayAllSurveyResponses(true); // Ensure the table appears
+//             return;
+//         }
+ 
+//         const question = surveyQuestions[index];
+//         surveyContainer.innerHTML = "";
+
+//         const questionDiv = document.createElement("div");
+//         questionDiv.classList.add("survey-question");
+
+//         if (question.picture?.trim()) {
+//             const img = document.createElement("img");
+//             Object.assign(img, {
+//                 src: question.picture,
+//                 alt: "IDS Logo",
+//                 style: "width:30%;display:block;margin:auto;margin-bottom:10px;"
+//             });
+//             questionDiv.appendChild(img);
+//         }
+
+//         const textElement = document.createElement("h3");
+//         textElement.textContent = question.text;
+//         questionDiv.appendChild(textElement);
+
+//         if (question.id === "umur") {  
+//             showAgeInput(question.text, question.id, index + 1);
+//         } else {
+//             const optionsDiv = document.createElement("div");
+//             optionsDiv.classList.add("options-container");
+
+//             question.options.forEach(option => {
+//                 const button = document.createElement("button");
+//                 button.textContent = option.name || option.code;
+//                 button.classList.add("survey-option");
+//                 button.addEventListener("click", () => handleOptionClick(question, option, index));
+//                 optionsDiv.appendChild(button);
+//             });
+
+//             surveyContainer.append(questionDiv, optionsDiv);
+//         }
+//     }
+
+//     function handleOptionClick(question, option, index) {
+//         if (option.name === "Lain - Lain") {
+//             showInputField(question.text, question.id, index + 1);
+//             //For the last question of the survey, a condition of ya and tidak...
+//         } else if (question.id === "isiBorangLagi" && option.name.toLowerCase() === "ya, isi lagi") {
+//             saveSurveyResponses();//Save the response and..
+//             showQuestion(0); // Restart from parlimen
+//         } else if (question.id === "isiBorangLagi" && option.name.toLowerCase() === "tidak") {
+//             saveSurveyResponses();
+//             surveyContainer.innerHTML = "<h3>Terima kasih kerana menjawab kaji selidik ini!</h3>";
+//             displayAllSurveyResponses(true);
+//         } else {
+//             handleAnswer(question.id, option);
+//             question.id === "parlimen" && option.dun
+//                 ? showDUNOptions(option.dun, index + 1)
+//                 : showQuestion(index + 1);
+//         }
+//     }
+
+//     function showInputField(questionText, questionId, nextIndex) {
+//         surveyContainer.innerHTML = ""; 
+
+//         const questionTitle = document.createElement("h3");
+//         questionTitle.textContent = questionText;
+//         questionTitle.style.textAlign = "center";
+
+//         const inputField = document.createElement("input");
+//         inputField.type = "text";
+//         inputField.placeholder = "Sila masukkan jawapan anda...";
+//         inputField.classList.add("custom-input");
+
+//         const nextButton = document.createElement("button");
+//         nextButton.textContent = "Next";
+//         nextButton.classList.add("survey-option");
+//         nextButton.addEventListener("click", () => {
+//             if (inputField.value.trim()) {
+//                 handleAnswer(questionId, { name: inputField.value.trim() });
+//                 showQuestion(nextIndex);
+//             } else alert("Sila masukkan jawapan sebelum meneruskan.");
+//         });
+
+//         surveyContainer.append(questionTitle, inputField, nextButton);
+//     }
+
+//     function showDUNOptions(dunList, nextIndex) {
+//         surveyContainer.innerHTML = "<h3>Sila pilih DUN anda:</h3>";
+//         dunList.forEach(dun => {
+//             const button = document.createElement("button");
+//             button.textContent = dun;
+//             button.classList.add("survey-option");
+//             button.addEventListener("click", () => {
+//                 handleAnswer("dun", { name: dun });
+//                 showQuestion(nextIndex);
+//             });
+//             surveyContainer.appendChild(button);
+//         });
+//     }
+
+//     function showAgeInput(questionText, questionId, nextIndex) {
+//         surveyContainer.innerHTML = ""; 
+
+//         const questionTitle = document.createElement("h3");
+//         questionTitle.textContent = questionText;
+//         questionTitle.style.textAlign = "center";
+
+//         const inputField = document.createElement("input");
+//         inputField.type = "text";
+//         inputField.min = 18;
+//         inputField.max = 100;
+//         inputField.placeholder = "Masukkan umur anda (18-100)";
+//         inputField.classList.add("custom-input");
+
+//         const submitButton = document.createElement("button");
+//         submitButton.textContent = "Submit";
+//         submitButton.classList.add("survey-option");
+
+//         submitButton.addEventListener("click", () => {
+//             const age = parseInt(inputField.value.trim());
+//             if (age >= 18 && age <= 100) {
+//                 handleAnswer(questionId, { name: age });
+//                 showQuestion(nextIndex);
+//             } else {
+//                 alert("Sila masukkan umur antara 18 hingga 100.");
+//             }
+//         });
+
+//         surveyContainer.append(questionTitle, inputField, submitButton);
+//     }
+
+//     function handleAnswer(questionId, selectedOption) {
+//         let survey = JSON.parse(localStorage.getItem("currentSurvey")) || { userId: Date.now(), answers: {} };
+//         survey.answers["date"] = new Date().toLocaleDateString("en-GB");
+//         survey.answers[questionId] = selectedOption.name || selectedOption.code;
+//         localStorage.setItem("currentSurvey", JSON.stringify(survey));
+//     }
+
+//     function saveSurveyResponses() {
+//         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+//         let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey"));
+//         if (currentSurvey) {
+//             allSurveys.push(currentSurvey);
+//             localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+//             localStorage.removeItem("currentSurvey");
+//         }
+//     }
+
+//     function displayAllSurveyResponses(hideTable = false) {
+//         document.getElementById("table-container")?.remove();
+
+//         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+//         const tableDiv = document.createElement("div");
+//         tableDiv.id = "table-container";
+//         tableDiv.style.display = hideTable ? "none" : "block"; 
+
+//         const table = document.createElement("table");
+//         table.style.width = "100%";
+//         table.style.borderCollapse = "collapse";
+
+//         const headers = ["Tarikh", "Parlimen", "Dun", "Umur", "Jantina", "Bangsa", "Actions"];
+//         table.innerHTML = `<tr>${headers.map(h => `<th style='border:1px solid #ddd;padding:8px;font-weight:bold;'>${h}</th>`).join('')}</tr>`;
+
+//         allSurveys.forEach((survey, index) => {
+//             const row = document.createElement("tr");
+//             ["date", "parlimen", "dun", "umur", "jantina", "bangsa"].forEach(q => {
+//                 row.innerHTML += `<td style='border:1px solid #ddd;padding:8px;'>${survey.answers[q] || "-"}</td>`;
+//             });
+//             row.innerHTML += `<td style='padding:8px;'><button style='color:white;background:red;padding:5px 10px;cursor:pointer;' onclick='deleteSurveyResponse(${index})'>Delete</button></td>`;
+//             table.appendChild(row);
+//         });
+
+//         tableDiv.appendChild(table);
+//         surveyContainer.appendChild(tableDiv);
+
+//         let toggleButton = document.getElementById("toggle-table-button");
+//         if (!toggleButton) {
+//             toggleButton = document.createElement("button");
+//             toggleButton.id = "toggle-table-button";
+//             toggleButton.textContent = "Show Table";
+//             toggleButton.classList.add("survey-option");
+//             toggleButton.style.marginBottom = "10px";
+//             surveyContainer.insertBefore(toggleButton, tableDiv);
+//         }
+
+//         toggleButton.onclick = function () {
+//             const isHidden = tableDiv.style.display === "none";
+//             tableDiv.style.display = isHidden ? "block" : "none";
+//             toggleButton.textContent = isHidden ? "Hide Table" : "Show Table";
+//         };
+//     }
+
+//     window.deleteSurveyResponse = function (index) {
+//         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+//         allSurveys.splice(index, 1);
+//         localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+//         displayAllSurveyResponses();
+//     };
+
+//     showQuestion(currentQuestionIndex);
+
+// });
+
+
+
+
+
+
+// USE THIS FOR EMERGENCIES
+// import { surveyQuestions } from "./listOfQuestions.js";
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     const surveyContainer = document.getElementById("survey-container");
+//     let currentQuestionIndex = 0;
+
+    
+
+//     function showQuestion(index) {
+//         if (index >= surveyQuestions.length) {
+//             surveyContainer.innerHTML = "<h3>Terima kasih kerana menjawab kaji selidik ini!</h3>";
+//             saveSurveyResponses();
+//             displayAllSurveyResponses(true); // Ensure the table appears
+//             return;
+//         }
+
+//         const question = surveyQuestions[index];
+//         surveyContainer.innerHTML = "";
+
+//         const questionDiv = document.createElement("div");
+//         questionDiv.classList.add("survey-question");
+
+//         if (question.picture?.trim()) {
+//             const img = document.createElement("img");
+//             Object.assign(img, {
+//                 src: question.picture,
+//                 alt: "IDS Logo",
+//                 style: "width:30%;display:block;margin:auto;margin-bottom:10px;"
+//             });
+//             questionDiv.appendChild(img);
+//         }
+
+//         const textElement = document.createElement("h3");
+//         textElement.textContent = question.text;
+//         questionDiv.appendChild(textElement);
+
+//         if (question.id === "umur") {  
+//             showAgeInput(question.text, question.id, index + 1);
+//         } else {
+//             const optionsDiv = document.createElement("div");
+//             optionsDiv.classList.add("options-container");
+
+//             question.options.forEach(option => {
+//                 const button = document.createElement("button");
+//                 button.textContent = option.name || option.code;
+//                 button.classList.add("survey-option");
+//                 button.addEventListener("click", () => handleOptionClick(question, option, index));
+//                 optionsDiv.appendChild(button);
+//             });
+
+//             surveyContainer.append(questionDiv, optionsDiv);
+//         }
+//     }
+
+//     function handleOptionClick(question, option, index) {
+//         if (option.name === "Lain - Lain") {
+//             showInputField(question.text, question.id, index + 1);
+//         } else {
+//             handleAnswer(question.id, option);
+//             question.id === "parlimen" && option.dun
+//                 ? showDUNOptions(option.dun, index + 1)
+//                 : showQuestion(index + 1);
+//         }
+//     }
+
+//     function showInputField(questionText, questionId, nextIndex) {
+//         surveyContainer.innerHTML = ""; 
+
+//         const questionTitle = document.createElement("h3");
+//         questionTitle.textContent = questionText;
+//         questionTitle.style.textAlign = "center";
+
+//         const inputField = document.createElement("input");
+//         inputField.type = "text";
+//         inputField.placeholder = "Sila masukkan jawapan anda...";
+//         inputField.classList.add("custom-input");
+
+//         const nextButton = document.createElement("button");
+//         nextButton.textContent = "Next";
+//         nextButton.classList.add("survey-option");
+//         nextButton.addEventListener("click", () => {
+//             if (inputField.value.trim()) {
+//                 handleAnswer(questionId, { name: inputField.value.trim() });
+//                 showQuestion(nextIndex);
+//             } else alert("Sila masukkan jawapan sebelum meneruskan.");
+//         });
+
+//         surveyContainer.append(questionTitle, inputField, nextButton);
+//     }
+
+//     function showDUNOptions(dunList, nextIndex) {
+//         surveyContainer.innerHTML = "<h3>Sila pilih DUN anda:</h3>";
+//         dunList.forEach(dun => {
+//             const button = document.createElement("button");
+//             button.textContent = dun;
+//             button.classList.add("survey-option");
+//             button.addEventListener("click", () => {
+//                 handleAnswer("dun", { name: dun });
+//                 showQuestion(nextIndex);
+//             });
+//             surveyContainer.appendChild(button);
+//         });
+//     }
+
+//     function showAgeInput(questionText, questionId, nextIndex) {
+//         surveyContainer.innerHTML = ""; 
+
+//         const questionTitle = document.createElement("h3");
+//         questionTitle.textContent = questionText;
+//         questionTitle.style.textAlign = "center";
+
+//         const inputField = document.createElement("input");
+//         inputField.type = "number";
+//         inputField.min = 18;
+//         inputField.max = 100;
+//         inputField.placeholder = "Masukkan umur anda (18-100)";
+//         inputField.classList.add("custom-input");
+
+//         const submitButton = document.createElement("button");
+//         submitButton.textContent = "Submit";
+//         submitButton.classList.add("survey-option");
+
+//         submitButton.addEventListener("click", () => {
+//             const age = parseInt(inputField.value.trim());
+//             if (age >= 18 && age <= 100) {
+//                 handleAnswer(questionId, { name: age });
+//                 showQuestion(nextIndex);
+//             } else {
+//                 alert("Sila masukkan umur antara 18 hingga 100.");
+//             }
+//         });
+
+//         surveyContainer.append(questionTitle, inputField, submitButton);
+//     }
+
+//     function handleAnswer(questionId, selectedOption) {
+//         let survey = JSON.parse(localStorage.getItem("currentSurvey")) || { userId: Date.now(), answers: {} };
+//         survey.answers["date"] = new Date().toLocaleDateString("en-GB");
+//         survey.answers[questionId] = selectedOption.name || selectedOption.code;
+//         localStorage.setItem("currentSurvey", JSON.stringify(survey));
+//     }
+
+//     function saveSurveyResponses() {
+//         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+//         let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey"));
+//         if (currentSurvey) {
+//             allSurveys.push(currentSurvey);
+//             localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+//             localStorage.removeItem("currentSurvey");
+//         }
+//     }
+
+//     function displayAllSurveyResponses(hideTable = false) {
+//         document.getElementById("table-container")?.remove();
+
+//         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+//         const tableDiv = document.createElement("div");
+//         tableDiv.id = "table-container";
+//         tableDiv.style.display = hideTable ? "none" : "block"; 
+
+//         const table = document.createElement("table");
+//         table.style.width = "100%";
+//         table.style.borderCollapse = "collapse";
+
+//         const headers = ["Tarikh", "Parlimen", "Dun", "Umur", "Jantina", "Bangsa", "Actions"];
+//         table.innerHTML = `<tr>${headers.map(h => `<th style='border:1px solid #ddd;padding:8px;font-weight:bold;'>${h}</th>`).join('')}</tr>`;
+
+//         allSurveys.forEach((survey, index) => {
+//             const row = document.createElement("tr");
+//             ["date", "parlimen", "dun", "umur", "jantina", "bangsa"].forEach(q => {
+//                 row.innerHTML += `<td style='border:1px solid #ddd;padding:8px;'>${survey.answers[q] || "-"}</td>`;
+//             });
+//             row.innerHTML += `<td style='padding:8px;'><button style='color:white;background:red;padding:5px 10px;cursor:pointer;' onclick='deleteSurveyResponse(${index})'>Delete</button></td>`;
+//             table.appendChild(row);
+//         });
+
+//         tableDiv.appendChild(table);
+//         surveyContainer.appendChild(tableDiv);
+
+//         let toggleButton = document.getElementById("toggle-table-button");
+//         if (!toggleButton) {
+//             toggleButton = document.createElement("button");
+//             toggleButton.id = "toggle-table-button";
+//             toggleButton.textContent = "Show Table";
+//             toggleButton.classList.add("survey-option");
+//             toggleButton.style.marginBottom = "10px";
+//             surveyContainer.insertBefore(toggleButton, tableDiv);
+//         }
+
+//         toggleButton.onclick = function () {
+//             const isHidden = tableDiv.style.display === "none";
+//             tableDiv.style.display = isHidden ? "block" : "none";
+//             toggleButton.textContent = isHidden ? "Hide Table" : "Show Table";
+//         };
+//     }
+
+//     window.deleteSurveyResponse = function (index) {
+//         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+//         allSurveys.splice(index, 1);
+//         localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+//         displayAllSurveyResponses();
+//     };
+
+//     showQuestion(currentQuestionIndex);
+
+// });
+
+
+
+
+
+// import { surveyQuestions } from "./listOfQuestions.js";
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     const surveyContainer = document.getElementById("survey-container");
+//     let currentQuestionIndex = 0;
+
+//     function showQuestion(index) {
+//         if (index >= surveyQuestions.length) {
+//             surveyContainer.innerHTML = "<h3>Terima kasih kerana menjawab kaji selidik ini!</h3>";
+//             saveSurveyResponses();
+//             displayAllSurveyResponses(true);
+//             return;
+//         }
+
+//         const question = surveyQuestions[index];
+//         surveyContainer.innerHTML = "";
+
+//         const questionDiv = document.createElement("div");
+//         questionDiv.classList.add("survey-question");
+
+//         if (question.picture?.trim()) {
+//             const img = document.createElement("img");
+//             Object.assign(img, {
+//                 src: question.picture,
+//                 alt: "IDS Logo",
+//                 style: "width:30%;display:block;margin:auto;margin-bottom:10px;"
+//             });
+//             questionDiv.appendChild(img);
+//         }
+
+//         const textElement = document.createElement("h3");
+//         textElement.textContent = question.text;
+//         questionDiv.appendChild(textElement);
+
+//         if (question.id === "umur") {  
+//             showAgeInput(question.id, index + 1);
+//         } else {
+//             const optionsDiv = document.createElement("div");
+//             optionsDiv.classList.add("options-container");
+
+//             question.options.forEach(option => {
+//                 const button = document.createElement("button");
+//                 button.textContent = option.name || option.code;
+//                 button.classList.add("survey-option");
+//                 button.addEventListener("click", () => handleOptionClick(question, option, index));
+//                 optionsDiv.appendChild(button);
+//             });
+
+//             surveyContainer.append(questionDiv, optionsDiv);
+//         }
+//     }
+
+//     function handleOptionClick(question, option, index) {
+//         if (option.name === "Lain - Lain") {
+//             surveyContainer.innerHTML = "";
+//             showInputField(question.id, index + 1);
+//         } else {
+//             handleAnswer(question.id, option);
+//             question.id === "parlimen" && option.dun
+//                 ? showDUNOptions(option.dun, index + 1)
+//                 : showQuestion(index + 1);
+//         }
+//     }
+
+//     function showInputField(questionId, nextIndex) {
+//         const inputField = document.createElement("input");
+//         inputField.type = "text";
+//         inputField.placeholder = "Sila masukkan jawapan anda...";
+//         inputField.classList.add("custom-input");
+
+//         const nextButton = document.createElement("button");
+//         nextButton.textContent = "Next";
+//         nextButton.classList.add("survey-option");
+//         nextButton.addEventListener("click", () => {
+//             if (inputField.value.trim()) {
+//                 handleAnswer(questionId, { name: inputField.value.trim() });
+//                 showQuestion(nextIndex);
+//             } else alert("Sila masukkan jawapan sebelum meneruskan.");
+//         });
+
+//         surveyContainer.append(inputField, nextButton);
+//     }
+
+//     function showDUNOptions(dunList, nextIndex) {
+//         surveyContainer.innerHTML = "<h3>Sila pilih DUN anda:</h3>";
+//         dunList.forEach(dun => {
+//             const button = document.createElement("button");
+//             button.textContent = dun;
+//             button.classList.add("survey-option");
+//             button.addEventListener("click", () => {
+//                 handleAnswer("dun", { name: dun });
+//                 showQuestion(nextIndex);
+//             });
+//             surveyContainer.appendChild(button);
+//         });
+//     }
+
+//     function showAgeInput(questionId, nextIndex) {
+//         const questionTitle = document.createElement("h3");
+//         questionTitle.textContent = "Sila masukkan umur anda:";
+//         questionTitle.style.textAlign = "center";
+  
+
+//         const inputField = document.createElement("input");
+//         inputField.type = "text";
+//         inputField.min = 18;
+//         inputField.max = 100;
+//         inputField.placeholder = "Masukkan umur anda (18-100)";
+//         inputField.classList.add("custom-input");
+
+//         const submitButton = document.createElement("button");
+//         submitButton.textContent = "Submit";
+//         submitButton.classList.add("survey-option");
+
+//         submitButton.addEventListener("click", () => {
+//             const age = parseInt(inputField.value.trim());
+//             if (age >= 18 && age <= 100) {
+//                 handleAnswer(questionId, { name: age });
+//                 showQuestion(nextIndex);
+//             } else {
+//                 alert("Sila masukkan umur antara 18 hingga 100.");
+//             }
+//         });
+
+//         surveyContainer.append(inputField, submitButton);
+//     }
+
+//     function handleAnswer(questionId, selectedOption) {
+//         let survey = JSON.parse(localStorage.getItem("currentSurvey")) || { userId: Date.now(), answers: {} };
+//         survey.answers["date"] = new Date().toLocaleDateString("en-GB");
+//         survey.answers[questionId] = selectedOption.name || selectedOption.code;
+//         localStorage.setItem("currentSurvey", JSON.stringify(survey));
+//     }
+
+//     function saveSurveyResponses() {
+//         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+//         let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey"));
+//         if (currentSurvey) {
+//             allSurveys.push(currentSurvey);
+//             localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+//             localStorage.removeItem("currentSurvey");
+//         }
+//     }
+
+//     function displayAllSurveyResponses(hideTable = false) {
+//         document.getElementById("table-container")?.remove();
+
+//         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+//         const tableDiv = document.createElement("div");
+//         tableDiv.id = "table-container";
+//         tableDiv.style.display = hideTable ? "none" : "block"; 
+
+//         const table = document.createElement("table");
+//         table.style.width = "100%";
+//         table.style.borderCollapse = "collapse";
+
+//         const headers = ["Tarikh", "Parlimen", "Dun", "Umur", "Jantina", "Bangsa", "Actions"];
+//         table.innerHTML = `<tr>${headers.map(h => `<th style='border:1px solid #ddd;padding:8px;font-weight:bold;'>${h}</th>`).join('')}</tr>`;
+
+//         allSurveys.forEach((survey, index) => {
+//             const row = document.createElement("tr");
+//             ["date", "parlimen", "dun", "umur", "jantina", "bangsa"].forEach(q => {
+//                 row.innerHTML += `<td style='border:1px solid #ddd;padding:8px;'>${survey.answers[q] || "-"}</td>`;
+//             });
+//             row.innerHTML += `<td style='padding:8px;'><button style='color:white;background:red;padding:5px 10px;cursor:pointer;' onclick='deleteSurveyResponse(${index})'>Delete</button></td>`;
+//             table.appendChild(row);
+//         });
+
+//         tableDiv.appendChild(table);
+//         surveyContainer.appendChild(tableDiv);
+
+//         let toggleButton = document.getElementById("toggle-table-button");
+//         if (!toggleButton) {
+//             toggleButton = document.createElement("button");
+//             toggleButton.id = "toggle-table-button";
+//             toggleButton.textContent = "Show Table"; 
+//             toggleButton.classList.add("survey-option");
+//             toggleButton.style.marginBottom = "10px";
+//             surveyContainer.insertBefore(toggleButton, tableDiv);
+//         }
+
+//         toggleButton.onclick = function () {
+//             const isHidden = tableDiv.style.display === "none";
+//             tableDiv.style.display = isHidden ? "block" : "none";
+//             toggleButton.textContent = isHidden ? "Hide Table" : "Show Table";
+//         };
+//     }
+
+//     window.deleteSurveyResponse = function (index) {
+//         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+//         allSurveys.splice(index, 1);
+//         localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+//         displayAllSurveyResponses();
+//     };
+
+//     showQuestion(currentQuestionIndex);
+// });
+
+
+
+
+// BACKUP CODE JUST INCASE!!
+// import { surveyQuestions } from "./listOfQuestions.js";
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     const surveyContainer = document.getElementById("survey-container");
+//     let currentQuestionIndex = 0; // Track the current question index
+//     let selectedAnswer = null; // Variable to store the selected answer
+
+//     function showQuestion(index) {
+//         if (index >= surveyQuestions.length) {
+//             let responses = JSON.parse(localStorage.getItem("surveyResponses")) || {};
+//             surveyContainer.innerHTML = "<h3>Terima kasih kerana menjawab kaji selidik ini!</h3>";
+
+//             //Display responses 
+//             const responseDiv = document.createElement("div");
+//             responseDiv.innerHTML = "<h4> Jawapan Anda: </h4><pre>" + JSON.stringify(responses, null, 2) + "</pre>";
+//             surveyContainer.appendChild(responseDiv);
+
+//             return;
+            
+//         }
+
+      
+
+//         const question = surveyQuestions[index];
+//         surveyContainer.innerHTML = ""; // Clear previous content
+
+//         const questionDiv = document.createElement("div");
+//         questionDiv.classList.add("survey-question");
+
+//         //Add logo to the beginning of the survey referencing to the listOfQuestions.js. Updated at 20 March 2025
+//         if (question.picture && question.picture.trim !== ""){
+//             const img = document.createElement("img");
+//             img.src = question.picture;
+//             img.alt = "IDS Logo";
+//             img.style.width = "30%";
+//             img.style.display = "block";
+//             img.style.marginLeft = "auto";
+//             img.style.marginRight = "auto";
+//             img.style.marginBottom = "10px";
+//             questionDiv.appendChild(img);
+//         }
+//             // ✅ Use `appendChild` for text instead of `innerHTML` Updated at 20 March 2025.
+//             const textElement = document.createElement("h3");
+//             textElement.textContent = question.text;
+//             questionDiv.appendChild(textElement);
+
+//         // Create container for the options (answers)
+//         const optionsDiv = document.createElement("div");
+//         optionsDiv.classList.add("options-container");
+
+   
+
+//         // Create and display options as buttons
+//         question.options.forEach(option => {
+//             const button = document.createElement("button");
+//             button.textContent = option.name || option.code;
+//             button.classList.add("survey-option");
+
+//             // Add specific behavior based on options
+//             button.addEventListener("click", () => {
+//                 selectedAnswer = option; // Store the selected answer
+//                 handleAnswer(question.id, option);
+
+//                 // If the question is 'parlimen', show corresponding DUN options
+//                 if (question.id === "parlimen" && option.dun) {
+//                     showDUNOptions(option.dun, index + 1); // Show DUN options after parlimen selection
+//                 } else {
+//                     // Handle transitions based on other options
+//                     if (question.id === "cendurungUntukMenundi") {
+//                         if (option.name === "Parti National") {
+//                             showQuestion(index + 1); // Go to Parti Nasional question
+//                         } else if (option.name === "Parti Tempatan") {
+//                             showQuestion(index + 2); // Skip Parti Nasional and go to Parti Tempatan
+//                         } else if (option.name === "Tiada Kecendurungan") {
+//                             showQuestion(index + 3); // Skip to Pemimpin Sabah
+//                         }
+//                     } else {
+//                         showQuestion(index + 1); // Normal flow to next question
+//                     }
+//                 }
+//             });
+
+//             optionsDiv.appendChild(button);
+//         });
+
+//         questionDiv.appendChild(optionsDiv); // Add options to the question container
+
+//         // Create a separate div for Previous and Next buttons
+//         const buttonsDiv = document.createElement("div");
+//         buttonsDiv.classList.add("buttons-container");
+
+//         // Show Previous Button only if we're not on the first question
+//         if (index > 1) {
+//             const prevButton = document.createElement("button");
+//             prevButton.textContent = "Previous";
+//             prevButton.classList.add("survey-option");
+//             prevButton.addEventListener("click", () => {
+//                 showQuestion(index - 1); // Go to the previous question
+//             });
+//             buttonsDiv.appendChild(prevButton);
+//         }
+
+//         // Append buttons div after options div
+//         questionDiv.appendChild(buttonsDiv);
+
+//         surveyContainer.appendChild(questionDiv);
+//     }
+
+//     // Function to show DUN options after selecting a parliament
+//     function showDUNOptions(dunList, nextQuestionIndex) {
+//         surveyContainer.innerHTML = "<h3>Sila pilih DUN anda:</h3>";
+
+//         dunList.forEach(dun => {
+//             const button = document.createElement("button");
+//             button.textContent = dun;
+//             button.classList.add("survey-option");
+//             button.addEventListener("click", () => {
+//                 handleAnswer("dun", { name: dun });
+//                 showQuestion(nextQuestionIndex); // Move to the next question after selecting DUN
+//             });
+//             surveyContainer.appendChild(button);
+//         });
+//     }
+
+//     function handleAnswer(questionId, selectedOption) {
+
+//         let surveyResponses = JSON.parse(localStorage.getItem("surveyResponses")) || {};
+//         surveyResponses[questionId] = selectedOption.name || selectedOption.code;
+
+//         localStorage.setItem("surveyResponses", JSON.stringify(surveyResponses));
+
+//         console.log(`Answered ${questionId}:`, selectedOption);
+//         // Here you can store responses or send to a server if necessary
+//     }
+
+//     showQuestion(currentQuestionIndex); // Start with the first question
+// });
+
+
+
+
+
+//IMPORTANT NOTE! : THIS IS THE 1ST VERSION OF THE CODE BEFORE THE NEW VERSION APPPLIES AS SHOWN ABOVE (Not Comment)
+
+// import { surveyQuestions } from "./listOfQuestions.js";
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     const surveyContainer = document.getElementById("survey-container");
+//     const prevButton = document.getElementById("prev-button");
+//     const nextButton = document.getElementById("next-button");
+
+//     let currentQuestionIndex = 0; // Track the current question index
+//     let questionHistory = []; // Track previous questions for "Previous" button
+
+//     function showQuestion(index) {
+//         if (index >= surveyQuestions.length) {
+//             surveyContainer.innerHTML = "<h3>Terima kasih kerana menjawab kaji selidik ini!</h3>";
+//             prevButton.style.display = 'none';
+//             nextButton.style.display = 'none';
+//             return;
+//         }
+
+//         const question = surveyQuestions[index];
+//         surveyContainer.innerHTML = ""; // Clear previous content
+
+//         const questionDiv = document.createElement("div");
+//         questionDiv.classList.add("survey-question");
+//         questionDiv.innerHTML = `<h3>${question.text}</h3>`;
+
+//         question.options.forEach(option => {
+//             const button = document.createElement("button");
+//             button.textContent = option.name || option.code;
+//             button.classList.add("survey-option");
+//             button.addEventListener("click", () => {
+//                 handleAnswer(question.id, option);
+
+//                 // Handle specific logic for different questions
+//                 if (question.id === "parlimen" && option.dun) {
+//                     // Show DUN options if a Parliament option is selected
+//                     showDUNOptions(option.dun, index + 1);
+//                 } else if (question.id === "cendurungUntukMenundi" && option.name === "Parti Nasional") {
+//                     // Go to Parti Nasional questions if selected
+//                     showQuestion(index + 1);  // Proceed to the next question (partiNasional)
+//                 } else if (question.id === "cendurungUntukMenundi" && option.name === "Parti Tempatan") {
+//                     // Skip Parti Nasional questions and go directly to Parti Tempatan
+//                     showQuestion(index + 2);  // Skip the next question (partiNasional)
+//                 } else if (question.id === "cendurungUntukMenundi" && option.name === "Tiada Kecendurungan") {
+//                     // Skip directly to the final question (pemimpinSabah)
+//                     showQuestion(index + 3);  // Skip to pemimpinSabah
+//                 } else {
+//                     // Default: move to the next question
+//                     questionHistory.push(index); // Save question index for "Previous"
+//                     showQuestion(index + 1);
+//                 }
+//             });
+//             questionDiv.appendChild(button);
+//         });
+
+//         surveyContainer.appendChild(questionDiv);
+
+//         // Update button visibility
+//         updateButtons();
+//     }
+
+//     // Show DUN options when a Parliament is selected
+//     function showDUNOptions(dunList, nextQuestionIndex) {
+//         surveyContainer.innerHTML = "<h3>Sila pilih DUN anda:</h3>";
+
+//         dunList.forEach(dun => {
+//             const button = document.createElement("button");
+//             button.textContent = dun;
+//             button.classList.add("survey-option");
+//             button.addEventListener("click", () => {
+//                 handleAnswer("dun", { name: dun });
+//                 questionHistory.push(currentQuestionIndex); // Save question index for "Previous"
+//                 showQuestion(nextQuestionIndex); // Move to the next question after selecting DUN
+//             });
+//             surveyContainer.appendChild(button);
+//         });
+
+//         // Update button visibility
+//         updateButtons();
+//     }
+
+//     function handleAnswer(questionId, selectedOption) {
+//         console.log(`Answered ${questionId}:`, selectedOption);
+//         // Store responses or send them to a server if needed
+//     }
+
+//     function updateButtons() {
+//         // Show or hide the Previous button
+//         if (currentQuestionIndex > 0) {
+//             prevButton.style.display = "inline-block";
+//         } else {
+//             prevButton.style.display = "none";
+//         }
+
+//         // Show or hide the Next button based on the current question index
+//         if (currentQuestionIndex >= surveyQuestions.length - 1) {
+//             nextButton.textContent = "Finish"; // Change "Next" to "Finish" on last question
+//         } else {
+//             nextButton.textContent = "Next";
+//         }
+//     }
+
+//     // "Next" button click event
+//     nextButton.addEventListener("click", () => {
+//         if (currentQuestionIndex < surveyQuestions.length) {
+//             questionHistory.push(currentQuestionIndex); // Save question index for "Previous"
+//             showQuestion(currentQuestionIndex + 1);
+//         }
+//     });
+
+//     // "Previous" button click event
+//     prevButton.addEventListener("click", () => {
+//         if (questionHistory.length > 0) {
+//             const prevIndex = questionHistory.pop(); // Get the previous question index
+//             showQuestion(prevIndex); // Show the previous question
+//         }
+//     });
+
+//     showQuestion(currentQuestionIndex); // Start with the first question
+// });
+
+// import { surveyQuestions } from "./listOfQuestions.js";
+
+// document.addEventListener("DOMContentLoaded", function () {
+//     const surveyContainer = document.getElementById("survey-container");
+//     let currentQuestionIndex = 0; // Track the current question index
+
+//     function showQuestion(index) {
+//         if (index >= surveyQuestions.length) {
+//             surveyContainer.innerHTML = "<h3>Terima kasih kerana menjawab kaji selidik ini!</h3>";
+//             return;
+//         }
+
+//         const question = surveyQuestions[index];
+//         surveyContainer.innerHTML = ""; // Clear previous content
+
+//         const questionDiv = document.createElement("div");
+//         questionDiv.classList.add("survey-question");
+//         questionDiv.innerHTML = `<h3>${question.text}</h3>`;
+
+//         // Show Previous Button only if we're not on the first question
+//         if (index > 0) {
+//             const prevButton = document.createElement("button");
+//             prevButton.textContent = "Previous";
+//             prevButton.classList.add("survey-option");
+//             prevButton.addEventListener("click", () => {
+//                 showQuestion(index - 1); // Go to the previous question
+//             });
+//             questionDiv.appendChild(prevButton);
+//         }
+
+//         // Show options as buttons
+//         question.options.forEach(option => {
+//             const button = document.createElement("button");
+//             button.textContent = option.name || option.code;
+//             button.classList.add("survey-option");
+
+//             // Add specific behavior based on options
+//             button.addEventListener("click", () => {
+//                 handleAnswer(question.id, option);
+                
+//                 // Handle transitions based on option selections
+//                 if (question.id === "cendurungUntukMenundi") {
+//                     if (option.name === "Parti National") {
+//                         showQuestion(index + 1); // Go to Parti Nasional question
+//                     } else if (option.name === "Parti Tempatan") {
+//                         showQuestion(index + 2); // Skip Parti Nasional and go to Parti Tempatan
+//                     } else if (option.name === "Tiada Kecendurungan") {
+//                         showQuestion(index + 3); // Skip to Pemimpin Sabah
+//                     }
+//                 } else if (question.id === "partiNasional" && option.name === "BN") {
+//                     showQuestion(index + 1); // Proceed to next relevant question after Parti Nasional
+//                 } else if (question.id === "partiTempatan") {
+//                     showQuestion(index + 1); // Skip to Parti Tempatan
+//                 } else {
+//                     showQuestion(index + 1); // Normal flow to next question
+//                 }
+//             });
+
+//             questionDiv.appendChild(button);
+//         });
+
+//         // Add Next Button (only after answering an option)
+//         const nextButton = document.createElement("button");
+//         nextButton.textContent = "Next";
+//         nextButton.classList.add("survey-option");
+//         nextButton.addEventListener("click", () => {
+//             showQuestion(index + 1); // Go to the next question
+//         });
+
+//         questionDiv.appendChild(nextButton);
+
+//         surveyContainer.appendChild(questionDiv);
+//     }
+
+//     function handleAnswer(questionId, selectedOption) {
+//         console.log(`Answered ${questionId}:`, selectedOption);
+//         // Here you can store responses or send to a server if necessary
+//     }
+
+//     showQuestion(currentQuestionIndex); // Start with the first question
+// });
+
+
