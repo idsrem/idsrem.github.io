@@ -5,9 +5,9 @@ const CACHE_ASSETS = [
   'index.html',
   'styles.css', 
   'questions.js',
-  // 'cycle2/index.html',  // for cycle 2 pages
-  // 'cycle2/styles2.css',
-  // 'cycle2/questions2.js'
+  'cycle2/index.html',  // for cycle 2 pages
+  'cycle2/styles2.css',
+  'cycle2/questions2.js'
 ];
 
 self.addEventListener('install', (event) => {
