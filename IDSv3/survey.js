@@ -1,5 +1,6 @@
 //importing the listOfQuestions.js file from here to reference all of the questions provided
 import { surveyQuestions } from "./listOfQuestions.js";
+import { enumerator } from "./enumerator.js";
 
 document.addEventListener("DOMContentLoaded", function () {
     const surveyContainer = document.getElementById("survey-container");
@@ -8,68 +9,78 @@ document.addEventListener("DOMContentLoaded", function () {
     let userResponses = {};
 
 
-    function showIdInput() {
+function showIdInput() {
+    const surveyContainer = document.getElementById('survey-container');
+    surveyContainer.innerHTML = ""; // Clear the survey container
 
+    const messageView = document.getElementById("message-view"); // Ensure message view is referenced
 
-        surveyContainer.innerHTML = "";
+    if (!messageView) {
+        console.error("message-view element not found!");
+        return;
+    }
 
-        const messageView = document.getElementById("message-view"); // Ensure message view is referenced
+    const questionText = "Sila masukkan kod anda untuk memulakan kaji selidik:";
 
-        // Ensure the message view is cleared before appending new content
-        if (!messageView) {
-            console.error("message-view element not found!");
-            return;
+    // Create question bubble element
+    const questionBubble = document.createElement("div");
+    questionBubble.classList.add("message-bubble", "question-bubble");
+    questionBubble.textContent = questionText;
+    messageView.appendChild(questionBubble);
+
+    const questionTitle = document.createElement("p");
+    questionTitle.textContent = "Sila masukkan kod anda untuk memulakan kaji selidik:";
+    questionTitle.style.textAlign = "center";
+    questionTitle.style.marginTop = "35px";
+
+    const inputField = document.createElement("input");
+    inputField.type = "text";
+    inputField.style.width = "40%";
+    inputField.style.borderRadius = "10px";
+    inputField.style.padding = "10px";
+    inputField.style.marginBottom = "10px";
+    inputField.placeholder = "Masukkan ID anda...";
+    inputField.classList.add("custom-input");
+
+    if (currentUserId) inputField.value = currentUserId; // Auto-fill if ID exists
+
+    const nextButton = document.createElement("button");
+    nextButton.textContent = "Seterusnya";
+    nextButton.classList.add("submit-button");
+
+    nextButton.addEventListener("click", () => {
+        const kodInput = inputField.value.trim();
+
+        if (kodInput === '') {
+            alert("Sila isi kod anda!");
+            return; // If no input, alert and return
         }
 
-        // Define the question text directly (or ensure question exists)
-        const questionText = "Sila masukkan kod anda untuk memulakan kaji selidik:";
+        // Check if the entered code exists in the enumerator array
+        const userExists = enumerator.some(user => user.userID === kodInput);
 
-        const questionBubble = document.createElement("div");
-        questionBubble.classList.add("message-bubble", "question-bubble");
-        questionBubble.textContent = questionText;
-        messageView.appendChild(questionBubble);
+        if (!userExists) {
+            alert("ID yang dimasukkan tidak wujud. Sila semak semula.");
+            return; // If user doesn't exist, show an alert and return
+        }
 
+        // If user exists, store ID and proceed
+        currentUserId = kodInput;
+        localStorage.setItem("currentUserId", currentUserId); // Store the ID in local storage
 
-        const questionTitle = document.createElement("p");
-        questionTitle.textContent = "Sila masukkan kod anda untuk memulakan kaji selidik:";
-        questionTitle.style.textAlign = "center";
-        questionTitle.style.marginTop = "35px";
+        // Show user input in message view
+        const userMessage = document.createElement("div");
+        userMessage.classList.add("message-bubble", "answer-bubble");
+        userMessage.innerHTML = `Anda: ${kodInput}`; // Display the typed answer
+        messageView.appendChild(userMessage);
 
-        const inputField = document.createElement("input");
-        inputField.type = "text";
-        inputField.style.width = "40%";
-        inputField.style.borderRadius = "10px";
-        inputField.style.padding = "10px";
-        inputField.style.marginBottom = "10px";
-        inputField.placeholder = "Masukkan ID anda...";
-        inputField.classList.add("custom-input");
+        // Start the survey after the validation
+        startSurvey();
+    });
 
-        if (currentUserId) inputField.value = currentUserId; // Auto-fill if ID exist
+    surveyContainer.append(questionTitle, inputField, nextButton);
+}
 
-        const nextButton = document.createElement("button");
-        nextButton.textContent = "Seterusnya";
-        nextButton.classList.add("submit-button");
-        nextButton.addEventListener("click", () => {
-            if (inputField.value.trim()) {
-
-                currentUserId = inputField.value.trim(); // Store the entered ID
-                localStorage.setItem("currentUserId", currentUserId); // Store ID permanently
-
-                //Show user input in message view
-                const userMessage = document.createElement("div");
-                userMessage.classList.add("message-bubble", "answer-bubble");
-                userMessage.innerHTML = `Anda: ${inputField.value.trim()}`;  // Display the typed answer, not the input field
-                messageView.appendChild(userMessage);
-                
-
-                startSurvey();
-            } else {
-                alert("Sila masukkan ID sebelum meneruskan.");
-            }
-        });
-
-        surveyContainer.append(questionTitle, inputField, nextButton);
-    }
 
     //When execute the web - app survey it will go to the first question.
     function startSurvey() {
@@ -175,7 +186,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 }else if (option.name === "Lain - Lain"){
                     button.classList.add("lain-lain-option");
                     button.textContent = "Lain - Lain";
-                } 
+                }
+                else if (option.name === "Mula"){
+                    button.style.backgroundColor = "#339A00";
+                    button.style.color = "#FFFFFF";
+                    button.textContent = "Mula";
+                }
 
                 //Question Rank CSS Colour
                 else if (option.name === "Sangat Negatif"){
@@ -239,6 +255,8 @@ document.addEventListener("DOMContentLoaded", function () {
         userResponses[question.id] = option.name
 
         console.log("User Responses: ", userResponses); // Check if it gets added here
+        console.log(option.name);
+        
 
         if(option.name === "Lain - Lain") {
             showInputField(question.text, question.id, index + 1);
@@ -260,8 +278,12 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Parlimen question or options not found in surveyQuestions.");
         }
 
-            //For the last question of the survey, a condition of ya and tidak...
-        } else if (question.id === "parlimen"){
+            
+        }else if (question.name === "Lain - Lain" && question.id === "pengaruhPersepsi"){
+            showInputField(question.text, question.id, index + 1);
+        }
+        //For the last question of the survey, a condition of ya and tidak...
+        else if (question.id === "parlimen"){
             handleAnswer(question.id, option);
             showDUNOptions(option.dun, index + 1);
                 
@@ -269,21 +291,26 @@ document.addEventListener("DOMContentLoaded", function () {
             saveSurveyResponses();//Save the response and..
             showQuestion(0); //Restart form parlimen with the same ID
 
-        }else if (question.id === "isiBorangLagi" && option.name.toLowerCase() === "tidak, siap sudah") {
+        }else if (question.id === "isiBorangLagi" && option.name.toLowerCase() === "tidak, selesai") {
             //currentUserId = null; // Reset to new id for the next survey
             //localStorage.removeItem("currentUserId");
             saveSurveyResponses();
             alert("Respon anda telah disimpan! Terima kasih!😊");
+            
 
+            console.log("All survey data has been stored");
             surveyContainer.innerHTML = "<h3>Terima kasih diatas kerjasama anda dalam menyertai kaji selidik ini! <br><br> Sekian dan Terima Kasih. <br><br> SABAH MAJU JAYA!<br><br> </h3>";
             displayAllSurveyResponses(true);
             redoSurvey();
         
-        } else if (question.id === "cendurungUntukMenundi") { 
+        } else if (question.id === "cendurungUntukMengundi") { 
+            userResponses[question.id] = option.name;  // Explicitly store response
+            console.log("User Responses Updated: ", userResponses);
+
             // Custom flow based on user selection
-            if (option.name === "Parti National (BN, PH...)") {
+            if (option.name === "Parti National") {
                 showQuestion(index + 1); // Move to 'Parti Tempatan' options
-            } else if (option.name === "Parti Tempatan (PRGS, WARISAN...)") {
+            } else if (option.name === "Parti Tempatan") {
                 showQuestion(index + 2); // Skip Parti Nasional and go to Parti Tempatan
             } else if (option.name === "Tiada Kecendurungan") {
                 showQuestion(index + 3); //Skip to Pemimpin Sabah Options
@@ -355,6 +382,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         surveyContainer.append(questionTitle, inputField, nextButton);
     }
+
 
 function showFilteredParliments(parlimen, nextIndex) {
 
@@ -538,74 +566,209 @@ function showFilteredParliments(parlimen, nextIndex) {
 
     function handleAnswer(questionId, selectedOption) {
         let survey = JSON.parse(localStorage.getItem("currentSurvey")) || { userId: Date.now(), answers: {} };
-        survey.answers["date"] = new Date().toLocaleDateString("en-GB");
+            // Get current date and time in "DD/MM/YYYY HH:MM:SS" format
+            survey.answers["date"] = new Date().toLocaleString("en-GB", { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                hour12: true // Use 24-hour format
+            }).toUpperCase();//Make am/pm Capital Letters
         survey.answers[questionId] = selectedOption.name || selectedOption.code;
 
         localStorage.setItem("currentSurvey", JSON.stringify(survey));
     }
 
-    function saveSurveyResponses() {
+    // function saveSurveyResponses() {
 
+    //     let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    //     let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey"));
+
+    //     currentSurvey.userId = currentUserId;
+    //     currentSurvey.answers = Object.assign({}, currentSurvey.answers, userResponses);
+
+    //     if (currentSurvey) {
+    //         allSurveys.push(currentSurvey);
+    //         localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+    //         localStorage.removeItem("currentSurvey");
+    //     }
+
+    // }
+
+    function saveSurveyResponses() {
         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
         let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey"));
+        let userid = localStorage.getItem("currentUserId");
 
-        currentSurvey.userId = currentUserId;
+        const uniqueId = Math.floor(Math.random() * 9000000) + 1000000;
 
+    
         if (currentSurvey) {
-            allSurveys.push(currentSurvey);
+            // Convert responses to the new format
+            let formattedSurvey = {
+                tarikh: currentSurvey.answers.date || "-",
+                kod:  userid || "-",
+                zone: currentSurvey.answers.zone || "-",  
+                dun: currentSurvey.answers.dun || "-",
+                umur: currentSurvey.answers.umur ? String(currentSurvey.answers.umur) : "-",
+                jantina: currentSurvey.answers.jantina || "-",
+                bangsa: currentSurvey.answers.bangsa || "-",
+                bangsalain: "", // Empty placeholder
+                parlimen: currentSurvey.answers.parlimen || "-",
+                pengaruhmediasemasa: currentSurvey.answers.sumberUtama || "-",
+                persepsi: currentSurvey.answers.pengaruhPersepsi || "-",
+                persepsilain: "", // No direct equivalent
+                pengaruhberita: currentSurvey.answers.beritaTerkini || "-",
+                faktorlain: currentSurvey.answers.faktorLain || "-",
+                pendapatperibadi: "", // Empty placeholder
+                partiataucalon: currentSurvey.answers.partiDanCalon || "-",
+                mengundiAdun: currentSurvey.answers.mengundiAdun || "-",
+                tidakundi: "", // No direct equivalent
+                cenderunguntukundi: currentSurvey.answers.cenderungUntukMengundi|| "-",
+                pilihanpartinasional: currentSurvey.answers.partiNasional || "-",
+                pilihanpartitempatan: currentSurvey.answers.partiTempatan || "-",
+                pemimpinsabah: currentSurvey.answers.pemimpinSabah || "-",
+                pemimpinsabahlain: "", // Empty placeholder
+                isiboranglagi: currentSurvey.answers.isiBorangLagi || "-",
+                responseid: uniqueId,
+            };
+    
+            // Push formatted data to the array
+            allSurveys.push(formattedSurvey);
+    
+            // Save back to localStorage
             localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
             localStorage.removeItem("currentSurvey");
         }
-
     }
 
+    // function displayAllSurveyResponses(hideTable = false) {
+
+
+    //     document.getElementById("table-container")?.remove();
+
+    //     // let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    //     let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+
+    //     allSurveys = allSurveys.map(survey => {
+    //         return survey.answers ? survey.answers : survey; // Handles both old & new formats
+    //     });
+
+    //     const tableDiv = document.createElement("div");
+    //     tableDiv.id = "table-container";
+    //     tableDiv.style.display = hideTable ? "none" : "block"; 
+
+    //     const table = document.createElement("table");
+    //     table.style.width = "100%";
+    //     table.style.borderCollapse = "collapse";
+
+    //     const headers = ["Tarikh", "Parlimen", "Dun", "Umur", "Jantina", "Bangsa", "Actions"];
+    //     table.innerHTML = `<tr>${headers.map(h => `<th style='border:1px solid #ddd;padding:8px;font-weight:bold;'>${h}</th>`).join('')}</tr>`;
+
+    //     allSurveys.forEach((survey, index) => {
+    //         const row = document.createElement("tr");
+    //         ["date", "parlimen", "dun", "umur", "jantina", "bangsa"].forEach(q => {
+    //             row.innerHTML += `<td style='border:1px solid #ddd;padding:8px;'>${survey.answers[q] || "-"}</td>`;
+    //         });
+    //         row.innerHTML += `<td style='padding:8px;'><button style='color:white;background:red;padding:5px 10px;cursor:pointer;' onclick='deleteSurveyResponse(${index})'>Delete</button></td>`;
+    //         table.appendChild(row);
+    //     });
+
+    //     tableDiv.appendChild(table);
+    //     surveyContainer.appendChild(tableDiv);
+
+    //     let toggleButton = document.getElementById("toggle-table-button");
+    //     if (!toggleButton) {
+    //         toggleButton = document.createElement("button");
+    //         toggleButton.id = "toggle-table-button";
+    //         toggleButton.textContent = "Show Table";
+    //         toggleButton.classList.add("survey-option");
+    //         toggleButton.style.marginBottom = "10px";
+    //         surveyContainer.insertBefore(toggleButton, tableDiv);
+    //     }
+
+    //     toggleButton.onclick = function () {
+    //         const isHidden = tableDiv.style.display === "none";
+    //         tableDiv.style.display = isHidden ? "block" : "none";
+    //         toggleButton.textContent = isHidden ? "Hide Table" : "Show Table";
+    //     };
+
+    //     downloadInExcelDoc(true) //Download excel button
+    // }
+
+
     function displayAllSurveyResponses(hideTable = false) {
-
-
         document.getElementById("table-container")?.remove();
-
+    
         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    
+        // Ensure compatibility with both formats
+        allSurveys = allSurveys.map(survey => {
+            return survey.answers ? survey.answers : survey; // Converts old format to match new
+        });
+    
         const tableDiv = document.createElement("div");
         tableDiv.id = "table-container";
         tableDiv.style.display = hideTable ? "none" : "block"; 
-
+    
         const table = document.createElement("table");
         table.style.width = "100%";
         table.style.borderCollapse = "collapse";
-
-        const headers = ["Tarikh", "Parlimen", "Dun", "Umur", "Jantina", "Bangsa", "Actions"];
+    
+        // Headers adapted to the new format
+        const headers = ["Tarikh", "Zone", "Parlimen", "Dun", "Umur", "Jantina", "Bangsa", "Actions"];
         table.innerHTML = `<tr>${headers.map(h => `<th style='border:1px solid #ddd;padding:8px;font-weight:bold;'>${h}</th>`).join('')}</tr>`;
-
+    
         allSurveys.forEach((survey, index) => {
             const row = document.createElement("tr");
-            ["date", "parlimen", "dun", "umur", "jantina", "bangsa"].forEach(q => {
-                row.innerHTML += `<td style='border:1px solid #ddd;padding:8px;'>${survey.answers[q] || "-"}</td>`;
-            });
+    
+            // Adjust field mappings for new format
+            const values = [
+                survey.tarikh || survey.answers?.date || "-",  // "tarikh" in new, "date" in old
+                survey.zone || survey.answers?.zone || "-",
+                survey.parlimen || survey.answers?.parlimen || "-",
+                survey.dun || survey.answers?.dun || "-",
+                survey.umur || survey.answers?.umur || "-",
+                survey.jantina || survey.answers?.jantina || "-",
+                survey.bangsa || survey.answers?.bangsa || "-"
+            ];
+    
+            row.innerHTML = values.map(value => `<td style='border:1px solid #ddd;padding:8px;'>${value}</td>`).join('');
+            
+            // Add delete button
             row.innerHTML += `<td style='padding:8px;'><button style='color:white;background:red;padding:5px 10px;cursor:pointer;' onclick='deleteSurveyResponse(${index})'>Delete</button></td>`;
+            
             table.appendChild(row);
         });
-
+    
         tableDiv.appendChild(table);
         surveyContainer.appendChild(tableDiv);
-
+    
         let toggleButton = document.getElementById("toggle-table-button");
         if (!toggleButton) {
             toggleButton = document.createElement("button");
             toggleButton.id = "toggle-table-button";
             toggleButton.textContent = "Show Table";
+            toggleButton.style.backgroundColor = ""
             toggleButton.classList.add("survey-option");
             toggleButton.style.marginBottom = "10px";
             surveyContainer.insertBefore(toggleButton, tableDiv);
         }
-
+    
         toggleButton.onclick = function () {
             const isHidden = tableDiv.style.display === "none";
             tableDiv.style.display = isHidden ? "block" : "none";
             toggleButton.textContent = isHidden ? "Hide Table" : "Show Table";
         };
+            // Fix: Ensure the "Push Database" button is added only once
+        if (!document.getElementById("push-database")) {
+            pushToDatabaseButton();
+        }
 
-        downloadInExcelDoc(true) //Download excel button
+        downloadInExcelDoc(true); // Ensure Excel download button appears
     }
+    
 
     window.deleteSurveyResponse = function (index) {
         let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
@@ -614,12 +777,76 @@ function showFilteredParliments(parlimen, nextIndex) {
         displayAllSurveyResponses();
     };
 
+
+    function pushToDatabaseButton(){
+        const data = JSON.parse(localStorage.getItem("allSurveyResponses"));
+    
+        if (!document.getElementById("pushDatabase")) {
+            const pushDatabase = document.createElement("button");
+            pushDatabase.id = "push-database";
+            pushDatabase.textContent = "Simpan Data";
+            pushDatabase.classList.add("survey-option"); 
+            pushDatabase.style.marginTop = "10px";
+    
+            // When clicked, reset and go back to ID input
+            pushDatabase.addEventListener("click", () => {
+    
+                if (data && Array.isArray(data) && data.length > 0){
+                    sendDataToBackend(data)
+    
+                    .then(() => {
+                        alert("Successfully! All data has been saved. ");
+                        localStorage.removeItem("allSurveyResponses");
+                        document.getElementById("table-container").innerHTML = '';
+                        console.log("item removed");
+                    })
+                    .catch(() => {
+                        alert("Error! Some data failed to save.");
+                        console.error('Error sending data to one or more items');
+                    });
+                } else {
+                    alert("No valid data found in localStorage");
+                }
+            });
+    
+            // Append the button to the document body or a specific element
+            document.getElementById("survey-container").appendChild(pushDatabase);
+    
+        }
+    }
+    
+
+    async function sendDataToBackend(data){
+        try {
+            // Assuming this is the correct endpoint
+            const response = await fetch('https://atiqahst-github-io.onrender.com/exportResponse', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data), // Send the entire array of objects
+            });
+        
+            if (!response.ok) {
+              throw new Error('Failed to send data');
+            }
+        
+            const responseData = await response.json();
+            console.log('Data successfully sent:', responseData);
+            return responseData;
+          } catch (error) {
+            console.error('Error sending data:', error);
+            throw error;
+          }
+
+    }
+
     function redoSurvey() {
 
         if (!document.getElementById("redo-survey")) {
             const redoSurvey = document.createElement("button");
             redoSurvey.id = "redo-survey"   ;
-            redoSurvey.textContent = "Redo Survey";
+            redoSurvey.textContent = "Padam Message & Redo Survey";
             redoSurvey.classList.add("survey-option"); 
             redoSurvey.style.marginTop = "10px";
     
@@ -645,56 +872,137 @@ function showFilteredParliments(parlimen, nextIndex) {
     }
     
 
-    function downloadInExcelDoc(){
+    // function downloadInExcelDoc(){
 
-        if(!document.getElementById("download-excel")){
+    //     if(!document.getElementById("download-excel")){
+    //         const downloadExcelDocButton = document.createElement("button");
+    //         downloadExcelDocButton.id = "download-excel";
+    //         downloadExcelDocButton.textContent = "Download in Excel";
+    //         downloadExcelDocButton.classList.add("survey-option");
+    //         downloadExcelDocButton.style.marginTop = "10px";
+
+    //         downloadExcelDocButton.addEventListener("click", function() {
+
+    //             let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+
+    //             if (allSurveys.length === 0){
+    //                 alert ("No survey data available to download");
+    //                 return;
+    //             }
+                
+    //             const headers = ["Kod", "Tarikh", "Zone", "Parlimen", "DUN", "Umur", "Jantina", "Bangsa", "Sumber Utama", "Pengaruh Persepsi", "Berita Terkini", "Faktor Lain", "Parti/Calon", "Mengundi Adun", "Cedurung Untuk Menundi", "Parti Nasional", "Parti Tempatan", "Pemimpin Sabah"];
+    //             const data = allSurveys.map (survey => [
+    //                 survey.userId ? survey.userId : (survey.answers.userId || "-"),
+    //                 survey.answers.date || "-",
+    //                 survey.answers.zone || "-",
+    //                 survey.answers.parlimen || "-",
+    //                 survey.answers.dun || "-",
+    //                 survey.answers.umur || "-",
+    //                 survey.answers.jantina || "-",
+    //                 survey.answers.bangsa || "-",
+    //                 survey.answers.sumberUtama || "-",
+    //                 survey.answers.pengaruhPersepsi || "-",
+    //                 survey.answers.beritaTerkini || "-",
+    //                 survey.answers.faktorLain || "-",
+    //                 survey.answers.partiDanCalon || "-",
+    //                 survey.answers.mengundiAdun || "-",
+    //                 survey.answers.cendurungUntukMenundi ||"-",
+    //                 survey.answers.partiNasional || "-", 
+    //                 survey.answers.partiTempatan || "-",
+    //                 survey.answers.pemimpinSabah || "-"
+    //             ]);
+            
+
+    //             const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+    //             const wb = XLSX.utils.book_new();
+    //             XLSX.utils.book_append_sheet(wb, ws, "Survey Data");
+    //             XLSX.writeFile(wb, "Latest_Data_2025.xlsx");
+    //         });
+
+    //         surveyContainer.appendChild(downloadExcelDocButton);
+    //     }
+    // }
+
+    function downloadInExcelDoc() {
+        if (!document.getElementById("download-excel")) {
             const downloadExcelDocButton = document.createElement("button");
             downloadExcelDocButton.id = "download-excel";
             downloadExcelDocButton.textContent = "Download in Excel";
             downloadExcelDocButton.classList.add("survey-option");
             downloadExcelDocButton.style.marginTop = "10px";
-
-            downloadExcelDocButton.addEventListener("click", function() {
-
-                let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
-
-                if (allSurveys.length === 0){
-                    alert ("No survey data available to download");
+    
+            downloadExcelDocButton.addEventListener("click", function () {
+                // Ensure XLSX library is loaded
+                if (typeof XLSX === "undefined") {
+                    alert("Error: XLSX library is missing. Please include the script.");
+                    console.error("XLSX library not found. Make sure to include it in your HTML.");
                     return;
                 }
-                
-                const headers = ["OperatorID", "Tarikh", "Zone", "Parlimen", "DUN", "Umur", "Jantina", "Bangsa", "Sumber Utama", "Pengaruh Persepsi", "Berita Terkini", "Faktor Lain", "Parti/Calon", "Mengundi Adun", "Cedurung Untuk Menundi", "Parti Nasional", "Parti Tempatan", "Pemimpin Sabah"];
-                const data = allSurveys.map (survey => [
-                    survey.userId ? survey.userId : (survey.answers.userId || "-"),
-                    survey.answers.date || "-",
-                    survey.answers.zone || "-",
-                    survey.answers.parlimen || "-",
-                    survey.answers.dun || "-",
-                    survey.answers.umur || "-",
-                    survey.answers.jantina || "-",
-                    survey.answers.bangsa || "-",
-                    survey.answers.sumberUtama || "-",
-                    survey.answers.pengaruhPersepsi || "-",
-                    survey.answers.beritaTerkini || "-",
-                    survey.answers.faktorLain || "-",
-                    survey.answers.partiDanCalon || "-",
-                    survey.answers.mengundiAdun || "-",
-                    survey.answers.cendurungUntukMenundi ||"-",
-                    survey.answers.partiNasional || "-", 
-                    survey.answers.partiTempatan || "-",
-                    survey.answers.pemimpinSabah || "-"
-                ]);
-
-                const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
-                const wb = XLSX.utils.book_new();
-                XLSX.utils.book_append_sheet(wb, ws, "Survey Data");
-                XLSX.writeFile(wb, "Latest_Data_2025.xlsx");
+    
+                let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    
+                if (allSurveys.length === 0) {
+                    alert("No survey data available to download");
+                    return;
+                }
+    
+                // Define headers
+                const headers = [
+                    "Kod", "Tarikh", "Zone", "Parlimen", "DUN", "Umur", "Jantina", "Bangsa",
+                    "Sumber Utama", "Pengaruh Persepsi", "Berita Terkini", "Faktor Lain",
+                    "Parti/Calon", "Mengundi Adun", "Cenderung Untuk Menundi", "Parti Nasional",
+                    "Parti Tempatan", "Pemimpin Sabah", "Response ID"
+                ];
+    
+                // Convert survey data
+                const data = allSurveys.map(survey => {
+                    let s = survey.answers ? survey.answers : survey;
+    
+                    return [
+                        s.kod || "-",
+                        s.tarikh || s.date || "-",
+                        s.zone || "-",
+                        s.parlimen || "-",
+                        s.dun || "-",
+                        s.umur || "-",
+                        s.jantina || "-",
+                        s.bangsa || "-",
+                        s.pengaruhmediasemasa || "-",
+                        s.persepsi || "-",
+                        s.pengaruhberita || "-",
+                        s.faktorlain || "-",
+                        s.partiataucalon || "-",
+                        s.mengundiAdun || "-",
+                        s.cenderunguntukundi || s.cenderungUntukMengundi || "-",
+                        s.pilihanpartinasional || "-",
+                        s.pilihanpartitempatan || "-",
+                        s.pemimpinsabah || "-",
+                        s.responseid || "-"
+                    ];
+                });
+    
+                // Generate and download Excel file
+                try {
+                    const ws = XLSX.utils.aoa_to_sheet([headers, ...data]);
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, "Survey Data");
+                    XLSX.writeFile(wb, "Latest_Data_2025.xlsx");
+                } catch (error) {
+                    console.error("Error creating Excel file:", error);
+                    alert("An error occurred while generating the Excel file.");
+                }
             });
-
+    
+            // Ensure surveyContainer exists before appending
+            if (!surveyContainer) {
+                console.error("surveyContainer not found!");
+                return;
+            }
+    
             surveyContainer.appendChild(downloadExcelDocButton);
         }
     }
-    showIdInput();
+    showIdInput()
 
 });
 

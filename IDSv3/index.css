@@ -247,6 +247,10 @@ th {
         max-width: 100%; /* Take full width */
     }
 
+    #survey-container{
+        width: 100%;
+    }
+
     #message-view{
         width: 100%;
         scroll-behavior: smooth;

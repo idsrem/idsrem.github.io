@@ -2,7 +2,7 @@ export const surveyQuestions = [
     {
         id: "introduction",
         picture: "ids_logo.png",
-        text: "Selamat datang ke kaji selidik bagi 'Pemnatauan Dinamika Pembangunan Kerajaan Fasa 2 2025'. Pandangan anda amat penting untuk membantu dan memahami sentimen isu - isu kepimpinan dan pembangunan negeri sabah. \n\n Hi! memperkenalkan Tuan/Puan untuk mengisi kaji selidik ini dengan jujur dan teliti. \n\n\n Hi! Memperkenalkan saya Tuan Awang, mari kita mulakan kaji selidik ini.",
+        text: "Selamat datang ke kaji selidik bagi 'Pemantauan Dinamika Pembangunan Kerajaan Fasa 2 Bagi Tahun 2025'. Pandangan anda amat penting untuk membantu dan memahami sentimen isu - isu kepimpinan dan pembangunan Negeri Sabah. \n\n\n Hi! Memperkenalkan saya Tuan Awang, mari kita mulakan kaji selidik ini.",
         options: [{name:"Mula"}]
     },
     {
@@ -75,7 +75,7 @@ export const surveyQuestions = [
         text: "Sila pilih bangsa anda:",
         options: [
             {name: "KDMR (MOMOGUN)"},
-            {name: "Bajau"},
+            {name: "Bajau (Suluk)"},
             {name: "Cina"},
             {name: "Melayu"},
             {name: "India"},
@@ -86,19 +86,19 @@ export const surveyQuestions = [
     //Additional Question: Dari Mana Sumber Utama after question about 'Banga'. Last updated 20th March 2025
     {
         id: "sumberUtama",
-        text: "Dari mana sumber utama anda untuk mendapat berita terkini?",
+        text: "Dari mana sumber utama anda untuk mendapatkan berita terkini?",
         options: [
             {name: "Media Sosial"},
-            {name: "Media Elektronik (TV, Radio..."},
-            {name: "Lingkaran Sosial (Keluarga, Rakan...)"}
+            {name: "Media Elektronik (contoh: Radio, Televisyen, Internet, dll.)"},
+            {name: "Lingkaran Sosial (contoh: Keluarga, Rakan - Rakan, Komuniti, dll.)"}
         ]
     },
     {
         id: "pengaruhPersepsi",
-        text: "Adakah perkara - perkara berikut mempengaruhi persepsi anda terhadap prestasi kerajaan?",
+        text: "Faktor manakah yang mempengaruhi persepsi anda terhadap prestasi kerajaan?",
         options: [
             {name: "Isu Integriti & Moral"},
-            {name: "Hak - Hak Sabah"},
+            {name: "Hak - Hak Sabah (MA63)"},
             {name: "Pembangunan"},
             {name: "Kepimpinan"},
             {name: "Lain - Lain"},
@@ -119,7 +119,8 @@ export const surveyQuestions = [
         id: "faktorLain",
         text: "Apakah faktor lain yang mempengaruhi anda untuk mengundi?",
         options: [
-            {name: "Keluarga & Rakan"},
+            {name: "Keluarga"},
+            {name: "Rakan"},
             {name: "Bangsa"},
             {name: "Hubungan dengan ADUN/Parti"},
             {name: "Insentif Pengundi (Voter's Benefits)"},
@@ -145,17 +146,17 @@ export const surveyQuestions = [
 
     },
     {
-        id: "cendurungUntukMenundi",
+        id: "cenderungUntukMengundi",
         text: "Merujuk kepada pilihan dinyatakan dibawah, yang manakah lebih cenderung untuk anda undi?",
         options: [
-            {name: "Parti National (BN, PH...)"},
-            {name: "Parti Tempatan (PRGS, WARISAN...)"},
+            {name: "Parti Nasional"},
+            {name: "Parti Tempatan"},
             {name: "Tiada Kecendurungan"}
         ]
     }, 
     {
         id: "partiNasional",
-        text: "Pilih antara yang berikut:",
+        text: "Sila pilih jawapan yang berikut:",
         options: [
             {name: "BN"},
             {name: "PH"},
@@ -164,7 +165,7 @@ export const surveyQuestions = [
     },
     {
         id: "partiTempatan",
-        text: "Pilih antara yang berikut:",
+        text: "Sila pilih jawapan yang berikut:",
         options: [
             {name: "PGRS"},
             {name: "WARISAN"},
@@ -177,10 +178,10 @@ export const surveyQuestions = [
         id: "pemimpinSabah",
         text: "Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin sabah?",
         options: [
-            {name: "Hajiji Noor"},
-            {name: "Shafie Apdal"},
-            {name: "Bung Moktar"},
-            {name: "Ewon Benedik"},
+            {name: "Hajiji Noor (GRS)"},
+            {name: "Shafie Apdal (WARISAN)"},
+            {name: "Bung Moktar(BN)"},
+            {name: "Ewon Benedick(PH)"},
             {name: "Lain - Lain"}
         ]
     },
@@ -189,7 +190,7 @@ export const surveyQuestions = [
         text: "Adakah anda ingin mengisi borang lagi sekali?",
         options: [
             {name: "Ya, isi lagi"},
-            {name: "Tidak, siap sudah"},
+            {name: "Tidak, Selesai"},
 
         ]
     },
