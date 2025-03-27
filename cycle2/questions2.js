@@ -405,9 +405,9 @@ function submitKod(field) {
 
   // Example array of users with their respective codes
   const users = [
-    { userID: '12345', name: 'User1' },
-    { userID: '67890', name: 'User2' },
-    { userID: '11223', name: 'User3' }
+    { userID: 'AL00', name: 'User1' },
+    { userID: 'AK00', name: 'User2' },
+    { userID: 'AM00', name: 'User3' }
   ];
 
   if (kodInput === '') {
