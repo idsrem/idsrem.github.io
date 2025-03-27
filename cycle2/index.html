@@ -23,7 +23,7 @@
     </div>
     <div class="btn-container">
       <button id="export-btn" onclick="buttonhijau()">Simpan Data</button>
-      <button id="clear-btn">Padam Mesej</button>
+      <button id="clear-btn">Isi Semula</button>
       
       <button style="margin-left: auto;" class="table-btn" id="toggle-table-btn">Hide Table</button>
       <button id="export-csv-btn"></button>
@@ -33,7 +33,7 @@
     
     <div id="starting-modal" class="fixed-modal">
       <div class="modal-content">
-        <h2 style="text-align: center; color: rgb(28, 28, 90); padding-left: 10%; padding-right: 10%;">Selamat datang ke kaji selidik bagi Pemantauan Dinamika Pembangunan Kerajaan Fasa 2 bagi tahun 2025.</h2>
+        <h2 style="text-align: center; color: rgb(28, 28, 90); padding-left: 10%; padding-right: 10%;">Selamat datang ke kaji selidik IDS bagi Pemantauan Dinamika Pembangunan Kerajaan Fasa 2 bagi tahun 2025.</h2>
         <div class="start-button" onclick="startSurvey()">Mula</div>
       </div>
     </div>
@@ -266,7 +266,7 @@
     <div id="mediasemasa-options-modal" class="modal">
       <!-- Adakah Berpuas Hati Dengan Pembangunan Semasa di Kawasan Anda Modal content -->
       <div class="modal-content">
-        <p>Dari mana sumber utama anda untuk mendapat berita terkini?</p>
+        <p>Dari mana sumber utama anda untuk mendapat berita politik terkini?</p>
         <div class="bubble-option"  onclick="selectOption('Media Sosial', 'pengaruhmediasemasa')">Media Sosial</div>
         <div class="bubble-option"  onclick="selectOption('Media Elektronik', 'pengaruhmediasemasa')">Media Elektronik (contoh: Radio, Televisyen, Internet, dll.)</div>
         <div class="bubble-option"  onclick="selectOption('Lingkaran Sosial', 'pengaruhmediasemasa')">Lingkaran Sosial (contoh: Keluarga, Rakan-rakan, Komuniti, dll.)</div>
@@ -344,10 +344,10 @@
     <div id="persepsi-options-modal" class="modal">
       <div class="modal-content">
         <p>Faktor manakah yang mempengaruhi persepsi anda terhadap prestasi Kerajaan?</p>
-        <div class="bubble-option" onclick="selectOption('Isu Integriti & Moral', 'persepsi')">Isu Integriti & Moral</div>
-        <div class="bubble-option" onclick="selectOption('Hak-Hak Sabah (MA63)', 'persepsi')">Hak-Hak Sabah (MA63)</div>
+        <div class="bubble-option" onclick="selectOption('Isu Integriti & Moral', 'persepsi')">Isu Integriti & Moral</div>      
 		    <div class="bubble-option" onclick="selectOption('Pembangunan', 'persepsi')">Pembangunan</div>
 		    <div class="bubble-option" onclick="selectOption('Kepimpinan', 'persepsi')">Kepimpinan</div>
+        <div class="bubble-option" onclick="selectOption('Hak-Hak Sabah (MA63)', 'persepsi')">Hak-Hak Sabah (MA63)</div>
         <div class="bubble-option" style="background-color: blue; color: white;" onclick="selectOption('Lain-lain', 'persepsi')">Lain-lain</div>
       </div>
       <button class="backBtn" onclick="backBtn()">Kembali</button>
@@ -356,15 +356,15 @@
     <!-- pengaruh berita -->
     <div id="pengaruhberita-options-modal" class="modal">
       <div class="modal-content">
-        <p>Bagaimanakah berita terkini mempengaruhi persepsi anda terhadap kerajaan?</p>
+        <p>Bagaimanakah berita politik terkini mempengaruhi persepsi anda terhadap kerajaan?</p>
         <!-- <div class="bubble-option" style="background-color: green; color: white;" onclick="selectOption('Sangat Terkesan', 'pengaruhberita')">Sangat Terkesan</div>
 		    <div class="bubble-option" style="background-color: red; color: white;" onclick="selectOption('Terkesan', 'pengaruhberita')">Terkesan</div>
 		    <div class="bubble-option" style="background-color: orange; color: white;" onclick="selectOption('Kurang Terkesan', 'pengaruhberita')">Kurang Terkesan</div> -->
-        <div class="bubble-option" style="background-color: red; color: white;" onclick="selectOption('Sangat Negatif', 'pengaruhberita')">Sangat Negatif</div>
-        <div class="bubble-option" style="background-color: rgb(252, 73, 41); color: white;" onclick="selectOption('Agak Negatif', 'pengaruhberita')">Agak Negatif</div>
-        <div class="bubble-option" onclick="selectOption('Neutral', 'pengaruhberita')">Neutral</div>
-        <div class="bubble-option" style="background-color: rgb(59, 169, 59); color: white;" onclick="selectOption('Agak Positif', 'pengaruhberita')">Agak Positif</div>
         <div class="bubble-option" style="background-color: green; color: white;" onclick="selectOption('Sangat Positif', 'pengaruhberita')">Sangat Positif</div>
+        <div class="bubble-option" style="background-color: rgb(59, 169, 59); color: white;" onclick="selectOption('Agak Positif', 'pengaruhberita')">Agak Positif</div>
+        <div class="bubble-option" onclick="selectOption('Neutral', 'pengaruhberita')">Neutral</div>
+        <div class="bubble-option" style="background-color: rgb(252, 73, 41); color: white;" onclick="selectOption('Agak Negatif', 'pengaruhberita')">Agak Negatif</div>
+        <div class="bubble-option" style="background-color: red; color: white;" onclick="selectOption('Sangat Negatif', 'pengaruhberita')">Sangat Negatif</div>   
       </div>
       <button class="backBtn" onclick="backBtn()">Kembali</button>
     </div>	
@@ -401,7 +401,7 @@
       <div class="modal-content">
         <p>Adakah anda mengundi berdasarkan Parti atau Calon?</p>
         <div class="bubble-option" style="background-color: green; color: white;" onclick="selectOption('Parti', 'partiataucalon')">Parti</div>
-		    <div class="bubble-option" style="background-color: red; color: white;" onclick="selectOption('Calon', 'partiataucalon')">Calon</div>
+		    <div class="bubble-option" style="background-color: rgb(71, 114, 230); color: white;" onclick="selectOption('Calon', 'partiataucalon')">Calon</div>
       </div>
       <button class="backBtn" onclick="backBtn()">Kembali</button>
     </div>
@@ -420,7 +420,7 @@
     <!-- cenderung untuk mengundi -->
     <div id="cenderunguntukundi-options-modal" class="modal">
       <div class="modal-content">
-        <p>Parti manakah yang lebih cenderung untuk anda undi?</p>
+        <p>Kategori parti manakah anda lebih cenderung untuk mengundi?</p>
         <div class="bubble-option" onclick="selectOption('Parti Nasional', 'cenderunguntukundi')">Parti Nasional</div>
         <div class="bubble-option" onclick="selectOption('Parti Tempatan', 'cenderunguntukundi')">Parti Tempatan</div>
 		    <div class="bubble-option" onclick="selectOption('Tiada Kecenderungan', 'cenderunguntukundi')">Tiada Kecenderungan</div>
@@ -432,9 +432,9 @@
      <div id="partinasional-options-modal" class="modal">
       <div class="modal-content">
         <p>Sila pilih jawapan yang berikut:</p>
-        <div class="bubble-option" onclick="selectOption('BN', 'pilihanpartinasional')">BN</div>
-        <div class="bubble-option" onclick="selectOption('PH', 'pilihanpartinasional')">PH</div>
-		    <div class="bubble-option" onclick="selectOption('PN', 'pilihanpartinasional')">PN</div>
+        <div class="bubble-option" onclick="selectOption('BN', 'pilihanpartinasional')">Barisan Nasional (BN)</div>
+        <div class="bubble-option" onclick="selectOption('PH', 'pilihanpartinasional')">Pakatan Harapan (PH)</div>
+		    <div class="bubble-option" onclick="selectOption('PN', 'pilihanpartinasional')">Perikatan Nasional (PN)</div>
       </div>
       <button class="backBtn" onclick="backBtn()">Kembali</button>
     </div>
@@ -664,9 +664,9 @@
     <div id="isiboranglagi-options-modal" class="modal">
       <!-- Isi Borang Lagi Modal content -->
       <div class="modal-content">
-        <p>Adakah anda ingin mengisi borang lagi sekali?</p>
-        <div class="bubble-option" onclick="selectOption('Ya, isi lagi', 'isiboranglagi')">Ya, isi lagi</div>
-		<div class="bubble-option" onclick="selectOption('Tidak', 'isiboranglagi')">Tidak</div>
+        <p>Adakah anda ingin mengisi borang sekali lagi?</p>
+        <div class="bubble-option" onclick="selectOption('Ya, isi lagi', 'isiboranglagi')">Iya (Isi kaji selidik yang baru)</div>
+		<div class="bubble-option" onclick="selectOption('Tidak', 'isiboranglagi')">Tidak (Sesi ditamatkan)</div>
       </div>
     </div>
 
