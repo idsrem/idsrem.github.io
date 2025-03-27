@@ -609,7 +609,7 @@ function displayUserInfo(userData) {
 	<td style="display: none;">${userData.pilihanpartitempatan}</td>
 	<td style="display: none;">${userData.pemimpinsabah}</td>
 	<td style="display: none;">${userData.pemimpinsabahlain}</td>
-  <td style="display: none;">${userData.isiboranglagi}</td>`;
+  <td style="display: none;">${userData.responseid}</td>`;
 
 
   // <td style="display: none;">${userData.kebajikantidakpuashati}</td>
@@ -2807,7 +2807,8 @@ function exportToCSV() {
       "pilihanpartinasional",
       "pilihanpartitempatan",
       "pemimpinsabah",
-      "pemimpinsabahlain"
+      "pemimpinsabahlain",
+      "responseid"
     ];
 
 
