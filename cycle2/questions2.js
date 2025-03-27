@@ -34,7 +34,8 @@ let userData = {
   pilihanpartitempatan: '',
   pemimpinsabah: '',
   pemimpinsabahlain: '',
-  isiboranglagi: ''
+  // isiboranglagi: '',
+  responseid:''
   // agama: '',
   // tahappendidikan: '',
   // pekerjaan: '',
@@ -368,32 +369,73 @@ function backBtnBangsa(){
   openModal('bangsa-options-modal')
 }
 
+// function submitKod(field) {
+//   const kodInput = document.getElementById('kod-input').value;
+
+//   console.log("userID: " + kodInput);
+
+//   if (kodInput == '') {
+//     alert("Sila isi kod anda")
+    
+//   }
+
+//   else{
+//  // Store the value in localStorage
+//   localStorage.setItem('userKod', kodInput);
+//   //push to array
+//   userData[field] = localStorage.getItem('userKod');
+
+//   // clear input
+//   // kodInput = '';
+//   closeModal();
+//   renderModal();
+//   }
+
+ 
+//   // openModal('parlimen-options-modal');
+
+// }
+
 function submitKod(field) {
   const kodInput = document.getElementById('kod-input').value;
 
   console.log("userID: " + kodInput);
 
-  if (kodInput == '') {
-    alert("Sila isi kod anda")
+  // Example array of users with their respective codes
+  const users = [
+    { userID: '12345', name: 'User1' },
+    { userID: '67890', name: 'User2' },
+    { userID: '11223', name: 'User3' }
+  ];
+
+  if (kodInput === '') {
+    alert("Sila isi kod anda!");
+    return;
+  }
+
+  // Check if the entered code exists in the users array
+  const userExists = users.some(user => user.userID === kodInput);
+
+  if (userExists) {
+    // Store the value in localStorage
+    localStorage.setItem('userKod', kodInput);
+
+    console.log("exists");
     
+    // Push to array (assuming userData is an existing object/array)
+    userData[field] = localStorage.getItem('userKod');
+
+    // Clear the input (if desired)
+    document.getElementById('kod-input').value = ''; // clears input field
+
+    // Close the modal and render the updated modal
+    closeModal();
+    renderModal();
+  } else {
+    alert("Kod tidak dijumpai! Sila semak kembali.");
   }
-
-  else{
- // Store the value in localStorage
-  localStorage.setItem('userKod', kodInput);
-  //push to array
-  userData[field] = localStorage.getItem('userKod');
-
-  // clear input
-  // kodInput = '';
-  closeModal();
-  renderModal();
-  }
-
- 
-  // openModal('parlimen-options-modal');
-
 }
+
 
 function submitAge(field) {
   const umurInput = document.getElementById('umur-input').value;
@@ -451,19 +493,44 @@ function closeModalStart() {
 
 // new functions
 
+// function getCurrentDate() {
+//   const currentDate = new Date();
+
+//   // Extract day, month, and year
+//   const day = String(currentDate.getDate()).padStart(2, '0');
+//   const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+//   const year = currentDate.getFullYear();
+
+//   // Format the date as dd/mm/yyyy
+//   const formattedDate = `${day}/${month}/${year}`;
+
+//   // Update userData with the current date
+//   userData.tarikh = formattedDate;
+// }
+
 function getCurrentDate() {
   const currentDate = new Date();
 
-  // Extract day, month, and year
+  // Extract day, month, year, hours, minutes, seconds
   const day = String(currentDate.getDate()).padStart(2, '0');
   const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
   const year = currentDate.getFullYear();
+  let hours = currentDate.getHours();
+  const minutes = String(currentDate.getMinutes()).padStart(2, '0');
+  const seconds = String(currentDate.getSeconds()).padStart(2, '0');
 
-  // Format the date as dd/mm/yyyy
-  const formattedDate = `${day}/${month}/${year}`;
+  // Determine AM or PM
+  const ampm = hours >= 12 ? 'PM' : 'AM';
 
-  // Update userData with the current date
-  userData.tarikh = formattedDate;
+  // Convert hours to 12-hour format
+  hours = hours % 12;
+  hours = hours ? String(hours).padStart(2, '0') : '12'; // Adjust 0 to 12 for 12 AM
+
+  // Format the date as yyyy-mm-dd hh:mm:ss AM/PM (Power BI-friendly)
+  const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${ampm}`;
+
+  // Update userData with the current date and time
+  userData.tarikh = formattedDateTime;
 }
 
 //SHOW/HIDE TABLE
@@ -2727,6 +2794,10 @@ function exportToCSV() {
       "faktorlain",
       "pendapatperibadi",
       "partiataucalon",
+
+      "mengundiAdun",
+      "tidakundi",
+
       "cenderunguntukundi",
       "pilihanpartinasional",
       "pilihanpartitempatan",
@@ -2796,17 +2867,23 @@ function initiateConversation() {
     pilihanpartitempatan: '',
     pemimpinsabah: '',
     pemimpinsabahlain: '',
-    isiboranglagi: ''
+    // isiboranglagi: '',
+    responseid:'',
   };
   messagesDiv.innerHTML = '';
   getCurrentDate();
-  displayMessage(`Tuan Awang: Selamat datang ke kaji selidik bagi Pemantauan Dinamika Pembangunan Kerajaan Fasa 2 2025. Pandangan anda amat penting untuk membantu dan memahami sentimen isu-isu kepimpinan dan pembangunan negeri Sabah.
+  displayMessage(`Tuan Awang: Selamat datang ke kaji selidik bagi Pemantauan Dinamika Pembangunan Kerajaan Fasa 2  bagi tahun 2025. Pandangan anda amat penting untuk membantu dan memahami sentimen isu-isu kepimpinan dan pembangunan negeri Sabah.
 Mohon kerjasama tuan/puan untuk mengisi kaji selidik ini dengan jujur dan teliti.
 `, true);
   displayMessage(`Tuan Awang: Hi! Memperkenalkan saya Tuan Awang, mari kita mula kan kaji selidik ini 😃 Sila pilih DUN anda:`, true, 300);
   setTimeout(function () {
     // openModal('dun-options-modal'); //OPEN POP UP BOX
     // openModal('parlimen-options-modal');
+
+    //response id unique
+    const uniqueId = Math.floor(Math.random() * 9000000) + 1000000;
+    userData['responseid'] = uniqueId;
+
     if (localStorage.getItem('userKod')) {
       userData['kod'] = localStorage.getItem('userKod');
       // openModal('parlimen-options-modal');
