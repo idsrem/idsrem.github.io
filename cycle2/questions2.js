@@ -2586,7 +2586,12 @@ function showInput() {
 function buttonhijau() {
 
   const data = JSON.parse(localStorage.getItem('userData'));
-
+  data.forEach(item => {
+    delete item.isiboranglagi;
+  });
+  console.log(data);
+  
+  
   // Make sure there's data in localStorage and it's an array
   if (data && Array.isArray(data) && data.length > 0) {
     // Send the entire data array to the backend in one request
