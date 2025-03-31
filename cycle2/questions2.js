@@ -135,7 +135,7 @@ function backBtn() {
   ques = ques - 1
   console.log(ques);
 
-  if (userData.bangsa.trim() === 'Lain-lain') {
+  if (userData.bangsa.trim() === 'Lain-lain' && ques == 5) {
     userData.bangsa = '';
     userData.bangsalain = '';
     // console.log("clearing bangsa")
@@ -144,7 +144,7 @@ function backBtn() {
   }
   
   
-  if (userData.persepsi.trim() === 'Lain-lain'){
+  if (userData.persepsi.trim() === 'Lain-lain'  && ques == 7){
     userData.persepsi = '';
     userData.persepsilain = '';
   }
@@ -532,6 +532,7 @@ function getCurrentDate() {
   const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${ampm}`;
 
   // Update userData with the current date and time
+  // start
   userData.tarikh = formattedDateTime;
 }
 
@@ -910,11 +911,11 @@ function processInput(message) {
 
   // } 
 
-  else if (!userData.bangsa) {
+  else if (!userData.bangsa && ques ==5) {
     userData.bangsa = message;
     console.log('Bangsa:', userData.bangsa);
     hideInput();
-  } else if (userData.bangsa && !userData.persepsi || userData.bangsa.trim() === 'Lain-lain' && ques==6) {
+  } else if (userData.bangsa && !userData.persepsi  && ques==6|| userData.bangsa.trim() === 'Lain-lain' && ques==6) {
     userData.bangsalain = message;
     // ques++
     console.log('Bangsa (Lain-lain):', userData.bangsalain);
@@ -928,11 +929,11 @@ function processInput(message) {
 
   }
 
-  else if (!userData.persepsi) {
+  else if (!userData.persepsi && ques == 7) {
     userData.persepsi = message;
     console.log('Persepsi:', userData.persepsi);
     hideInput();
-  } else if (userData.persepsi && !userData.pengaruhberita  || userData.persepsi.trim() === 'Lain-lain' && ques==8) {
+  } else if (userData.persepsi && !userData.pengaruhberita && ques==8 || userData.persepsi.trim() === 'Lain-lain' && ques==8) {
     userData.persepsilain = message;
     console.log('Persepsi (Lain-lain):', userData.persepsilain);
     console.log(userData)
@@ -950,7 +951,7 @@ function processInput(message) {
     userData.mengundiAdun = message;
     // console.log('Persepsi:', userData.persepsi);
     hideInput();
-  } else if (userData.mengundiAdun && !userData.cenderunguntukundi || userData.mengundiAdun.trim() === 'Tidak' && ques==12) {
+  } else if (userData.mengundiAdun && !userData.cenderunguntukundi && ques==12 || userData.mengundiAdun.trim() === 'Tidak' && ques==12) {
     userData.tidakundi = message;
     // console.log('Persepsi (Lain-lain):', userData.persepsilain);
     // console.log(userData)
@@ -2302,8 +2303,9 @@ function renderModal() {
 
   // -------->SECTION 2
   else if (ques == 5) {
+    userData.bangsa = '';
+    userData.bangsalain = '';
     closeModal();
-
     console.log(ques);
     // ask for bangsa
     displayMessage(`Tuan Awang: Sila pilih bangsa anda`, true);
@@ -2323,7 +2325,7 @@ function renderModal() {
 
   else if (ques == 6) {
 
-    // ask for puasdgnpembangunansemasa
+    
     closeModal();
     displayMessage(`Dari mana sumber utama anda untuk mendapat berita terkini?`, true);
     openModal('mediasemasa-options-modal');
@@ -2331,7 +2333,8 @@ function renderModal() {
   }
 
   else if (ques == 7) {
-
+    userData.persepsi = '';
+    userData.persepsilain = '';
     closeModal();
     displayMessage(`Tuan Awang: Adakah perkara-perkara berikut mempengaruhi persepsi anda terhadap prestasi kerajaan?`, true);
     displayMessage("Isu Integriti & Moral, Hak-Hak Sabah (MA63), Pembangunan, Kepimpinan", true);
@@ -2381,6 +2384,8 @@ function renderModal() {
   //new question
 
   else if (ques == 11) {
+    userData.mengundiAdun = '';
+    userData.tidakundi = '';
     closeModal();
     displayMessage(`Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`, true);
     openModal('mengundiadun-options-modal');
@@ -2396,6 +2401,8 @@ function renderModal() {
   }
 
   else if (ques == 12) {
+    userData.pilihanpartinasional = '';
+    userData.pilihanpartitempatan = '';
     closeModal();
     displayMessage(`Tuan Awang: Merujuk kepada pilihan dinyatakan di bawah, yang manakah lebih cenderung untuk anda undi?`, true);
     displayMessage(`Tuan Awang: 1) Parti Nasional 2) Parti Tempatan 3) Tiada Kecenderungan`, true);
@@ -2417,7 +2424,7 @@ function renderModal() {
 
   else if (ques == 14 && userData.cenderunguntukundi == 'Parti Nasional') {
     closeModal();
-    displayMessage(`Tuan Awang: Parti tempatan pilihan anda?`, true);
+    displayMessage(`Tuan Awang: Parti Nasional pilihan anda?`, true);
     openModal('partitempatan-options-modal');
     // console.log("siniii");
 
@@ -2446,7 +2453,7 @@ function renderModal() {
 
   else if (ques == 13 && userData.cenderunguntukundi == 'Parti Tempatan') {
     closeModal();
-    displayMessage(`Tuan Awang: Parti Nasional pilihan anda?`, true);
+    displayMessage(`Tuan Awang: Parti tempatan pilihan anda?`, true);
     openModal('partitempatan-options-modal');
     // console.log("siniii");
 
