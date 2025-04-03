@@ -35,7 +35,9 @@ let userData = {
   pemimpinsabah: '',
   pemimpinsabahlain: '',
   // isiboranglagi: '',
-  responseid:''
+  responseid:'',
+  starttime:'',
+  endtime:''
   // agama: '',
   // tahappendidikan: '',
   // pekerjaan: '',
@@ -432,7 +434,8 @@ function submitKod(field) {
 
     // Close the modal and render the updated modal
     closeModal();
-    renderModal();
+    // renderModal();
+    openModal('starting-modal')
   } else {
     alert("Kod tidak dijumpai! Sila semak kembali.");
   }
@@ -480,7 +483,12 @@ function startSurvey() {
   else {
     userData['kod'] = localStorage.getItem('userKod');
     // openModal('parlimen-options-modal');
-    ques++
+    // ques++
+    
+    // capture start time
+    getStartTime();
+
+    renderModal()
   }
 
 }
@@ -535,6 +543,44 @@ function getCurrentDate() {
   // start
   userData.tarikh = formattedDateTime;
 }
+
+function getStartTime(){
+
+// Capture start time and store it as ISO string
+let startSurveyTime = new Date();  // Capture the current date and time
+localStorage.setItem("surveyStartTime", startSurveyTime.toISOString());  // Store it as an ISO string
+
+// Retrieve the ISO string from localStorage
+let starttime = localStorage.getItem("surveyStartTime");
+
+// Convert the ISO string to a Date object
+let startTimeDate = new Date(starttime);
+
+// Get the time part only
+userData.starttime = startTimeDate.toLocaleTimeString();
+
+console.log(userData.starttime);  // This will log the time only, e.g., "14:30:00"
+
+}
+
+function getEndTime(){
+
+// Capture start time and store it as ISO string
+let endSurveyTime = new Date();  // Capture the current date and time
+localStorage.setItem("surveyEndTime", endSurveyTime.toISOString());  // Store it as an ISO string
+
+// Retrieve the ISO string from localStorage
+let endtime = localStorage.getItem("surveyEndTime");
+
+// Convert the ISO string to a Date object
+let endTimeDate = new Date(endtime);
+
+// Get the time part only
+userData.endtime = endTimeDate.toLocaleTimeString();
+
+console.log("end Time" + userData.endtime);  // This will log the time only, e.g., "14:30:00"
+  
+ }
 
 //SHOW/HIDE TABLE
 document.addEventListener("DOMContentLoaded", function () {
@@ -962,7 +1008,6 @@ function processInput(message) {
     }, 500);
     closeModal();
 
-
   }
 
   else if (!userData.pemimpinsabah) {
@@ -975,6 +1020,10 @@ function processInput(message) {
     console.log(userData)
     displayMessage(`Tuan Awang: Adakah anda ingin mengisi borang lagi sekali?`, true);
     hideInput();
+
+    //capture end time
+    getEndTime();
+
     setTimeout(function () {
       openModal('isiboranglagi-options-modal'); //OPEN POP UP BOX
     }, 500);
@@ -2416,7 +2465,7 @@ function renderModal() {
 
   else if (ques == 13 && userData.cenderunguntukundi == 'Parti Nasional') {
     closeModal();
-    displayMessage(`Tuan Awang: Parti Nasional pilihan anda?`, true);
+    displayMessage(`Tuan Awang: Parti Nasional manakah anda lebih cenderung untuk undi?`, true);
     openModal('partinasional-options-modal');
     // console.log("siniii");
 
@@ -2424,7 +2473,7 @@ function renderModal() {
 
   else if (ques == 14 && userData.cenderunguntukundi == 'Parti Nasional') {
     closeModal();
-    displayMessage(`Tuan Awang: Parti Nasional pilihan anda?`, true);
+    displayMessage(`Tuan Awang: Parti Nasional manakah anda lebih cenderung untuk undi?`, true);
     openModal('partitempatan-options-modal');
     // console.log("siniii");
 
@@ -2440,6 +2489,8 @@ function renderModal() {
 
   else if (ques == 16 && !userData.isiboranglagi && userData.cenderunguntukundi == 'Parti Nasional' && userData.pemimpinsabah != 'Lain-lain') {
     closeModal();
+    //capture end time
+    getEndTime();
     displayMessage(`Tuan Awang: Adakah anda ingin mengisi borang lagi sekali?`, true);
     openModal('isiboranglagi-options-modal');
 
@@ -2453,7 +2504,7 @@ function renderModal() {
 
   else if (ques == 13 && userData.cenderunguntukundi == 'Parti Tempatan') {
     closeModal();
-    displayMessage(`Tuan Awang: Parti tempatan pilihan anda?`, true);
+    displayMessage(`Tuan Awang: Parti Tempatan manakah anda lebih cenderung untuk undi?`, true);
     openModal('partitempatan-options-modal');
     // console.log("siniii");
 
@@ -2469,6 +2520,10 @@ function renderModal() {
 
   else if (ques == 15 && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
     closeModal();
+
+    //capture end time
+    getEndTime();
+    
     displayMessage(`Tuan Awang: Adakah anda ingin mengisi borang lagi sekali?`, true);
     openModal('isiboranglagi-options-modal');
 
@@ -2488,6 +2543,8 @@ function renderModal() {
 
   else if (ques == 14 && userData.cenderunguntukundi == 'Tiada Kecenderungan' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
     closeModal();
+    //capture end time
+    getEndTime();
     displayMessage(`Tuan Awang: Adakah anda ingin mengisi borang lagi sekali?`, true);
     openModal('isiboranglagi-options-modal');
     console.log("sii");
@@ -2527,9 +2584,13 @@ function renderModal() {
 
   else if (userData.isiboranglagi === 'Ya, isi lagi') {
     closeModal();
+    // //capture end time
+    // getEndTime();
+
     console.log('Anda pilih ya.')
     console.log(userData);
     displayUserInfo(userData);
+
     initiateConversation();
     // ques = 0;
     // openModal('parlimen-options-modal')
@@ -2537,10 +2598,14 @@ function renderModal() {
     //isi borang lagi - tidak
   } else if (userData.isiboranglagi === 'Tidak') {
     ques = 0;
+    // //capture end time
+    // getEndTime();
+
     console.log('Anda pilih tidak.')
     displayUserInfo(userData);
     console.log(userData);
-
+    
+    
     // let userKod = localStorage.getItem('userKod');
     // userKod.push(userData['kod'])
 
@@ -2553,6 +2618,8 @@ function renderModal() {
 
   } else {
     // All information collected, finish conversation
+    //capture end time
+    getEndTime();
     displayMessage(`Tuan Awang: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
     displayUserInfo(userData);
     closeModal();
@@ -2595,6 +2662,7 @@ function showInput() {
 function buttonhijau() {
 
   const data = JSON.parse(localStorage.getItem('userData'));
+  // remove isiboranglagi for userData
   data.forEach(item => {
     delete item.isiboranglagi;
   });
@@ -2884,6 +2952,8 @@ function initiateConversation() {
     pemimpinsabahlain: '',
     // isiboranglagi: '',
     responseid:'',
+    starttime:'',
+    endtime:''
   };
   messagesDiv.innerHTML = '';
   getCurrentDate();
@@ -2903,8 +2973,11 @@ Mohon kerjasama tuan/puan untuk mengisi kaji selidik ini dengan jujur dan teliti
       userData['kod'] = localStorage.getItem('userKod');
       // openModal('parlimen-options-modal');
       openModal('zone-options-modal');
+      getStartTime()
     } else {
-      openModal('starting-modal')
+      // openModal('starting-modal')
+      openModal('kod-modal')
+
     }
 
 
