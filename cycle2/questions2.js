@@ -636,11 +636,10 @@ function displayUserInfo(userData) {
   const row = document.createElement('tr');
   row.innerHTML = `
 	<td>${userData.tarikh}</td>
-  <td style="display: none;" >${userData.kod}</td>
+  <td>${userData.kod}</td>
     <td>${userData.dun}</td>
     <td>${userData.umur}</td>
     <td>${userData.jantina}</td>
-    <td>${userData.kod}</td>
     <td style="display: none;">${userData.bangsa}</td>
 
 	<td style="display: none;">${userData.bangsalain}</td>
