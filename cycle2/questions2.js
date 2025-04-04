@@ -455,6 +455,7 @@ function submitAge(field) {
     displayMessage(`Anda: ${umurInput} tahun`);
     
     // // clear input
+    document.getElementById('umur-input').value = '';
     // umurInput = '';
     // closeModal();
     renderModal();
@@ -536,8 +537,8 @@ function getCurrentDate() {
   hours = hours % 12;
   hours = hours ? String(hours).padStart(2, '0') : '12'; // Adjust 0 to 12 for 12 AM
 
-  // Format the date as yyyy-mm-dd hh:mm:ss AM/PM (Power BI-friendly)
-  const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${ampm}`;
+  // Format the date as yyyy-mm-dd hh
+  const formattedDateTime = `${year}-${month}-${day}`;
 
   // Update userData with the current date and time
   // start
@@ -548,10 +549,10 @@ function getStartTime(){
 
 // Capture start time and store it as ISO string
 let startSurveyTime = new Date();  // Capture the current date and time
-localStorage.setItem("surveyStartTime", startSurveyTime.toISOString());  // Store it as an ISO string
+localStorage.setItem("SST", startSurveyTime.toISOString());  // Store it as an ISO string
 
 // Retrieve the ISO string from localStorage
-let starttime = localStorage.getItem("surveyStartTime");
+let starttime = localStorage.getItem("SST");
 
 // Convert the ISO string to a Date object
 let startTimeDate = new Date(starttime);
@@ -559,7 +560,7 @@ let startTimeDate = new Date(starttime);
 // Get the time part only
 userData.starttime = startTimeDate.toLocaleTimeString();
 
-console.log(userData.starttime);  // This will log the time only, e.g., "14:30:00"
+// console.log(userData.starttime);  // This will log the time only, e.g., "14:30:00"
 
 }
 
@@ -567,10 +568,10 @@ function getEndTime(){
 
 // Capture start time and store it as ISO string
 let endSurveyTime = new Date();  // Capture the current date and time
-localStorage.setItem("surveyEndTime", endSurveyTime.toISOString());  // Store it as an ISO string
+localStorage.setItem("SET", endSurveyTime.toISOString());  // Store it as an ISO string
 
 // Retrieve the ISO string from localStorage
-let endtime = localStorage.getItem("surveyEndTime");
+let endtime = localStorage.getItem("SET");
 
 // Convert the ISO string to a Date object
 let endTimeDate = new Date(endtime);
@@ -578,7 +579,6 @@ let endTimeDate = new Date(endtime);
 // Get the time part only
 userData.endtime = endTimeDate.toLocaleTimeString();
 
-console.log("end Time" + userData.endtime);  // This will log the time only, e.g., "14:30:00"
   
  }
 
@@ -640,7 +640,8 @@ function displayUserInfo(userData) {
     <td>${userData.dun}</td>
     <td>${userData.umur}</td>
     <td>${userData.jantina}</td>
-    <td>${userData.bangsa}</td>
+    <td>${userData.kod}</td>
+    <td style="display: none;">${userData.bangsa}</td>
 
 	<td style="display: none;">${userData.bangsalain}</td>
 	<td style="display: none;">${userData.pengaruhmediasemasa}</td>
@@ -2661,31 +2662,47 @@ function showInput() {
 
 function buttonhijau() {
 
+  const submitBtn = document.getElementById('export-btn');
+
+ 
+
   const data = JSON.parse(localStorage.getItem('userData'));
-  // remove isiboranglagi for userData
-  data.forEach(item => {
-    delete item.isiboranglagi;
-  });
+  
   console.log(data);
   
   
   // Make sure there's data in localStorage and it's an array
   if (data && Array.isArray(data) && data.length > 0) {
+
+     // disables the button once
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = 'Menghantar...';
+
+      // remove isiboranglagi for userData
+    data.forEach(item => {
+      delete item.isiboranglagi;
+    });
     // Send the entire data array to the backend in one request
     sendDataToBackend(data)  // Pass the whole array (not individual items) to the backend
 
       .then(() => {
-        alert("Success! All data has been saved.");
+        alert("Berjaya! Semua data telah disimpan.");
         localStorage.removeItem("userData"); // Clear userData after successful upload
         userTable.innerHTML = ''; // Assuming you have a userTable to clear
         console.log("item removed");
       })
       .catch(() => {
-        alert("Error! Some data failed to save.");
+        alert("Error! Sebahagian data gagal disimpan.");
         console.error('Error sending data to one or more items');
+      })
+      .finally(() => {
+        // Re-enable the button after the request finishes (successful or error)
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Simpan Data';
       });
   } else {
-    alert("No valid data found in localStorage");
+    alert("Tiada Data!");
+    submitBtn.disabled = false; // Re-enable the button if no valid data is found
   }
 
    // this function disects the array and send the object one by one

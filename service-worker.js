@@ -1,55 +1,5 @@
-// const CACHE_NAME = 'offline-cache';
-// const OFFLINE_URL = 'index.html'; // The file to display when offline
-// const CACHE_ASSETS = [
-//   '/',
-//   'index.html',
-//   'styles.css', 
-//   'questions.js',
-//   'cycle2/index.html',  // for cycle 2 pages
-//   'cycle2/styles2.css',
-//   'cycle2/questions2.js'
-// ];
-
-// self.addEventListener('install', (event) => {
-//   event.waitUntil(
-//     caches.open(CACHE_NAME).then((cache) => {
-//       return cache.addAll(CACHE_ASSETS);
-//     })
-//   );
-// });
-
-// self.addEventListener('activate', (event) => {
-//   event.waitUntil(
-//     caches.keys().then((keyList) => {
-//       return Promise.all(
-//         keyList.map((key) => {
-//           if (key !== CACHE_NAME) {
-//             return caches.delete(key);
-//           }
-//         })
-//       );
-//     })
-//   );
-// });
-
-// self.addEventListener('fetch', (event) => {
-//   if (event.request.mode === 'navigate') {
-//     event.respondWith(
-//       fetch(event.request).catch(() => {
-//         return caches.match(OFFLINE_URL);
-//       })
-//     );
-//   } else {
-//     event.respondWith(
-//       caches.match(event.request).then((response) => {
-//         return response || fetch(event.request);
-//       })
-//     );
-//   }
-// });
-
 // Use a versioned cache name to ensure caches are updated with each new version
-const CACHE_NAME = 'offline-cache-v2';  // Change the version number whenever there's an update
+const CACHE_NAME = 'offline-cache-v2.3';  // Change the version number whenever there's an update
 const OFFLINE_URL = 'index.html';      // The file to display when offline
 const CACHE_ASSETS = [
   '/',
@@ -113,3 +63,53 @@ if ('serviceWorker' in navigator) {
     alert('A new version of the app is available. Please refresh to use the latest version!');
   });
 }
+
+// const CACHE_NAME = 'offline-cache';
+// const OFFLINE_URL = 'index.html'; // The file to display when offline
+// const CACHE_ASSETS = [
+//   '/',
+//   'index.html',
+//   'styles.css', 
+//   'questions.js',
+//   'cycle2/index.html',  // for cycle 2 pages
+//   'cycle2/styles2.css',
+//   'cycle2/questions2.js'
+// ];
+
+// self.addEventListener('install', (event) => {
+//   event.waitUntil(
+//     caches.open(CACHE_NAME).then((cache) => {
+//       return cache.addAll(CACHE_ASSETS);
+//     })
+//   );
+// });
+
+// self.addEventListener('activate', (event) => {
+//   event.waitUntil(
+//     caches.keys().then((keyList) => {
+//       return Promise.all(
+//         keyList.map((key) => {
+//           if (key !== CACHE_NAME) {
+//             return caches.delete(key);
+//           }
+//         })
+//       );
+//     })
+//   );
+// });
+
+// self.addEventListener('fetch', (event) => {
+//   if (event.request.mode === 'navigate') {
+//     event.respondWith(
+//       fetch(event.request).catch(() => {
+//         return caches.match(OFFLINE_URL);
+//       })
+//     );
+//   } else {
+//     event.respondWith(
+//       caches.match(event.request).then((response) => {
+//         return response || fetch(event.request);
+//       })
+//     );
+//   }
+// });
