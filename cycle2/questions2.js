@@ -1111,7 +1111,7 @@ function processInput(message) {
     userData.tidakundi = message;
     // console.log('Persepsi (Lain-lain):', userData.persepsilain);
     // console.log(userData)
-    displayMessage(`Tuan Awang: Kategori parti manakah anda lebih cenderung untuk mengundi?`, true);
+    displayMessage(`Tuan Awang: Kategori parti manakah yang cenderung untuk anda undi?`, true);
     hideInput();
     setTimeout(function () {
       openModal('cenderunguntukundi-options-modal'); //OPEN POP UP BOX
@@ -2563,7 +2563,7 @@ function renderModal() {
     userData.pilihanpartinasional = '';
     userData.pilihanpartitempatan = '';
     closeModal();
-    displayMessage(`Tuan Awang: Kategori parti manakah anda lebih cenderung untuk mengundi?`, true);
+    displayMessage(`Tuan Awang: Kategori parti manakah yang cenderung untuk anda undi?`, true);
     // displayMessage(`Tuan Awang: 1) Parti Nasional 2) Parti Tempatan 3) Tiada Kecenderungan`, true);
     openModal('cenderunguntukundi-options-modal');
 
