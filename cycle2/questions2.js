@@ -405,12 +405,122 @@ function submitKod(field) {
 
   console.log("userID: " + kodInput);
 
-  // Example array of users with their respective codes
+  // users
   const users = [
-    { userID: 'AL00', name: 'User1' },
-    { userID: 'AK00', name: 'User2' },
-    { userID: 'AM00', name: 'User3' }
+    { userID: 'IM00', name: 'User1' },
+    { userID: 'IM01', name: 'User2' },
+    { userID: 'IM02', name: 'User3' },
+    { userID: 'IM03', name: 'User4' },
+    { userID: 'IM04', name: 'User5' },
+    { userID: 'IM05', name: 'User6' },
+    { userID: 'IM06', name: 'User7' },
+    { userID: 'IM07', name: 'User8' },
+    { userID: 'IM08', name: 'User9' },
+    { userID: 'IM09', name: 'User10' },
+    { userID: 'IM10', name: 'User11' },
+    { userID: 'LC00', name: 'User12' },
+    { userID: 'LC01', name: 'User13' },
+    { userID: 'LC02', name: 'User14' },
+    { userID: 'LC03', name: 'User15' },
+    { userID: 'LC04', name: 'User16' },
+    { userID: 'LC05', name: 'User17' },
+    { userID: 'LC06', name: 'User18' },
+    { userID: 'LC07', name: 'User19' },
+    { userID: 'LC08', name: 'User20' },
+    { userID: 'LC09', name: 'User21' },
+    { userID: 'LC10', name: 'User22' },
+    { userID: 'SH00', name: 'User23' },
+    { userID: 'SH01', name: 'User24' },
+    { userID: 'SH02', name: 'User25' },
+    { userID: 'SH03', name: 'User26' },
+    { userID: 'SH04', name: 'User27' },
+    { userID: 'SH05', name: 'User28' },
+    { userID: 'SH06', name: 'User29' },
+    { userID: 'SH07', name: 'User30' },
+    { userID: 'SH08', name: 'User31' },
+    { userID: 'SH09', name: 'User32' },
+    { userID: 'SH10', name: 'User33' },
+    { userID: 'RM00', name: 'User34' },
+    { userID: 'RM01', name: 'User35' },
+    { userID: 'RM02', name: 'User36' },
+    { userID: 'RM03', name: 'User37' },
+    { userID: 'RM04', name: 'User38' },
+    { userID: 'RM05', name: 'User39' },
+    { userID: 'RM06', name: 'User40' },
+    { userID: 'RM07', name: 'User41' },
+    { userID: 'RM08', name: 'User42' },
+    { userID: 'RM09', name: 'User43' },
+    { userID: 'RM10', name: 'User44' },
+    { userID: 'AL00', name: 'User45' },
+    { userID: 'AL01', name: 'User46' },
+    { userID: 'AL02', name: 'User47' },
+    { userID: 'AL03', name: 'User48' },
+    { userID: 'AL04', name: 'User49' },
+    { userID: 'AL05', name: 'User50' },
+    { userID: 'AL06', name: 'User51' },
+    { userID: 'AL07', name: 'User52' },
+    { userID: 'AL08', name: 'User53' },
+    { userID: 'AL09', name: 'User54' },
+    { userID: 'AL10', name: 'User55' },
+    { userID: 'AH00', name: 'User56' },
+    { userID: 'AH01', name: 'User57' },
+    { userID: 'AH02', name: 'User58' },
+    { userID: 'AH03', name: 'User59' },
+    { userID: 'AH04', name: 'User60' },
+    { userID: 'AH05', name: 'User61' },
+    { userID: 'AH06', name: 'User62' },
+    { userID: 'AH07', name: 'User63' },
+    { userID: 'AH08', name: 'User64' },
+    { userID: 'AH09', name: 'User65' },
+    { userID: 'AH10', name: 'User66' },
+    { userID: 'RZ00', name: 'User67' },
+    { userID: 'RZ01', name: 'User68' },
+    { userID: 'RZ02', name: 'User69' },
+    { userID: 'RZ03', name: 'User70' },
+    { userID: 'RZ04', name: 'User71' },
+    { userID: 'RZ05', name: 'User72' },
+    { userID: 'RZ06', name: 'User73' },
+    { userID: 'RZ07', name: 'User74' },
+    { userID: 'RZ08', name: 'User75' },
+    { userID: 'RZ09', name: 'User76' },
+    { userID: 'RZ10', name: 'User77' },
+    { userID: 'KA00', name: 'User78' },
+    { userID: 'KA01', name: 'User79' },
+    { userID: 'KA02', name: 'User80' },
+    { userID: 'KA03', name: 'User81' },
+    { userID: 'KA04', name: 'User82' },
+    { userID: 'KA05', name: 'User83' },
+    { userID: 'KA06', name: 'User84' },
+    { userID: 'KA07', name: 'User85' },
+    { userID: 'KA08', name: 'User86' },
+    { userID: 'KA09', name: 'User87' },
+    { userID: 'KA10', name: 'User88' },
+    { userID: 'PC00', name: 'User89' },
+    { userID: 'PC01', name: 'User90' },
+    { userID: 'PC02', name: 'User91' },
+    { userID: 'PC03', name: 'User92' },
+    { userID: 'PC04', name: 'User93' },
+    { userID: 'PC05', name: 'User94' },
+    { userID: 'PC06', name: 'User95' },
+    { userID: 'PC07', name: 'User96' },
+    { userID: 'PC08', name: 'User97' },
+    { userID: 'PC09', name: 'User98' },
+    { userID: 'PC10', name: 'User99' },
+    { userID: 'FI00', name: 'User100' },
+    { userID: 'FI01', name: 'User101' },
+    { userID: 'FI02', name: 'User102' },
+    { userID: 'FI03', name: 'User103' },
+    { userID: 'FI04', name: 'User104' },
+    { userID: 'FI05', name: 'User105' },
+    { userID: 'FI06', name: 'User106' },
+    { userID: 'FI07', name: 'User107' },
+    { userID: 'FI08', name: 'User108' },
+    { userID: 'FI09', name: 'User109' },
+    { userID: 'FI10', name: 'User110' }
   ];
+  
+  console.log(users);
+  
 
   if (kodInput === '') {
     alert("Sila isi kod anda!");
@@ -2440,14 +2550,14 @@ function renderModal() {
     openModal('mengundiadun-options-modal');
   }
 
-  else if (userData.mengundiAdun.trim() === 'Tidak' && !userData.cenderunguntukundi || userData.mengundiAdun.trim() === 'Tidak' && ques==12) {
-    // If user choose lain-lain under bangsa
-    // console.log("here ni");
+  // else if (userData.mengundiAdun.trim() === 'Tidak' && !userData.cenderunguntukundi || userData.mengundiAdun.trim() === 'Tidak' && ques==12) {
+  //   // If user choose lain-lain under bangsa
+  //   // console.log("here ni");
 
-    displayMessage(`Tuan Awang: Sila nyatakan kenapa:`, true);
-    closeModal();
-    showInput();
-  }
+  //   displayMessage(`Tuan Awang: Sila nyatakan kenapa:`, true);
+  //   closeModal();
+  //   showInput();
+  // }
 
   else if (ques == 12) {
     userData.pilihanpartinasional = '';
