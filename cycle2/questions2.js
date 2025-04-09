@@ -516,7 +516,15 @@ function submitKod(field) {
     { userID: 'FI07', name: 'User107' },
     { userID: 'FI08', name: 'User108' },
     { userID: 'FI09', name: 'User109' },
-    { userID: 'FI10', name: 'User110' }
+    { userID: 'FI10', name: 'User110' },
+
+    // test codes
+    { userID: 'ST00', name: 'tester1' },
+    { userID: 'ST01', name: 'tester2' },
+    { userID: 'ST02', name: 'tester3' },
+    { userID: 'XX00', name: 'tester4' },
+    { userID: 'XX01', name: 'tester5' }
+
   ];
   
   console.log(users);
