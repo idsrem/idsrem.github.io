@@ -185,6 +185,56 @@ app.post('/exportResponse', async (req, res) => {
   }
 });
 
+
+// for test table
+app.post('/testResponse', async (req, res) => {
+  const userDataArray = req.body;  // The array of user data
+
+  console.log("Hi Habri");
+  
+  // Ensure the array is valid
+  if (!Array.isArray(userDataArray) || userDataArray.length === 0) {
+    return res.status(400).send('Invalid data');
+  }
+
+  try {
+    // Construct the placeholders for the values dynamically
+    const columnCount = 24;  // Adjust based on the number of columns in your table
+    const placeholders = userDataArray.map((_, index) => {
+      return `(${Array.from({ length: columnCount }, (_, i) => `$${index * columnCount + (i + 1)}`).join(', ')})`;
+    }).join(',');
+
+    // Flatten the userDataArray into a single array of values
+    const values = userDataArray.reduce((acc, {
+      tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain, pendapatperibadi, partiataucalon,
+      mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime
+    }) => {
+      acc.push(tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain, pendapatperibadi, partiataucalon,
+        mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime || '');
+      return acc;
+    }, []);
+
+    // Construct the SQL query dynamically | table name + column name
+    const queryText = `INSERT INTO cycle2Test (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain,
+      pendapatperibadi, partiataucalon, mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime) 
+      VALUES ${placeholders}`;
+
+    // Execute the query
+    await pool.query(queryText, values);
+
+
+   // Send a JSON response
+    res.status(200).json({ message: 'Data saved successfully' });
+  } catch (error) {
+    console.error('Error saving data', error);
+    res.status(500).json({ message: 'Error saving data', error: error.message });
+  }
+});
+
+
+
+
+
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
