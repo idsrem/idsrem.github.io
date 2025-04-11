@@ -347,7 +347,7 @@ function backBtn() {
   //     displayUserInfo(userData);
   //     console.log(userData);
   //     // remove user kod (end user session)
-  //     localStorage.removeItem('userKod');
+  //     localStorage.removeItem('enumerator');
   //     closeModal();
   //     hideInput(); 
   //     displayMessage(`Tuan Awang: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
@@ -383,9 +383,9 @@ function backBtnBangsa(){
 
 //   else{
 //  // Store the value in localStorage
-//   localStorage.setItem('userKod', kodInput);
+//   localStorage.setItem('enumerator', kodInput);
 //   //push to array
-//   userData[field] = localStorage.getItem('userKod');
+//   userData[field] = localStorage.getItem('enumerator');
 
 //   // clear input
 //   // kodInput = '';
@@ -573,10 +573,10 @@ function submitKod(field) {
     { userID: 'AC07', name: 'User107' },
     { userID: 'AC08', name: 'User108' },
     { userID: 'AC09', name: 'User109' },
-    { userID: 'AC10', name: 'User110' }
+    { userID: 'AC10', name: 'User110' },
 
     // test codes
-    // { userID: 'ST00', name: 'tester1' },
+    { userID: 'ST00', name: 'tester1' },
     // { userID: 'ST01', name: 'tester2' },
     // { userID: 'ST02', name: 'tester3' },
     // { userID: 'XX00', name: 'tester4' },
@@ -597,12 +597,12 @@ function submitKod(field) {
 
   if (userExists) {
     // Store the value in localStorage
-    localStorage.setItem('userKod', kodInput);
+    localStorage.setItem('enumerator', kodInput);
 
     console.log("exists");
     
     // Push to array (assuming userData is an existing object/array)
-    userData[field] = localStorage.getItem('userKod');
+    userData[field] = localStorage.getItem('enumerator');
 
     // Clear the input (if desired)
     document.getElementById('kod-input').value = ''; // clears input field
@@ -621,7 +621,7 @@ function submitAge(field) {
   const umurInput = document.getElementById('umur-input').value;
 
   // Store the value in localStorage
-  // localStorage.setItem('userKod', kodInput);
+  // localStorage.setItem('enumerator', kodInput);
   //push to array
   if (umurInput >= 18 && umurInput <= 100) {
     userData[field] = umurInput
@@ -647,7 +647,7 @@ function submitAge(field) {
 function startSurvey() {
   closeModalStart('starting-modal');
   // openModal('parlimen-options-modal');
-  const kod = localStorage.getItem('userKod');
+  const kod = localStorage.getItem('enumerator');
 
   //push to array
 
@@ -657,7 +657,7 @@ function startSurvey() {
     // ques++
   }
   else {
-    userData['kod'] = localStorage.getItem('userKod');
+    userData['kod'] = localStorage.getItem('enumerator');
     // openModal('parlimen-options-modal');
     // ques++
     
@@ -2151,7 +2151,7 @@ function selectOption(selectedOption, field) {
   //       displayUserInfo(userData);
   //       console.log(userData);
   //       // remove user kod (end user session)
-  //       localStorage.removeItem('userKod');
+  //       localStorage.removeItem('enumerator');
   //       closeModal();
   //       hideInput(); 
   //       displayMessage(`Tuan Awang: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
@@ -2781,12 +2781,12 @@ function renderModal() {
     console.log(userData);
     
     
-    // let userKod = localStorage.getItem('userKod');
-    // userKod.push(userData['kod'])
+    // let enumerator = localStorage.getItem('enumerator');
+    // enumerator.push(userData['kod'])
 
 
     // remove user kod (end user session)
-    localStorage.removeItem('userKod');
+    localStorage.removeItem('enumerator');
     closeModal();
     hideInput();
     displayMessage(`Tuan Awang: Terima kasih di atas kerjasama anda dalam menyertai kaji selidik ini. Setiap butiran yang diberikan diambil maklum untuk analisa kami. Sekian dan terima kasih. Sabah Maju Jaya!`, true);
@@ -3160,8 +3160,9 @@ Mohon kerjasama tuan/puan untuk mengisi kaji selidik ini dengan jujur dan teliti
     const uniqueId = Math.floor(Math.random() * 9000000) + 1000000;
     userData['responseid'] = uniqueId;
 
-    if (localStorage.getItem('userKod')) {
-      userData['kod'] = localStorage.getItem('userKod');
+    // checks if enumerator code is in localstorage (enumerator is logged in)
+    if (localStorage.getItem('enumerator')) {
+      userData['kod'] = localStorage.getItem('enumerator');
       // openModal('parlimen-options-modal');
       openModal('zone-options-modal');
       getStartTime()
