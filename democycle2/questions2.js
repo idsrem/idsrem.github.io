@@ -418,6 +418,7 @@ function submitKod(field) {
     { userID: 'IM08', name: 'User9' },
     { userID: 'IM09', name: 'User10' },
     { userID: 'IM10', name: 'User11' },
+    
     { userID: 'LC00', name: 'User12' },
     { userID: 'LC01', name: 'User13' },
     { userID: 'LC02', name: 'User14' },
@@ -429,6 +430,7 @@ function submitKod(field) {
     { userID: 'LC08', name: 'User20' },
     { userID: 'LC09', name: 'User21' },
     { userID: 'LC10', name: 'User22' },
+
     { userID: 'SH00', name: 'User23' },
     { userID: 'SH01', name: 'User24' },
     { userID: 'SH02', name: 'User25' },
@@ -440,6 +442,7 @@ function submitKod(field) {
     { userID: 'SH08', name: 'User31' },
     { userID: 'SH09', name: 'User32' },
     { userID: 'SH10', name: 'User33' },
+
     { userID: 'RM00', name: 'User34' },
     { userID: 'RM01', name: 'User35' },
     { userID: 'RM02', name: 'User36' },
@@ -451,6 +454,7 @@ function submitKod(field) {
     { userID: 'RM08', name: 'User42' },
     { userID: 'RM09', name: 'User43' },
     { userID: 'RM10', name: 'User44' },
+
     { userID: 'AL00', name: 'User45' },
     { userID: 'AL01', name: 'User46' },
     { userID: 'AL02', name: 'User47' },
@@ -462,6 +466,7 @@ function submitKod(field) {
     { userID: 'AL08', name: 'User53' },
     { userID: 'AL09', name: 'User54' },
     { userID: 'AL10', name: 'User55' },
+
     { userID: 'AH00', name: 'User56' },
     { userID: 'AH01', name: 'User57' },
     { userID: 'AH02', name: 'User58' },
@@ -473,6 +478,7 @@ function submitKod(field) {
     { userID: 'AH08', name: 'User64' },
     { userID: 'AH09', name: 'User65' },
     { userID: 'AH10', name: 'User66' },
+
     { userID: 'RZ00', name: 'User67' },
     { userID: 'RZ01', name: 'User68' },
     { userID: 'RZ02', name: 'User69' },
@@ -484,6 +490,7 @@ function submitKod(field) {
     { userID: 'RZ08', name: 'User75' },
     { userID: 'RZ09', name: 'User76' },
     { userID: 'RZ10', name: 'User77' },
+
     { userID: 'KA00', name: 'User78' },
     { userID: 'KA01', name: 'User79' },
     { userID: 'KA02', name: 'User80' },
@@ -495,6 +502,7 @@ function submitKod(field) {
     { userID: 'KA08', name: 'User86' },
     { userID: 'KA09', name: 'User87' },
     { userID: 'KA10', name: 'User88' },
+
     { userID: 'PC00', name: 'User89' },
     { userID: 'PC01', name: 'User90' },
     { userID: 'PC02', name: 'User91' },
@@ -506,6 +514,7 @@ function submitKod(field) {
     { userID: 'PC08', name: 'User97' },
     { userID: 'PC09', name: 'User98' },
     { userID: 'PC10', name: 'User99' },
+
     { userID: 'FI00', name: 'User100' },
     { userID: 'FI01', name: 'User101' },
     { userID: 'FI02', name: 'User102' },
@@ -518,12 +527,60 @@ function submitKod(field) {
     { userID: 'FI09', name: 'User109' },
     { userID: 'FI10', name: 'User110' },
 
-    // test codes
-    { userID: 'ST00', name: 'tester1' },
-    { userID: 'ST01', name: 'tester2' },
-    { userID: 'ST02', name: 'tester3' },
-    { userID: 'XX00', name: 'tester4' },
-    { userID: 'XX01', name: 'tester5' }
+    { userID: 'MM00', name: 'User100' },
+    { userID: 'MM01', name: 'User101' },
+    { userID: 'MM02', name: 'User102' },
+    { userID: 'MM03', name: 'User103' },
+    { userID: 'MM04', name: 'User104' },
+    { userID: 'MM05', name: 'User105' },
+    { userID: 'MM06', name: 'User106' },
+    { userID: 'MM07', name: 'User107' },
+    { userID: 'MM08', name: 'User108' },
+    { userID: 'MM09', name: 'User109' },
+    { userID: 'MM10', name: 'User110' },
+
+    { userID: 'ZZ00', name: 'User100' },
+    { userID: 'ZZ01', name: 'User101' },
+    { userID: 'ZZ02', name: 'User102' },
+    { userID: 'ZZ03', name: 'User103' },
+    { userID: 'ZZ04', name: 'User104' },
+    { userID: 'ZZ05', name: 'User105' },
+    { userID: 'ZZ06', name: 'User106' },
+    { userID: 'ZZ07', name: 'User107' },
+    { userID: 'ZZ08', name: 'User108' },
+    { userID: 'ZZ09', name: 'User109' },
+    { userID: 'ZZ10', name: 'User110' },
+
+    { userID: 'WC00', name: 'User100' },
+    { userID: 'WC01', name: 'User101' },
+    { userID: 'WC02', name: 'User102' },
+    { userID: 'WC03', name: 'User103' },
+    { userID: 'WC04', name: 'User104' },
+    { userID: 'WC05', name: 'User105' },
+    { userID: 'WC06', name: 'User106' },
+    { userID: 'WC07', name: 'User107' },
+    { userID: 'WC08', name: 'User108' },
+    { userID: 'WC09', name: 'User109' },
+    { userID: 'WC10', name: 'User110' },
+
+    { userID: 'AC00', name: 'User100' },
+    { userID: 'AC01', name: 'User101' },
+    { userID: 'AC02', name: 'User102' },
+    { userID: 'AC03', name: 'User103' },
+    { userID: 'AC04', name: 'User104' },
+    { userID: 'AC05', name: 'User105' },
+    { userID: 'AC06', name: 'User106' },
+    { userID: 'AC07', name: 'User107' },
+    { userID: 'AC08', name: 'User108' },
+    { userID: 'AC09', name: 'User109' },
+    { userID: 'AC10', name: 'User110' }
+
+    // // test codes
+    // { userID: 'ST00', name: 'tester1' },
+    // { userID: 'ST01', name: 'tester2' },
+    // { userID: 'ST02', name: 'tester3' },
+    // { userID: 'XX00', name: 'tester4' },
+    // { userID: 'XX01', name: 'tester5' }
 
   ];
   
@@ -592,8 +649,17 @@ function startSurvey() {
   // openModal('parlimen-options-modal');
   const kod = localStorage.getItem('userKod');
 
-  //push to array
+  // // function to show logout button
+  // document.addEventListener('DOMContentLoaded', function () {
+  //   const logoutBtn = document.getElementById('logoutBtn');
+  //   console.log("hehe");
+    
+  //   if (kod !== null) {
+  //     logoutBtn.style.display = 'block'; // or 'inline-block' depending on your layout
+  //   }
+  // });
 
+  //push to array
   if (kod == null) {
     // if kod exist
     openModal('kod-modal');
@@ -2883,8 +2949,8 @@ async function sendDataToBackend(data) {
   // }
 
   try {
-    // Assuming this is the correct endpoint
-    const response = await fetch('https://atiqahst-github-io.onrender.com/exportResponse', {
+    // test table endpoint
+    const response = await fetch('https://atiqahst-github-io.onrender.com/testResponse', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
