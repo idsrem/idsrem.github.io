@@ -2608,8 +2608,8 @@ function renderModal() {
   //new question
 
   else if (ques == 11) {
-    userData.mengundiAdun = '';
-    userData.tidakundi = '';
+    // userData.mengundiAdun = '';
+    // userData.tidakundi = '';
     closeModal();
     displayMessage(`Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`, true);
     openModal('mengundiadun-options-modal');
