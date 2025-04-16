@@ -151,10 +151,12 @@ function backBtn() {
     userData.persepsilain = '';
   }
 
-  if (userData.mengundiAdun.trim() === 'Tidak'){
-    userData.mengundiAdun = '';
-    userData.tidakundi = '';
-  }
+  // if (userData.mengundiAdun.trim() === 'Tidak'){
+  //   console.log("ADUN KOSONG");
+    
+  //   userData.mengundiAdun = '';
+  //   userData.tidakundi = '';
+  // }
   // else{
   //   console.log("disini salkah");
     
