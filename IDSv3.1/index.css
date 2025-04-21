@@ -53,9 +53,9 @@ body {
 }
 
 .survey-option:hover {
-    background-color: #F6F6F6;
+    background-color: #0056b3 ;
     border: 1px black;
-    color: black;
+    color: white;
 }
 
 button {
@@ -69,6 +69,53 @@ button {
     font-size: 16px;
     margin: 5px;
 }
+
+.system-bubble {
+    background-color: green; /* Green background for end message */
+    color: white; /* White text */
+    border-radius: 10px;
+    padding: 1px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    width: 100%;
+    align-self: flex-start;
+    font-size: 16px;
+    text-align: center;
+}
+
+.previousQuestion-bubble {
+    background-color: orange; 
+    color: black; 
+    border-radius: 10px;
+    padding: 1px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    width: 100%;
+    align-self: flex-start;
+    font-size: 16px;
+    text-align: center;
+}
+
+.surveyFinish-bubble {
+    background-color: red;
+    color: white;
+    border-radius: 10px;
+    padding: 1px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    width: 100%;
+    align-self: flex-start;
+    font-size: 16px;
+    text-align: center;
+}
+
+
 
 .lain-lain-option{
     background-color: #007bff;
@@ -106,7 +153,6 @@ footer{
     text-align: center;
     width: 80%;
 }
-
 
 table {
     width: 50%;
@@ -190,7 +236,7 @@ th {
 
 #message-view {
     flex: 1;
-    padding: 20px;
+    padding: 25px;
     background: #f9f9f9;
     max-height: 350px;
     overflow-y: auto;
@@ -206,7 +252,7 @@ th {
     display: flex;
     padding: 10px;
     margin-bottom: 10px;
-    border-radius: 10px;
+    border-radius: 20px;
 }
 
 .question-bubble {
@@ -218,12 +264,29 @@ th {
 }
 
 .answer-bubble {
-    background-color: #325dd0; /* Green for answers */
+    background-color: #325dd0; 
     color: white; /* Text color for answer */
     max-width: 70%; /* Set the maximum width for answers */
     margin-left: auto; /* Align answers to the right */
     text-align: center;
     padding: 10px;
+}
+
+.overallTotalRespondents-bubble {
+    background-color: #325dd0;
+    border-radius: 30px;
+    padding: 10px 20px; /* Adjusted padding for better spacing */
+    color: white;
+    margin-top: -30px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    max-width: 60%;
+    text-align: center; /* Ensures text is centered horizontally */
+    display: flex; /* Apply flexbox */
+    justify-content: center; /* Horizontally centers the text */
+    align-items: center; /* Vertically centers the text */
+    width: fit-content; /* Ensures the width adjusts to content size */
 }
 
 @keyframes fadeIn {
@@ -239,8 +302,10 @@ th {
 
 @media (max-width: 1300px) {
     .container-view {
-        flex-direction: column; /* Stack elements */
         align-items: center; /* Center them */
+        margin-left: auto;
+        margin-right: auto;
+        width: 95%;
     }
 
     #message-view, #survey-container {

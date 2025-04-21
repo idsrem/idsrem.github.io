@@ -1594,7 +1594,7 @@ function selectParlimen(parlimen) {
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N36 Kundasang", "N37 Karanan", "N38 Paginatan"]);
+      populateBubbleOptions(["N36 Kundasang", "N37 Karanaan", "N38 Paginatan"]);
       break;
 
     case "P180 Keningau":

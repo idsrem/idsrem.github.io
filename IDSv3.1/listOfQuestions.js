@@ -108,11 +108,11 @@ export const surveyQuestions = [
         id: "beritaTerkini",
         text: "Bagaimanakah berita terkini mempengaruhi persepsi anda terhadap kerajaan?",
         options: [
-            {name: "Sangat Negatif"},
-            {name: "Agak Negatif"},
-            {name: "Neutral"},
+            {name: "Sangat Positif"},
             {name: "Agak Positif"},
-            {name: "Sangat Positif"}
+            {name: "Neutral"},
+            {name: "Agak Negatif"},
+            {name: "Sangat Negatif"}
         ]
     },
     {
@@ -122,7 +122,7 @@ export const surveyQuestions = [
             {name: "Keluarga"},
             {name: "Rakan"},
             {name: "Bangsa"},
-            {name: "Hubungan dengan ADUN/Parti"},
+            {name: "Hubungan dengan Calon/ADUN/Parti"},
             {name: "Insentif Pengundi (Voter's Benefits)"},
             {name: "Pendapat Peribadi"},
         ]
@@ -151,16 +151,17 @@ export const surveyQuestions = [
         options: [
             {name: "Parti Nasional"},
             {name: "Parti Tempatan"},
-            {name: "Tiada Kecendurungan"}
+            {name: "Tidak Pasti"}
         ]
     }, 
     {
         id: "partiNasional",
         text: "Sila pilih jawapan yang berikut:",
         options: [
-            {name: "BN"},
-            {name: "PH"},
-            {name: "PN"}
+            {name: "Barian Nasional (BN)"},
+            {name: "Pakatan Harapan (PH)"},
+            {name: "Perikatan Nasional (PN)"},
+            {name: "Lain - Lain"}
         ]
     },
     {
@@ -172,6 +173,7 @@ export const surveyQuestions = [
             {name: "PBS"},
             {name: "STAR"},
             {name: "UPKO"},
+            {name: "Lain - Lain"}
         ]
     },
     {
@@ -189,8 +191,8 @@ export const surveyQuestions = [
         id: "isiBorangLagi",
         text: "Adakah anda ingin mengisi borang lagi sekali?",
         options: [
-            {name: "Ya, isi lagi"},
-            {name: "Tidak, Selesai"},
+            {name: "Iya, (isi kaji selidik yang baru)"},
+            {name: "Tidak, (Sesi ditamatkan)"},
 
         ]
     },
