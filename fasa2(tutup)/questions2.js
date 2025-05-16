@@ -2599,7 +2599,7 @@ function renderModal() {
 
   // } 
 
-  else if (ques == 7) {
+  else if (ques == 6) {
     closeModal();
     displayMessage(`Tuan Awang: Adakah anda mengundi bedasarkan Parti atau Calon?`, true);
     openModal('partiataucalon-options-modal');
@@ -2609,7 +2609,7 @@ function renderModal() {
 
   //new question
 
-  else if (ques == 8) {
+  else if (ques == 7) {
     // userData.mengundiAdun = '';
     // userData.tidakundi = '';
     closeModal();
@@ -2626,7 +2626,7 @@ function renderModal() {
   //   showInput();
   // }
 
-  else if (ques == 9) {
+  else if (ques == 8) {
     userData.pilihanpartinasional = '';
     userData.pilihanpartitempatan = '';
     closeModal();
@@ -2640,7 +2640,7 @@ function renderModal() {
 
   //if user select parti nasional----------------
 
-  else if (ques == 10 && userData.cenderunguntukundi == 'Parti Nasional') {
+  else if (ques == 9 && userData.cenderunguntukundi == 'Parti Nasional') {
     closeModal();
     displayMessage(`Tuan Awang: Parti Nasional manakah anda lebih cenderung untuk undi?`, true);
     openModal('partinasional-options-modal');
@@ -2648,7 +2648,7 @@ function renderModal() {
 
   }
 
-  else if (ques == 11 && userData.cenderunguntukundi == 'Parti Nasional') {
+  else if (ques == 10 && userData.cenderunguntukundi == 'Parti Nasional') {
     closeModal();
     displayMessage(`Tuan Awang: Parti Nasional manakah anda lebih cenderung untuk undi?`, true);
     openModal('partitempatan-options-modal');
@@ -2656,7 +2656,7 @@ function renderModal() {
 
   }
 
-  else if (ques == 12 && userData.cenderunguntukundi == 'Parti Nasional') {
+  else if (ques == 11 && userData.cenderunguntukundi == 'Parti Nasional') {
     closeModal();
     displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah?`, true);
     openModal('pemimpinsabah-options-modal');
@@ -2664,7 +2664,7 @@ function renderModal() {
 
   }
 
-  else if (ques == 13 && !userData.isiboranglagi && userData.cenderunguntukundi == 'Parti Nasional' && userData.pemimpinsabah != 'Lain-lain') {
+  else if (ques == 12 && !userData.isiboranglagi && userData.cenderunguntukundi == 'Parti Nasional' && userData.pemimpinsabah != 'Lain-lain') {
     closeModal();
     //capture end time
     getEndTime();
@@ -2679,7 +2679,7 @@ function renderModal() {
 
   // if user select parti tempatan -------------------------------
 
-  else if (ques == 10 && userData.cenderunguntukundi == 'Parti Tempatan') {
+  else if (ques == 9 && userData.cenderunguntukundi == 'Parti Tempatan') {
     closeModal();
     displayMessage(`Tuan Awang: Parti Tempatan manakah anda lebih cenderung untuk undi?`, true);
     openModal('partitempatan-options-modal');
@@ -2687,7 +2687,7 @@ function renderModal() {
 
   }
 
-  else if (ques == 11 && userData.cenderunguntukundi == 'Parti Tempatan') {
+  else if (ques == 10 && userData.cenderunguntukundi == 'Parti Tempatan') {
     closeModal();
     displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah?`, true);
     openModal('pemimpinsabah-options-modal');
@@ -2695,7 +2695,7 @@ function renderModal() {
 
   }
 
-  else if (ques == 12 && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
+  else if (ques == 11 && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
     closeModal();
 
     //capture end time
@@ -2710,7 +2710,7 @@ function renderModal() {
 
   // if user select tidak cenderung -----------------------------
 
-  else if (ques == 10 && userData.cenderunguntukundi == 'Tiada Kecenderungan') {
+  else if (ques == 9 && userData.cenderunguntukundi == 'Tiada Kecenderungan') {
     closeModal();
     displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah?`, true);
     openModal('pemimpinsabah-options-modal');
@@ -2718,7 +2718,7 @@ function renderModal() {
 
   }
 
-  else if (ques == 11 && userData.cenderunguntukundi == 'Tiada Kecenderungan' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
+  else if (ques == 10 && userData.cenderunguntukundi == 'Tiada Kecenderungan' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
     closeModal();
     //capture end time
     getEndTime();
