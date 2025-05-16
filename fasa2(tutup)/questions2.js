@@ -2718,7 +2718,7 @@ function renderModal() {
 
   }
 
-  else if (ques == 10 && userData.cenderunguntukundi == 'Tiada Kecenderungan' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
+  else if (ques == 10 && userData.cenderunguntukundi == 'Tidak Pasti' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
     closeModal();
     //capture end time
     getEndTime();
