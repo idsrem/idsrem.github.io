@@ -2943,7 +2943,7 @@ async function sendDataToBackend(data) {
 
   try {
     // cycle2 table endpoint
-    const response = await fetch('https://atiqahst-github-io.onrender.com/cycle3', {
+    const response = await fetch('https://atiqahst-github-io.onrender.com/cycle3Demo', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
