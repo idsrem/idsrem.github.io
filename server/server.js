@@ -260,7 +260,7 @@ app.post('/testResponseCycle3', async (req, res) => {
     }, []);
 
     // Construct the SQL query dynamically | table name + column name
-    const queryText = `INSERT INTO cycle3Test (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, partiataucalon, mengundiadun, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime) 
+    const queryText = `INSERT INTO cycle3test (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, partiataucalon, mengundiadun, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime) 
       VALUES ${placeholders}`;
 
     // Execute the query
