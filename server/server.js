@@ -252,15 +252,15 @@ app.post('/testResponseCycle3', async (req, res) => {
 
     // Flatten the userDataArray into a single array of values
     const values = userDataArray.reduce((acc, { tarikh, kod, dun, umur, jantina, bangsa, bangsalain, partiataucalon,
-      mengundiadun, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responsdid, starttime, endtime
+      mengundiadun, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, respondid, starttime, endtime
     }) => {
       acc.push(tarikh, kod, dun, umur, jantina, bangsa, bangsalain, partiataucalon,
-        mengundiadun, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responsdid, starttime, endtime || '');
+        mengundiadun, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, respondid, starttime, endtime || '');
       return acc;
     }, []);
 
     // Construct the SQL query dynamically | table name + column name
-    const queryText = `INSERT INTO cycle3test (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, partiataucalon, mengundiadun, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responsdid, starttime, endtime) 
+    const queryText = `INSERT INTO cycle3test (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, partiataucalon, mengundiadun, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, respondid, starttime, endtime) 
       VALUES ${placeholders}`;
 
     // Execute the query
