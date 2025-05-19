@@ -20,15 +20,15 @@ let userData = {
   jantina: '',
   bangsa: '',
   bangsalain: '',
-  pengaruhmediasemasa: '',
-  persepsi: '',
-  persepsilain: '',
-  pengaruhberita: '',
-  faktorlain: '',
-  pendapatperibadi: '',
+  //pengaruhmediasemasa: '',
+  //persepsi: '',
+  //persepsilain: '',
+ // pengaruhberita: '',
+ // faktorlain: '',
+ // pendapatperibadi: '',
   partiataucalon: '',
   mengundiAdun: '',
-  tidakundi: '',
+ // tidakundi: '',
   cenderunguntukundi: '',
   pilihanpartinasional: '',
   pilihanpartitempatan: '',
@@ -2943,7 +2943,7 @@ async function sendDataToBackend(data) {
 
   try {
     // cycle2 table endpoint
-    const response = await fetch('https://atiqahst-github-io.onrender.com/exportResponse', {
+    const response = await fetch('https://atiqahst-github-io.onrender.com/cycle3', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
