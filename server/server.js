@@ -233,7 +233,7 @@ app.post('/testResponse', async (req, res) => {
 
 
 // for test table cycle 3
-app.post('/cycle3', async (req, res) => {
+app.post('/cycle3Demo', async (req, res) => {
   const userDataArray = req.body;  // The array of user data
 
   console.log("Hi Habri");

@@ -908,15 +908,15 @@ function saveToLocalStorage(userData) {
       data.dun === userData.dun &&
       data.umur === userData.umur &&
       data.jantina === userData.jantina &&
-      data.agama === userData.agama &&
+      //data.agama === userData.agama &&
       data.bangsa === userData.bangsa &&
       data.bangsalain === userData.bangsalain &&
-      data.pengaruhmediasemasa === userData.pengaruhmediasemasa &&
-      data.persepsi === userData.persepsi &&
-      data.persepsilain === userData.persepsilain &&
-      data.pengaruhberita === userData.pengaruhberita &&
-      data.faktorlain === userData.faktorlain &&
-      data.pendapatperibadi === userData.pendapatperibadi &&
+      //data.pengaruhmediasemasa === userData.pengaruhmediasemasa &&
+      //data.persepsi === userData.persepsi &&
+      //data.persepsilain === userData.persepsilain &&
+      //data.pengaruhberita === userData.pengaruhberita &&
+      //data.faktorlain === userData.faktorlain &&
+      //data.pendapatperibadi === userData.pendapatperibadi &&
       data.partiataucalon === userData.partiataucalon &&
       data.mengundiAdun === userData.mengundiAdun &&
       data.cenderunguntukundi === userData.cenderunguntukundi &&
@@ -985,12 +985,12 @@ function removeFromLocalStorage(userData) {
       // data.agama !== userData.agama ||
       data.bangsa !== userData.bangsa ||
       data.bangsalain !== userData.bangsalain ||
-      data.pengaruhmediasemasa !== userData.pengaruhmediasemasa ||
-      data.persepsi !== userData.persepsi ||
-      data.persepsilain !== userData.persepsilain ||
-      data.pengaruhberita !== userData.pengaruhberita ||
-      data.faktorlain !== userData.faktorlain ||
-      data.pendapatperibadi !== userData.pendapatperibadi ||
+      //data.pengaruhmediasemasa !== userData.pengaruhmediasemasa ||
+      //data.persepsi !== userData.persepsi ||
+      //data.persepsilain !== userData.persepsilain ||
+      //data.pengaruhberita !== userData.pengaruhberita ||
+      //data.faktorlain !== userData.faktorlain ||
+      //data.pendapatperibadi !== userData.pendapatperibadi ||
       data.partiataucalon !== userData.partiataucalon ||
       data.mengundiAdun !== userData.mengundiAdun ||
       data.cenderunguntukundi !== userData.cenderunguntukundi ||
