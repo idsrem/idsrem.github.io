@@ -2545,8 +2545,9 @@ function renderModal() {
     console.log(userData);
 
     displayMessage(`Tuan Awang: Sila nyatakan bangsa anda`, true);
-    closeModal();
     showInput();
+    closeModal();
+
   }
 
   // else if (ques == 6) {
