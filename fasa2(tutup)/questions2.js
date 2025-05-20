@@ -2547,7 +2547,6 @@ function renderModal() {
     displayMessage(`Tuan Awang: Sila nyatakan bangsa anda`, true);
     closeModal();
     showInput();
-    openModal('partiataucalon-options-modal');
   }
 
   // else if (ques == 6) {
