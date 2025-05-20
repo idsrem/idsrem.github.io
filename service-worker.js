@@ -1,5 +1,5 @@
 // Use a versioned cache name to ensure caches are updated with each new version
-const CACHE_NAME = 'offline-cache-v3.6.8';  // Change the version number whenever there's an update
+const CACHE_NAME = 'offline-cache-v3.6.9';  // Change the version number whenever there's an update
 const OFFLINE_URL = 'index.html';      // The file to display when offline
 const CACHE_ASSETS = [
   '/',
@@ -10,9 +10,9 @@ const CACHE_ASSETS = [
   'cycle2/styles2.css',
   'cycle2/questions2.js',
 
-  'fasa2(tutup)/index.html',
-  'fasa2(tutup)/styles2.css',
-  'fasa2(tutup)/questions2.js'
+  'fasa3(test)/index.html',
+  'fasa2(test)/styles2.css',
+  'fasa2(test)/questions2.js'
 ];
 // Install event - add assets to cache
 self.addEventListener('install', (event) => {

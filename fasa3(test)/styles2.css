@@ -16,6 +16,25 @@ body {
   font-family: Arial, sans-serif; /* Font family */
 }
 
+.finish-message{
+  background-color: #FF746C;
+  border: solid 2px red;
+  height: 100%;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  margin-bottom: 200px;
+  width: 60%;
+  text-align: center;
+  padding: 50px;
+}
+
+
+.finish-message p{
+ color: #363636;
+ }
+
 #chat-container {
   padding-top: 5%;
   position: relative; /* Added to position the overlay */
