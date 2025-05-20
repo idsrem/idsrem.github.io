@@ -137,19 +137,19 @@ function backBtn() {
   ques = ques - 1
   console.log(ques);
 
-  if (userData.bangsa.trim() === 'Lain-lain' && ques == 5) {
-    userData.bangsa = '';
-    userData.bangsalain = '';
-    // console.log("clearing bangsa")
-    // console.log(userData.bangsa);
+  // if (userData.bangsa.trim() === 'Lain-lain' && ques == 5) {
+  //   userData.bangsa = '';
+  //   userData.bangsalain = '';
+  //   // console.log("clearing bangsa")
+  //   // console.log(userData.bangsa);
     
-  }
+  // }
   
   
-  if (userData.persepsi.trim() === 'Lain-lain'  && ques == 7){
-    userData.persepsi = '';
-    userData.persepsilain = '';
-  }
+  // if (userData.persepsi.trim() === 'Lain-lain'  && ques == 7){
+  //   userData.persepsi = '';
+  //   userData.persepsilain = '';
+  // }
 
   // if (userData.mengundiAdun.trim() === 'Tidak'){
   //   console.log("ADUN KOSONG");
