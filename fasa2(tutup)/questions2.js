@@ -20,15 +20,15 @@ let userData = {
   jantina: '',
   bangsa: '',
   bangsalain: '',
-  //pengaruhmediasemasa: '',
-  //persepsi: '',
-  //persepsilain: '',
- // pengaruhberita: '',
- // faktorlain: '',
- // pendapatperibadi: '',
+  pengaruhmediasemasa: '',
+  persepsi: '',
+  persepsilain: '',
+  pengaruhberita: '',
+  faktorlain: '',
+  pendapatperibadi: '',
   partiataucalon: '',
   mengundiAdun: '',
- // tidakundi: '',
+  tidakundi: '',
   cenderunguntukundi: '',
   pilihanpartinasional: '',
   pilihanpartitempatan: '',
@@ -908,15 +908,15 @@ function saveToLocalStorage(userData) {
       data.dun === userData.dun &&
       data.umur === userData.umur &&
       data.jantina === userData.jantina &&
-      //data.agama === userData.agama &&
+      data.agama === userData.agama &&
       data.bangsa === userData.bangsa &&
       data.bangsalain === userData.bangsalain &&
-      //data.pengaruhmediasemasa === userData.pengaruhmediasemasa &&
-      //data.persepsi === userData.persepsi &&
-      //data.persepsilain === userData.persepsilain &&
-      //data.pengaruhberita === userData.pengaruhberita &&
-      //data.faktorlain === userData.faktorlain &&
-      //data.pendapatperibadi === userData.pendapatperibadi &&
+      data.pengaruhmediasemasa === userData.pengaruhmediasemasa &&
+      data.persepsi === userData.persepsi &&
+      data.persepsilain === userData.persepsilain &&
+      data.pengaruhberita === userData.pengaruhberita &&
+      data.faktorlain === userData.faktorlain &&
+      data.pendapatperibadi === userData.pendapatperibadi &&
       data.partiataucalon === userData.partiataucalon &&
       data.mengundiAdun === userData.mengundiAdun &&
       data.cenderunguntukundi === userData.cenderunguntukundi &&
@@ -985,12 +985,12 @@ function removeFromLocalStorage(userData) {
       // data.agama !== userData.agama ||
       data.bangsa !== userData.bangsa ||
       data.bangsalain !== userData.bangsalain ||
-      //data.pengaruhmediasemasa !== userData.pengaruhmediasemasa ||
-      //data.persepsi !== userData.persepsi ||
-      //data.persepsilain !== userData.persepsilain ||
-      //data.pengaruhberita !== userData.pengaruhberita ||
-      //data.faktorlain !== userData.faktorlain ||
-      //data.pendapatperibadi !== userData.pendapatperibadi ||
+      data.pengaruhmediasemasa !== userData.pengaruhmediasemasa ||
+      data.persepsi !== userData.persepsi ||
+      data.persepsilain !== userData.persepsilain ||
+      data.pengaruhberita !== userData.pengaruhberita ||
+      data.faktorlain !== userData.faktorlain ||
+      data.pendapatperibadi !== userData.pendapatperibadi ||
       data.partiataucalon !== userData.partiataucalon ||
       data.mengundiAdun !== userData.mengundiAdun ||
       data.cenderunguntukundi !== userData.cenderunguntukundi ||
@@ -1142,10 +1142,10 @@ function processInput(message) {
     userData.bangsalain = message;
     // ques++
     console.log('Bangsa (Lain-lain):', userData.bangsalain);
-    displayMessage(`Dari mana sumber utama anda untuk mendapat berita politik terkini?`, true);
+     displayMessage(`Tuan Awang: Adakah anda mengundi bedasarkan Parti atau Calon?`, true);
     hideInput();
     setTimeout(function () {
-      openModal('mediasemasa-options-modal'); //OPEN POP UP BOX
+      openModal('partiataucalon-options-modal'); //OPEN POP UP BOX
     }, 500);
     closeModal();
 
@@ -2539,16 +2539,28 @@ function renderModal() {
 
   } 
   
-  else if (userData.bangsa.trim() === 'Lain-lain' && !userData.partiataucalon || userData.bangsa.trim() === 'Lain-lain' && ques==6) {
+  else if (userData.bangsa.trim() === 'Lain-lain' && !userData.partiataucalon || userData.bangsa.trim() === 'Lain-lain' && ques == 6 ) {
 
     // If user choose lain-lain under bangsa
     console.log(userData);
 
     displayMessage(`Tuan Awang: Sila nyatakan bangsa anda`, true);
-    showInput();
     closeModal();
-
+    showInput();
   }
+
+  
+  else if (userData.pemimpinsabah.trim() === 'Lain-lain' && !userData.isiboranglagi) {
+    // If user choose lain-lain under bangsa
+    console.log("here ni");
+
+    displayMessage(`Tuan Awang: Sila nyatakan pilihan pemimpin Sabah anda:`, true);
+    closeModal();
+    showInput();
+  }
+
+  
+
 
   // else if (ques == 6) {
 
@@ -2571,8 +2583,8 @@ function renderModal() {
   // }
 
   // else if (userData.persepsi.trim() === 'Lain-lain' && !userData.pengaruhberita || userData.persepsi.trim() === 'Lain-lain' && ques==8) {
-    // If user choose lain-lain under bangsa
-    // console.log("here ni");
+  //   // If user choose lain-lain under bangsa
+  //   // console.log("here ni");
 
   //   displayMessage(`Tuan Awang: Sila nyatakan apa yang mempengaruhi persepsi anda:`, true);
   //   closeModal();
@@ -2711,7 +2723,7 @@ function renderModal() {
 
   // if user select tidak cenderung -----------------------------
 
-  else if (ques == 9 && userData.cenderunguntukundi == 'Tidak Pasti') {
+  else if (ques == 9 && userData.cenderunguntukundi == 'Tiada Kecenderungan') {
     closeModal();
     displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah?`, true);
     openModal('pemimpinsabah-options-modal');
@@ -2719,7 +2731,7 @@ function renderModal() {
 
   }
 
-  else if (ques == 10 && userData.cenderunguntukundi == 'Tidak Pasti' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
+  else if (ques == 10 && userData.cenderunguntukundi == 'Tiada Kecenderungan' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
     closeModal();
     //capture end time
     getEndTime();
@@ -3130,15 +3142,15 @@ function initiateConversation() {
     jantina: '',
     bangsa: '',
     bangsalain: '',
-    //pengaruhmediasemasa: '',
-    //persepsi: '',
-    //persepsilain: '',
-    //pengaruhberita: '',
-    //faktorlain: '',
-    //pendapatperibadi: '',
+    pengaruhmediasemasa: '',
+    persepsi: '',
+    persepsilain: '',
+    pengaruhberita: '',
+    faktorlain: '',
+    pendapatperibadi: '',
     partiataucalon: '',
     mengundiAdun: '',
-    //tidakundi: '',
+    tidakundi: '',
     cenderunguntukundi: '',
     pilihanpartinasional: '',
     pilihanpartitempatan: '',
