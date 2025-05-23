@@ -2751,7 +2751,7 @@ function renderModal() {
 
   // if user select tidak cenderung -----------------------------
 
-  else if (ques == 9 && userData.cenderunguntukundi == 'Tiada Kecenderungan') {
+  else if (ques == 9 && userData.cenderunguntukundi == 'Tidak Pasti') {
     closeModal();
     displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah?`, true);
     openModal('pemimpinsabah-options-modal');
@@ -2759,7 +2759,7 @@ function renderModal() {
 
   }
 
-  else if (ques == 10 && userData.cenderunguntukundi == 'Tiada Kecenderungan' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
+  else if (ques == 10 && userData.cenderunguntukundi == 'Tidak Pasti' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
     closeModal();
     //capture end time
     getEndTime();
