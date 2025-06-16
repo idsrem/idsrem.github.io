@@ -407,6 +407,7 @@ function submitKod(field) {
 
   console.log("userID: " + kodInput);
 
+
   // users
   const users = [
     { userID: 'IM00', name: 'User1' },
@@ -1954,7 +1955,7 @@ function checkWorkingHours() {
   const currentTimeInMinutes = currentHour * 60 + currentMinutes;
 
   // Define start and end time in minutes
-  const startTime = 7 * 60;  // 7:00 AM 
+  const startTime = 2 * 60;  // 7:00 AM 
   const endTime = 20 * 60 + 30 ;   // 8:30 PM (For Testing Purpose)
 
   const surveyContainer = document.getElementById('chat-container');
@@ -2495,8 +2496,109 @@ function selectOption(selectedOption, field) {
 
 }
 
+
+// function populateBubbleOptions(options) {
+//   const container = document.getElementById('dun-options-container');
+//   container.innerHTML = ''; // clear existing
+
+//   options.forEach(dun => {
+//     const btn = document.createElement('button');
+//     btn.textContent = dun;
+//     btn.onclick = () => selectDun(dun);
+//     container.appendChild(btn);
+//   });
+// }
+
+let selectedDun = '';
+
+function selectDun(dun) {
+  selectedDun = dun; // ✅ this line sets the global variable
+  userData.dun = dun;
+  console.log("DUN selected:", selectedDun);
+  ques++;             // move to next question
+  closeModal('dun-modal');
+  handleQuestion();   // move to next step
+}
+
+
+ //Aduns with their respective dunToAduns
+  const dunToAdun = {
+  "N1 Banggi": { name: "Mohammad Mohamarin", party: "GRS" },
+  "N2 Bengkoka": { name: "Harun Durabi", party: "BN" },
+  "N3 Pitas": { name: "Ruddy Awah", party: "GRS" },
+  "N4 Tanjong Kapor": { name: "Ben Chong Chen Bin", party: "GRS" },
+  "N5 Matunggong": { name: "Julita Mojungki", party: "GRS" },
+  "N6 Bandau": { name: "Wetrom @ Mohd Fikri Bahanda", party: "KDM" },
+  "N7 Tandek": { name: "Hendrus Anding", party: "GRS" },
+  "N8 Pintasan": { name: "Fairuz Renddan", party: "GRS" },
+  "N9 Tempasuk": { name: "Mohd Arsad Bistari", party: "GRS" },
+  "N10 Usukan": { name: "Salleh Said Keruak", party: "BN" },
+  "N11 Kadamaian": { name: "Ewon Benedick", party: "PH" },
+  "N12 Sulaman": { name: "Hajiji Noor", party: "GRS" },
+  "N13 Pantai Dalit": { name: "Jasnih Daya", party: "GRS" },
+  "N14 Tamparuli": { name: "Jahid Jahim", party: "GRS" },
+  "N15 Kiulu": { name: "Joniston Bangkuai", party: "GRS" },
+  "N16 Karambunai": { name: "Yakubah Khan", party: "BN" },
+  "N17 Darau": { name: "Azhar Matussin", party: "WARISAN" },
+  "N18 Inanam": { name: "Peto Galim", party: "PH" },
+  "N19 Likas": { name: "Tan Lee Fatt", party: "PH" },
+  "N20 Api-Api": { name: "Christina Liew Chin Jin", party: "PH" },
+  "N21 Luyang": { name: "Phoong Jin Zhe", party: "PH" },
+  "N22 Tanjong Aru": { name: "Junz Wong Hong Jun", party: "WARISAN" },
+  "N23 Petagas": { name: "Awang Ahmad Sah Awang Sahari", party: "GRS" },
+  "N24 Tanjung Keramat": { name: "Shahelmey Yahya", party: "BN" },
+  "N25 Kapayan": { name: "Jannie Lasimbang", party: "PH" },
+  "N26 Moyog": { name: "Darell Leiking", party: "WARISAN" },
+  "N27 Limbahau": { name: "Juil Nuatim", party: "GRS" },
+  "N28 Kawang": { name: "Ghulamhaidar @ Yusof Khan Bahadar", party: "GRS" },
+  "N29 Pantai Manis": { name: "Mohd Tamin Zainal", party: "BN" },
+  "N30 Bongawan": { name: "Daud Yusof", party: "WARISAN" },
+  "N31 Membakut": { name: "Mohd Arifin Mohd Arif", party: "GRS" },
+  "N32 Klias": { name: "Isnin Aliasnih", party: "GRS" },
+  "N33 Kuala Penyu": { name: "Limus Jury", party: "GRS" },
+  "N34 Lumadan": { name: "Ruslan Muharam", party: "GRS" },
+  "N35 Sindumin": { name: "Yusof Yacob", party: "GRS" },
+  "N36 Kundasang": { name: "Joachim Gunsalam", party: "GRS" },
+  "N37 Karanaan": { name: "Masidi Manjun", party: "GRS" },
+  "N38 Paginatan": { name: "Abidin Madingkir", party: "GRS" },
+  "N39 Tambunan": { name: "Jeffrey Kitingan", party: "GRS" },
+  "N40 Bingkor": { name: "Robert Tawik @ Nordin", party: "GRS" },
+  "N41 Liawan": { name: "Annuar Ayub", party: "GRS" },
+  "N42 Melalap": { name: "Peter Anthony", party: "KDM" },
+  "N43 Kemabong": { name: "Rubin Balang", party: "GRS" },
+  "N44 Tulid": { name: "Flovia Ng", party: "GRS" },
+  "N45 Sook": { name: "Ellron Alfred Angin", party: "GRS" },
+  "N46 Nabawan": { name: "Abdul Ghani Mohamed Yassin", party: "GRS" },
+  "N47 Telupid": { name: "Jonnybone Kurum", party: "GRS" },
+  "N48 Sugut": { name: "James Ratib", party: "GRS" },
+  "N49 Labuk": { name: "Samad Jambri", party: "GRS" },
+  "N50 Gum-Gum": { name: "Arunarnsin Taib", party: "WARISAN" },
+  "N51 Sungai Manila": { name: "Mokran Ingkat", party: "BN" },
+  "N52 Sungai Sibuga": { name: "Mohamad Hamsan", party: "BN" },
+  "N53 Sekong": { name: "Alias Sani", party: "WARISAN" },
+  "N54 Karamunting": { name: "George Hiew Vun Zin", party: "GRS" },
+  "N55 Elopura": { name: "Calvin Chong Ket Kiun", party: "WARISAN" },
+  "N56 Tanjong Papat": { name: "Poon Ming Fun", party: "PH" },
+  "N57 Kuamut": { name: "Masiung Banah", party: "GRS" },
+  "N58 Lamag": { name: "Bung Moktar Radin", party: "BN" },
+  "N59 Sukau": { name: "Jafry Ariffin", party: "BN" },
+  "N60 Tungku": { name: "Assaffal P. Alian", party: "WARISAN" },
+  "N61 Segama": { name: "Mohamaddin Ketapi", party: "PBM" },
+  "N62 Silam": { name: "Dumi Masdal", party: "WARISAN" },
+  "N63 Kunak": { name: "Norazlinah Arif", party: "GRS" },
+  "N64 Sulabayan": { name: "Jaujan Sambakong", party: "WARISAN" },
+  "N65 Senallang": { name: "Shafie Apdal", party: "WARISAN" },
+  "N66 Bugaya": { name: "Jamil Hamzah", party: "WARISAN" },
+  "N67 Balung": { name: "Hamild @ Hamid Awang", party: "GRS" },
+  "N68 Apas": { name: "Nizam Abu Bakar Titingan", party: "GRS" },
+  "N69 Sri Tanjong": { name: "Justin Wong Yung Bin", party: "WARISAN" },
+  "N70 Kukusan": { name: "Rina Jainal", party: "GRS" },
+  "N71 Tanjung Batu": { name: "Andi Muhammad Suryady Bandy", party: "BN" },
+  "N72 Merotai": { name: "Sarifuddin Hata", party: "WARISAN" },
+  "N73 Sebatik": { name: "Hassan A Gani Pg Amir", party: "GRS" }
+};
+
 function renderModal() {
-  //-------->SECTION 1  
   if (ques == 0) {
     // ques++
     console.log(ques);
@@ -2640,23 +2742,52 @@ function renderModal() {
 
   // } 
 
-  else if (ques == 6) {
-    closeModal();
-    displayMessage(`Tuan Awang: Adakah anda mengundi bedasarkan Parti atau Calon?`, true);
-    openModal('partiataucalon-options-modal');
+  // else if (ques == 6) {
+  //   closeModal();
+  //   displayMessage(`Tuan Awang: Adakah anda mengundi bedasarkan Parti atau Calon?`, true);
+  //   openModal('partiataucalon-options-modal');
 
-  }
+  // }
 
 
   //new question
 
-  else if (ques == 7) {
-    // userData.mengundiAdun = '';
-    // userData.tidakundi = '';
-    closeModal();
-    displayMessage(`Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`, true);
-    openModal('mengundiadun-options-modal');
+else if (ques == 6) {
+  closeModal();
+
+  const dun = userData.dun?.trim(); // Get the selected DUN
+  const adun = dunToAdun[dun]; // Lookup in your mapping
+
+  let message;
+  if (adun) {
+    message = `Tuan Awang: Adakah anda akan mengundi ADUN ${adun.name} (${adun.party})?`;
+  } else {
+    message = `Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`;
   }
+
+  displayMessage(message, true);
+
+  const adunQuestionText = document.getElementById('adun-question-text');
+  if (adunQuestionText) {
+    adunQuestionText.textContent = message.replace('Tuan Awang: ', ''); // remove speaker prefix for modal
+  }
+
+  openModal('mengundiadun-options-modal');
+}
+
+
+
+
+
+
+  //UNCOMMENT THIS IF ANYTHING GOES WRONG
+  // else if (ques == 7) {
+  //   // userData.mengundiAdun = '';
+  //   // userData.tidakundi = '';
+  //   closeModal();
+  //   displayMessage(`Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`, true);
+  //   openModal('mengundiadun-options-modal');
+  // }
 
   // else if (userData.mengundiAdun.trim() === 'Tidak' && !userData.cenderunguntukundi || userData.mengundiAdun.trim() === 'Tidak' && ques==12) {
   //   // If user choose lain-lain under bangsa
@@ -2667,7 +2798,7 @@ function renderModal() {
   //   showInput();
   // }
 
-  else if (ques == 8) {
+  else if (ques == 7) {
     userData.pilihanpartinasional = '';
     userData.pilihanpartitempatan = '';
     closeModal();
@@ -2681,7 +2812,7 @@ function renderModal() {
 
   //if user select parti nasional----------------
 
-  else if (ques == 9 && userData.cenderunguntukundi == 'Parti Nasional') {
+  else if (ques == 8 && userData.cenderunguntukundi == 'Parti Nasional') {
     closeModal();
     displayMessage(`Tuan Awang: Parti Nasional manakah anda lebih cenderung untuk undi?`, true);
     openModal('partinasional-options-modal');
@@ -2689,7 +2820,7 @@ function renderModal() {
 
   }
 
-  else if (ques == 10 && userData.cenderunguntukundi == 'Parti Nasional') {
+  else if (ques == 9 && userData.cenderunguntukundi == 'Parti Nasional') {
     closeModal();
     displayMessage(`Tuan Awang: Parti Nasional manakah anda lebih cenderung untuk undi?`, true);
     openModal('partitempatan-options-modal');
@@ -2697,15 +2828,15 @@ function renderModal() {
 
   }
 
-  else if (ques == 11 && userData.cenderunguntukundi == 'Parti Nasional') {
+  else if (ques == 10 && userData.cenderunguntukundi == 'Parti Nasional') {
     closeModal();
-    displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah?`, true);
+    displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah sebagai ketua menteri?`, true);
     openModal('pemimpinsabah-options-modal');
     // console.log("siniii");
 
   }
 
-  else if (ques == 12 && !userData.isiboranglagi && userData.cenderunguntukundi == 'Parti Nasional' && userData.pemimpinsabah != 'Lain-lain') {
+  else if (ques == 11 && !userData.isiboranglagi && userData.cenderunguntukundi == 'Parti Nasional' && userData.pemimpinsabah != 'Lain-lain') {
     closeModal();
     //capture end time
     getEndTime();
@@ -2720,7 +2851,7 @@ function renderModal() {
 
   // if user select parti tempatan -------------------------------
 
-  else if (ques == 9 && userData.cenderunguntukundi == 'Parti Tempatan') {
+  else if (ques == 8 && userData.cenderunguntukundi == 'Parti Tempatan') {
     closeModal();
     displayMessage(`Tuan Awang: Parti Tempatan manakah anda lebih cenderung untuk undi?`, true);
     openModal('partitempatan-options-modal');
@@ -2728,15 +2859,15 @@ function renderModal() {
 
   }
 
-  else if (ques == 10 && userData.cenderunguntukundi == 'Parti Tempatan') {
+  else if (ques == 9 && userData.cenderunguntukundi == 'Parti Tempatan') {
     closeModal();
-    displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah?`, true);
+    displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah sebagai ketua menteri?`, true);
     openModal('pemimpinsabah-options-modal');
     console.log('hereeee 14');
 
   }
 
-  else if (ques == 11 && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
+  else if (ques == 10 && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
     closeModal();
 
     //capture end time
@@ -2751,15 +2882,15 @@ function renderModal() {
 
   // if user select tidak cenderung -----------------------------
 
-  else if (ques == 9 && userData.cenderunguntukundi == 'Tidak Pasti') {
+  else if (ques == 8 && userData.cenderunguntukundi == 'Tidak Pasti') {
     closeModal();
-    displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah?`, true);
+    displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah sebagai ketua menteri?`, true);
     openModal('pemimpinsabah-options-modal');
     // console.log("siniii");
 
   }
 
-  else if (ques == 10 && userData.cenderunguntukundi == 'Tidak Pasti' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
+  else if (ques == 9 && userData.cenderunguntukundi == 'Tidak Pasti' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
     closeModal();
     //capture end time
     getEndTime();
@@ -2793,7 +2924,7 @@ function renderModal() {
     // If user choose lain-lain under bangsa
     console.log("here ni");
 
-    displayMessage(`Tuan Awang: Sila nyatakan pilihan pemimpin Sabah anda:`, true);
+    displayMessage(`Tuan Awang: Sila nyatakan pilihan layak memimpin Sabah sebagai ketua menteri:`, true);
     closeModal();
     showInput();
   }
