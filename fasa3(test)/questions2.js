@@ -1135,23 +1135,57 @@ function processInput(message) {
 
   // } 
 
-  // else if (!userData.bangsa && ques ==5) {
-  //   userData.bangsa = message;
-  //   console.log('Bangsa:', userData.bangsa);
-  //   hideInput();
-  // } else if (userData.bangsa && !userData.persepsi  && ques==6|| userData.bangsa.trim() === 'Lain-lain' && ques==6) {
-  //   userData.bangsalain = message;
-  //   // ques++
-  //   console.log('Bangsa (Lain-lain):', userData.bangsalain);
-  //    displayMessage(`Tuan Awang: Adakah anda mengundi bedasarkan Parti atau Calon?`, true);
-  //   hideInput();
-  //   setTimeout(function () {
-  //     openModal('partiataucalon-options-modal'); //OPEN POP UP BOX
-  //   }, 500);
-  //   closeModal();
+  else if (!userData.bangsa && ques == 5) {
+    userData.bangsa = message;
+    console.log('Bangsa:', userData.bangsa);
+    hideInput();
+  } else if (userData.bangsa && !userData.mengundiAdun || userData.bangsa.trim() === 'Lain-lain' && ques==6) {
+    userData.bangsalain = message;
+    // ques++
+    console.log('Bangsa (Lain-lain):', userData.bangsalain);
+
+  const dun = userData.dun?.trim();
+  const adun = dunToAdun[dun];
+
+  // 🧾 Construct dynamic message
+  let displayText;
+  if (adun) {
+    displayText = `Tuan Awang: Adakah anda akan mengundi ADUN ${adun.name} (${adun.party})?`;
+  } else {
+    displayText = `Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`;
+  }
+     displayMessage(displayText, true);
+    hideInput();
+    setTimeout(function () {
+      openModal('mengundiadun-options-modal'); //OPEN POP UP BOX
+    }, 500);
+    closeModal();
+
+  }
 
 
-  // }
+  else if (ques == 6) {
+  closeModal();
+
+  const dun = userData.dun?.trim(); // Get the selected DUN
+  const adun = dunToAdun[dun]; // Lookup in your mapping
+
+  let message;
+  if (adun) {
+    message = `Tuan Awang: Adakah anda akan mengundi ADUN ${adun.name} (${adun.party})?`;
+  } else {
+    message = `Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`;
+  }
+
+  displayMessage(message, true);
+
+  const adunQuestionText = document.getElementById('adun-question-text');
+  if (adunQuestionText) {
+    adunQuestionText.textContent = message.replace('Tuan Awang: ', ''); // remove speaker prefix for modal
+  }
+
+  openModal('mengundiadun-options-modal');
+}
 
   else if (!userData.persepsi && ques == 7) {
     userData.persepsi = message;
@@ -2669,7 +2703,7 @@ function renderModal() {
 
   } 
   
-  else if (userData.bangsa.trim() === 'Lain-lain' && !userData.mengundiAdun || userData.bangsa.trim() === 'Lain-lain' && ques == 6 ) {
+  else if (userData.bangsa.trim() === 'Lain-lain' && !userData.mengundiAdun || userData.bangsa.trim() === 'Lain-lain' && ques == 6) {
 
     // If user choose lain-lain under bangsa
     console.log(userData);
