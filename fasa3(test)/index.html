@@ -12,7 +12,7 @@
 <body>
   <!-- <img src="https://www.lookp.com/assets/logo/institute-for-development-studies-ids-sabah/institute-for-development-studies-ids-sabah-profile.png" class="small-image"> -->
  
-  <div id="powered-by-text">v3.9</div>
+  <div id="powered-by-text">v3.10</div>
     <div id="off-hours-message" class="finish-message" style="display: none; color: red;">
       <link rel="icon" type="image/png" href="ids logo.png">
       <strong><p>Minta Maaf!</p></strong>
@@ -423,9 +423,23 @@
       </div>
       <button class="backBtn" onclick="backBtn()">Kembali</button>
     </div>
+
+    <!--UPDATED QUESTION-->
+    <!-- cenderung untuk mengundi yang lebih -->
+    <div id="cenderunguntukundi-options-modal" class="modal">
+      <div class="modal-content">
+        <p>Parti manakah anda lebih cenderung untuk undi?</p>
+        <div class="bubble-option" onclick="selectOption('BN', 'cenderunguntukundi')">BN</div>
+        <div class="bubble-option" onclick="selectOption('PH', 'cenderunguntukundi')">PH</div>
+		    <div class="bubble-option" onclick="selectOption('PGRS', 'cenderunguntukundi')">PGRS</div>
+        <div class="bubble-option" onclick="selectOption('Warisan', 'cenderunguntukundi')">Warisan</div>
+        <div class="bubble-option" onclick="selectOption('Tidak Pasti', 'cenderunguntukundi')">Tidak Pasti</div>
+      </div>
+      <button class="backBtn" onclick="backBtn()">Kembali</button>
+    </div>
     
-    
-    <!-- cenderung untuk mengundi -->
+
+    <!-- cenderung untuk mengundi
     <div id="cenderunguntukundi-options-modal" class="modal">
       <div class="modal-content">
         <p>Kategori parti manakah yang cenderung untuk anda undi?</p>
@@ -434,7 +448,7 @@
 		    <div class="bubble-option" onclick="selectOption('Tidak Pasti', 'cenderunguntukundi')">Tidak Pasti</div>
       </div>
       <button class="backBtn" onclick="backBtn()">Kembali</button>
-    </div>
+    </div> -->
 
      <!-- cenderung untuk mengundi -->
      <div id="partinasional-options-modal" class="modal">
@@ -471,7 +485,7 @@
      <div id="pemimpinsabah-options-modal" class="modal">
       <div class="modal-content">
         
-        <p>Akhir sekali, pada pendapat anda siapa yang layak memimpin Sabah sebagai ketua menteri?</p>
+        <p>Akhir sekali, pada pendapat anda siapa yang layak memimpin Sabah sebagai Ketua Menteri?</p>
         <div class="bubble-option" onclick="selectOption('Hajiji Noor', 'pemimpinsabah')">Hajiji Noor (GRS)</div>
         <div class="bubble-option" onclick="selectOption('Shafie Apdal', 'pemimpinsabah')">Shafie Apdal (WARISAN)</div>
 		    <div class="bubble-option" onclick="selectOption('Bung Moktar', 'pemimpinsabah')">Bung Moktar (BN)</div>

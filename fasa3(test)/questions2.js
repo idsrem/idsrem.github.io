@@ -2512,7 +2512,7 @@ function selectOption(selectedOption, field) {
 let selectedDun = '';
 
 function selectDun(dun) {
-  selectedDun = dun; // ✅ this line sets the global variable
+  selectedDun = dun; // this line sets the global variable
   userData.dun = dun;
   console.log("DUN selected:", selectedDun);
   ques++;             // move to next question
@@ -2798,99 +2798,109 @@ else if (ques == 6) {
   //   showInput();
   // }
 
-  else if (ques == 7) {
-    userData.pilihanpartinasional = '';
-    userData.pilihanpartitempatan = '';
+  // else if (ques == 7) {
+  //   userData.pilihanpartinasional = '';
+  //   userData.pilihanpartitempatan = '';
+  //   closeModal();
+  //   displayMessage(`Tuan Awang: Kategori parti manakah yang cenderung untuk anda undi?`, true);
+  //   // displayMessage(`Tuan Awang: 1) Parti Nasional 2) Parti Tempatan 3) Tiada Kecenderungan`, true);
+  //   openModal('cenderunguntukundi-options-modal');
+
+  // }
+
+
+    else if (ques == 7) {
     closeModal();
-    displayMessage(`Tuan Awang: Kategori parti manakah yang cenderung untuk anda undi?`, true);
+    displayMessage(`Tuan Awang: Parti manakah anda lebih cenderung untuk undi?`, true);
     // displayMessage(`Tuan Awang: 1) Parti Nasional 2) Parti Tempatan 3) Tiada Kecenderungan`, true);
     openModal('cenderunguntukundi-options-modal');
 
   }
 
+
   // check this
 
   //if user select parti nasional----------------
+ //UNCOMMENT THIS IF ANYTHING HAPPENS
+  // else if (ques == 8 && userData.cenderunguntukundi == 'Parti Nasional') {
+  //   closeModal();
+  //   displayMessage(`Tuan Awang: Parti Nasional manakah anda lebih cenderung untuk undi?`, true);
+  //   openModal('partinasional-options-modal');
+  //   // console.log("siniii");
 
-  else if (ques == 8 && userData.cenderunguntukundi == 'Parti Nasional') {
-    closeModal();
-    displayMessage(`Tuan Awang: Parti Nasional manakah anda lebih cenderung untuk undi?`, true);
-    openModal('partinasional-options-modal');
-    // console.log("siniii");
+  // }
 
-  }
+  // else if (ques == 9 && userData.cenderunguntukundi == 'Parti Nasional') {
+  //   closeModal();
+  //   displayMessage(`Tuan Awang: Parti Nasional manakah anda lebih cenderung untuk undi?`, true);
+  //   openModal('partitempatan-options-modal');
+  //   // console.log("siniii");
 
-  else if (ques == 9 && userData.cenderunguntukundi == 'Parti Nasional') {
-    closeModal();
-    displayMessage(`Tuan Awang: Parti Nasional manakah anda lebih cenderung untuk undi?`, true);
-    openModal('partitempatan-options-modal');
-    // console.log("siniii");
+  // }
 
-  }
+  // else if (ques == 10 && userData.cenderunguntukundi == 'Parti Nasional') {
+  //   closeModal();
+  //   displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah sebagai ketua menteri?`, true);
+  //   openModal('pemimpinsabah-options-modal');
+  //   // console.log("siniii");
 
-  else if (ques == 10 && userData.cenderunguntukundi == 'Parti Nasional') {
-    closeModal();
-    displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah sebagai ketua menteri?`, true);
-    openModal('pemimpinsabah-options-modal');
-    // console.log("siniii");
+  // }
 
-  }
-
-  else if (ques == 11 && !userData.isiboranglagi && userData.cenderunguntukundi == 'Parti Nasional' && userData.pemimpinsabah != 'Lain-lain') {
-    closeModal();
-    //capture end time
-    getEndTime();
-    displayMessage(`Tuan Awang: Adakah anda ingin mengisi borang lagi sekali?`, true);
-    openModal('isiboranglagi-options-modal');
+  // else if (ques == 11 && !userData.isiboranglagi && userData.cenderunguntukundi == 'Parti Nasional' && userData.pemimpinsabah != 'Lain-lain') {
+  //   closeModal();
+  //   //capture end time
+  //   getEndTime();
+  //   displayMessage(`Tuan Awang: Adakah anda ingin mengisi borang lagi sekali?`, true);
+  //   openModal('isiboranglagi-options-modal');
 
 
-  }
+  // }
 
 
   // ------------------------------------------
 
   // if user select parti tempatan -------------------------------
 
-  else if (ques == 8 && userData.cenderunguntukundi == 'Parti Tempatan') {
-    closeModal();
-    displayMessage(`Tuan Awang: Parti Tempatan manakah anda lebih cenderung untuk undi?`, true);
-    openModal('partitempatan-options-modal');
-    // console.log("siniii");
+  // else if (ques == 8 && userData.cenderunguntukundi == 'Parti Tempatan') {
+  //   closeModal();
+  //   displayMessage(`Tuan Awang: Parti Tempatan manakah anda lebih cenderung untuk undi?`, true);
+  //   openModal('partitempatan-options-modal');
+  //   // console.log("siniii");
 
-  }
+  // }
 
-  else if (ques == 9 && userData.cenderunguntukundi == 'Parti Tempatan') {
-    closeModal();
-    displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah sebagai ketua menteri?`, true);
-    openModal('pemimpinsabah-options-modal');
-    console.log('hereeee 14');
+  // else if (ques == 9 && userData.cenderunguntukundi == 'Parti Tempatan') {
+  //   closeModal();
+  //   displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah sebagai ketua menteri?`, true);
+  //   openModal('pemimpinsabah-options-modal');
+  //   console.log('hereeee 14');
 
-  }
+  // }
 
-  else if (ques == 10 && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
-    closeModal();
+  // else if (ques == 10 && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
+  //   closeModal();
 
-    //capture end time
-    getEndTime();
+  //   //capture end time
+  //   getEndTime();
     
-    displayMessage(`Tuan Awang: Adakah anda ingin mengisi borang lagi sekali?`, true);
-    openModal('isiboranglagi-options-modal');
+  //   displayMessage(`Tuan Awang: Adakah anda ingin mengisi borang lagi sekali?`, true);
+  //   openModal('isiboranglagi-options-modal');
 
-  }
+  // }
   // ----------------------------------------------------
 
 
   // if user select tidak cenderung -----------------------------
 
-  else if (ques == 8 && userData.cenderunguntukundi == 'Tidak Pasti') {
+  else if (ques == 8 || userData.cenderunguntukundi == 'Tidak Pasti') {
     closeModal();
-    displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah sebagai ketua menteri?`, true);
+    displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah sebagai Ketua Menteri?`, true);
     openModal('pemimpinsabah-options-modal');
     // console.log("siniii");
 
   }
 
-  else if (ques == 9 && userData.cenderunguntukundi == 'Tidak Pasti' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
+  else if (ques == 9 || userData.cenderunguntukundi == 'Tidak Pasti' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
     closeModal();
     //capture end time
     getEndTime();
