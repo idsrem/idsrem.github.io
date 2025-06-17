@@ -1074,6 +1074,24 @@ userInput.addEventListener('keypress', function (event) {
 sendButton.addEventListener('click', function () {
   console.log("sending here");
 
+  const inputValue = userInput.value.trim();
+  if (!inputValue) {
+    alert("Sila isi bangsa anda terlebih dahulu.");
+    return;
+  }
+
+  // ✅ Handle Lain-lain bangsa
+  if (ques === 5 && userData.bangsa === 'Lain-lain') {
+    userData.bangsalain = inputValue;      // Save user input
+    userInput.value = '';
+    hideInput();
+    ques++;                                 // Move to next question
+    askAdunQuestion();                      // Show ADUN question
+    return;
+  }
+
+
+
   sendMessage(); // Call the function to process the input
 });
 
@@ -1139,7 +1157,7 @@ function processInput(message) {
     userData.bangsa = message;
     console.log('Bangsa:', userData.bangsa);
     hideInput();
-  } else if (userData.bangsa && !userData.mengundiAdun || userData.bangsa.trim() === 'Lain-lain' && ques==6) {
+  } else if (userData.bangsa && !userData.mengundiAdun && ques==6 || userData.bangsa.trim() === 'Lain-lain' && ques==6) {
     userData.bangsalain = message;
     // ques++
     console.log('Bangsa (Lain-lain):', userData.bangsalain);
@@ -1164,28 +1182,28 @@ function processInput(message) {
   }
 
 
-  else if (ques == 6) {
-  closeModal();
+//   else if (ques == 6) {
+//   closeModal();
 
-  const dun = userData.dun?.trim(); // Get the selected DUN
-  const adun = dunToAdun[dun]; // Lookup in your mapping
+//   const dun = userData.dun?.trim(); // Get the selected DUN
+//   const adun = dunToAdun[dun]; // Lookup in your mapping
 
-  let message;
-  if (adun) {
-    message = `Tuan Awang: Adakah anda akan mengundi ADUN ${adun.name} (${adun.party})?`;
-  } else {
-    message = `Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`;
-  }
+//   let message;
+//   if (adun) {
+//     message = `Tuan Awang: Adakah anda akan mengundi ADUN ${adun.name} (${adun.party})?`;
+//   } else {
+//     message = `Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`;
+//   }
 
-  displayMessage(message, true);
+//   displayMessage(message, true);
 
-  const adunQuestionText = document.getElementById('adun-question-text');
-  if (adunQuestionText) {
-    adunQuestionText.textContent = message.replace('Tuan Awang: ', ''); // remove speaker prefix for modal
-  }
+//   const adunQuestionText = document.getElementById('adun-question-text');
+//   if (adunQuestionText) {
+//     adunQuestionText.textContent = message.replace('Tuan Awang: ', ''); // remove speaker prefix for modal
+//   }
 
-  openModal('mengundiadun-options-modal');
-}
+//   openModal('mengundiadun-options-modal');
+// }
 
   else if (!userData.persepsi && ques == 7) {
     userData.persepsi = message;
@@ -2634,6 +2652,37 @@ function selectDun(dun) {
   "N73 Sebatik": { name: "Hassan A Gani Pg Amir", party: "GRS" }
 };
 
+function askAdunQuestion() {
+  closeModal();
+
+  const dun = userData.dun?.trim();
+  const adun = dunToAdun[dun];
+
+    console.log("🟡 userData.dun:", userData.dun);
+  console.log("🟢 Trimmed DUN:", dun);
+  console.log("🔵 ADUN lookup result:", adun);
+
+  let message;
+  if (adun) {
+    message = `Tuan Awang: Adakah anda akan mengundi ADUN ${adun.name} (${adun.party})?`;
+  }
+  // } else {
+  //   message = `Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`;
+  // }
+
+  displayMessage(message, true);
+
+  const adunQuestionText = document.getElementById('adun-question-text');
+  if (adunQuestionText) {
+    adunQuestionText.textContent = message.replace('Tuan Awang: ', '');
+  }
+
+  setTimeout(() => {
+    openModal('mengundiadun-options-modal');
+  }, 500);
+}
+
+
 function renderModal() {
   if (ques == 0) {
     // ques++
@@ -2789,26 +2838,27 @@ function renderModal() {
   //new question
 
 else if (ques == 6) {
-  closeModal();
+  askAdunQuestion();
+  // closeModal();
 
-  const dun = userData.dun?.trim(); // Get the selected DUN
-  const adun = dunToAdun[dun]; // Lookup in your mapping
+  // const dun = userData.dun?.trim(); // Get the selected DUN
+  // const adun = dunToAdun[dun]; // Lookup in your mapping
 
-  let message;
-  if (adun) {
-    message = `Tuan Awang: Adakah anda akan mengundi ADUN ${adun.name} (${adun.party})?`;
-  } else {
-    message = `Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`;
-  }
+  // let message;
+  // if (adun) {
+  //   message = `Tuan Awang: Adakah anda akan mengundi ADUN ${adun.name} (${adun.party})?`;
+  // } else {
+  //   message = `Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`;
+  // }
 
-  displayMessage(message, true);
+  // displayMessage(message, true);
 
-  const adunQuestionText = document.getElementById('adun-question-text');
-  if (adunQuestionText) {
-    adunQuestionText.textContent = message.replace('Tuan Awang: ', ''); // remove speaker prefix for modal
-  }
+  // const adunQuestionText = document.getElementById('adun-question-text');
+  // if (adunQuestionText) {
+  //   adunQuestionText.textContent = message.replace('Tuan Awang: ', ''); // remove speaker prefix for modal
+  // }
 
-  openModal('mengundiadun-options-modal');
+  // openModal('mengundiadun-options-modal');
 }
 
 
