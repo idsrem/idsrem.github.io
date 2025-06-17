@@ -245,22 +245,22 @@ app.post('/cycle3Demo', async (req, res) => {
 
   try {
     // Construct the placeholders for the values dynamically
-    const columnCount = 17;  // Adjust based on the number of columns in your table
+    const columnCount = 14;  // Adjust based on the number of columns in your table
     const placeholders = userDataArray.map((_, index) => {
       return `(${Array.from({ length: columnCount }, (_, i) => `$${index * columnCount + (i + 1)}`).join(', ')})`;
     }).join(',');
 
     // Flatten the userDataArray into a single array of values
-    const values = userDataArray.reduce((acc, { tarikh, kod, dun, umur, jantina, bangsa, bangsalain, partiataucalon,
-      mengundiAdun, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime
+    const values = userDataArray.reduce((acc, { tarikh, kod, dun, umur, jantina, bangsa, bangsalain,
+      mengundiAdun, cenderunguntukundi, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime
     }) => {
-      acc.push(tarikh, kod, dun, umur, jantina, bangsa, bangsalain, partiataucalon,
-        mengundiAdun, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime || '');
+      acc.push(tarikh, kod, dun, umur, jantina, bangsa, bangsalain,
+        mengundiAdun, cenderunguntukundi, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime || '');
       return acc;
     }, []);
 
     // Construct the SQL query dynamically | table name + column name
-    const queryText = `INSERT INTO cycle3 (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, partiataucalon, mengundiAdun, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime) 
+    const queryText = `INSERT INTO cycle3 (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, mengundiAdun, cenderunguntukundi, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime) 
       VALUES ${placeholders}`;
 
     // Execute the query
