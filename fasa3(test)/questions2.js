@@ -2669,7 +2669,7 @@ function renderModal() {
 
   } 
   
-  else if (userData.bangsa.trim() === 'Lain-lain' && !userData.partiataucalon || userData.bangsa.trim() === 'Lain-lain' && ques == 6 ) {
+  else if (userData.bangsa.trim() === 'Lain-lain' && !userData.mengundiAdun || userData.bangsa.trim() === 'Lain-lain' && ques == 6 ) {
 
     // If user choose lain-lain under bangsa
     console.log(userData);
