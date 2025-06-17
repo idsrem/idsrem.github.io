@@ -26,9 +26,9 @@ let userData = {
   pengaruhberita: '',
   faktorlain: '',
   pendapatperibadi: '',
-  partiataucalon: '',
+  //partiataucalon: '',
   mengundiAdun: '',
-  tidakundi: '',
+  //tidakundi: '',
   cenderunguntukundi: '',
   pilihanpartinasional: '',
   pilihanpartitempatan: '',
@@ -1135,23 +1135,23 @@ function processInput(message) {
 
   // } 
 
-  else if (!userData.bangsa && ques ==5) {
-    userData.bangsa = message;
-    console.log('Bangsa:', userData.bangsa);
-    hideInput();
-  } else if (userData.bangsa && !userData.persepsi  && ques==6|| userData.bangsa.trim() === 'Lain-lain' && ques==6) {
-    userData.bangsalain = message;
-    // ques++
-    console.log('Bangsa (Lain-lain):', userData.bangsalain);
-     displayMessage(`Tuan Awang: Adakah anda mengundi bedasarkan Parti atau Calon?`, true);
-    hideInput();
-    setTimeout(function () {
-      openModal('partiataucalon-options-modal'); //OPEN POP UP BOX
-    }, 500);
-    closeModal();
+  // else if (!userData.bangsa && ques ==5) {
+  //   userData.bangsa = message;
+  //   console.log('Bangsa:', userData.bangsa);
+  //   hideInput();
+  // } else if (userData.bangsa && !userData.persepsi  && ques==6|| userData.bangsa.trim() === 'Lain-lain' && ques==6) {
+  //   userData.bangsalain = message;
+  //   // ques++
+  //   console.log('Bangsa (Lain-lain):', userData.bangsalain);
+  //    displayMessage(`Tuan Awang: Adakah anda mengundi bedasarkan Parti atau Calon?`, true);
+  //   hideInput();
+  //   setTimeout(function () {
+  //     openModal('partiataucalon-options-modal'); //OPEN POP UP BOX
+  //   }, 500);
+  //   closeModal();
 
 
-  }
+  // }
 
   else if (!userData.persepsi && ques == 7) {
     userData.persepsi = message;
