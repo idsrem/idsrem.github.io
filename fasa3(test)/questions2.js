@@ -2009,7 +2009,7 @@ function checkWorkingHours() {
   // Define start and end time in minutes
   const startTime = 7 * 60;  // 7:00 AM 
   // const endTime = 5 * 60 + 30 ;   // 8:30 PM (For Testing Purpose)
-  const endTime = 17 * 60;   // 8:30 PM (For Testing Purpose)
+  const endTime = 20 * 60;   // 8:30 PM (For Testing Purpose)
   
 
   const surveyContainer = document.getElementById('chat-container');
@@ -2658,7 +2658,7 @@ function askAdunQuestion() {
   const dun = userData.dun?.trim();
   const adun = dunToAdun[dun];
 
-    console.log("🟡 userData.dun:", userData.dun);
+  console.log("🟡 userData.dun:", userData.dun);
   console.log("🟢 Trimmed DUN:", dun);
   console.log("🔵 ADUN lookup result:", adun);
 
