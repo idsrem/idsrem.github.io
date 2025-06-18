@@ -3318,59 +3318,115 @@ clearBtn.addEventListener('click', function () {
 });
 
 //EXPORT DATA (STORED IN LOCAL) TO CSV FORMAT
+
 function exportToCSV() {
-  const tableRows = userTable.querySelectorAll('tr');
-  let csvContent = "data:text/csv;charset=utf-8,";
-  // Define the headers
-  const headers =
-    ["tarikh",
-      "kod",
-      "dun",
-      "umur",
-      "jantina",
-      "bangsa",
-      "bangsalain",
-      // "pengaruhmediasemasa",
-      // "persepsi",
-      // "persepsilain",
-      // "pengaruhberita",
-      // "faktorlain",
-      // "pendapatperibadi",
-      // "partiataucalon",
-      "mengundiAdun",
-      // "tidakundi",
-      "cenderunguntukundi",
-      // "pilihanpartinasional",
-      // "pilihanpartitempatan",
-      "pemimpinsabah",
-      "pemimpinsabahlain",
-      "responseid"
-    ];
+  const rawData = localStorage.getItem("userData");
 
+  if (!rawData) {
+    alert("No data found in localStorage!");
+    return;
+  }
 
-  // const headers = ["tarikh" ,"dun", "umur", "jantina", "agama", "bangsa", "tahappendidikan", "pekerjaan", "pendapatanbulanan", "puasdgnpembangunansemasa",
-  // "yapuasdgnpembangunansemasa", "tidakpuasdgnpembangunansemasa","keperluanasaspuashati", "infrastrukturpuashati", "kebajikanpuashati", "lainlainpuashati",
-  // "keperluanasastidakpuashati", "infrastrukturtidakpuashati", "kebajikantidakpuashati", "lainlaintidakpuashati", "dunjalanidgnbaik", "dunmenyelesaikanmasalah", "undidun", 
-  // "cadangancalonyb", "kmperubahanpositif", "penambahbaikanmasadepan", "tiadakesanpositif", "perbaikikeperluanasas", "perbaikiinfrastruktur", "perbaikiekonomi", 
-  // "perbaikiperkhidmatanawam", "perbaikilainlain", "tiadapositifkeperluanasas", "tiadapositifinfrastruktur", "tiadapositifekonomi", "tiadapositifperkhidmatanawam", 
-  // "tiadapositiflainlain", "kriteriapemimpinbaik", "pilihanpemimpinsabah", "pilihanpemimpinsabahlain"];
+  let data;
+  try {
+    data = JSON.parse(rawData);
+    if (!Array.isArray(data)) throw new Error();
+  } catch (e) {
+    alert("Invalid data format in localStorage.");
+    return;
+  }
 
-  csvContent += headers.join(",") + "\r\n";
+  // Define the actual keys from your data
+  const keys = [
+    "tarikh", "kod", "dun", "umur", "jantina", "bangsa", "bangsalain",
+    "mengundiAdun", "cenderunguntukundi", "pemimpinsabah", "pemimpinsabahlain", "responseid"
+  ];
 
-  // Add data rows
-  tableRows.forEach(row => {
-    const columns = row.querySelectorAll('td');
-    const rowData = Array.from(columns).map(column => column.textContent).join(',');
-    csvContent += rowData + "\r\n";
+  // Define custom headers for Excel readability
+  const customHeaders = [
+    "Tarikh", "Kod", "DUN", "Umur", "Jantina", "Bangsa", "Bangsa Lain", "Mengundi Adun", "Lebih Cenderung Untuk Undi",
+    "Pemimpin Sabah", "Pemimpin Sabah Lain", "Response ID"
+  ];
+
+  const csvRows = [customHeaders];
+
+  data.forEach(item => {
+    const row = keys.map(key => {
+      let value = item[key] ?? "";
+      value = String(value);
+      if (value.includes(",") || value.includes('"')) {
+        value = `"${value.replace(/"/g, '""')}"`;
+      }
+      return value;
+    });
+    csvRows.push(row);
   });
 
-  const encodedUri = encodeURI(csvContent);
+  const csvString = csvRows.map(row => row.join(",")).join("\r\n");
+  const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
   const link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "user_data.csv");
+  const url = URL.createObjectURL(blob);
+
+  link.setAttribute("href", url);
+  link.setAttribute("download", "user_data_readable.csv");
   document.body.appendChild(link);
   link.click();
+  document.body.removeChild(link);
 }
+
+// function exportToCSV() {
+//   const tableRows = userTable.querySelectorAll('tr');
+//   let csvContent = "data:text/csv;charset=utf-8,";
+//   // Define the headers
+//   const headers =
+//     ["tarikh",
+//       "kod",
+//       "dun",
+//       "umur",
+//       "jantina",
+//       "bangsa",
+//       "bangsalain",
+//       // "pengaruhmediasemasa",
+//       // "persepsi",
+//       // "persepsilain",
+//       // "pengaruhberita",
+//       // "faktorlain",
+//       // "pendapatperibadi",
+//       // "partiataucalon",
+//       "mengundiAdun",
+//       // "tidakundi",
+//       "cenderunguntukundi",
+//       // "pilihanpartinasional",
+//       // "pilihanpartitempatan",
+//       "pemimpinsabah",
+//       "pemimpinsabahlain",
+//       "responseid"
+//     ];
+
+
+//   // const headers = ["tarikh" ,"dun", "umur", "jantina", "agama", "bangsa", "tahappendidikan", "pekerjaan", "pendapatanbulanan", "puasdgnpembangunansemasa",
+//   // "yapuasdgnpembangunansemasa", "tidakpuasdgnpembangunansemasa","keperluanasaspuashati", "infrastrukturpuashati", "kebajikanpuashati", "lainlainpuashati",
+//   // "keperluanasastidakpuashati", "infrastrukturtidakpuashati", "kebajikantidakpuashati", "lainlaintidakpuashati", "dunjalanidgnbaik", "dunmenyelesaikanmasalah", "undidun", 
+//   // "cadangancalonyb", "kmperubahanpositif", "penambahbaikanmasadepan", "tiadakesanpositif", "perbaikikeperluanasas", "perbaikiinfrastruktur", "perbaikiekonomi", 
+//   // "perbaikiperkhidmatanawam", "perbaikilainlain", "tiadapositifkeperluanasas", "tiadapositifinfrastruktur", "tiadapositifekonomi", "tiadapositifperkhidmatanawam", 
+//   // "tiadapositiflainlain", "kriteriapemimpinbaik", "pilihanpemimpinsabah", "pilihanpemimpinsabahlain"];
+
+//   csvContent += headers.join(",") + "\r\n";
+
+//   // Add data rows
+//   tableRows.forEach(row => {
+//     const columns = row.querySelectorAll('td');
+//     const rowData = Array.from(columns).map(column => column.textContent).join(',');
+//     csvContent += rowData + "\r\n";
+//   });
+
+//   const encodedUri = encodeURI(csvContent);
+//   const link = document.createElement("a");
+//   link.setAttribute("href", encodedUri);
+//   link.setAttribute("download", "user_data.csv");
+//   document.body.appendChild(link);
+//   link.click();
+// }
 
 // Bind the export CSV function to the button
 const exportCSVBtn = document.getElementById('export-csv-btn');
