@@ -2576,81 +2576,159 @@ function selectDun(dun) {
 
 
  //Aduns with their respective dunToAduns
-  const dunToAdun = {
-  "N1 Banggi": { name: "Mohammad Mohamarin", party: "GRS" },
-  "N2 Bengkoka": { name: "Harun Durabi", party: "BN" },
-  "N3 Pitas": { name: "Ruddy Awah", party: "GRS" },
-  "N4 Tanjong Kapor": { name: "Ben Chong Chen Bin", party: "GRS" },
-  "N5 Matunggong": { name: "Julita Mojungki", party: "GRS" },
-  "N6 Bandau": { name: "Wetrom @ Mohd Fikri Bahanda", party: "KDM" },
-  "N7 Tandek": { name: "Hendrus Anding", party: "GRS" },
-  "N8 Pintasan": { name: "Fairuz Renddan", party: "GRS" },
-  "N9 Tempasuk": { name: "Mohd Arsad Bistari", party: "GRS" },
-  "N10 Usukan": { name: "Salleh Said Keruak", party: "BN" },
-  "N11 Kadamaian": { name: "Ewon Benedick", party: "PH" },
-  "N12 Sulaman": { name: "Hajiji Noor", party: "GRS" },
-  "N13 Pantai Dalit": { name: "Jasnih Daya", party: "GRS" },
-  "N14 Tamparuli": { name: "Jahid Jahim", party: "GRS" },
-  "N15 Kiulu": { name: "Joniston Bangkuai", party: "GRS" },
-  "N16 Karambunai": { name: "Yakubah Khan", party: "BN" },
-  "N17 Darau": { name: "Azhar Matussin", party: "WARISAN" },
-  "N18 Inanam": { name: "Peto Galim", party: "PH" },
-  "N19 Likas": { name: "Tan Lee Fatt", party: "PH" },
-  "N20 Api-Api": { name: "Christina Liew Chin Jin", party: "PH" },
-  "N21 Luyang": { name: "Phoong Jin Zhe", party: "PH" },
-  "N22 Tanjong Aru": { name: "Junz Wong Hong Jun", party: "WARISAN" },
-  "N23 Petagas": { name: "Awang Ahmad Sah Awang Sahari", party: "GRS" },
-  "N24 Tanjung Keramat": { name: "Shahelmey Yahya", party: "BN" },
-  "N25 Kapayan": { name: "Jannie Lasimbang", party: "PH" },
-  "N26 Moyog": { name: "Darell Leiking", party: "WARISAN" },
-  "N27 Limbahau": { name: "Juil Nuatim", party: "GRS" },
-  "N28 Kawang": { name: "Ghulamhaidar @ Yusof Khan Bahadar", party: "GRS" },
-  "N29 Pantai Manis": { name: "Mohd Tamin Zainal", party: "BN" },
-  "N30 Bongawan": { name: "Daud Yusof", party: "WARISAN" },
-  "N31 Membakut": { name: "Mohd Arifin Mohd Arif", party: "GRS" },
-  "N32 Klias": { name: "Isnin Aliasnih", party: "GRS" },
-  "N33 Kuala Penyu": { name: "Limus Jury", party: "GRS" },
-  "N34 Lumadan": { name: "Ruslan Muharam", party: "GRS" },
-  "N35 Sindumin": { name: "Yusof Yacob", party: "GRS" },
-  "N36 Kundasang": { name: "Joachim Gunsalam", party: "GRS" },
-  "N37 Karanaan": { name: "Masidi Manjun", party: "GRS" },
-  "N38 Paginatan": { name: "Abidin Madingkir", party: "GRS" },
-  "N39 Tambunan": { name: "Jeffrey Kitingan", party: "GRS" },
-  "N40 Bingkor": { name: "Robert Tawik @ Nordin", party: "GRS" },
-  "N41 Liawan": { name: "Annuar Ayub", party: "GRS" },
-  "N42 Melalap": { name: "Peter Anthony", party: "KDM" },
-  "N43 Kemabong": { name: "Rubin Balang", party: "GRS" },
-  "N44 Tulid": { name: "Flovia Ng", party: "GRS" },
-  "N45 Sook": { name: "Ellron Alfred Angin", party: "GRS" },
-  "N46 Nabawan": { name: "Abdul Ghani Mohamed Yassin", party: "GRS" },
-  "N47 Telupid": { name: "Jonnybone Kurum", party: "GRS" },
-  "N48 Sugut": { name: "James Ratib", party: "GRS" },
-  "N49 Labuk": { name: "Samad Jambri", party: "GRS" },
-  "N50 Gum-Gum": { name: "Arunarnsin Taib", party: "WARISAN" },
-  "N51 Sungai Manila": { name: "Mokran Ingkat", party: "BN" },
-  "N52 Sungai Sibuga": { name: "Mohamad Hamsan", party: "BN" },
-  "N53 Sekong": { name: "Alias Sani", party: "WARISAN" },
-  "N54 Karamunting": { name: "George Hiew Vun Zin", party: "GRS" },
-  "N55 Elopura": { name: "Calvin Chong Ket Kiun", party: "WARISAN" },
-  "N56 Tanjong Papat": { name: "Poon Ming Fun", party: "PH" },
-  "N57 Kuamut": { name: "Masiung Banah", party: "GRS" },
-  "N58 Lamag": { name: "Bung Moktar Radin", party: "BN" },
-  "N59 Sukau": { name: "Jafry Ariffin", party: "BN" },
-  "N60 Tungku": { name: "Assaffal P. Alian", party: "WARISAN" },
-  "N61 Segama": { name: "Mohamaddin Ketapi", party: "PBM" },
-  "N62 Silam": { name: "Dumi Masdal", party: "WARISAN" },
-  "N63 Kunak": { name: "Norazlinah Arif", party: "GRS" },
-  "N64 Sulabayan": { name: "Jaujan Sambakong", party: "WARISAN" },
-  "N65 Senallang": { name: "Shafie Apdal", party: "WARISAN" },
-  "N66 Bugaya": { name: "Jamil Hamzah", party: "WARISAN" },
-  "N67 Balung": { name: "Hamild @ Hamid Awang", party: "GRS" },
-  "N68 Apas": { name: "Nizam Abu Bakar Titingan", party: "GRS" },
-  "N69 Sri Tanjong": { name: "Justin Wong Yung Bin", party: "WARISAN" },
-  "N70 Kukusan": { name: "Rina Jainal", party: "GRS" },
-  "N71 Tanjung Batu": { name: "Andi Muhammad Suryady Bandy", party: "BN" },
-  "N72 Merotai": { name: "Sarifuddin Hata", party: "WARISAN" },
-  "N73 Sebatik": { name: "Hassan A Gani Pg Amir", party: "GRS" }
+
+ const dunToAdun = {
+  "N1 Banggi": { name: "Mohammad Mohamarin", party: "GRS", photo: "adun_pictures/N1 BANGGI - MOHAMMAD MOHAMARIN.jpg" },
+  "N2 Bengkoka": { name: "Harun Durabi", party: "BN", photo: "adun_pictures/N2 BENGKOKA - HARUN DURABI.jpg" },
+  "N3 Pitas": { name: "Ruddy Awah", party: "GRS", photo: "adun_pictures/N3 PITAS - RUDDY AWAH.jpg" },
+  "N4 Tanjong Kapor": { name: "Ben Chong Chen Bin", party: "GRS", photo: "adun_pictures/N4 TANJONG KAPOR - BEN CHONG CHEN BIN.jpg" },
+  "N5 Matunggong": { name: "Julita Mojungki", party: "GRS", photo: "adun_pictures/N5 MATUNGGONG - JULITA MOJUNGKI.jpg" },
+  "N6 Bandau": { name: "Wetrom @ Mohd Fikri Bahanda", party: "KDM", photo: "adun_pictures/N6 BANDAU - WETROM @ MOHD FIKRI BAHANDA.jpg" },
+  "N7 Tandek": { name: "Hendrus Anding", party: "GRS", photo: "adun_pictures/N7 TANDEK - HENDRUS ANDING.jpg" },
+  "N8 Pintasan": { name: "Fairuz Renddan", party: "GRS", photo: "adun_pictures/N8 PINTASAN - FAIRUZ RENDDAN.jpg" },
+  "N9 Tempasuk": { name: "Mohd Arsad Bistari", party: "GRS", photo: "adun_pictures/N9 TEMPASUK - MOHD ARSAD BISTARI.jpg" },
+  "N10 Usukan": { name: "Salleh Said Keruak", party: "BN", photo: "adun_pictures/N10 USUKAN - SALLEH SAID KERUAK.jpg" },
+  "N11 Kadamaian": { name: "Ewon Benedick", party: "PH", photo: "adun_pictures/N11 KADAMAIAN - EWON BENEDICK.jpg" },
+  "N12 Sulaman": { name: "Hajiji Noor", party: "GRS", photo: "adun_pictures/N12 SULAMAN - HAJIJI NOOR.jpg" },
+  "N13 Pantai Dalit": { name: "Jasnih Daya", party: "GRS", photo: "adun_pictures/N13 PANTAI DALIT - JASNIH DAYA.jpg" },
+  "N14 Tamparuli": { name: "Jahid Jahim", party: "GRS", photo: "adun_pictures/N14 TAMPARULI - JAHID JAHIM.jpg" },
+  "N15 Kiulu": { name: "Joniston Bangkuai", party: "GRS", photo: "adun_pictures/N15 KIULU - JONISTON BANGKUAI.jpg" },
+  "N16 Karambunai": { name: "Yakubah Khan", party: "BN", photo: "adun_pictures/N16 KARAMBUNAI - YAKUBAH KHAN.jpg" },
+  "N17 Darau": { name: "Azhar Matussin", party: "WARISAN", photo: "adun_pictures/N17 DARAU - AZHAR MATUSSIN.jpg" },
+  "N18 Inanam": { name: "Peto Galim", party: "PH", photo: "adun_pictures/N18 INANAM - PETO GALIM.jpg" },
+  "N19 Likas": { name: "Tan Lee Fatt", party: "PH", photo: "adun_pictures/N19 LIKAS - TAN LEE FATT.jpg" },
+  "N20 Api-Api": { name: "Christina Liew Chin Jin", party: "PH", photo: "adun_pictures/N20 API-API - CHRISTINA LIEW CHIN JIN.jpg" },
+  "N21 Luyang": { name: "Phoong Jin Zhe", party: "PH", photo: "adun_pictures/N21 LUYANG - PHOONG JIN ZHE.jpg" },
+  "N22 Tanjong Aru": { name: "Junz Wong Hong Jun", party: "WARISAN", photo: "adun_pictures/N22 TANJONG ARU - JUNZ WONG HONG JUN.jpg" },
+  "N23 Petagas": { name: "Awang Ahmad Sah Awang Sahari", party: "GRS", photo: "adun_pictures/N23 PETAGAS - AWANG AHMAD SAH AWANG SAHARI.jpg" },
+  "N24 Tanjung Keramat": { name: "Shahelmey Yahya", party: "BN", photo: "adun_pictures/N24 TANJUNG KERAMAT - SHAHELMEY YAHYA.jpg" },
+  "N25 Kapayan": { name: "Jannie Lasimbang", party: "PH", photo: "adun_pictures/N25 KAPAYAN - JANNIE LASIMBANG.jpg" },
+  "N26 Moyog": { name: "Darell Leiking", party: "WARISAN", photo: "adun_pictures/N26 MOYOG - DARELL LEIKING.jpg" },
+  "N27 Limbahau": { name: "Juil Nuatim", party: "GRS", photo: "adun_pictures/N27 LIMBAHAU - JUIL NUATIM.jpg" },
+  "N28 Kawang": { name: "Ghulamhaidar @ Yusof Khan Bahadar", party: "GRS", photo: "adun_pictures/N28 KAWANG - GHULAMHAIDAR @ YUSOF KHAN BAHADAR.jpg" },
+  "N29 Pantai Manis": { name: "Mohd Tamin Zainal", party: "BN", photo: "adun_pictures/N29 PANTAI MANIS - MOHD TAMIN ZAINAL.jpg" },
+  "N30 Bongawan": { name: "Daud Yusof", party: "WARISAN", photo: "adun_pictures/N30 BONGAWAN - DAUD YUSOF.jpg" },
+  "N31 Membakut": { name: "Mohd Arifin Mohd Arif", party: "GRS", photo: "adun_pictures/N31 MEMBAKUT - MOHD ARIFIN MOHD ARIF.jpg" },
+  "N32 Klias": { name: "Isnin Aliasnih", party: "GRS", photo: "adun_pictures/N32 KLIAS - ISNIN ALIASNIH.jpg" },
+  "N33 Kuala Penyu": { name: "Limus Jury", party: "GRS", photo: "adun_pictures/N33 KUALA PENYU - LIMUS JURY.jpg" },
+  "N34 Lumadan": { name: "Ruslan Muharam", party: "GRS", photo: "adun_pictures/N34 LUMADAN - RUSLAN MUHARAM.jpg" },
+  "N35 Sindumin": { name: "Yusof Yacob", party: "GRS", photo: "adun_pictures/N35 SINDUMIN - YUSOF YACOB.jpg" },
+  "N36 Kundasang": { name: "Joachim Gunsalam", party: "GRS", photo: "adun_pictures/N36 KUNDASANG - JOACHIM GUNSALAM.jpg" },
+  "N37 Karanaan": { name: "Masidi Manjun", party: "GRS", photo: "adun_pictures/N37 KARANAAN - MASIDI MANJUN.jpg" },
+  "N38 Paginatan": { name: "Abidin Madingkir", party: "GRS", photo: "adun_pictures/N38 PAGINATAN - ABIDIN MADINGKIR.jpg" },
+  "N39 Tambunan": { name: "Jeffrey Kitingan", party: "GRS", photo: "adun_pictures/N39 TAMBUNAN - JEFFREY KITINGAN.jpg" },
+  "N40 Bingkor": { name: "Robert Tawik @ Nordin", party: "GRS", photo: "adun_pictures/N40 BINGKOR - ROBERT TAWIK @ NORDIN.jpg" },
+  "N41 Liawan": { name: "Annuar Ayub", party: "GRS", photo: "adun_pictures/N41 LIAWAN - ANNUAR AYUB.jpg" },
+  "N42 Melalap": { name: "Peter Anthony", party: "KDM", photo: "adun_pictures/N42 MELALAP - PETER ANTHONY.jpg" },
+  "N43 Kemabong": { name: "Rubin Balang", party: "GRS", photo: "adun_pictures/N43 KEMABONG - RUBIN BALANG.jpg" },
+  "N44 Tulid": { name: "Flovia Ng", party: "GRS", photo: "adun_pictures/N44 TULID - FLOVIA NG.jpg" },
+  "N45 Sook": { name: "Ellron Alfred Angin", party: "GRS", photo: "adun_pictures/N45 SOOK - ELLRON ALFRED ANGIN.jpg" },
+  "N46 Nabawan": { name: "Abdul Ghani Mohamed Yassin", party: "GRS", photo: "adun_pictures/N46 NABAWAN - ABDUL GHANI MOHAMED YASSIN.jpg" },
+  "N47 Telupid": { name: "Jonnybone Kurum", party: "GRS", photo: "adun_pictures/N47 TELUPID - JONNYBONE KURUM.jpg" },
+  "N48 Sugut": { name: "James Ratib", party: "GRS", photo: "adun_pictures/N48 SUGUT - JAMES RATIB.jpg" },
+  "N49 Labuk": { name: "Samad Jambri", party: "GRS", photo: "adun_pictures/N49 LABUK - SAMAD JAMBRI.jpg" },
+  "N50 Gum-Gum": { name: "Arunarnsin Taib", party: "WARISAN", photo: "adun_pictures/N50 GUM-GUM - ARUNARNSIN TAIB.jpg" },
+  "N51 Sungai Manila": { name: "Mokran Ingkat", party: "BN", photo: "adun_pictures/N51 SUNGAI MANILA - MOKRAN INGKAT.jpg" },
+  "N52 Sungai Sibuga": { name: "Mohamad Hamsan", party: "BN", photo: "adun_pictures/N52 SUNGAI SIBUGA - MOHAMAD HAMSAN.jpg" },
+  "N53 Sekong": { name: "Alias Sani", party: "WARISAN", photo: "adun_pictures/N53 SEKONG - ALIAS SANI.jpg" },
+  "N54 Karamunting": { name: "George Hiew Vun Zin", party: "GRS", photo: "adun_pictures/N54 KARAMUNTING - GEORGE HIEW VUN ZIN.jpg" },
+  "N55 Elopura": { name: "Calvin Chong Ket Kiun", party: "WARISAN", photo: "adun_pictures/N55 ELOPURA - CALVIN CHONG KET KIUN.jpg" },
+  "N56 Tanjong Papat": { name: "Poon Ming Fun", party: "PH", photo: "adun_pictures/N56 TANJONG PAPAT - POON MING FUN.jpg" },
+  "N57 Kuamut": { name: "Masiung Banah", party: "GRS", photo: "adun_pictures/N57 KUAMUT - MASIUNG BANAH.jpg" },
+  "N58 Lamag": { name: "Bung Moktar Radin", party: "BN", photo: "adun_pictures/N58 LAMAG - BUNG MOKTAR RADIN.jpg" },
+  "N59 Sukau": { name: "Jafry Ariffin", party: "BN", photo: "adun_pictures/N59 SUKAU - JAFRY ARIFFIN.jpg" },
+  "N60 Tungku": { name: "Assaffal P. Alian", party: "WARISAN", photo: "adun_pictures/N60 TUNGKU - ASSAFFAL P. ALIAN.jpg" },
+  "N61 Segama": { name: "Mohamaddin Ketapi", party: "PBM", photo: "adun_pictures/N61 SEGAMA - MOHAMADDIN KETAPI.jpg" },
+  "N62 Silam": { name: "Dumi Masdal", party: "WARISAN", photo: "adun_pictures/N62 SILAM - DUMI MASDAL.jpg" },
+  "N63 Kunak": { name: "Norazlinah Arif", party: "GRS", photo: "adun_pictures/N63 KUNAK - NORAZLINAH ARIF.jpg" },
+  "N64 Sulabayan": { name: "Jaujan Sambakong", party: "WARISAN", photo: "adun_pictures/N64 SULABAYAN - JAUJAN SAMBAKONG.jpg" },
+  "N65 Senallang": { name: "Shafie Apdal", party: "WARISAN", photo: "adun_pictures/N65 SENALLANG - SHAFIE APDAL.jpg" },
+  "N66 Bugaya": { name: "Jamil Hamzah", party: "WARISAN", photo: "adun_pictures/N66 BUGAYA - JAMIL HAMZAH.jpg" },
+  "N67 Balung": { name: "Hamild @ Hamid Awang", party: "GRS", photo: "adun_pictures/N67 BALUNG - HAMILD @ HAMID AWANG.jpg" },
+  "N68 Apas": { name: "Nizam Abu Bakar Titingan", party: "GRS", photo: "adun_pictures/N68 APAS - NIZAM ABU BAKAR TITINGAN.jpg" },
+  "N69 Sri Tanjong": { name: "Justin Wong Yung Bin", party: "WARISAN", photo: "adun_pictures/N69 SRI TANJONG - JUSTIN WONG YUNG BIN.jpg" },
+  "N70 Kukusan": { name: "Rina Jainal", party: "GRS", photo: "adun_pictures/N70 KUKUSAN - RINA JAINAL.jpg" },
+  "N71 Tanjung Batu": { name: "Andi Muhammad Suryady Bandy", party: "BN", photo: "adun_pictures/N71 TANJUNG BATU - ANDI MUHAMMAD SURYADY BANDY.jpg" },
+  "N72 Merotai": { name: "Sarifuddin Hata", party: "WARISAN", photo: "adun_pictures/N72 MEROTAI - SARIFUDDIN HATA.jpg" },
+  "N73 Sebatik": { name: "Hassan A Gani Pg Amir", party: "GRS", photo: "adun_pictures/N73 SEBATIK - HASSAN A GANI PG AMIR.jpg" }
 };
+
+//   const dunToAdun = {
+//   "N1 Banggi": { name: "Mohammad Mohamarin", party: "GRS", photo: '/adun_pictures/N1 BANGGI - MOHAMMAD MOHAMARIN.jpg' },
+//   "N2 Bengkoka": { name: "Harun Durabi", party: "BN" },
+//   "N3 Pitas": { name: "Ruddy Awah", party: "GRS" },
+//   "N4 Tanjong Kapor": { name: "Ben Chong Chen Bin", party: "GRS" },
+//   "N5 Matunggong": { name: "Julita Mojungki", party: "GRS" },
+//   "N6 Bandau": { name: "Wetrom @ Mohd Fikri Bahanda", party: "KDM" },
+//   "N7 Tandek": { name: "Hendrus Anding", party: "GRS" },
+//   "N8 Pintasan": { name: "Fairuz Renddan", party: "GRS" },
+//   "N9 Tempasuk": { name: "Mohd Arsad Bistari", party: "GRS" },
+//   "N10 Usukan": { name: "Salleh Said Keruak", party: "BN" },
+//   "N11 Kadamaian": { name: "Ewon Benedick", party: "PH" },
+//   "N12 Sulaman": { name: "Hajiji Noor", party: "GRS" },
+//   "N13 Pantai Dalit": { name: "Jasnih Daya", party: "GRS" },
+//   "N14 Tamparuli": { name: "Jahid Jahim", party: "GRS" },
+//   "N15 Kiulu": { name: "Joniston Bangkuai", party: "GRS" },
+//   "N16 Karambunai": { name: "Yakubah Khan", party: "BN" },
+//   "N17 Darau": { name: "Azhar Matussin", party: "WARISAN" },
+//   "N18 Inanam": { name: "Peto Galim", party: "PH" },
+//   "N19 Likas": { name: "Tan Lee Fatt", party: "PH" },
+//   "N20 Api-Api": { name: "Christina Liew Chin Jin", party: "PH" },
+//   "N21 Luyang": { name: "Phoong Jin Zhe", party: "PH" },
+//   "N22 Tanjong Aru": { name: "Junz Wong Hong Jun", party: "WARISAN" },
+//   "N23 Petagas": { name: "Awang Ahmad Sah Awang Sahari", party: "GRS" },
+//   "N24 Tanjung Keramat": { name: "Shahelmey Yahya", party: "BN" },
+//   "N25 Kapayan": { name: "Jannie Lasimbang", party: "PH" },
+//   "N26 Moyog": { name: "Darell Leiking", party: "WARISAN" },
+//   "N27 Limbahau": { name: "Juil Nuatim", party: "GRS" },
+//   "N28 Kawang": { name: "Ghulamhaidar @ Yusof Khan Bahadar", party: "GRS" },
+//   "N29 Pantai Manis": { name: "Mohd Tamin Zainal", party: "BN" },
+//   "N30 Bongawan": { name: "Daud Yusof", party: "WARISAN" },
+//   "N31 Membakut": { name: "Mohd Arifin Mohd Arif", party: "GRS" },
+//   "N32 Klias": { name: "Isnin Aliasnih", party: "GRS" },
+//   "N33 Kuala Penyu": { name: "Limus Jury", party: "GRS" },
+//   "N34 Lumadan": { name: "Ruslan Muharam", party: "GRS" },
+//   "N35 Sindumin": { name: "Yusof Yacob", party: "GRS" },
+//   "N36 Kundasang": { name: "Joachim Gunsalam", party: "GRS" },
+//   "N37 Karanaan": { name: "Masidi Manjun", party: "GRS" },
+//   "N38 Paginatan": { name: "Abidin Madingkir", party: "GRS" },
+//   "N39 Tambunan": { name: "Jeffrey Kitingan", party: "GRS" },
+//   "N40 Bingkor": { name: "Robert Tawik @ Nordin", party: "GRS" },
+//   "N41 Liawan": { name: "Annuar Ayub", party: "GRS" },
+//   "N42 Melalap": { name: "Peter Anthony", party: "KDM" },
+//   "N43 Kemabong": { name: "Rubin Balang", party: "GRS" },
+//   "N44 Tulid": { name: "Flovia Ng", party: "GRS" },
+//   "N45 Sook": { name: "Ellron Alfred Angin", party: "GRS" },
+//   "N46 Nabawan": { name: "Abdul Ghani Mohamed Yassin", party: "GRS" },
+//   "N47 Telupid": { name: "Jonnybone Kurum", party: "GRS" },
+//   "N48 Sugut": { name: "James Ratib", party: "GRS" },
+//   "N49 Labuk": { name: "Samad Jambri", party: "GRS" },
+//   "N50 Gum-Gum": { name: "Arunarnsin Taib", party: "WARISAN" },
+//   "N51 Sungai Manila": { name: "Mokran Ingkat", party: "BN" },
+//   "N52 Sungai Sibuga": { name: "Mohamad Hamsan", party: "BN" },
+//   "N53 Sekong": { name: "Alias Sani", party: "WARISAN" },
+//   "N54 Karamunting": { name: "George Hiew Vun Zin", party: "GRS" },
+//   "N55 Elopura": { name: "Calvin Chong Ket Kiun", party: "WARISAN" },
+//   "N56 Tanjong Papat": { name: "Poon Ming Fun", party: "PH" },
+//   "N57 Kuamut": { name: "Masiung Banah", party: "GRS" },
+//   "N58 Lamag": { name: "Bung Moktar Radin", party: "BN" },
+//   "N59 Sukau": { name: "Jafry Ariffin", party: "BN" },
+//   "N60 Tungku": { name: "Assaffal P. Alian", party: "WARISAN" },
+//   "N61 Segama": { name: "Mohamaddin Ketapi", party: "PBM" },
+//   "N62 Silam": { name: "Dumi Masdal", party: "WARISAN" },
+//   "N63 Kunak": { name: "Norazlinah Arif", party: "GRS" },
+//   "N64 Sulabayan": { name: "Jaujan Sambakong", party: "WARISAN" },
+//   "N65 Senallang": { name: "Shafie Apdal", party: "WARISAN" },
+//   "N66 Bugaya": { name: "Jamil Hamzah", party: "WARISAN" },
+//   "N67 Balung": { name: "Hamild @ Hamid Awang", party: "GRS" },
+//   "N68 Apas": { name: "Nizam Abu Bakar Titingan", party: "GRS" },
+//   "N69 Sri Tanjong": { name: "Justin Wong Yung Bin", party: "WARISAN" },
+//   "N70 Kukusan": { name: "Rina Jainal", party: "GRS" },
+//   "N71 Tanjung Batu": { name: "Andi Muhammad Suryady Bandy", party: "BN" },
+//   "N72 Merotai": { name: "Sarifuddin Hata", party: "WARISAN" },
+//   "N73 Sebatik": { name: "Hassan A Gani Pg Amir", party: "GRS" }
+// };
+
 
 function askAdunQuestion() {
   closeModal();
@@ -2665,10 +2743,9 @@ function askAdunQuestion() {
   let message;
   if (adun) {
     message = `Tuan Awang: Adakah anda akan mengundi ADUN ${adun.name} (${adun.party})?`;
+  } else {
+    message = `Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`;
   }
-  // } else {
-  //   message = `Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`;
-  // }
 
   displayMessage(message, true);
 
@@ -2677,10 +2754,52 @@ function askAdunQuestion() {
     adunQuestionText.textContent = message.replace('Tuan Awang: ', '');
   }
 
+  // Set the photo
+  const adunPhotoEl = document.getElementById('adun-photo');
+  if (adunPhotoEl) {
+    if (adun && adun.photo) {
+      adunPhotoEl.src = adun.photo;
+      adunPhotoEl.style.display = "block";
+    } else {
+      adunPhotoEl.style.display = "none"; // Hide if no photo available
+    }
+  }
+
   setTimeout(() => {
     openModal('mengundiadun-options-modal');
   }, 500);
 }
+
+
+// function askAdunQuestion() {
+//   closeModal();
+
+//   const dun = userData.dun?.trim();
+//   const adun = dunToAdun[dun];
+
+//   console.log("🟡 userData.dun:", userData.dun);
+//   console.log("🟢 Trimmed DUN:", dun);
+//   console.log("🔵 ADUN lookup result:", adun);
+
+//   let message;
+//   if (adun) {
+//     message = `Tuan Awang: Adakah anda akan mengundi ADUN ${adun.name} (${adun.party})?`;
+//   }
+//   // } else {
+//   //   message = `Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`;
+//   // }
+
+//   displayMessage(message, true);
+
+//   const adunQuestionText = document.getElementById('adun-question-text');
+//   if (adunQuestionText) {
+//     adunQuestionText.textContent = message.replace('Tuan Awang: ', '');
+//   }
+
+//   setTimeout(() => {
+//     openModal('mengundiadun-options-modal');
+//   }, 500);
+// }
 
 
 function renderModal() {

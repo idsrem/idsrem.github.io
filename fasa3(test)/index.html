@@ -12,7 +12,7 @@
 <body>
   <!-- <img src="https://www.lookp.com/assets/logo/institute-for-development-studies-ids-sabah/institute-for-development-studies-ids-sabah-profile.png" class="small-image"> -->
  
-  <div id="powered-by-text">v3.15</div>
+  <div id="powered-by-text">v3.16</div>
     <div id="off-hours-message" class="finish-message" style="display: none; color: red;">
       <link rel="icon" type="image/png" href="ids logo.png">
       <strong><p>Minta Maaf!</p></strong>
@@ -414,7 +414,7 @@
     </div>
 
     <!-- parti atau calon -->
-    <div id="mengundiadun-options-modal" class="modal">
+    <!-- <div id="mengundiadun-options-modal" class="modal">
       <div class="modal-content">
         <p id="adun-question-text">Adakah anda akan mengundi ADUN Semasa?</p>
         <div class="bubble-option" style="background-color: green; color: white;" onclick="selectOption('Ya', 'mengundiAdun')">Ya</div>
@@ -422,7 +422,22 @@
 	       <div class="bubble-option" onclick="selectOption('Tidak Pasti', 'mengundiAdun')">Tidak Pasti</div>
       </div>
       <button class="backBtn" onclick="backBtn()">Kembali</button>
-    </div>
+    </div> -->
+
+
+    <!-- parti atau calon -->
+<div id="mengundiadun-options-modal" class="modal">
+  <div class="modal-content">
+    <img id="adun-photo" src="" alt="ADUN Photo" style=" display: none;width: 180px; height: auto; margin: 0 auto 15px auto; border-radius: 8px; display: block;" />
+<img id="adun-photo" src="" alt="ADUN Photo" style="max-width: 100%; height: auto; margin-bottom: 10px; display: none;" />
+    <p id="adun-question-text">Adakah anda akan mengundi ADUN Semasa?</p>
+    <div class="bubble-option" style="background-color: green; color: white;" onclick="selectOption('Ya', 'mengundiAdun')">Ya</div>
+    <div class="bubble-option" style="background-color: red; color: white;" onclick="selectOption('Tidak', 'mengundiAdun')">Tidak</div>
+    <div class="bubble-option" onclick="selectOption('Tidak Pasti', 'mengundiAdun')">Tidak Pasti</div>
+  </div>
+  <button class="backBtn" onclick="backBtn()">Kembali</button>
+</div>
+
 
     <!--UPDATED QUESTION-->
     <!-- cenderung untuk mengundi yang lebih -->
@@ -484,20 +499,159 @@
 
 
      <!-- Pemimpin sabah -->
-     <div id="pemimpinsabah-options-modal" class="modal">
+      <div id="pemimpinsabah-options-modal" class="modal">
+  <style>
+    /* Table styling */
+    #pemimpinsabah-options-modal table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 12px; 
+      margin-top: 12px;
+    }
+
+    /* Table cells: no borders */
+    #pemimpinsabah-options-modal td {
+      vertical-align: middle;
+      padding: 0;
+    }
+
+    /* The clickable bubble container */
+    #pemimpinsabah-options-modal .option-bubble {
+      display: flex;
+      align-items: center;
+      background-color: #f0f0f0;
+      border-radius: 25px;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: background-color 0.25s ease;
+      user-select: none;
+      box-shadow: 0 1px 4px rgb(0 0 0 / 0.1);
+    }
+
+    #pemimpinsabah-options-modal .option-bubble:hover {
+      background-color: #d0eaff;
+    }
+
+    /* Image inside bubble */
+    #pemimpinsabah-options-modal .option-bubble img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 14px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.15);
+    }
+
+    /* Text inside bubble */
+    #pemimpinsabah-options-modal .option-text {
+      font-size: 1rem;
+      color: #222;
+      white-space: nowrap;
+    }
+
+       /* Text inside bubble */
+    #pemimpinsabah-options-modal .option-text-others {
+      font-size: 1rem;
+      color: #d0eaff;
+      white-space: nowrap;
+    }
+
+    /* Blue bubble style for the last option */
+    #pemimpinsabah-options-modal .blue-bg {
+      background-color: #007bff;
+      color: white !important;
+      justify-content: center;
+      border-radius: 25px;
+      padding: 12px 0;
+      box-shadow: 0 2px 8px rgb(0 123 255 / 0.6);
+    }
+
+    /* Center text for options without images */
+    #pemimpinsabah-options-modal .no-image {
+      justify-content: center;
+    }
+  </style>
+
+  <div class="modal-content">
+    <p>Akhir sekali, pada pendapat anda siapa yang layak memimpin Sabah sebagai Ketua Menteri?</p>
+
+    <table>
+      <tbody>
+        <tr>
+          <td colspan="2">
+            <div class="option-bubble" onclick="selectOption('Hajiji Noor', 'pemimpinsabah')">
+              <img src="adun_pictures/N12 SULAMAN - HAJIJI NOOR.jpg" alt="Hajiji Noor">
+              <span class="option-text">Hajiji Noor (GRS)</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="option-bubble" onclick="selectOption('Shafie Apdal', 'pemimpinsabah')">
+              <img src="adun_pictures/N65 SENALLANG - SHAFIE APDAL.jpg" alt="Shafie Apdal">
+              <span class="option-text">Shafie Apdal (WARISAN)</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="option-bubble" onclick="selectOption('Bung Moktar', 'pemimpinsabah')">
+              <img src="adun_pictures/N58 LAMAG - BUNG MOKTAR RADIN.jpg" alt="Bung Moktar">
+              <span class="option-text">Bung Moktar (BN)</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="option-bubble" onclick="selectOption('Ewon Benedick', 'pemimpinsabah')">
+              <img src="adun_pictures/N11 KADAMAIAN - EWON BENEDICK.jpg" alt="Ewon Benedick">
+              <span class="option-text">Ewon Benedick (PH)</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="option-bubble" onclick="selectOption('Tidak Pasti', 'pemimpinsabah')">
+              <img src="Tidak_Pasti.jpg" alt="Tidak Pasti">
+              <span class="option-text">Tidak Pasti</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="option-bubble blue-bg no-image" onclick="selectOption('Lain-lain', 'pemimpinsabah')">
+              <span class="option-text-others">Lain-lain</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <button class="backBtn" onclick="backBtn()">Kembali</button>
+</div>
+
+     <!-- <div id="pemimpinsabah-options-modal" class="modal">
       <div class="modal-content">
         
         <p>Akhir sekali, pada pendapat anda siapa yang layak memimpin Sabah sebagai Ketua Menteri?</p>
-        <div class="bubble-option" onclick="selectOption('Hajiji Noor', 'pemimpinsabah')">Hajiji Noor (GRS)</div>
-        <div class="bubble-option" onclick="selectOption('Shafie Apdal', 'pemimpinsabah')">Shafie Apdal (WARISAN)</div>
-		    <div class="bubble-option" onclick="selectOption('Bung Moktar', 'pemimpinsabah')">Bung Moktar (BN)</div>
-		    <div class="bubble-option" onclick="selectOption('Ewon Benedick', 'pemimpinsabah')">Ewon Benedick (PH)</div>
-	       <div class="bubble-option" onclick="selectOption('Tidak Pasti', 'pemimpinsabah')">Tidak Pasti</div>
-        <div class="bubble-option" style="background-color: blue; color: white;" onclick="selectOption('Lain-lain', 'pemimpinsabah')">Lain-lain</div>
+        <div class="bubble-option" onclick="selectOption('Hajiji Noor', 'pemimpinsabah')">
+        <img src="adun_pictures/N12 SULAMAN - HAJIJI NOOR.jpg" alt=""> Hajiji Noor (GRS)</div>
+        <div class="bubble-option" onclick="selectOption('Shafie Apdal', 'pemimpinsabah')">
+          <img src="adun_pictures/N65 SENALLANG - SHAFIE APDAL.jpg" alt="">Shafie Apdal (WARISAN)</div>
+		    <div class="bubble-option" onclick="selectOption('Bung Moktar', 'pemimpinsabah')">
+          <img src="adun_pictures/N58 LAMAG - BUNG MOKTAR RADIN.jpg" alt="">Bung Moktar (BN)</div>
+		    <div class="bubble-option" onclick="selectOption('Ewon Benedick', 'pemimpinsabah')">
+          <img src="adun_pictures/N11 KADAMAIAN - EWON BENEDICK.jpg" alt="">Ewon Benedick (PH)</div>
+	       <div class="bubble-option" onclick="selectOption('Tidak Pasti', 'pemimpinsabah')">
+          <img src="" alt="">Tidak Pasti</div>
+        <div class="bubble-option" style="background-color: blue; color: white;" onclick="selectOption('Lain-lain', 'pemimpinsabah')">
+          <img src="" alt="">Lain-lain</div> -->
 		    <!-- <div class="bubble-option" onclick="selectOption('UPKO', 'pemimpinsabah')">UPKO</div> -->
-      </div>
+      <!-- </div>
       <button class="backBtn" onclick="backBtn()">Kembali</button>
-    </div>
+    </div> -->
 
 	
 	<!--- YB DUN MENJALANKAN TANGGUNGJAWAB DENGAN BAIK? -->
