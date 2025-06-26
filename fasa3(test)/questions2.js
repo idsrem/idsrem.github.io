@@ -1157,7 +1157,9 @@ function processInput(message) {
     userData.bangsa = message;
     console.log('Bangsa:', userData.bangsa);
     hideInput();
-  } else if (userData.bangsa && !userData.mengundiAdun && ques==6 || userData.bangsa.trim() === 'Lain-lain' && ques==6) {
+  } 
+  
+  else if (userData.bangsa && !userData.mengundiAdun && ques==6 || userData.bangsa.trim() === 'Lain-lain' && ques==6) {
     userData.bangsalain = message;
     // ques++
     console.log('Bangsa (Lain-lain):', userData.bangsalain);
@@ -1178,7 +1180,7 @@ function processInput(message) {
       openModal('mengundiadun-options-modal'); //OPEN POP UP BOX
     }, 500);
     closeModal();
-
+    askAdunQuestion();
   }
 
 
@@ -2730,45 +2732,47 @@ function selectDun(dun) {
 // };
 
 
+//GO GO TO 1112 LINE TO FIND THE INPUT FIELD ONCE THEY ANSWER THE QUESTION
 function askAdunQuestion() {
-  closeModal();
 
-  const dun = userData.dun?.trim();
-  const adun = dunToAdun[dun];
+  console.log("🔔 askAdunQuestion triggered — userData.dun:", userData.dun);
 
-  console.log("🟡 userData.dun:", userData.dun);
-  console.log("🟢 Trimmed DUN:", dun);
-  console.log("🔵 ADUN lookup result:", adun);
+  closeModal(); // Hide previous modal
+
+  const dunKey = userData.dun?.trim();
+  const adun = dunToAdun[dunKey];
 
   let message;
   if (adun) {
-    message = `Tuan Awang: Adakah anda akan mengundi ADUN ${adun.name} (${adun.party})?`;
+    message = `Adakah anda akan mengundi ADUN ${adun.name} (${adun.party})?`;
   } else {
-    message = `Tuan Awang: Adakah anda akan mengundi ADUN Semasa?`;
+    message = `Adakah anda akan mengundi ADUN Semasa?`;
   }
 
-  displayMessage(message, true);
+  // displayMessage(`Tuan Awang: ${message}`, true);
 
-  const adunQuestionText = document.getElementById('adun-question-text');
-  if (adunQuestionText) {
-    adunQuestionText.textContent = message.replace('Tuan Awang: ', '');
+  // ✅ Update the existing modal content using existing elements
+  const textEl = document.getElementById('adun-question-text');
+  const photoEl = document.getElementById('adun-photo');
+
+  if (textEl) {
+    textEl.textContent = message; // ✅ Replace "Sila tunggu..." with dynamic question
+    console.log("✅ Updated adun-question-text:", textEl.textContent);
   }
 
-  // Set the photo
-  const adunPhotoEl = document.getElementById('adun-photo');
-  if (adunPhotoEl) {
-    if (adun && adun.photo) {
-      adunPhotoEl.src = adun.photo;
-      adunPhotoEl.style.display = "block";
+  if (photoEl) {
+    if (adun?.photo) {
+      photoEl.src = adun.photo;
+      photoEl.style.display = 'block';
     } else {
-      adunPhotoEl.style.display = "none"; // Hide if no photo available
+      photoEl.style.display = 'none';
     }
   }
 
-  setTimeout(() => {
-    openModal('mengundiadun-options-modal');
-  }, 500);
+  // ✅ Finally, show the modal
+  openModal('mengundiadun-options-modal');
 }
+
 
 
 // function askAdunQuestion() {
@@ -2862,36 +2866,110 @@ function renderModal() {
   }
 
   // -------->SECTION 2
-  else if (ques == 5) {
-    userData.bangsa = '';
-    userData.bangsalain = '';
-    closeModal();
-    console.log(ques);
-    // ask for bangsa
-    displayMessage(`Tuan Awang: Sila pilih bangsa anda`, true);
-    openModal('bangsa-options-modal');
+  // -------->SECTION 2
+// else if (ques === 5) {
+//   userData.bangsa = '';
+//   userData.bangsalain = '';
+//   closeModal();
 
-  } 
+//   displayMessage(`Tuan Awang: Sila pilih bangsa anda`, true);
+//   openModal('bangsa-options-modal');
+// }
+
+// // User selects "Lain-lain" for bangsa
+// else if (userData.bangsa.trim() === 'Lain-lain' && !userData.bangsalain) {
+//   displayMessage(`Tuan Awang: Sila nyatakan bangsa anda`, true);
+//   closeModal();
+//   showInput(); // Show input for custom bangsa
+// }
+
+// // User types custom bangsa and submits
+// else if (ques === 5 && userInput.trim() !== '') {
+//   userData.bangsa = userInput.trim();
+//   userData.bangsalain = userInput.trim();
+//   hideInput();
+
+//   //ques++; // move to next question (e.g., 6)
+//   askAdunQuestion(); // proceed with ADUN question using dun info
+// }
+
+// else if (ques === 5) {
+//   userData.bangsa = '';
+//   userData.bangsalain = '';
+//   closeModal();
+
+//   displayMessage(`Tuan Awang: Sila pilih bangsa anda`, true);
+//   openModal('bangsa-options-modal');
+// }
+
+// // User selects "Lain-lain" for bangsa
+// else if (userData.bangsa.trim() === 'Lain-lain' && !userData.bangsalain) {
+//   displayMessage(`Tuan Awang: Sila nyatakan bangsa anda`, true);
+//   closeModal();
+//   showInput(); // Show input for custom bangsa
+// }
+
+// else if (ques === 5 && userInput.trim() !== '') {
+//   userData.bangsa = userInput.trim();
+//   userData.bangsalain = userInput.trim();
+//   hideInput();
+
+//   ques++; // move to question 6
+//   askAdunQuestion(); // triggers regardless of selection
+// }
+
+
+//GO GO TO 1112 LINE TO FIND THE INPUT FIELD ONCE THEY ANSWER THE QUESTION
+else if (ques == 5) {
+  userData.bangsa = '';
+  userData.bangsalain = '';
+  closeModal();
+  displayMessage(`Tuan Awang: Sila pilih bangsa anda`, true);
+  openModal('bangsa-options-modal');
+}
+// // User selects "Lain-lain" for bangsa
+else if (userData.bangsa.trim() === 'Lain-lain' && !userData.bangsalain ||ques == 5 ) {
+  displayMessage(`Tuan Awang: Sila nyatakan bangsa anda`, true);
+  closeModal();
+  showInput();
+}
+
+
+
+
+
+//UNCOMMNET THIS IF ANY BAD HAPPENS
+  // else if (ques == 5) {
+  //   userData.bangsa = '';
+  //   userData.bangsalain = '';
+  //   closeModal();
+  //   console.log(ques);
+  //   // ask for bangsa
+  //   displayMessage(`Tuan Awang: Sila pilih bangsa anda`, true);
+  //   openModal('bangsa-options-modal');
+
+  // } 
   
-  else if (userData.bangsa.trim() === 'Lain-lain' && !userData.mengundiAdun || userData.bangsa.trim() === 'Lain-lain' && ques == 6) {
+  // // else if (userData.bangsa.trim() === 'Lain-lain' && !userData.mengundiAdun || userData.bangsa.trim() === 'Lain-lain' && ques == 6) {
+  // else if (userData.bangsa.trim() === 'Lain-lain') {
 
-    // If user choose lain-lain under bangsa
-    console.log(userData);
+  //   // If user choose lain-lain under bangsa
+  //   console.log(userData);
 
-    displayMessage(`Tuan Awang: Sila nyatakan bangsa anda`, true);
-    closeModal();
-    showInput();
-  }
+  //   displayMessage(`Tuan Awang: Sila nyatakan bangsa anda`, true);
+  //   showInput();
+  //   closeModal();
+  // }
 
   
-  else if (userData.pemimpinsabah.trim() === 'Lain-lain' && !userData.isiboranglagi) {
-    // If user choose lain-lain under bangsa
-    console.log("here ni");
+  // else if (userData.pemimpinsabah.trim() === 'Lain-lain' && !userData.isiboranglagi) {
+  //   // If user choose lain-lain under bangsa
+  //   console.log("here ni");
 
-    displayMessage(`Tuan Awang: Sila nyatakan pilihan pemimpin Sabah anda:`, true);
-    closeModal();
-    showInput();
-  }
+  //   displayMessage(`Tuan Awang: Sila nyatakan pilihan pemimpin Sabah anda:`, true);
+  //   closeModal();
+  //   showInput();
+  // }
 
   
 
@@ -2979,11 +3057,6 @@ else if (ques == 6) {
 
   // openModal('mengundiadun-options-modal');
 }
-
-
-
-
-
 
   //UNCOMMENT THIS IF ANYTHING GOES WRONG
   // else if (ques == 7) {
@@ -3097,7 +3170,9 @@ else if (ques == 6) {
 
   // if user select tidak cenderung -----------------------------
 
-  else if (ques == 8 || userData.cenderunguntukundi == 'Tidak Pasti') {
+  // else if (ques == 8 || userData.cenderunguntukundi == 'Tidak Pasti') {
+  
+  else if (ques == 8) {
     closeModal();
     displayMessage(`Tuan Awang: Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah sebagai Ketua Menteri?`, true);
     openModal('pemimpinsabah-options-modal');
@@ -3105,7 +3180,8 @@ else if (ques == 6) {
 
   }
 
-  else if (ques == 9 || userData.cenderunguntukundi == 'Tidak Pasti' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
+  // else if (ques == 9 || userData.cenderunguntukundi == 'Tidak Pasti' && !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
+  else if (ques == 9 || !userData.isiboranglagi && userData.pemimpinsabah != 'Lain-lain') {
     closeModal();
     //capture end time
     getEndTime();
