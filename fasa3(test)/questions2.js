@@ -580,6 +580,9 @@ function submitKod(field) {
 
     // test codes
     { userID: 'ST00', name: 'tester1' },
+    { userID: 'ST01', name: 'tester2' },
+    { userID: 'ST02', name: 'tester3' },
+    { userID: 'ST03', name: 'tester4' },
     // { userID: 'ST01', name: 'tester2' },
     // { userID: 'ST02', name: 'tester3' },
     // { userID: 'XX00', name: 'tester4' },
