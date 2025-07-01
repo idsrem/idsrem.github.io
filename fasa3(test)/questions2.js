@@ -2773,6 +2773,7 @@ function askAdunQuestion() {
   }
 
   // ✅ Finally, show the modal
+  displayMessage(`Tuan Awang: Adakah anda akan mengundi ADUN ${adun.name} (${adun.party})?`, true)
   openModal('mengundiadun-options-modal');
 }
 
@@ -2936,10 +2937,6 @@ else if (userData.bangsa.trim() === 'Lain-lain' && !userData.bangsalain ||ques =
   closeModal();
   showInput();
 }
-
-
-
-
 
 //UNCOMMNET THIS IF ANY BAD HAPPENS
   // else if (ques == 5) {
