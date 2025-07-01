@@ -2583,7 +2583,7 @@ function selectDun(dun) {
  //Aduns with their respective dunToAduns
 
  const dunToAdun = {
-  "N1 Banggi": { name: "Mohammad Mohamarin", party: "GRS", photo: "adun_pictures/N1 BANGGI - MOHAMMAD MOHAMARIN.jpg" },
+  "N1 Banggi": { name: "Mohammad Mohamarin", party: "GRS", photo: "adun_pictures/N1 BANGGI-MOHAMMAD MOHAMARIN.jpg" },
   "N2 Bengkoka": { name: "Harun Durabi", party: "BN", photo: "adun_pictures/N2 BENGKOKA - HARUN DURABI.jpg" },
   "N3 Pitas": { name: "Ruddy Awah", party: "GRS", photo: "adun_pictures/N3 PITAS - RUDDY AWAH.jpg" },
   "N4 Tanjong Kapor": { name: "Ben Chong Chen Bin", party: "GRS", photo: "adun_pictures/N4 TANJONG KAPOR - BEN CHONG CHEN BIN.jpg" },
@@ -2652,7 +2652,7 @@ function selectDun(dun) {
   "N67 Balung": { name: "Hamild @ Hamid Awang", party: "GRS", photo: "adun_pictures/N67 BALUNG - HAMILD @ HAMID AWANG.jpg" },
   "N68 Apas": { name: "Nizam Abu Bakar Titingan", party: "GRS", photo: "adun_pictures/N68 APAS - NIZAM ABU BAKAR TITINGAN.jpg" },
   "N69 Sri Tanjong": { name: "Justin Wong Yung Bin", party: "WARISAN", photo: "adun_pictures/N69 SRI TANJONG - JUSTIN WONG YUNG BIN.jpg" },
-  "N70 Kukusan": { name: "Rina Jainal", party: "GRS", photo: "adun_pictures/N70 KUKUSAN - RINA JAINAL.jpg" },
+  "N70 Kukusan": { name: "Rina Jainal", party: "GRS", photo: "adun_pictures/N70 KUKUSAN-RINA JAINAL.jpg" },
   "N71 Tanjung Batu": { name: "Andi Muhammad Suryady Bandy", party: "BN", photo: "adun_pictures/N71 TANJUNG BATU - ANDI MUHAMMAD SURYADY BANDY.jpg" },
   "N72 Merotai": { name: "Sarifuddin Hata", party: "WARISAN", photo: "adun_pictures/N72 MEROTAI - SARIFUDDIN HATA.jpg" },
   "N73 Sebatik": { name: "Hassan A Gani Pg Amir", party: "GRS", photo: "adun_pictures/N73 SEBATIK - HASSAN A GANI PG AMIR.jpg" }
