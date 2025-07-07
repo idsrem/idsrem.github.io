@@ -3712,7 +3712,7 @@ function initiateConversation() {
   };
   messagesDiv.innerHTML = '';
   getCurrentDate();
-  displayMessage(`Tuan Awang: Selamat datang ke kaji selidik IDS bagi Pemantauan Dinamika Pembangunan Kerajaan Fasa 2  bagi tahun 2025. Pandangan anda amat penting untuk membantu dan memahami sentimen isu-isu kepimpinan dan pembangunan Negeri Sabah.
+  displayMessage(`Tuan Awang: Selamat datang ke kaji selidik IDS bagi Pemantauan Dinamika Pembangunan Kerajaan Fasa 3  bagi tahun 2025. Pandangan anda amat penting untuk membantu dan memahami sentimen isu-isu kepimpinan dan pembangunan Negeri Sabah.
 Mohon kerjasama Tuan/Puan untuk mengisi kaji selidik ini dengan jujur dan teliti.
 `, true);
   displayMessage(`Tuan Awang: Hi! Memperkenalkan saya Tuan Awang, mari kita mula kan kaji selidik ini 😃 Sila pilih DUN anda:`, true, 300);
