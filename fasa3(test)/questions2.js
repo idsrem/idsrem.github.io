@@ -28,6 +28,7 @@ let userData = {
   pendapatperibadi: '',
   //partiataucalon: '',
   mengundiAdun: '',
+  mengundiAdunLain: '',
   //tidakundi: '',
   cenderunguntukundi: '',
   pilihanpartinasional: '',
@@ -143,6 +144,11 @@ function backBtn() {
     // console.log("clearing bangsa")
     // console.log(userData.bangsa);
     
+  }
+
+  if (userData.mengundiAdun.trim() === 'Tidak Pasti'  && ques == 6){
+    userData.mengundiAdun = '';
+    userData.mengundiAdunLain = '';
   }
   
   
@@ -833,6 +839,7 @@ function displayUserInfo(userData) {
 	<td style="display: none;">${userData.pendapatperibadi}</td>
 	<td style="display: none;">${userData.partiataucalon}</td>
   <td style="display: none;">${userData.mengundiAdun}</td>
+  <td style="display: none;">${userData.mengundiAdunLain}</td>
   <td style="display: none;">${userData.tidakundi}</td>
 	<td style="display: none;">${userData.cenderunguntukundi}</td>
 	<td style="display: none;">${userData.pilihanpartinasional}</td>
@@ -923,6 +930,7 @@ function saveToLocalStorage(userData) {
       data.pendapatperibadi === userData.pendapatperibadi &&
       data.partiataucalon === userData.partiataucalon &&
       data.mengundiAdun === userData.mengundiAdun &&
+      data.mengundiAdunLain === userData.mengundiAdunLain &&
       data.cenderunguntukundi === userData.cenderunguntukundi &&
       data.pilihanpartinasional === userData.pilihanpartinasional &&
       data.pilihanpartitempatan === userData.pilihanpartitempatan &&
@@ -997,6 +1005,7 @@ function removeFromLocalStorage(userData) {
       data.pendapatperibadi !== userData.pendapatperibadi ||
       data.partiataucalon !== userData.partiataucalon ||
       data.mengundiAdun !== userData.mengundiAdun ||
+      data.mengundiAdunLain !== userData.mengundiAdunLain||
       data.cenderunguntukundi !== userData.cenderunguntukundi ||
       data.pilihanpartinasional !== userData.pilihanpartinasional ||
       data.pilihanpartitempatan !== userData.pilihanpartitempatan ||
@@ -1092,9 +1101,16 @@ sendButton.addEventListener('click', function () {
     askAdunQuestion();                      // Show ADUN question
     return;
   }
+  sendMessage(); // Call the function to process the input
 
-
-
+    // ✅ Handle Lain-lain adun
+  if (ques === 6 && userData.mengundiAdun === 'Tidak Pasti') {
+    userData.mengundiAdunLain = inputValue;      // Save user input
+    userInput.value = '';
+    hideInput();
+    ques++;                                 // Move to next question
+    return;
+  }
   sendMessage(); // Call the function to process the input
 });
 
@@ -1184,6 +1200,26 @@ function processInput(message) {
     }, 500);
     closeModal();
     askAdunQuestion();
+  }
+
+
+  else if (!userData.mengundiAdun && ques == 6) {
+    userData.mengundiAdun = message;
+    console.log('Bangsa:', userData.mengundiAdun);
+    hideInput();
+  }
+  
+
+  else if (userData.mengundiAdun && !userData.cenderunguntukundi && ques==7 || userData.mengundiAdun.trim() === 'Tidak Pasti' && ques==7) {
+    userData.mengundiAdunLain = message;
+    // ques++
+    console.log('Adun (Lain-lain):', userData.mengundiAdunLain);
+    displayMessage(`Tuan Awang: Kategori parti manakah yang cenderung untuk anda undi?`, true);
+    hideInput();
+    setTimeout(function () {
+      openModal('cenderunguntukundi-options-modal'); //OPEN POP UP BOX
+    }, 500);
+    closeModal();
   }
 
 
@@ -2012,9 +2048,9 @@ function populateBubbleOptionsP(options) {
 //   const currentTimeInMinutes = currentHour * 60 + currentMinutes;
 
 //   // Define start and end time in minutes
-//   const startTime = 7 * 60;  // 7:00 AM 
-//   // const endTime = 5 * 60 + 30 ;   // 8:30 PM (For Testing Purpose)
-//   const endTime = 20 * 60;   // 8:30 PM (For Testing Purpose)
+//   const startTime = 6 * 60;  // 6:00 AM 
+//   //const endTime = 5 * 60 + 30 ;   // 8:30 PM (For Testing Purpose)
+//   const endTime = 20 * 60;   // 8:00 PM (For Testing Purpose)
   
 
 //   const surveyContainer = document.getElementById('chat-container');
@@ -2029,8 +2065,7 @@ function populateBubbleOptionsP(options) {
 //   }
 // }
 
-// window.addEventListener('DOMContentLoaded', checkWorkingHours);
-
+//  window.addEventListener('DOMContentLoaded', checkWorkingHours);
 
 
 //BOT QUESTIONS AFTER RECEIVING INPUT FROM USER - HANDLING USER OPTION SELECTION ~^-^~ \\starterfirst
@@ -2738,6 +2773,9 @@ function selectDun(dun) {
 //GO GO TO 1112 LINE TO FIND THE INPUT FIELD ONCE THEY ANSWER THE QUESTION
 function askAdunQuestion() {
 
+
+  userData.mengundiAdun = '';
+  userData.mengundiAdunLain = '';
   console.log("🔔 askAdunQuestion triggered — userData.dun:", userData.dun);
 
   closeModal(); // Hide previous modal
@@ -2745,12 +2783,12 @@ function askAdunQuestion() {
   const dunKey = userData.dun?.trim();
   const adun = dunToAdun[dunKey];
 
-  let message;
-  if (adun) {
-    message = `Adakah anda akan mengundi ADUN ${adun.name} (${adun.party})?`;
-  } else {
-    message = `Adakah anda akan mengundi ADUN Semasa?`;
-  }
+let message;
+if (adun) {
+  message = `Adakah anda akan mengundi ADUN <strong>${adun.name}</strong> (<strong>${adun.party}</strong>)?`;
+} else {
+  message = `Adakah anda akan mengundi ADUN Semasa?`;
+}
 
   // displayMessage(`Tuan Awang: ${message}`, true);
 
@@ -2758,10 +2796,10 @@ function askAdunQuestion() {
   const textEl = document.getElementById('adun-question-text');
   const photoEl = document.getElementById('adun-photo');
 
-  if (textEl) {
-    textEl.textContent = message; // ✅ Replace "Sila tunggu..." with dynamic question
-    console.log("✅ Updated adun-question-text:", textEl.textContent);
-  }
+if (textEl) {
+  textEl.innerHTML = message;
+  console.log("✅ Updated adun-question-text:", textEl.innerHTML);
+}
 
   if (photoEl) {
     if (adun?.photo) {
@@ -3056,6 +3094,13 @@ else if (ques == 6) {
   // }
 
   // openModal('mengundiadun-options-modal');
+}
+
+// // User selects "Lain-lain" for bangsa
+else if (userData.mengundiAdun.trim() === 'Tidak Pasti' && !userData.mengundiAdunLain ||ques == 6 ) {
+  displayMessage(`Tuan Awang: Siapakah calon pilihan anda untuk menjadi ADUN, dan dari parti manakah beliau?`, true);
+  closeModal();
+  showInput();
 }
 
   //UNCOMMENT THIS IF ANYTHING GOES WRONG
