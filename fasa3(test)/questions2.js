@@ -1597,42 +1597,48 @@ function selectParlimen(parlimen) {
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N1 Banggi", "N2 Bengkoka", "N3 Pitas", "N4 Tanjong Kapor"]);
+      //populateBubbleOptions(["N1 Banggi", "N2 Bengkoka", "N3 Pitas", "N4 Tanjong Kapor"]);
+      populateBubbleOptions(["N1 Banggi", "N3 Pitas", "N4 Tanjong Kapor"]);
       break;
 
     case "P168 Kota Marudu":
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N5 Matunggong", "N6 Bandau", "N7 Tandek"]);
+      // populateBubbleOptions(["N5 Matunggong", "N6 Bandau", "N7 Tandek"]);
+      populateBubbleOptions(["N5 Matunggong", "N6 Bandau"]);
       break;
 
     case "P169 Kota Belud":
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N8 Pintasan", "N9 Tempasuk", "N10 Usukan", "N11 Kadamaian"]);
+      // populateBubbleOptions(["N8 Pintasan", "N9 Tempasuk", "N10 Usukan", "N11 Kadamaian"]);
+      populateBubbleOptions(["N9 Tempasuk", "N10 Usukan"]);
       break;
 
     case "P170 Tuaran":
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N12 Sulaman", "N13 Pantai Dalit", "N14 Tamparuli", "N15 Kiulu"]);
+      //populateBubbleOptions(["N12 Sulaman", "N13 Pantai Dalit", "N14 Tamparuli", "N15 Kiulu"]);
+      populateBubbleOptions(["N14 Tamparuli", "N15 Kiulu"]);
       break;
 
     case "P171 Sepanggar":
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N16 Karambunai", "N17 Darau", "N18 Inanam"]);
+      // populateBubbleOptions(["N16 Karambunai", "N17 Darau", "N18 Inanam"]);
+      populateBubbleOptions(["N16 Karambunai", "N17 Darau"]);
       break;
 
     case "P172 Kota Kinabalu":
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N19 Likas", "N20 Api-Api", "N21 Luyang"]);
+      //populateBubbleOptions(["N19 Likas", "N20 Api-Api", "N21 Luyang"]);
+      populateBubbleOptions(["N19 Likas", "N20 Api-Api"]);
       break;
 
     case "P173 Putatan":
@@ -1640,21 +1646,24 @@ function selectParlimen(parlimen) {
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
 
-      populateBubbleOptions(["N22 Tanjong Aru", "N23 Petagas", "N24 Tanjung Keramat"]);
+      // populateBubbleOptions(["N22 Tanjong Aru", "N23 Petagas", "N24 Tanjung Keramat"]);
+      populateBubbleOptions(["N22 Tanjong Aru", "N23 Petagas"]);
       break;
 
     case "P174 Penampang":
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N25 Kapayan", "N26 Moyog"]);
+      //populateBubbleOptions(["N25 Kapayan", "N26 Moyog"]);
+      populateBubbleOptions(["N26 Moyog"]);
       break;
 
     case "P175 Papar":
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N27 Limbahau", "N28 Kawang", "N29 Pantai Manis"]);
+      // populateBubbleOptions(["N27 Limbahau", "N28 Kawang", "N29 Pantai Manis"]);
+      populateBubbleOptions(["N29 Pantai Manis"]);
       break;
 
     case "P176 Kimanis":
@@ -1662,7 +1671,8 @@ function selectParlimen(parlimen) {
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
 
-      populateBubbleOptions(["N30 Bongawan", "N31 Membakut"]);
+      //populateBubbleOptions(["N30 Bongawan", "N31 Membakut"]);
+      populateBubbleOptions(["N31 Membakut"]);
 
       break;
 
@@ -1671,7 +1681,8 @@ function selectParlimen(parlimen) {
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
 
-      populateBubbleOptions(["N32 Klias", "N33 Kuala Penyu"]);
+      //populateBubbleOptions(["N32 Klias", "N33 Kuala Penyu"]);
+      populateBubbleOptions(["N32 Klias"]);
       break;
 
     case "P178 Sipitang":
@@ -1688,14 +1699,16 @@ function selectParlimen(parlimen) {
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N36 Kundasang", "N37 Karanaan", "N38 Paginatan"]);
+      //populateBubbleOptions(["N36 Kundasang", "N37 Karanaan", "N38 Paginatan"]);
+      populateBubbleOptions(["N36 Kundasang", "N38 Paginatan"]);
       break;
 
     case "P180 Keningau":
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N39 Tambunan", "N40 Bingkor", "N41 Liawan"]);
+      //populateBubbleOptions(["N39 Tambunan", "N40 Bingkor", "N41 Liawan"]);
+      populateBubbleOptions(["N39 Tambunan", "N41 Liawan"]);
       break;
 
     case "P181 Tenom":
@@ -1703,7 +1716,8 @@ function selectParlimen(parlimen) {
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
 
-      populateBubbleOptions(["N42 Melalap", "N43 Kemabong"]);
+      //populateBubbleOptions(["N42 Melalap", "N43 Kemabong"]);
+      populateBubbleOptions(["N42 Melalap"]);
 
       break;
 
@@ -1712,7 +1726,8 @@ function selectParlimen(parlimen) {
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
 
-      populateBubbleOptions(["N44 Tulid", "N45 Sook", "N46 Nabawan"]);
+      //populateBubbleOptions(["N44 Tulid", "N45 Sook", "N46 Nabawan"]);
+      populateBubbleOptions(["N46 Nabawan"]);
       break;
 
     case "P183 Beluran":
@@ -1720,7 +1735,8 @@ function selectParlimen(parlimen) {
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
 
-      populateBubbleOptions(["N47 Telupid", "N48 Sugut", "N49 Labuk"]);
+      //populateBubbleOptions(["N47 Telupid", "N48 Sugut", "N49 Labuk"]);
+      populateBubbleOptions(["N49 Labuk"]);
       break;
 
 
@@ -1729,21 +1745,24 @@ function selectParlimen(parlimen) {
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N50 Gum-Gum", "N51 Sungai Manila", "N52 Sungai Sibuga"]);
+      //populateBubbleOptions(["N50 Gum-Gum", "N51 Sungai Manila", "N52 Sungai Sibuga"]);
+      populateBubbleOptions(["N50 Gum-Gum", "N51 Sungai Manila"]);
       break;
 
     case "P185 Batu Sapi":
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N53 Sekong", "N54 Karamunting"]);
+      //populateBubbleOptions(["N53 Sekong", "N54 Karamunting"]);
+      populateBubbleOptions(["N53 Sekong"]);
       break;
 
     case "P186 Sandakan":
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N55 Elopura", "N56 Tanjong Papat"]);
+      //populateBubbleOptions(["N55 Elopura", "N56 Tanjong Papat"]);
+      populateBubbleOptions(["N56 Tanjong Papat"]);
       break;
 
 
@@ -1752,7 +1771,8 @@ function selectParlimen(parlimen) {
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
 
-      populateBubbleOptions(["N57 Kuamut", "N58 Lamag", "N59 Sukau"]);
+      //populateBubbleOptions(["N57 Kuamut", "N58 Lamag", "N59 Sukau"]);
+      populateBubbleOptions(["N57 Kuamut", "N59 Sukau"]);
       break;
 
     case "P188 Lahad Datu":
@@ -1760,7 +1780,8 @@ function selectParlimen(parlimen) {
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
 
-      populateBubbleOptions(["N60 Tungku", "N61 Segama", "N62 Silam", "N63 Kunak"]);
+      //populateBubbleOptions(["N60 Tungku", "N61 Segama", "N62 Silam", "N63 Kunak"]);
+      populateBubbleOptions(["N62 Silam"]);
       break;
 
 
@@ -1768,14 +1789,16 @@ function selectParlimen(parlimen) {
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N64 Sulabayan", "N65 Senallang", "N66 Bugaya"]);
+      //populateBubbleOptions(["N64 Sulabayan", "N65 Senallang", "N66 Bugaya"]);
+      populateBubbleOptions(["N66 Bugaya"]);
       break;
 
     case "P190 Tawau":
       ques++
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
-      populateBubbleOptions(["N67 Balung", "N68 Apas", "N69 Sri Tanjong"]);
+      //populateBubbleOptions(["N67 Balung", "N68 Apas", "N69 Sri Tanjong"]);
+      populateBubbleOptions(["N67 Balung"]);
       break;
 
     case "P191 Kalabakan":
@@ -1783,7 +1806,8 @@ function selectParlimen(parlimen) {
       closeModal('parlimen-options-modal')
       openModal('dun-modal')
 
-      populateBubbleOptions(["N70 Kukusan", "N71 Tanjung Batu", "N72 Merotai", "N73 Sebatik"]);
+      //populateBubbleOptions(["N70 Kukusan", "N71 Tanjung Batu", "N72 Merotai", "N73 Sebatik"]);
+      populateBubbleOptions(["N70 Kukusan", "N71 Tanjung Batu", "N72 Merotai"]);
 
       break;
 
@@ -2039,33 +2063,33 @@ function populateBubbleOptionsP(options) {
 }
 
 //FUNCTION WHERE SURVEYORS CANNOT TAKE THE SURVEY WITHIN THE WORKING HOURS
-// function checkWorkingHours() {
-//   const now = new Date();
-//   const currentHour = now.getHours();    // 0–23
-//   const currentMinutes = now.getMinutes(); // 0–59
+function checkWorkingHours() {
+  const now = new Date();
+  const currentHour = now.getHours();    // 0–23
+  const currentMinutes = now.getMinutes(); // 0–59
 
-//   // Convert current time to minutes since midnight
-//   const currentTimeInMinutes = currentHour * 60 + currentMinutes;
+  // Convert current time to minutes since midnight
+  const currentTimeInMinutes = currentHour * 60 + currentMinutes;
 
-//   // Define start and end time in minutes
-//   const startTime = 6 * 60;  // 6:00 AM 
-//   //const endTime = 5 * 60 + 30 ;   // 8:30 PM (For Testing Purpose)
-//   const endTime = 20 * 60;   // 8:00 PM (For Testing Purpose)
+  // Define start and end time in minutes
+  const startTime = 6 * 60;  // 6:00 AM 
+  //const endTime = 5 * 60 + 30 ;   // 8:30 PM (For Testing Purpose)
+  const endTime = 20 * 60;   // 8:00 PM (For Testing Purpose)
   
 
-//   const surveyContainer = document.getElementById('chat-container');
-//   const message = document.getElementById('off-hours-message');
+  const surveyContainer = document.getElementById('chat-container');
+  const message = document.getElementById('off-hours-message');
 
-//   if (currentTimeInMinutes >= startTime && currentTimeInMinutes < endTime) {
-//     surveyContainer.style.display = 'block';
-//     message.style.display = 'none';
-//   } else {
-//     surveyContainer.style.display = 'none';
-//     message.style.display = 'block';
-//   }
-// }
+  if (currentTimeInMinutes >= startTime && currentTimeInMinutes < endTime) {
+    surveyContainer.style.display = 'block';
+    message.style.display = 'none';
+  } else {
+    surveyContainer.style.display = 'none';
+    message.style.display = 'block';
+  }
+}
 
-//  window.addEventListener('DOMContentLoaded', checkWorkingHours);
+ window.addEventListener('DOMContentLoaded', checkWorkingHours);
 
 
 //BOT QUESTIONS AFTER RECEIVING INPUT FROM USER - HANDLING USER OPTION SELECTION ~^-^~ \\starterfirst
