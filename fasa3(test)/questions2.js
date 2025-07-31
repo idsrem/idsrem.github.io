@@ -2063,33 +2063,33 @@ function populateBubbleOptionsP(options) {
 }
 
 //FUNCTION WHERE SURVEYORS CANNOT TAKE THE SURVEY WITHIN THE WORKING HOURS
-function checkWorkingHours() {
-  const now = new Date();
-  const currentHour = now.getHours();    // 0–23
-  const currentMinutes = now.getMinutes(); // 0–59
+// function checkWorkingHours() {
+//   const now = new Date();
+//   const currentHour = now.getHours();    // 0–23
+//   const currentMinutes = now.getMinutes(); // 0–59
 
-  // Convert current time to minutes since midnight
-  const currentTimeInMinutes = currentHour * 60 + currentMinutes;
+//   // Convert current time to minutes since midnight
+//   const currentTimeInMinutes = currentHour * 60 + currentMinutes;
 
-  // Define start and end time in minutes
-  const startTime = 6 * 60;  // 6:00 AM 
-  //const endTime = 5 * 60 + 30 ;   // 8:30 PM (For Testing Purpose)
-  const endTime = 20 * 60;   // 8:00 PM (For Testing Purpose)
+//   // Define start and end time in minutes
+//   const startTime = 6 * 60;  // 6:00 AM 
+//   //const endTime = 5 * 60 + 30 ;   // 8:30 PM (For Testing Purpose)
+//   const endTime = 10 * 60;   // 8:00 PM (For Testing Purpose)
   
 
-  const surveyContainer = document.getElementById('chat-container');
-  const message = document.getElementById('off-hours-message');
+//   const surveyContainer = document.getElementById('chat-container');
+//   const message = document.getElementById('off-hours-message');
 
-  if (currentTimeInMinutes >= startTime && currentTimeInMinutes < endTime) {
-    surveyContainer.style.display = 'block';
-    message.style.display = 'none';
-  } else {
-    surveyContainer.style.display = 'none';
-    message.style.display = 'block';
-  }
-}
+//   if (currentTimeInMinutes >= startTime && currentTimeInMinutes < endTime) {
+//     surveyContainer.style.display = 'block';
+//     message.style.display = 'none';
+//   } else {
+//     surveyContainer.style.display = 'none';
+//     message.style.display = 'block';
+//   }
+// }
 
- window.addEventListener('DOMContentLoaded', checkWorkingHours);
+//  window.addEventListener('DOMContentLoaded', checkWorkingHours);
 
 
 //BOT QUESTIONS AFTER RECEIVING INPUT FROM USER - HANDLING USER OPTION SELECTION ~^-^~ \\starterfirst
