@@ -3715,6 +3715,7 @@ function initiateConversation() {
     pendapatperibadi: '',
     partiataucalon: '',
     mengundiAdun: '',
+    mengundiAdunLain: '',
     tidakundi: '',
     cenderunguntukundi: '',
     pilihanpartinasional: '',
