@@ -1923,7 +1923,7 @@ function selectParlimen(parlimen) {
       openModal('dun-modal')
 
       //populateBubbleOptions(["N44 Tulid", "N45 Sook", "N46 Nabawan"]);
-      populateBubbleOptions(["N44 Tulid", "N46 Nabawan"]);
+      populateBubbleOptions(["N44 Tulid", "N45 Sook", "N46 Nabawan"]);
       break;
 
     case "P183 Beluran":
