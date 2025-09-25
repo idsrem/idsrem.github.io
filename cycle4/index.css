@@ -9,7 +9,8 @@ h3{
 }
 body {
 
-    background-image: url("IDS_Background_Picture_Cycle_4.png");
+    /* background-image: url("IDS_Background_Picture_Cycle_4.png"); */
+    background-color: #aaa;
     background-size: cover;
     color: white;
     font-size: 15px;
