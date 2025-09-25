@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>IDS|Fasa 4 (2025)</title>
+    <link rel="icon" type="image/x-icon" href="ids_logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Basic&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Hind+Madurai:wght@300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Share+Tech&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="top-header">
+        <!-- Logo IDS at the top left-->
+        <img class="idsLogo" src="ids_logo.png" alt="IDS Logo">
+         <!-- Powered By at the top right-->
+        <div class="poweredBy">
+        <p> Powered By:</p>
+        <img class="dataBlu" src="DataBlu_Logo.png" alt="DataBlu_Logo">
+        </div>
+    </div>
+            <!-- Clock with Date based onthe device-->
+     <div class="clock-wrapper">
+            <div class="clock-display">
+                <div id="clock-time" class="clock-time"></div>
+                <div id="clock-date" class="clock-date"></div>
+            </div>
+
+            <div class="respondents">Dikemaskini setakat () - 20 Responden</div>
+    </div>
+
+    <div class="container-view">
+        <div id="message-view"></div>
+        <div id="survey-container" class= "surveyQuestions"> </div>
+    </div>
+
+    <!--Sound Effect everytime when a user selects an answer-->
+    <audio id="clickSound" src="clickSoundEffect.mp3"></audio> <!-- Sound file -->
+
+    <script type="module" src="survey.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+</body>
+<footer>
+    <p>v 4.1</p>
+</footer>
+</html> 
