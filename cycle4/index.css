@@ -331,10 +331,10 @@ td{
     flex: 1;
     padding: 25px;
     max-height: 1000px;
-    height: 400px;
+    height: 450px;
     overflow-y: auto;
     overflow-x: hidden;
-    width: 300px;
+    width: 500px;
     border-radius: 10px;
     margin-left: auto;
     margin-right: auto;
@@ -572,7 +572,7 @@ td{
 }
 
 
-@media (max-width: 1300px) {
+@media (max-width: 900px) {
 
     .idsLogo{
       width: 100px;
@@ -597,18 +597,18 @@ td{
 
     .container-view {
         align-items: center; /* Center them */
-        margin-left: auto;
-        margin-right: auto;
+        flex-direction: column-reverse; /* Flip the order */
         width: 95%;
+        height: 100%;
     }
 
     #message-view, #survey-container {
-        max-width: 95%; /* Take full width */
+        max-width: 80%; /* Take full width */
     }
 
     #survey-container{
         border-left: none;
-        border-top: 4px solid #1F5385;
+        border-bottom: 4px solid #1F5385;
         overflow-y: auto;
     }
 

@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentUserId = localStorage.getItem("currentUserId") || null; // Get ID if stored
     let userResponses = {};
 
+    surveyContainer.style.width = "65%";
+    surveyContainer.style.marginTop = "-10px";
+
+
 
     updateTodayRespondentsDisplay();
 
@@ -34,7 +38,7 @@ function updateClockAndSurvey() {
     // Working hours logic: 8:30 AM to 5:30 PM
     const currentMinutes = hours * 60 + minutes;
     const startMinutes = 6 * 60;
-    const endMinutes = 18 * 60;
+    const endMinutes = 23 * 60;
 
     const isWithinAllowedTime = currentMinutes >= startMinutes && currentMinutes <= endMinutes;
 
@@ -218,7 +222,7 @@ function showIdInput() {
 
     const inputField = document.createElement("input");
     inputField.type = "text";
-    inputField.style.width = "40%";
+    inputField.style.width = "50%";
     inputField.style.borderRadius = "10px";
     inputField.style.padding = "10px";
     inputField.style.marginBottom = "10px";
@@ -297,11 +301,19 @@ function showIdInput() {
     
         const question = surveyQuestions[index];
         surveyContainer.innerHTML = ""; // Clear previous content
-    
+
+        if (question.text && question.text.trim() !== "") {
         const questionBubble = document.createElement("div");
         questionBubble.classList.add("message-bubble", "question-bubble");
-        questionBubble.innerHTML = `<strong>Tuan Awang:</strong> &nbsp; ${question.text}`;
+        questionBubble.innerHTML = `<strong>Tuan Awang:</strong> ${question.text}`;
         messageView.appendChild(questionBubble);
+    }
+
+    
+        // const questionBubble = document.createElement("div");
+        // questionBubble.classList.add("message-bubble", "question-bubble");
+        // questionBubble.innerHTML = `<strong>Tuan Awang:</strong> &nbsp; ${question.text}`;
+        // messageView.appendChild(questionBubble);
     
         // Create answer options
         const answerContainer = document.createElement("div");
@@ -368,6 +380,62 @@ function showIdInput() {
             surveyContainer.appendChild(backButton);
         }
 
+        if (question.id === "mengundiAdun") {
+            const currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
+            const selectedDun = currentSurvey.answers?.dun?.trim();
+
+            console.log("Re-fetched selectedDun:", selectedDun);
+
+            const questionDiv = document.createElement("div");
+            questionDiv.classList.add("survey-question");
+
+            const adunInfo = dunToAdun[selectedDun];
+
+    // // Check if selectedDun exists, adunInfo is found, and both name & party are valid
+    // if (
+    //     selectedDun &&
+    //     adunInfo &&
+    //     adunInfo.name?.trim() &&
+    //     adunInfo.party?.trim()
+    // ) {
+    //     // Construct question text
+    //     const questionText = `Adakah anda akan mengundi ADUN <strong>${adunInfo.name}</strong> dari parti <strong>${adunInfo.party}</strong>?`;
+
+    //     // Add text to questionDiv
+    //     const text = document.createElement("p");
+    //     text.innerHTML = questionText;
+    //     questionDiv.appendChild(text);
+
+    //     // Create message bubble
+    //     const adunBubble = document.createElement("div");
+    //     adunBubble.classList.add("message-bubble", "question-bubble");
+    //     adunBubble.style.maxWidth = "300px";
+    //     adunBubble.innerHTML = `<strong>Tuan Awang:</strong> ${questionText}`;
+
+    //     // Create and append image
+    //     const bubbleImg = document.createElement("img");
+    //     bubbleImg.src = adunInfo.photo;
+    //     bubbleImg.alt = adunInfo.name;
+    //     bubbleImg.style.maxWidth = "100%";
+    //     bubbleImg.style.margin = "10px auto 0";
+    //     bubbleImg.style.borderRadius = "8px";
+    //     bubbleImg.style.display = "block";
+
+    //     adunBubble.appendChild(bubbleImg);
+    //     messageView.appendChild(adunBubble);
+    //     scrollToBottom();
+    // } else {
+    //     // Fallback message if no valid DUN or missing ADUN info
+    //     questionDiv.innerHTML = "";
+    //     const fallback = document.createElement("p");
+    //     fallback.textContent = "Sila pilih kawasan DUN anda terlebih dahulu sebelum meneruskan.";
+    //     questionDiv.appendChild(fallback);
+    // }
+
+    // surveyContainer.appendChild(questionDiv);
+}
+
+
             if (question.id === "mengundiAdun") {
                 const currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
                 const selectedDun = currentSurvey.answers?.dun?.trim();
@@ -380,15 +448,15 @@ function showIdInput() {
                 if (selectedDun && dunToAdun[selectedDun]) {
                     const adunInfo = dunToAdun[selectedDun];
 
-                    questionDiv.innerHTML = "";
+                    // questionDiv.innerHTML = "";
 
-                    const adunImg = document.createElement("img");
-                    adunImg.src = adunInfo.photo;
-                    adunImg.alt = adunInfo.name;
-                    adunImg.style.maxWidth = "300px";
-                    adunImg.style.marginTop = "5px";
-                    adunImg.style.borderRadius = "8px";
-                    questionDiv.appendChild(adunImg);
+                    // const adunImg = document.createElement("img");
+                    // adunImg.src = adunInfo.photo;
+                    // adunImg.alt = adunInfo.name;
+                    // adunImg.style.maxWidth = "300px";
+                    // adunImg.style.marginTop = "5px";
+                    // adunImg.style.borderRadius = "8px";
+                    // questionDiv.appendChild(adunImg);
 
                     const text = document.createElement("p");
                     text.innerHTML = `Adakah anda akan mengundi ADUN <strong>${adunInfo.name}</strong> dari parti <strong>${adunInfo.party}</strong>?`;
@@ -399,6 +467,7 @@ function showIdInput() {
                     adunBubble.style.maxWidth = "300px";
                     adunBubble.innerHTML = `<strong>Tuan Awang:</strong> Adakah anda akan mengundi ADUN <strong>${adunInfo.name}</strong> dari parti <strong>${adunInfo.party}</strong>?`;
 
+                    
                     const bubbleImg = document.createElement("img");
                     bubbleImg.src = adunInfo.photo;
                     bubbleImg.alt = adunInfo.name;
@@ -406,6 +475,7 @@ function showIdInput() {
                     bubbleImg.style.margin = "10px auto 0";
                     bubbleImg.style.borderRadius = "8px";
                     bubbleImg.style.display = "block";
+                    
 
                     adunBubble.appendChild(bubbleImg);
                     messageView.appendChild(adunBubble);
@@ -747,7 +817,7 @@ function showIdInput() {
     
         const inputField = document.createElement("input");
         inputField.type = "text";
-        inputField.style.width = "80%";
+        inputField.style.width = "100%";
         inputField.style.borderRadius = "10px";
         inputField.style.padding = "10px";
         inputField.style.marginBottom = "10px";
@@ -1099,7 +1169,7 @@ function displayAllSurveyResponses(hideTable = false) {
     toggleButton.style.color = "#ffffff";
     // toggleButton.style.flex = "1 1 auto";
     toggleButton.style.whiteSpace = "nowrap";
-    toggleButton.style.width = "200px";
+    toggleButton.style.width = "300px";
     toggleButton.style.whiteSpace = "normal";
     toggleButton.innerHTML = hideTable
         ? `<i class="fas fa-eye" style="margin-right: 5px;"></i> Paparkan Jadual`
@@ -1113,13 +1183,60 @@ function displayAllSurveyResponses(hideTable = false) {
     resetSurveyButton.style.color = "#ffffff";
     // resetSurveyButton.style.flex = "1 1 auto";
     resetSurveyButton.style.whiteSpace = "nowrap";
-    resetSurveyButton.style.width = "200px";
+    resetSurveyButton.style.width = "300px";
     resetSurveyButton.style.whiteSpace = "normal";
     resetSurveyButton.innerHTML = `<i class="fas fa-repeat" style="margin-right: 5px;"></i> Isi Semula`;
     resetSurveyButton.onclick = () => redoSurvey();
 
+// Create the toggle view button
+const toggleViewButton = document.createElement("button");
+toggleViewButton.id = "toggle-view-button";
+toggleViewButton.className = "survey-option";
+toggleViewButton.style.backgroundColor = "#006730ff";
+toggleViewButton.style.color = "#ffffff";
+toggleViewButton.style.width = "300px";
+toggleViewButton.style.whiteSpace = "normal";
+toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right: 5px;"></i> Papar Kaji Selidik`; // Initial label
+
+// Initial state: survey is showing, message is hidden
+let showingSurvey = true;
+document.getElementById("message-view").style.display = "none";
+
+// Toggle logic
+toggleViewButton.onclick = () => {
+    const messageView = document.getElementById("message-view");
+    const surveyView = document.getElementById("survey-container");
+    const surveyQuestions = document.querySelectorAll(".survey-question");
+
+    if (showingSurvey) {
+        // Show message, hide survey stuff
+        surveyView.style.display = "none";
+        messageView.style.display = "block";
+        resetSurveyButton.style.display = "none";
+        toggleButton.style.display = "none";
+        surveyQuestions.forEach(q => q.style.display = "none");
+
+        // Change button text
+        toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right: 5px;"></i> Tutup Kaji Selidik`;
+    } else {
+        // Show survey, hide message
+        surveyView.style.display = "block";
+        messageView.style.display = "none";
+        resetSurveyButton.style.display = "inline-block";
+        toggleButton.style.display = "inline-block";
+        surveyQuestions.forEach(q => q.style.display = "block");
+
+        // Change button text
+        toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right: 5px;"></i> Papar Kaji Selidik`;
+    }
+
+    showingSurvey = !showingSurvey;
+};
+
+
     mainButtonsWrapper.appendChild(resetSurveyButton);
     mainButtonsWrapper.appendChild(toggleButton);
+    mainButtonsWrapper.appendChild(toggleViewButton);
     surveyContainer.appendChild(mainButtonsWrapper);
 
     // ===== Table =====
@@ -1128,7 +1245,7 @@ function displayAllSurveyResponses(hideTable = false) {
     tableDiv.style.display = hideTable ? "none" : "block";
 
     const table = document.createElement("table");
-    table.style.width = "800px";
+    table.style.width = "700px";
     table.style.margin = "0 auto";
     table.style.borderCollapse = "collapse";
     table.style.fontSize = "16px";
@@ -1300,9 +1417,6 @@ function updateTodayRespondentsDisplay() {
 document.addEventListener("DOMContentLoaded", () => {
     updateTodayRespondentsDisplay(); // Show initial count
 });
-
-
-
 
     // function pushToDatabaseButton(){
     //     const data = JSON.parse(localStorage.getItem("allSurveyResponses"));
