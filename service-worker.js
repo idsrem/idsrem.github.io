@@ -9,16 +9,18 @@ const CACHE_ASSETS = [
   'cycle2/index.html',
   'cycle2/styles2.css',
   'cycle2/questions2.js',
+  'cycle4/index.html',
 
   'fasa3(test)/index.html',
   'fasa2(test)/styles2.css',
   'fasa2(test)/questions2.js',
 
 
-  'cycle4-demo/index.html',
-  'cycle4-demo/enumerator.js',
-  'cycle4-demo/survey.js',
-  'cycle4-demo/listOfQuestions.js'
+  // 'cycle4/index.html',
+  // 'cycle4/enumerator.js',
+  // 'cycle4/survey.js',
+  // 'cycle4/listOfQuestions.js',
+  // 'cycle4/index.css'
 ];
 // Install event - add assets to cache
 self.addEventListener('install', (event) => {
