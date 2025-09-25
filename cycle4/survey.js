@@ -222,7 +222,7 @@ function showIdInput() {
 
     const inputField = document.createElement("input");
     inputField.type = "text";
-    inputField.style.width = "50%";
+    inputField.style.width = "100%";
     inputField.style.borderRadius = "10px";
     inputField.style.padding = "10px";
     inputField.style.marginBottom = "10px";
