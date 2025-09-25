@@ -1141,6 +1141,7 @@ function generateUniqueId(existingIds) {
     return newId;
 }
 function displayAllSurveyResponses(hideTable = false) {
+     isTableVisible = !hideTable;
     const surveyContainer = document.getElementById("survey-container");
 
     // Remove old content
@@ -1199,14 +1200,31 @@ toggleViewButton.style.whiteSpace = "normal";
 toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right: 5px;"></i> Papar Kaji Selidik`; // Initial label
 
 // Initial state: survey is showing, message is hidden
+// let showingSurvey = true;
+// document.getElementById("message-view").style.display = "none";
+
+const messageView = document.getElementById("message-view");
+const surveyView = document.getElementById("survey-container");
+const surveyQuestions = document.querySelectorAll(".survey-question");
+
+let isMobileView = window.innerWidth < 800;
 let showingSurvey = true;
-document.getElementById("message-view").style.display = "none";
+
+// Set initial layout depending on device size
+if (isMobileView) {
+    messageView.style.display = "none";
+    surveyView.style.display = "block";
+    toggleViewButton.style.display = "inline-block";
+} else {
+    messageView.style.display = "block";
+    surveyView.style.display = "block";
+    toggleViewButton.style.display = "none";
+}
+
 
 // Toggle logic
 toggleViewButton.onclick = () => {
-    const messageView = document.getElementById("message-view");
-    const surveyView = document.getElementById("survey-container");
-    const surveyQuestions = document.querySelectorAll(".survey-question");
+    if (!isMobileView) return;
 
     if (showingSurvey) {
         // Show message, hide survey stuff
@@ -1216,7 +1234,6 @@ toggleViewButton.onclick = () => {
         toggleButton.style.display = "none";
         surveyQuestions.forEach(q => q.style.display = "none");
 
-        // Change button text
         toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right: 5px;"></i> Tutup Kaji Selidik`;
     } else {
         // Show survey, hide message
@@ -1226,7 +1243,6 @@ toggleViewButton.onclick = () => {
         toggleButton.style.display = "inline-block";
         surveyQuestions.forEach(q => q.style.display = "block");
 
-        // Change button text
         toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right: 5px;"></i> Papar Kaji Selidik`;
     }
 
@@ -1349,6 +1365,20 @@ window.deleteSurveyResponse = function(responseId) {
 
     displayAllSurveyResponses(false);
 }
+
+let isTableVisible = true; // default: table is visible
+
+let previousIsMobile = window.innerWidth < 1000;
+
+window.addEventListener("resize", () => {
+    const currentIsMobile = window.innerWidth < 1000;
+
+    if (currentIsMobile !== previousIsMobile) {
+        previousIsMobile = currentIsMobile;
+        displayAllSurveyResponses(!isTableVisible); // pass hideTable opposite of current visibility
+    }
+});
+
 
 
 
