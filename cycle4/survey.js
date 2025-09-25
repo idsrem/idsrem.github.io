@@ -1089,6 +1089,7 @@ function displayAllSurveyResponses(hideTable = false) {
     mainButtonsWrapper.style.justifyContent = "center";
     mainButtonsWrapper.style.margin = "0 auto 15px";
     mainButtonsWrapper.style.width = "100%";
+    mainButtonsWrapper.style.flexWrap = "wrap";
 
     // Toggle Table Button
     const toggleButton = document.createElement("button");
@@ -1096,7 +1097,10 @@ function displayAllSurveyResponses(hideTable = false) {
     toggleButton.className = "survey-option";
     toggleButton.style.backgroundColor = "#0b3d91";
     toggleButton.style.color = "#ffffff";
-    toggleButton.style.width = "auto";
+    // toggleButton.style.flex = "1 1 auto";
+    toggleButton.style.whiteSpace = "nowrap";
+    toggleButton.style.width = "200px";
+    toggleButton.style.whiteSpace = "normal";
     toggleButton.innerHTML = hideTable
         ? `<i class="fas fa-eye" style="margin-right: 5px;"></i> Paparkan Jadual`
         : `<i class="fas fa-eye-slash" style="margin-right: 5px;"></i> Sembunyikan Jadual`;
@@ -1107,7 +1111,10 @@ function displayAllSurveyResponses(hideTable = false) {
     resetSurveyButton.className = "survey-option";
     resetSurveyButton.style.backgroundColor = "#ff0000";
     resetSurveyButton.style.color = "#ffffff";
-    resetSurveyButton.style.width = "auto";
+    // resetSurveyButton.style.flex = "1 1 auto";
+    resetSurveyButton.style.whiteSpace = "nowrap";
+    resetSurveyButton.style.width = "200px";
+    resetSurveyButton.style.whiteSpace = "normal";
     resetSurveyButton.innerHTML = `<i class="fas fa-repeat" style="margin-right: 5px;"></i> Isi Semula`;
     resetSurveyButton.onclick = () => redoSurvey();
 
@@ -1162,17 +1169,22 @@ function displayAllSurveyResponses(hideTable = false) {
     const greenButtonsWrapper = document.createElement("div");
     greenButtonsWrapper.id = "green-buttons-wrapper";
     greenButtonsWrapper.style.display = hideTable ? "none" : "flex";
-    greenButtonsWrapper.style.justifyContent = "flex-end";
+    greenButtonsWrapper.style.justifyContent = "center";
     greenButtonsWrapper.style.gap = "5px";
     greenButtonsWrapper.style.margin = "15px auto 0";
     greenButtonsWrapper.style.width = "100%";
+    greenButtonsWrapper.style.flexWrap = "wrap";
+
 
     const pushDatabaseButton = document.createElement("button");
     pushDatabaseButton.id = "push-database";
     pushDatabaseButton.className = "survey-option";
     pushDatabaseButton.style.backgroundColor = "#007a00";
     pushDatabaseButton.style.color = "#ffffff";
-    pushDatabaseButton.style.width = "auto";
+    pushDatabaseButton.style.width = "200px";
+    pushDatabaseButton.style.whiteSpace = "nowrap";
+    pushDatabaseButton.style.width = "200px";
+    pushDatabaseButton.style.whiteSpace = "normal";
     pushDatabaseButton.innerHTML = `<i class="fas fa-database" style="margin-right: 5px;"></i> Simpan Data`;
     pushDatabaseButton.onclick = () => pushToDatabaseButton();
 
@@ -1181,7 +1193,10 @@ function displayAllSurveyResponses(hideTable = false) {
     downloadExcelButton.className = "survey-option";
     downloadExcelButton.style.backgroundColor = "#007a00";
     downloadExcelButton.style.color = "#ffffff";
-    downloadExcelButton.style.width = "auto";
+    downloadExcelButton.style.width = "200px";
+    downloadExcelButton.style.whiteSpace = "nowrap";
+    downloadExcelButton.style.width = "200px";
+    downloadExcelButton.style.whiteSpace = "normal";
     downloadExcelButton.innerHTML = `<i class="fas fa-file-excel" style="margin-right: 5px;"></i> Muat Turun`;
     downloadExcelButton.onclick = () => downloadInExcelDoc();
 
