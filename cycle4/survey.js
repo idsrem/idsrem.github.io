@@ -38,7 +38,7 @@ function updateClockAndSurvey() {
     // Working hours logic: 8:30 AM to 5:30 PM
     const currentMinutes = hours * 60 + minutes;
     const startMinutes = 6 * 60;
-    const endMinutes = 23 * 60;
+    const endMinutes = 4 * 60;
 
     const isWithinAllowedTime = currentMinutes >= startMinutes && currentMinutes <= endMinutes;
 
@@ -222,7 +222,7 @@ function showIdInput() {
 
     const inputField = document.createElement("input");
     inputField.type = "text";
-    inputField.style.width = "100%";
+    inputField.style.width = "50%";
     inputField.style.borderRadius = "10px";
     inputField.style.padding = "10px";
     inputField.style.marginBottom = "10px";
@@ -1243,7 +1243,7 @@ toggleViewButton.onclick = () => {
         toggleButton.style.display = "inline-block";
         surveyQuestions.forEach(q => q.style.display = "block");
 
-        toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right: 5px;"></i> Papar Kaji Selidik`;
+        toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right: 5px;"></i> Papa Kaji Selidik`;
     }
 
     showingSurvey = !showingSurvey;
