@@ -24,8 +24,24 @@
         <img class="dataBlu" src="DataBlu_Logo.png" alt="DataBlu_Logo">
         </div>
     </div>
-            <!-- Clock with Date based onthe device-->
-     <div class="clock-wrapper">
+    <!-- Clock with Date based onthe device-->
+       <div class="clock-wrapper">
+    <!-- Show only location here (no lat/lon) -->
+    <div id="location" class="location-display">Mengesan lokasi...</div>
+    <br>
+
+    <div class="clock-display">
+        <div id="clock-time" class="clock-time"></div>
+        <hr class="clock-divider">
+        <div id="clock-date" class="clock-date"></div>
+    </div>
+
+    <div class="respondents" id="todayRespondents">
+        Dikemaskini setakat () - 0 Responden
+    </div>
+</div>
+
+     <!-- <div class="clock-wrapper">
             <div class="clock-display">
                 <div id="clock-time" class="clock-time"></div>
                 <hr class="clock-divider">
@@ -33,7 +49,7 @@
             </div>
 
             <div class="respondents" id="todayRespondents"> Dikemaskini setakat () - 0 Responden</div>
-    </div>
+    </div> -->
 
     <div class="container-view">
         <div id="message-view"></div>
@@ -76,7 +92,7 @@
         const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
         const response = await fetch(url, {
           headers: {
-            'User-Agent': 'LiveLocationApp/1.0 (your-email@example.com)' // Replace with your email for polite usage
+            'User-Agent': 'LiveLocationApp/1.0 (amiirul@stadvisory.com)' // Replace with your email for polite usage
           }
         });
 
@@ -164,9 +180,5 @@
 <!--Version No. if there are any updates, bug fixes or new features applied-->
 <footer>
     <p>v 4.1.1</p>
-    <p>Your Location: </p>
-    <p>Latitude: <span id="latitude">--</span></p>
-    <p>Longitude: <span id="longitude">--</span></p>
-    <p>Location: <span id="location">--</span></p>
 </footer>
 </html> 
