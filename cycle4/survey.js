@@ -385,7 +385,7 @@ function showIdInput() {
                     const adunImg = document.createElement("img");
                     adunImg.src = adunInfo.photo;
                     adunImg.alt = adunInfo.name;
-                    adunImg.style.maxWidth = "25%";
+                    adunImg.style.maxWidth = "300px";
                     adunImg.style.marginTop = "5px";
                     adunImg.style.borderRadius = "8px";
                     questionDiv.appendChild(adunImg);

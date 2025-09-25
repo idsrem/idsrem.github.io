@@ -284,6 +284,7 @@ td{
     text-align: center;
     transition: height 0.3s ease;
     border-left: 4px solid #1F5385;
+    overflow-y: scroll;
     border-radius: 0;
     height: auto;
   }
@@ -607,6 +608,7 @@ td{
     #survey-container{
         border-left: none;
         border-top: 4px solid #1F5385;
+        overflow-y: auto;
     }
 
     #message-view{
