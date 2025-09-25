@@ -1088,7 +1088,7 @@ function displayAllSurveyResponses(hideTable = false) {
     mainButtonsWrapper.style.display = "flex";
     mainButtonsWrapper.style.justifyContent = "center";
     mainButtonsWrapper.style.margin = "0 auto 15px";
-    mainButtonsWrapper.style.width = "400px";
+    mainButtonsWrapper.style.width = "100%";
 
     // Toggle Table Button
     const toggleButton = document.createElement("button");
@@ -1165,7 +1165,7 @@ function displayAllSurveyResponses(hideTable = false) {
     greenButtonsWrapper.style.justifyContent = "flex-end";
     greenButtonsWrapper.style.gap = "5px";
     greenButtonsWrapper.style.margin = "15px auto 0";
-    greenButtonsWrapper.style.width = "350px";
+    greenButtonsWrapper.style.width = "100%";
 
     const pushDatabaseButton = document.createElement("button");
     pushDatabaseButton.id = "push-database";

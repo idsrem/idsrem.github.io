@@ -617,4 +617,13 @@ td{
         max-height: 250px;
         overflow-y: scroll;
     }
+    .modal-content{
+      margin-top: 200px;
+      width: 70%;
+    }
+
+    #toast-container{
+      margin-left: 100px;
+    }
+
 }
