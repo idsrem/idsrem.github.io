@@ -222,7 +222,8 @@ img {
 
 
 footer{
-    color: #FFFFFF;
+    color: #003366;
+    font-weight: 900;
     margin-top: 40px;
     margin-left: auto;
     margin-right: auto;
@@ -230,7 +231,6 @@ footer{
     text-align: right;
     width: 95%;
     font-size: 20px;
-    font-weight: bolder;
 }
 
 table {

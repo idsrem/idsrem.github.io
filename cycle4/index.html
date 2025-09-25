@@ -134,11 +134,11 @@
   }
 
   if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(updateLocation, handleError, {
-      enableHighAccuracy: true,
-      maximumAge: 0,
-      timeout: 10000
-    });
+      navigator.geolocation.getCurrentPosition(updateLocation, handleError, {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 10000
+      });
   } else {
     alert('Geolocation tidak disokong oleh pelayar anda.');
   }
@@ -239,6 +239,6 @@
 
 <!--Version No. if there are any updates, bug fixes or new features applied-->
 <footer>
-    <p>v 4.1.2</p>
+    <p>v 4.1.4</p>
 </footer>
 </html> 
