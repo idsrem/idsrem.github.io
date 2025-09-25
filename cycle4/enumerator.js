@@ -14,4 +14,8 @@ export const enumerator = [
     { userID: 'AK00', name: 'Albert' },
     
     { userID: 'AM00', name: 'Albert' },
+
+    //For Testing Purposes
+    {userID: 'ST00', name: 'ST Advisory Member'}
 ]
+

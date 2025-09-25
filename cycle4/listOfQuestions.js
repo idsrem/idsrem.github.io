@@ -3,11 +3,11 @@ export const surveyQuestions = [
         id: "introduction",
         picture: "ids_logo.png",
         text: "Selamat datang ke kaji selidik bagi 'Pemantauan Dinamika Pembangunan Kerajaan Fasa 4 Bagi Tahun 2025'.",
-        options: [{name:"Mula"}]
+        options: [{name:"Mula Survey"}]
     },
     {
         id: "zone",
-        text: "Sila pilih 'Zon' anda:",
+        text: "Sila pilih 'Zon' anda",
         options: [
             { name: "Kudat", parlimenCodes: ["P167", "P168"] },
             { name: "Pantai Barat", parlimenCodes: ["P169", "P170", "P171", "P172", "P173", "P174", "P175", "P179"] },
@@ -20,7 +20,7 @@ export const surveyQuestions = [
     
     {
         id: "parlimen",
-        text: "Sila pilih Parlimen anda:",
+        text: "Sila pilih 'Parlimen' anda",
         options: [
             {code: "P167", name: "Kudat", dun: ["N1 Banggi", "N2 Bengkoka", "N3 Pitas", "N4 Tanjong Kapor"]},
             {code: "P168", name: "Kota Marudu", dun: ["N5 Matunggong", "N6 Bandau", "N7 Tandek"]},
@@ -34,7 +34,7 @@ export const surveyQuestions = [
             {code: "P176", name: "Kimanis",  dun: ["N30 Bongawan", "N31 Membakut"]},
             {code: "P177", name: "Beaufort",  dun: ["N32 Kilas", "N33 Kuala Penyu"]},
             {code: "P178", name: "Sipitang",  dun: ["N34 Lumadan", "N35 Sindumin"]},
-            {code: "P179", name: "Ranau", dun: ["N36 Kundasang", "N37 Karanaan", "N38 Pangitan"]},
+            {code: "P179", name: "Ranau", dun: ["N36 Kundasang", "N37 Karanaan", "N38 Panginatan"]},
             {code: "P180", name: "Keningau", dun: ["N39 Tambunan", "N40 Bingkor", "N41 Liawan"]},
             {code: "P181", name: "Tenom",  dun: ["N42 Melalap", "N43 Kemabong"]},
             {code: "P182", name: "Pensiangan", dun: ["N44 Tulid", "N45 Sook", "N46 Nabawan"]},
@@ -51,7 +51,7 @@ export const surveyQuestions = [
     },
     {
         id: "jantina",
-        text: "Sila pilih jantina anda:",
+        text: "Sila pilih jantina anda",
         options: [
             {name: "Lelaki"},
             {name: "Perempuan"}
@@ -83,14 +83,23 @@ export const surveyQuestions = [
         ]
     },
     {
-        id: "partiTempatan",
-        text: "Sila pilih jawapan yang berikut:",
+        id: "mengundiAdun",
+        text: "",
         options: [
-            {name: "PGRS"},
+            {name: "Ya"},
+            {name: "Tidak"},
+            {name: "Lain - Lain"}
+        ]
+    },
+    {
+        id: "cenderungUntukUndi",
+        text: "Parti manakah anda lebih cenderung untuk undi?",
+        options: [
+            {name: "BN"},
+            {name: "PH"},
+            {name: "GRS"},
             {name: "WARISAN"},
-            {name: "PBS"},
-            {name: "STAR"},
-            {name: "UPKO"},
+            {name: "Tidak Pasti"},
             {name: "Lain - Lain"}
         ]
     },
