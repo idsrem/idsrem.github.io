@@ -115,8 +115,6 @@
       const location = locationParts.join(', ') || 'Unknown location';
 
       document.getElementById('location').textContent = location;
-      document.getElementById('todayRespondents').textContent =
-        `Dikemaskini setakat (${location}) - 0 Responden`;
     } catch (error) {
       console.error('Error fetching location:', error);
       document.getElementById('location').textContent = 'Error retrieving location';

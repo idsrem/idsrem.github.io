@@ -95,7 +95,7 @@ setInterval(updateClockAndSurvey, 1000);
   "N29 Pantai Manis": { name: "Mohd Tamin Zainal", party: "BN", photo: "adun_pictures/N29 PANTAI MANIS - MOHD TAMIN ZAINAL.jpg" },
   "N30 Bongawan": { name: "Daud Yusof", party: "WARISAN", photo: "adun_pictures/N30 BONGAWAN - DAUD YUSOF.jpg" },
   "N31 Membakut": { name: "Mohd Arifin Mohd Arif", party: "GRS", photo: "adun_pictures/N31 MEMBAKUT - MOHD ARIFIN MOHD ARIF.jpg" },
-  "N32 Klias": { name: "Isnin Aliasnih", party: "GRS", photo: "adun_pictures/N32 KLIAS - ISNIN ALIASNIH.jpg" },
+  "N32 Kilas": { name: "Isnin Aliasnih", party: "GRS", photo: "adun_pictures/N32 KLIAS - ISNIN ALIASNIH.jpg" },
   "N33 Kuala Penyu": { name: "Limus Jury", party: "GRS", photo: "adun_pictures/N33 KUALA PENYU - LIMUS JURY.jpg" },
   "N34 Lumadan": { name: "Ruslan Muharam", party: "GRS", photo: "adun_pictures/N34 LUMADAN - RUSLAN MUHARAM.jpg" },
   "N35 Sindumin": { name: "Yusof Yacob", party: "GRS", photo: "adun_pictures/N35 SINDUMIN - YUSOF YACOB.jpg" },
