@@ -913,6 +913,7 @@ function showFilteredParliments(parlimen, nextIndex) {
         questionTitle.textContent = questionText;
         questionTitle.style.textAlign = "center";
         questionTitle.style.marginTop = "50px";
+        questionTitle.style.fontWeight = "bold";
 
 
         const inputField = document.createElement("input");
@@ -2794,5 +2795,3 @@ function showFilteredParliments(parlimen, nextIndex) {
 
 //     showQuestion(currentQuestionIndex); // Start with the first question
 // });
-
-
