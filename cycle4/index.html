@@ -87,54 +87,112 @@
         }, duration);
     }
 
-        async function fetchLocationName(lat, lon) {
-      try {
-        const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
-        const response = await fetch(url, {
-          headers: {
-            'User-Agent': 'LiveLocationApp/1.0 (amiirul@stadvisory.com)' // Replace with your email for polite usage
-          }
-        });
 
-        if (!response.ok) {
-          throw new Error('Reverse geocoding failed.');
+      async function fetchLocationName(lat, lon) {
+    try {
+      const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=14&addressdetails=1`;
+      const response = await fetch(url, {
+        headers: {
+          'User-Agent': 'LiveLocationApp/1.0 (your-email@example.com)' // Replace with your contact info
         }
-
-        const data = await response.json();
-        const address = data.address;
-        const city = address.city || address.town || address.village || address.hamlet || '';
-        const country = address.country || '';
-        const locationText = `${city}, ${country}`;
-        document.getElementById('location').textContent = locationText;
-
-      } catch (error) {
-        console.error("Error fetching location name:", error);
-        document.getElementById('location').textContent = "Error retrieving location";
-      }
-    }
-
-    function updateLocation(position) {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-      // document.getElementById('latitude').textContent = lat.toFixed(6);
-      // document.getElementById('longitude').textContent = lon.toFixed(6);
-      fetchLocationName(lat, lon);
-    }
-
-    function handleError(error) {
-      console.error("Error getting location: ", error);
-      document.getElementById('location').textContent = "Permission denied or unavailable";
-    }
-
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(updateLocation, handleError, {
-        enableHighAccuracy: true,
-        maximumAge: 0,
-        timeout: 10000
       });
-    } else {
-      alert("Geolocation is not supported by your browser.");
+      if (!response.ok) throw new Error('Reverse geocoding failed');
+
+      const data = await response.json();
+      const address = data.address || {};
+
+      // Collect relevant location parts
+      const locationParts = [];
+      if (address.city) locationParts.push(address.city);
+      else if (address.town) locationParts.push(address.town);
+      else if (address.village) locationParts.push(address.village);
+      else if (address.hamlet) locationParts.push(address.hamlet);
+      else if (address.suburb) locationParts.push(address.suburb);
+
+      if (address.state) locationParts.push(address.state);
+      if (address.country) locationParts.push(address.country);
+
+      const location = locationParts.join(', ') || 'Unknown location';
+
+      document.getElementById('location').textContent = location;
+      document.getElementById('todayRespondents').textContent =
+        `Dikemaskini setakat (${location}) - 0 Responden`;
+    } catch (error) {
+      console.error('Error fetching location:', error);
+      document.getElementById('location').textContent = 'Error retrieving location';
     }
+  }
+
+  function updateLocation(position) {
+    const lat = position.coords.latitude;
+    const lon = position.coords.longitude;
+    document.getElementById('location').textContent = 'Menentukan lokasi anda...';
+    fetchLocationName(lat, lon);
+  }
+
+  function handleError(error) {
+    console.error('Error getting location:', error);
+    document.getElementById('location').textContent = 'Akses lokasi ditolak atau tidak tersedia';
+  }
+
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(updateLocation, handleError, {
+      enableHighAccuracy: true,
+      maximumAge: 0,
+      timeout: 10000
+    });
+  } else {
+    alert('Geolocation tidak disokong oleh pelayar anda.');
+  }
+
+    //     async function fetchLocationName(lat, lon) {
+    //   try {
+    //     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
+    //     const response = await fetch(url, {
+    //       headers: {
+    //         'User-Agent': 'LiveLocationApp/1.0 (amiirul@stadvisory.com)' // Replace with your email for polite usage
+    //       }
+    //     });
+
+    //     if (!response.ok) {
+    //       throw new Error('Reverse geocoding failed.');
+    //     }
+
+    //     const data = await response.json();
+    //     const address = data.address;
+    //     const city = address.city || address.town || address.village || address.hamlet || '';
+    //     const country = address.country || '';
+    //     const locationText = `${city}, ${country}`;
+    //     document.getElementById('location').textContent = locationText;
+
+    //   } catch (error) {
+    //     console.error("Error fetching location name:", error);
+    //     document.getElementById('location').textContent = "Error retrieving location";
+    //   }
+    // }
+
+    // function updateLocation(position) {
+    //   const lat = position.coords.latitude;
+    //   const lon = position.coords.longitude;
+    //   // document.getElementById('latitude').textContent = lat.toFixed(6);
+    //   // document.getElementById('longitude').textContent = lon.toFixed(6);
+    //   fetchLocationName(lat, lon);
+    // }
+
+    // function handleError(error) {
+    //   console.error("Error getting location: ", error);
+    //   document.getElementById('location').textContent = "Permission denied or unavailable";
+    // }
+
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.watchPosition(updateLocation, handleError, {
+    //     enableHighAccuracy: true,
+    //     maximumAge: 0,
+    //     timeout: 10000
+    //   });
+    // } else {
+    //   alert("Geolocation is not supported by your browser.");
+
     </script>
 
     <!-- Toast Notification Container -->
