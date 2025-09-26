@@ -54,6 +54,13 @@ body, html {
 font-weight: 900;
 }
 
+.login-container p{
+  text-align: center;
+  font-weight: 800;
+  margin-top: 20px;
+  color: gray;
+}
+
 .login-container form {
   width: 100%;
   max-width: 300px;
