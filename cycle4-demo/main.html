@@ -68,6 +68,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script>
+
+    if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+    window.location.href = 'index.html'; // Redirect to login if not authenticated
+    }
+
     function closeModal() {
         document.getElementById("customModal").style.display = "none";
         document.getElementById("saveDatabaseModal").style.display = "none";
@@ -198,11 +203,29 @@
     //   alert("Geolocation is not supported by your browser.");
 
 document.getElementById("logout-button").addEventListener("click", () => {
+  //Clear session storage (login/session info)
+  sessionStorage.clear();
 
-    // ✅ Redirect to login page
-    window.location.href = "index.html"; // Adjust this if your login page is named differently
+  //Temporarily store totalRespondents
+  const totalRespondents = localStorage.getItem("totalRespondents");
+
+  //Remove specific survey-related data (including response ID)
+  localStorage.removeItem("currentUserId");
+  localStorage.removeItem("showIdInput");
+  localStorage.removeItem("surveyCompleted");
+  localStorage.removeItem("currentSurvey");
+  localStorage.removeItem("pushedRespondentIds");
+
+  //Restore totalRespondents value
+  if (totalRespondents !== null) {
+    localStorage.setItem("totalRespondents", totalRespondents);
+  }
+
+  sessionStorage.setItem("justLoggedOut", "true");
+
+  //Redirect to login page
+  window.location.href = "logout.html"; // Or your login page
 });
-
 
     </script>
 
@@ -252,6 +275,6 @@ document.getElementById("logout-button").addEventListener("click", () => {
 
 <!--Version No. if there are any updates, bug fixes or new features applied-->
 <footer>
-    <p>v 4.1.11</p>
+    <p>v 4.1.12</p>
 </footer>
 </html> 
