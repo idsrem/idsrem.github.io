@@ -21,7 +21,14 @@ const CACHE_ASSETS = [
   'cycle4/enumerator.js',
   'cycle4/survey.js',
   'cycle4/listOfQuestions.js',
-  'cycle4/index.css'
+  'cycle4/index.css',
+
+  'cycle4-demo/index.html',
+  'cycle4-demo/main.html',
+  'cycle4-demo/enumerator.js',
+  'cycle4-demo/survey.js',
+  'cycle4-demo/listOfQuestions.js',
+  'cycle4-demo/index.css'
 ];
 // Install event - add assets to cache
 self.addEventListener('install', (event) => {
