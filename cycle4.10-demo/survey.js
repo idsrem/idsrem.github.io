@@ -282,6 +282,12 @@ function showIdInput() {
         // Capture start time and store it as ISO string
         let startTime = new Date();  // Capture the current date and time
         localStorage.setItem("surveyStartTime", startTime.toISOString());  // Store it as an ISO string
+
+
+        document.getElementById("main-buttons-wrapper")?.remove();
+        document.getElementById("green-buttons-wrapper")?.remove();
+        document.getElementById("table-container")?.remove();
+
     }
 
     function showQuestion(index) { 
@@ -295,7 +301,7 @@ function showIdInput() {
         if (index >= surveyQuestions.length) {
             surveyContainer.innerHTML = "<h3>Terima kasih kerana menjawab kaji selidik ini!</h3>";
             saveSurveyResponses();
-            displayAllSurveyResponses(true); // Ensure the table appears
+            displayAllSurveyResponses(false); // Ensure the table appears
             return;
         }
     
@@ -654,6 +660,9 @@ function showIdInput() {
             showQuestion(currentQuestionIndex);
     
         } else if (option.name.toLowerCase() === "tidak, (sesi ditamatkan)") {
+
+            localStorage.setItem("surveyCompleted", "true");
+
             // When the user finishes the survey, properly increment and show the count.
             saveSurveyResponses();
             
@@ -1143,6 +1152,11 @@ function generateUniqueId(existingIds) {
 
 //Displaying all the survey respondents once all questions has been answered.. 
 function displayAllSurveyResponses(hideTable = false) {
+
+    const surveyCompleted = localStorage.getItem("surveyCompleted") === "true";
+    console.log("displayAllSurveyResponses() called | surveyCompleted:", surveyCompleted);
+    if (!surveyCompleted) return;
+
     // ✅ Always check current screen size every time we rebuild
     const isMobileView = window.innerWidth < 800; // or 1000px if you prefer
     isTableVisible = !hideTable;
@@ -1367,7 +1381,11 @@ window.addEventListener("resize", () => {
     const currentIsMobile = window.innerWidth < 800;
     if (currentIsMobile !== previousIsMobile) {
         previousIsMobile = currentIsMobile;
-        displayAllSurveyResponses(!isTableVisible);
+
+        const surveyCompleted = localStorage.getItem("surveyCompleted") === "true";
+        if (surveyCompleted) {
+            displayAllSurveyResponses(!isTableVisible);
+        }
     }
 });
 
@@ -1744,49 +1762,100 @@ async function sendDataToBackend(data){
 }
 
 
-    function redoSurvey() {
-        // if (!document.getElementById("reset-survey-Button")) {
-        //     const redoSurvey = document.createElement("button");
-        //     redoSurvey.id = "redo-survey"   ;
-        //     redoSurvey.innerHTML = `<i class="fas fa-repeat" style="margin-right: 10px;"></i> Isi Semula`;
-        //     redoSurvey.style.width = "auto";
-        //     redoSurvey.style.backgroundColor = "#FF0000"
-        //     redoSurvey.style.color = "#FFFFFFF"
-        //     redoSurvey.classList.add("survey-option"); 
-        //     redoSurvey.style.marginTop = "10px";
-    
-            // When clicked, reset and go back to ID input
-            // redoSurvey.addEventListener("click", () => {
+function redoSurvey() {
+    //Reset state
+    currentQuestionIndex = 0;
+    userResponses = {};
+    currentUserId = null;
 
-                const messageView = document.getElementById("message-view");
-                const surveyContainer = document.getElementById("survey-container");
-            
-                // Clear the message view (any previous messages)
-                messageView.innerHTML = "";
-            
-                // Clear survey container (e.g., remove any previously shown questions or answers)
-                surveyContainer.innerHTML = "";
+    //Clear local storage
+    localStorage.removeItem("surveyCompleted");
+    localStorage.removeItem("currentSurvey");
+    localStorage.removeItem("pushedRespondentIds");
+    localStorage.removeItem("currentUserId");
+    localStorage.setItem("totalRespondents", 0);
 
-                localStorage.setItem('totalRespondents', 0); // Reset count to zero in localStorage
-                
-                localStorage.removeItem("currentSurvey"); // Clear current survey
+    //Reset views
+    const messageView = document.getElementById("message-view");
+    const surveyContainer = document.getElementById("survey-container");
 
-                // **Clear all previous responses so new survey starts fresh**
-                //localStorage.removeItem("allSurveyResponses");  
-                localStorage.removeItem("pushedRespondentIds");
-
-                localStorage.removeItem("currentUserId"); 
-
-                currentUserId = "";
-
-
-                showIdInput(); // Go back to the ID input screen
-            // });
-    
-            // // Append to the survey container
-            // document.getElementById("survey-container").appendChild(redoSurvey);
-        // }
+    if (messageView) {
+        messageView.style.display = "block";       // Show chat area again
+        messageView.innerHTML = "";               // Clear all messages
     }
+
+    if (surveyContainer) {
+        surveyContainer.style.display = "none";    // Hide survey questions
+        surveyContainer.innerHTML = "";           // Clear contents
+    }
+
+    //Remove any survey-related UI left over
+    document.getElementById("main-buttons-wrapper")?.remove();
+    document.getElementById("green-buttons-wrapper")?.remove();
+    document.getElementById("table-container")?.remove();
+
+    //Start fresh from ID input
+    showIdInput();
+}
+
+
+
+    // function redoSurvey() {
+    //     // if (!document.getElementById("reset-survey-Button")) {
+    //     //     const redoSurvey = document.createElement("button");
+    //     //     redoSurvey.id = "redo-survey"   ;
+    //     //     redoSurvey.innerHTML = `<i class="fas fa-repeat" style="margin-right: 10px;"></i> Isi Semula`;
+    //     //     redoSurvey.style.width = "auto";
+    //     //     redoSurvey.style.backgroundColor = "#FF0000"
+    //     //     redoSurvey.style.color = "#FFFFFFF"
+    //     //     redoSurvey.classList.add("survey-option"); 
+    //     //     redoSurvey.style.marginTop = "10px";
+    
+    //         // When clicked, reset and go back to ID input
+    //         // redoSurvey.addEventListener("click", () => {
+
+    //             const messageView = document.getElementById("message-view");
+    //             const surveyContainer = document.getElementById("survey-container");
+
+    //             //The message view will reappear again despite hiding the message vuew
+    //             if (messageView) messageView.style.display = "block";
+    //             if (surveyContainer) surveyView.style.display = "none";
+            
+    //             // Clear the message view (any previous messages)
+    //             messageView.innerHTML = "";
+            
+    //             // Clear survey container (e.g., remove any previously shown questions or answers)
+    //             surveyContainer.innerHTML = "";
+
+    //             localStorage.removeItem("surveyCompleted");
+
+
+    //             localStorage.setItem('totalRespondents', 0); // Reset count to zero in localStorage
+                
+    //             localStorage.removeItem("currentSurvey"); // Clear current survey
+
+
+
+
+
+    //             // **Clear all previous responses so new survey starts fresh**
+    //             //localStorage.removeItem("allSurveyResponses");  
+    //             localStorage.removeItem("pushedRespondentIds");
+
+    //             localStorage.removeItem("currentUserId"); 
+
+    //             currentUserId = "";
+
+
+
+
+    //             showIdInput(); // Go back to the ID input screen
+    //         // });
+    
+    //         // // Append to the survey container
+    //         // document.getElementById("survey-container").appendChild(redoSurvey);
+    //     // }
+    // }
     
 
     function downloadInExcelDoc() {

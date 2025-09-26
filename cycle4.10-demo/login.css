@@ -1,0 +1,152 @@
+*{
+    font-family: Nunito, sans-serif;
+}
+
+/* Reset and base */
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.login-wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+/* Left side: background image */
+.login-background {
+  flex: 1; /* takes half the screen */
+  background-image: url('/sabah-city-background-login.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+/* Dark overlay on background */
+.login-background::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+/* Right side: login form */
+.login-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: #f9f9f9;
+  position: relative;
+  z-index: 2;
+  box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+}
+
+.login-container label{
+    font-weight: 700;
+}
+
+.login-container h2 {
+font-weight: 900;
+}
+
+.login-container form {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container input {
+  padding: 10px;
+  margin-bottom: 30px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-container button {
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-container button:hover {
+  background-color: #0056b3;
+}
+
+#errorMsg {
+  margin-top: 10px;
+  color: red;
+  min-height: 20px;
+}
+
+
+/* Toast container */
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Toast style */
+.toast {
+  background-color: #28a745; /* green for success */
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  font-weight: 600;
+  font-size: 20px;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+  min-width: 200px;
+  
+  /* Fade-in animation */
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Fade out effect */
+.toast.fade-out {
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+/* Responsive for mobile */
+@media (max-width: 768px) {
+  .login-wrapper {
+    flex-direction: column;
+  }
+  .login-background {
+    flex: none;
+    height: 200px;
+  }
+  .login-container {
+    flex: none;
+    padding: 20px;
+  }
+}
