@@ -6,12 +6,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const surveyContainer = document.getElementById("survey-container");
     //const sound = document.getElementById("clickSound");
     let currentQuestionIndex = 0;
-    let currentUserId = localStorage.getItem("currentUserId") || null; // Get ID if stored
+    let currentUserId =  ""; // Get ID if stored
     let userResponses = {};
+
+
 
     surveyContainer.style.width = "65%";
     surveyContainer.style.marginTop = "-10px";
-
 
 
     updateTodayRespondentsDisplay();

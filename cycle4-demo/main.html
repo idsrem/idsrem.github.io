@@ -15,10 +15,29 @@
 
 </head>
 <body>
-  <!--Top right corner logout -->
+
+  <!-- ✅ Minimal Hamburger + Sidepanel -->
+<div class="navbar">
+  <span class="hamburger" id="hamburger">&#9776;</span>
+  <span class="navbar-title">IDS | Fasa 4 (2025)</span>
+</div>
+
+<div id="sidePanel" class="sidepanel">
+  <a href="#">
+    <i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Kaji Selidik
+  </a>
+  <a href="#">
+    <i class="fas fa-clock-rotate-left" style="margin-right:10px;"></i> Rekod Responden
+  </a>
+  <a href="#" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
+    <i class="fas fa-sign-out-alt" style="margin-right:10px;"></i> Log Keluar
+  </a>
+</div>
+
+  <!-- Top right corner logout
     <button id="logout-button" class="logout-button">
         <i class="fas fa-sign-out-alt" style="margin-right:5px;"></i> Log Keluar
-    </button>
+    </button> -->
 
     <div class="top-header">
         <!-- Logo IDS at the top left-->
@@ -68,6 +87,32 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script>
+
+  const hamburger = document.getElementById("hamburger");
+  const sidePanel = document.getElementById("sidePanel");
+
+  hamburger.addEventListener("click", () => {
+    sidePanel.style.width = sidePanel.style.width === "250px" ? "0" : "250px";
+  });
+
+  document.getElementById("logout-button-sidebar").addEventListener("click", () => {
+    sessionStorage.clear();
+    const totalRespondents = localStorage.getItem("totalRespondents");
+
+    localStorage.removeItem("currentUserId");
+    localStorage.removeItem("showIdInput");
+    localStorage.removeItem("surveyCompleted");
+    localStorage.removeItem("currentSurvey");
+    localStorage.removeItem("pushedRespondentIds");
+
+    if (totalRespondents !== null) {
+      localStorage.setItem("totalRespondents", totalRespondents);
+    }
+
+    sessionStorage.setItem("justLoggedOut", "true");
+    window.location.href = "logout.html";
+  });
+
 
     if (sessionStorage.getItem('isLoggedIn') !== 'true') {
     window.location.href = 'index.html'; // Redirect to login if not authenticated
@@ -350,6 +395,6 @@ document.getElementById("logout-button").addEventListener("click", () => {
 
 <!--Version No. if there are any updates, bug fixes or new features applied-->
 <footer>
-    <p>v 4.1.12</p>
+    <p>v 4.1.13</p>
 </footer>
 </html> 

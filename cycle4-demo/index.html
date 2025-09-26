@@ -21,7 +21,7 @@
         <label>Kata Laluan</label>
         <input type="password" id="password" placeholder="Password" required />
         <button type="submit">LOGIN</button>
-        <p>v4.1.12</p>
+        <p>v4.1.13</p>
       </form>
       <p id="errorMsg"></p>
     </div>
@@ -30,48 +30,64 @@
   <!-- Toast container -->
   <div id="toast-container" class="toast-container"></div>
 
-  <script>
-    const loginForm = document.getElementById('loginForm');
-    const errorMsg = document.getElementById('errorMsg');
-    const toastContainer = document.getElementById('toast-container');
+<script>
+  const loginForm = document.getElementById('loginForm');
+  const errorMsg = document.getElementById('errorMsg');
+  const toastContainer = document.getElementById('toast-container');
 
-    function showToast(message, duration = 3000) {
-      const toast = document.createElement('div');
-      toast.className = 'toast';
-      toast.textContent = message;
+  // Sample user database (you can replace this with actual auth logic later)
+  const users = [
+    { username: 'admin', password: '1234', role: 'admin' },
+    { username: 'user', password: '5678', role: 'user' }
+  ];
 
-      toastContainer.appendChild(toast);
+  function showToast(message, duration = 3000) {
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.textContent = message;
 
+    toastContainer.appendChild(toast);
+
+    setTimeout(() => {
+      toast.classList.add('fade-out');
+      toast.addEventListener('transitionend', () => toast.remove());
+    }, duration - 500);
+
+    setTimeout(() => {
+      if (toast.parentNode) toast.remove();
+    }, duration);
+  }
+
+  loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    // Find user in database
+    const user = users.find(u => u.username === username && u.password === password);
+
+    if (user) {
+      showToast('Login Berjaya! Mengalihkan ke halaman utama...', 3000);
+
+      // Save session state
+      sessionStorage.setItem('isLoggedIn', 'true');
+      sessionStorage.setItem('role', user.role);
+
+      // Redirect based on role
       setTimeout(() => {
-        toast.classList.add('fade-out');
-        toast.addEventListener('transitionend', () => toast.remove());
-      }, duration - 500); // start fade out 0.5s before removal
-
-      // Remove completely after duration
-      setTimeout(() => {
-        if (toast.parentNode) toast.remove();
-      }, duration);
-    }
-
-    loginForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
-
-      if (username === 'admin' && password === '1234') {
-        showToast('Login Berjaya! Mengalihkan ke halaman utama...', 3000);
-
-        // Redirect after 3 seconds
-        setTimeout(() => {
-          sessionStorage.setItem('isLoggedIn', 'true');
+        if (user.role === 'admin') {
+          window.location.href = 'admin/index.html';
+        } else {
           window.location.href = 'main.html';
-        }, 3000);
-      } else {
-        errorMsg.textContent = 'Username atau kata laluan salah!';
-      }
-    });
-  </script>
+        }
+      }, 3000);
+    } else {
+      errorMsg.textContent = 'Username atau kata laluan salah!';
+    }
+  });
+</script>
+
 </body>
 <footer>
 
