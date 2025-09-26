@@ -97,6 +97,7 @@ body {
     color: #1F5385;
     text-align: center;
     justify-content: center; 
+    height: auto;
     width: auto;
     border-radius: 10px;
     display: block;
@@ -622,6 +623,7 @@ td{
 
     #message-view, #survey-container {
         max-width: 80%; /* Take full width */
+        max-height: 100%;
     }
 
     #survey-container{

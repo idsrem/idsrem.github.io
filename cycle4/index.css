@@ -610,6 +610,7 @@ td{
         border-left: none;
         border-bottom: 4px solid #1F5385;
         overflow-y: auto;
+        height: auto;
     }
 
     #message-view{
