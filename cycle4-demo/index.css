@@ -588,7 +588,17 @@ td{
     background-color: #c9302c;
 }
 
-
+#timeout-timer{
+  width: 98%;
+  padding: 10px;
+  font-size: 20px; 
+  margin-top: 10px; 
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 800;
+  text-align: right;
+  color: black;
+}
 
 
 @media (max-width: 900px) {
@@ -629,6 +639,12 @@ td{
     #survey-container{
         border-left: none;
         border-bottom: 4px solid #1F5385;
+    }
+
+    #timeout-timer{
+      width: 50%;
+      font-size: 16px;
+      text-align: center;
     }
 
     #message-view{

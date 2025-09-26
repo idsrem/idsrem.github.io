@@ -154,6 +154,74 @@
     alert('Geolocation tidak disokong oleh pelayar anda.');
   }
 
+  const INACTIVITY_LIMIT = 15 * 60 * 1000; // 5 minutes in milliseconds
+  let inactivityTimer;
+  let remainingTime = INACTIVITY_LIMIT;
+  let countdownInterval;
+
+  function updateCountdownDisplay() {
+    const minutes = Math.floor(remainingTime / 60000);
+    const seconds = Math.floor((remainingTime % 60000) / 1000);
+    const countdownEl = document.getElementById("countdown");
+    if (countdownEl) {
+      countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+  }
+
+  function startCountdown() {
+    clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+      remainingTime -= 1000;
+      if (remainingTime <= 0) {
+        clearInterval(countdownInterval);
+      }
+      updateCountdownDisplay();
+    }, 1000);
+  }
+
+  function resetInactivityTimer() {
+    clearTimeout(inactivityTimer);
+    clearInterval(countdownInterval);
+
+    remainingTime = INACTIVITY_LIMIT;
+    updateCountdownDisplay();
+    startCountdown();
+
+    inactivityTimer = setTimeout(() => {
+      autoLogout();
+    }, INACTIVITY_LIMIT);
+  }
+
+  function autoLogout() {
+    sessionStorage.clear();
+    const totalRespondents = localStorage.getItem("totalRespondents");
+
+    // Remove relevant items
+    localStorage.removeItem("currentUserId");
+    localStorage.removeItem("showIdInput");
+    localStorage.removeItem("surveyCompleted");
+    localStorage.removeItem("currentSurvey");
+    localStorage.removeItem("pushedRespondentIds");
+
+    if (totalRespondents !== null) {
+      localStorage.setItem("totalRespondents", totalRespondents);
+    }
+
+    sessionStorage.setItem("justLoggedOut", "true");
+    window.location.href = "logout.html";
+  }
+
+  // Attach listeners to reset timer on user activity
+  ['click', 'mousemove', 'keydown', 'touchstart'].forEach(event => {
+    document.addEventListener(event, resetInactivityTimer);
+  });
+
+  // Start on page load
+  resetInactivityTimer();
+
+
+
+
     //     async function fetchLocationName(lat, lon) {
     //   try {
     //     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
@@ -271,7 +339,14 @@ document.getElementById("logout-button").addEventListener("click", () => {
         <h2>Maaf!</h2>
         <p>Kajiselidik ini hanya boleh dilakukan dari jam <strong>6 pagi sehingga 8 malam</strong></p>
     </div>
+
+    <div id="timeout-timer">
+    Sesi akan tamat secara automatik dalam: <span id="countdown">--:--</span>
+    </div>
+
 </body>
+
+
 
 <!--Version No. if there are any updates, bug fixes or new features applied-->
 <footer>
