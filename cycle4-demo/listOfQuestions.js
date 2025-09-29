@@ -107,10 +107,10 @@ export const surveyQuestions = [
         id: "pemimpinSabah",
         text: "Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin sabah?",
         options: [
-            {name: "Hajiji Noor (GRS)"},
-            {name: "Shafie Apdal (WARISAN)"},
-            {name: "Bung Moktar(BN)"},
-            {name: "Ewon Benedick(PH)"},
+            {name: "Hajiji Noor (GRS)", image: "adun_pictures/N12 SULAMAN - HAJIJI NOOR.jpg"},
+            {name: "Shafie Apdal (WARISAN)", image: "adun_pictures/N65 SENALLANG - SHAFIE APDAL.jpg"},
+            {name: "Bung Moktar(BN)", image: "adun_pictures/N58 LAMAG - BUNG MOKTAR RADIN.jpg"},
+            {name: "Ewon Benedick(PH)" , image: "adun_pictures/N11 KADAMAIAN - EWON BENEDICK.jpg"},
             {name: "Lain - Lain"}
         ]
     },

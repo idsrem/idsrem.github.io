@@ -14,7 +14,8 @@
     <div class="login-background"></div>
     <div class="login-container">
       <img src="/cycle4-demo/ids_logo.png" alt="IDS Logo">
-      <h2>IDS - Fasa 4</h2>
+      <h2>Permantauan Dinamika Pembangunan Kerajaan</h2>
+      <hr>
       <form id="loginForm">
         <label>Username</label>
         <input type="text" id="username" placeholder="Username" required />
@@ -26,8 +27,9 @@
     <input type="checkbox" id="rememberMe" />
     <label for="rememberMe">Remember Me</label>
   </div>
+
         <button type="submit">LOGIN</button>
-        <p>v4.1.14</p>
+        <p>v4.1.15S</p>
       </form>
       <p id="errorMsg"></p>
     </div>
@@ -47,22 +49,31 @@
     { username: 'user', password: '5678', role: 'user' }
   ];
 
-  function showToast(message, duration = 3000) {
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = message;
+function showToast(message, duration = 3000, type = 'success') {
+  const toast = document.createElement('div');
+  toast.className = 'toast';
 
-    toastContainer.appendChild(toast);
-
-    setTimeout(() => {
-      toast.classList.add('fade-out');
-      toast.addEventListener('transitionend', () => toast.remove());
-    }, duration - 500);
-
-    setTimeout(() => {
-      if (toast.parentNode) toast.remove();
-    }, duration);
+  // Add class based on type
+  if (type === 'error') {
+    toast.classList.add('toast-error');
+  } else {
+    toast.classList.add('toast-success');
   }
+
+  toast.textContent = message;
+
+  toastContainer.appendChild(toast);
+
+  setTimeout(() => {
+    toast.classList.add('fade-out');
+    toast.addEventListener('transitionend', () => toast.remove());
+  }, duration - 500);
+
+  setTimeout(() => {
+    if (toast.parentNode) toast.remove();
+  }, duration);
+}
+
 
   loginForm.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -74,7 +85,7 @@
     const user = users.find(u => u.username === username && u.password === password);
 
     if (user) {
-      showToast('Login Berjaya! Mengalihkan ke halaman utama...', 3000);
+      showToast('Login Berjaya! Mengalihkan ke halaman utama...', 3000, 'success');
 
       // Save session state
       sessionStorage.setItem('isLoggedIn', 'true');
@@ -89,7 +100,7 @@
         }
       }, 3000);
     } else {
-      errorMsg.textContent = 'Username atau kata laluan salah!';
+      showToast('Username atau kata laluan salah!', 3000, 'error');
     }
 
 
