@@ -16,18 +16,23 @@
 </head>
 <body>
 
-  <!-- ✅ Minimal Hamburger + Sidepanel -->
 <div class="navbar">
   <span class="hamburger" id="hamburger">&#9776;</span>
   <span class="navbar-title">IDS | Fasa 4 (2025)</span>
+  <span id="username" class="navbar-username">
+    <i class="fas fa-user" style="margin-right:10px;"></i>ST00 
+  </span>
 </div>
 
 <div id="sidePanel" class="sidepanel">
-  <a href="#">
+  <a href="/cycle4-demo/main.html">
     <i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Kaji Selidik
   </a>
   <a href="#">
     <i class="fas fa-clock-rotate-left" style="margin-right:10px;"></i> Rekod Responden
+  </a>
+  <a href="#">
+    <i class="fas fa-user" style="margin-right:10px;"></i> Profil
   </a>
   <a href="#" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
     <i class="fas fa-sign-out-alt" style="margin-right:10px;"></i> Log Keluar
@@ -169,7 +174,18 @@
 
       const location = locationParts.join(', ') || 'Unknown location';
 
-      document.getElementById('location').textContent = location;
+      // document.getElementById('location').textContent = location;
+          // ✅ Update ALL elements with location display
+    document.querySelectorAll('.location-display').forEach(el => {
+      el.textContent = location;
+    });
+
+    // ✅ Save to localStorage (currentSurvey)
+    let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
+    survey.answers = survey.answers || {};
+    survey.answers.location = location;
+    localStorage.setItem("currentSurvey", JSON.stringify(survey));
+
     } catch (error) {
       console.error('Error fetching location:', error);
       document.getElementById('location').textContent = 'Error retrieving location';
@@ -177,12 +193,39 @@
 
   }
 
+
   function updateLocation(position) {
-    const lat = position.coords.latitude;
-    const lon = position.coords.longitude;
-    document.getElementById('location').textContent = 'Menentukan lokasi anda...';
+  const lat = position.coords.latitude;
+  const lon = position.coords.longitude;
+
+  // Try to get readable location online
+  if (navigator.onLine) {
+    document.querySelectorAll('.location-display').forEach(el => {
+      el.textContent = 'Menentukan lokasi anda (atas talian)...';
+    });
     fetchLocationName(lat, lon);
+  } else {
+    // Offline fallback: use raw coordinates
+    const rawLocation = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)}`;
+    document.querySelectorAll('.location-display').forEach(el => {
+      el.textContent = rawLocation;
+    });
+
+    // Save raw coordinates to currentSurvey
+    let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
+    survey.answers = survey.answers || {};
+    survey.answers.location = rawLocation;
+    localStorage.setItem("currentSurvey", JSON.stringify(survey));
   }
+}
+
+
+  // function updateLocation(position) {
+  //   const lat = position.coords.latitude;
+  //   const lon = position.coords.longitude;
+  //   document.getElementById('location').textContent = 'Menentukan lokasi anda...';
+  //   fetchLocationName(lat, lon);
+  // }
 
   function handleError(error) {
     console.error('Error getting location:', error);
@@ -395,6 +438,6 @@ document.getElementById("logout-button").addEventListener("click", () => {
 
 <!--Version No. if there are any updates, bug fixes or new features applied-->
 <footer>
-    <p>v 4.1.13</p>
+    <p>v 4.1.14</p>
 </footer>
 </html> 

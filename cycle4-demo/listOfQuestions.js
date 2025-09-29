@@ -75,7 +75,7 @@ export const surveyQuestions = [
         text: "Sila pilih bangsa anda:",
         options: [
             {name: "KDMR (MOMOGUN)"},
-            {name: "Bajau (Suluk)"},
+            {name: "Bajau"},
             {name: "Cina"},
             {name: "Melayu"},
             {name: "India"},
@@ -88,7 +88,7 @@ export const surveyQuestions = [
         options: [
             {name: "Ya"},
             {name: "Tidak"},
-            {name: "Lain - Lain"}
+            {name: "Tidak Pasti"}
         ]
     },
     {

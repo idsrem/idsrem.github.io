@@ -20,8 +20,14 @@
         <input type="text" id="username" placeholder="Username" required />
         <label>Kata Laluan</label>
         <input type="password" id="password" placeholder="Password" required />
+
+  <!-- Remember Me Checkbox -->
+  <div class="remember-me">
+    <input type="checkbox" id="rememberMe" />
+    <label for="rememberMe">Remember Me</label>
+  </div>
         <button type="submit">LOGIN</button>
-        <p>v4.1.13</p>
+        <p>v4.1.14</p>
       </form>
       <p id="errorMsg"></p>
     </div>
@@ -85,6 +91,53 @@
     } else {
       errorMsg.textContent = 'Username atau kata laluan salah!';
     }
+
+
+    // On page load: auto-fill username if saved
+window.addEventListener('DOMContentLoaded', () => {
+  const savedUsername = localStorage.getItem('rememberedUsername');
+  if (savedUsername) {
+    document.getElementById('username').value = savedUsername;
+    document.getElementById('rememberMe').checked = true;
+  }
+});
+
+loginForm.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+  const rememberMe = document.getElementById('rememberMe').checked;
+
+  const user = users.find(u => u.username === username && u.password === password);
+
+  if (user) {
+    showToast('Login Berjaya! Mengalihkan ke halaman utama...', 3000);
+
+    // Save session
+    sessionStorage.setItem('isLoggedIn', 'true');
+    sessionStorage.setItem('role', user.role);
+
+    // Handle Remember Me
+    if (rememberMe) {
+      localStorage.setItem('rememberedUsername', username);
+    } else {
+      localStorage.removeItem('rememberedUsername');
+    }
+
+    // Redirect
+    setTimeout(() => {
+      if (user.role === 'admin') {
+        window.location.href = 'admin/index.html';
+      } else {
+        window.location.href = 'main.html';
+      }
+    }, 3000);
+  } else {
+    errorMsg.textContent = 'Username atau kata laluan salah!';
+  }
+});
+
   });
 </script>
 

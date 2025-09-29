@@ -283,8 +283,6 @@ function showIdInput() {
         // Capture start time and store it as ISO string
         let startTime = new Date();  // Capture the current date and time
         localStorage.setItem("surveyStartTime", startTime.toISOString());  // Store it as an ISO string
-
-
         document.getElementById("main-buttons-wrapper")?.remove();
         document.getElementById("green-buttons-wrapper")?.remove();
         document.getElementById("table-container")?.remove();
@@ -345,16 +343,16 @@ function showIdInput() {
         const questionDiv = document.createElement("div");
         questionDiv.classList.add("survey-question");
     
-        // Display the question image if it exists
-        if (question.picture?.trim()) {
-            const img = document.createElement("img");
-            Object.assign(img, {
-                src: question.picture,
-                alt: "IDS Logo",
-                style: "width:30%;display:block;margin:auto;margin-bottom:10px;margin-top:-40px;"
-            });
-            questionDiv.appendChild(img);
-        }
+        // // Display the question image if it exists
+        // if (question.picture?.trim()) {
+        //     const img = document.createElement("img");
+        //     Object.assign(img, {
+        //         src: question.picture,
+        //         alt: "IDS Logo",
+        //         style: "width:30%;display:block;margin:auto;margin-bottom:10px;margin-top:-40px;"
+        //     });
+        //     questionDiv.appendChild(img);
+        // }
     
         const textElement = document.createElement("p");
         textElement.textContent = question.text;
@@ -501,7 +499,9 @@ function showIdInput() {
         // Other code handling question rendering like age input, options buttons, etc.
         if (question.id === "umur") {
             showAgeInput(question.text, question.id, index + 1);
-        } else {
+        }
+    
+        else {
             const optionsDiv = document.createElement("div");
             optionsDiv.classList.add("options-container");
     
@@ -605,15 +605,26 @@ function showIdInput() {
         // Get the current date in 'YYYY-MM-DD' format for storage
         const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
     
-        if(option.name === "Lain - Lain") {
-            if (question.id == "partiNasional" || question.id == "partiTempatan"){
-                showQuestion(index + 1);
-                handleAnswer(question.id, option);
 
-            }
-            else{
-            showInputField(question.text, question.id, index + 1);
-            }
+        //This applies for any question that has the "Lain - Lain" option.
+        // if(option.name === "Lain - Lain") {
+
+        //     if (question.id == "partiNasional" || question.id == "partiTempatan"){
+        //         showQuestion(index + 1);
+        //         handleAnswer(question.id, option);
+
+        //     }
+        //     else{
+        //     showInputField(question.text, question.id, index + 1);
+        //     }
+        // }
+
+        if (question.id === "bangsa" && option.name === "Lain - Lain"){
+            showBangsaLainInput(question.text, question.id, index + 1);
+        }
+
+        else if (question.id === "mengundiAdun" && option.name === "Tidak Pasti"){
+            showAdunLainInput(question.text, question.id, index + 1);
         }
       
         else if (question.id === "zone") {
@@ -1063,6 +1074,302 @@ function showFilteredParliments(parlimen, nextIndex) {
     surveyContainer.append(questionTitle, inputField, submitButton, backButton);
 }
 
+
+function showBangsaLainInput(questionText, questionId, nextIndex) {
+    const messageView = document.getElementById("message-view");
+
+    // Ensure the question bubble is added to messageView only once
+    if (!document.querySelector(`.question-bubble-${questionId}`)) {
+        const questionBubble = document.createElement("div");
+        questionBubble.classList.add("message-bubble", "question-bubble", `question-bubble-${questionId}`, "answer-Bubble");
+        questionBubble.textContent = questionText;
+        messageView.appendChild(questionBubble);
+    }
+
+    // Clear previous content
+    surveyContainer.innerHTML = "";
+
+    // Create and show the prompt above the input field
+    const instructionText = document.createElement("p");
+    instructionText.textContent = "Sila nyatakan bangsa anda";
+    instructionText.style.fontWeight = "bold";
+    instructionText.style.textAlign = "center";
+    instructionText.style.marginBottom = "30px";
+
+    // Create question title (optional)
+    const questionTitle = document.createElement("p");
+    questionTitle.textContent = questionText;
+    questionTitle.style.textAlign = "center";
+    questionTitle.style.marginTop = "20px";
+    questionTitle.style.marginBottom = "20px";
+
+    const inputField = document.createElement("input");
+    inputField.type = "text";
+    inputField.style.width = "50%";
+    inputField.style.borderRadius = "20px";
+    inputField.style.padding = "10px";
+    inputField.style.marginBottom = "10px";
+    inputField.placeholder = "Taip mesej anda...";
+    inputField.classList.add("custom-input");
+
+    const submitButton = document.createElement("button");
+    submitButton.textContent = "Seterusnya";
+    submitButton.classList.add("submit-button");
+
+    submitButton.addEventListener("click", () => {
+    const userInput = inputField.value.trim();
+
+    // Always store 'Lain - Lain' in bangsa
+    const answerData = {
+        name: "Lain - Lain"
+    };
+
+    // If user typed something, also store it in bangsalain
+    if (userInput) {
+        answerData.bangsalain = userInput;
+    }
+
+    // Save both (or just one) depending on user input
+    handleAnswer(questionId, answerData);
+
+    // Remove previous answer bubbles (if any)
+    document.querySelectorAll(".answer-bubble").forEach(el => el.remove());
+
+    // Show what the user entered or "Lain - Lain"
+    const userMessage = document.createElement("div");
+    userMessage.classList.add("message-bubble", "answer-bubble");
+    userMessage.innerHTML = `Anda: ${userInput || "Lain - Lain"}`;
+    messageView.appendChild(userMessage);
+
+    // Go to next question
+    showQuestion(nextIndex);
+});
+    // submitButton.addEventListener("click", () => {
+    //     const userInput = inputField.value.trim();
+
+    // //     if (!userInput) {
+    // //         showToast("Sila masukkan nama calon dan parti pilihan anda.", "error");
+    // //     } else {
+    // //         handleAnswer(questionId, { calon: userInput });
+
+    // //         document.querySelectorAll(".answer-bubble").forEach(el => el.remove());
+
+    // //         const userMessage = document.createElement("div");
+    // //         userMessage.classList.add("message-bubble", "answer-bubble");
+    // //         userMessage.innerHTML = `Anda: ${userInput}`;
+    // //         messageView.appendChild(userMessage);
+
+    // //         showQuestion(nextIndex);
+    // //     }
+    // // });
+
+    const backButton = document.createElement("button");
+    backButton.innerHTML = `<i class="fas fa-arrow-left" style="color: black; margin-right: 5px;"></i> Kembali`;
+    backButton.classList.add("previous-button", "survey-option");
+
+    backButton.addEventListener("click", () => {
+        const backBubble = document.createElement("div");
+        backBubble.classList.add("previousQuestion-bubble");
+        backBubble.innerHTML = `----- Kembali ke soalan sebelumnya. -----`;
+        messageView.appendChild(backBubble);
+
+        setTimeout(() => {
+            showQuestion(3);
+        }, 1000);
+    });
+
+    // Append everything in correct order
+    surveyContainer.append(instructionText, questionTitle, inputField, submitButton, backButton);
+}
+
+
+function showAdunLainInput(questionText, questionId, nextIndex) {
+    const messageView = document.getElementById("message-view");
+
+    // Ensure the question bubble is added to messageView only once
+    if (!document.querySelector(`.question-bubble-${questionId}`)) {
+        const questionBubble = document.createElement("div");
+        questionBubble.classList.add("message-bubble", "question-bubble", `question-bubble-${questionId}`, "answer-Bubble");
+        questionBubble.textContent = questionText;
+        messageView.appendChild(questionBubble);
+    }
+
+    // Clear previous content
+    surveyContainer.innerHTML = "";
+
+    // Create and show the prompt above the input field
+    const instructionText = document.createElement("p");
+    instructionText.textContent = "Siapakah calon pilihan anda untuk menjadi ADUN, dan dari parti manakah beliau?";
+    instructionText.style.fontWeight = "bold";
+    instructionText.style.textAlign = "center";
+    instructionText.style.marginBottom = "30px";
+
+    // Create question title (optional)
+    const questionTitle = document.createElement("p");
+    questionTitle.textContent = questionText;
+    questionTitle.style.textAlign = "center";
+    questionTitle.style.marginTop = "20px";
+    questionTitle.style.marginBottom = "20px";
+
+    const inputField = document.createElement("input");
+    inputField.type = "text";
+    inputField.style.width = "50%";
+    inputField.style.borderRadius = "20px";
+    inputField.style.padding = "10px";
+    inputField.style.marginBottom = "10px";
+    inputField.placeholder = "Contoh: Ali Bin Abu - Parti Contoh";
+    inputField.classList.add("custom-input");
+
+    const submitButton = document.createElement("button");
+    submitButton.textContent = "Seterusnya";
+    submitButton.classList.add("submit-button");
+
+    submitButton.addEventListener("click", () => {
+    const userInput = inputField.value.trim();
+
+    // Always store 'Tidak pasti' in mengundiAdun
+    const answerData = {
+        name: "Tidak pasti"
+    };
+
+    // If user typed something, also store it in mengundiAdunLain
+    if (userInput) {
+        answerData.mengundiAdunLain = userInput;
+    }
+
+    // Save both (or just one) depending on user input
+    handleAnswer(questionId, answerData);
+
+    // Remove previous answer bubbles (if any)
+    document.querySelectorAll(".answer-bubble").forEach(el => el.remove());
+
+    // Show what the user entered or "Tidak pasti"
+    const userMessage = document.createElement("div");
+    userMessage.classList.add("message-bubble", "answer-bubble");
+    userMessage.innerHTML = `Anda: ${userInput || "Tidak pasti"}`;
+    messageView.appendChild(userMessage);
+
+    // Go to next question
+    showQuestion(nextIndex);
+});
+    // submitButton.addEventListener("click", () => {
+    //     const userInput = inputField.value.trim();
+
+    // //     if (!userInput) {
+    // //         showToast("Sila masukkan nama calon dan parti pilihan anda.", "error");
+    // //     } else {
+    // //         handleAnswer(questionId, { calon: userInput });
+
+    // //         document.querySelectorAll(".answer-bubble").forEach(el => el.remove());
+
+    // //         const userMessage = document.createElement("div");
+    // //         userMessage.classList.add("message-bubble", "answer-bubble");
+    // //         userMessage.innerHTML = `Anda: ${userInput}`;
+    // //         messageView.appendChild(userMessage);
+
+    // //         showQuestion(nextIndex);
+    // //     }
+    // // });
+
+    const backButton = document.createElement("button");
+    backButton.innerHTML = `<i class="fas fa-arrow-left" style="color: black; margin-right: 5px;"></i> Kembali`;
+    backButton.classList.add("previous-button", "survey-option");
+
+    backButton.addEventListener("click", () => {
+        const backBubble = document.createElement("div");
+        backBubble.classList.add("previousQuestion-bubble");
+        backBubble.innerHTML = `----- Kembali ke soalan sebelumnya. -----`;
+        messageView.appendChild(backBubble);
+
+        setTimeout(() => {
+            showQuestion(3);
+        }, 1000);
+    });
+
+    // Append everything in correct order
+    surveyContainer.append(instructionText, questionTitle, inputField, submitButton, backButton);
+}
+
+
+// function showAdunLainInput(questionText, questionId, nextIndex) {
+//     const messageView = document.getElementById("message-view");
+//     surveyContainer.innerHTML = "Siapakah calon pilihan anda untuk menjadi ADUN, dan dari parti manakah beliau?";
+
+//     // Ensure the question is added only ONCE to the message view
+//     //if (!document.querySelector(".question-bubble")) {
+//         const questionBubble = document.createElement("div");
+//         questionBubble.classList.add("message-bubble", "question-bubble", "answer-Bubble"); // Removed age-question class
+//         questionBubble.textContent = questionText;
+//         messageView.appendChild(questionBubble);
+//     //}
+
+//     // Clear and recreate question + input UI
+//     surveyContainer.innerHTML = "";
+
+//     const questionTitle = document.createElement("p");
+//     questionTitle.textContent = questionText;
+//     questionTitle.style.textAlign = "center";
+//     questionTitle.style.marginTop = "50px";
+//     questionTitle.style.marginBottom = "50px";
+
+//     const inputField = document.createElement("input");
+//     inputField.type = "text";
+//     inputField.style.width = "50%";
+//     inputField.style.borderRadius = "20px";
+//     inputField.style.padding = "10px";
+//     inputField.style.marginBottom = "10px";
+//     inputField.placeholder = "Contoh: Ali Bin Abu - Parti Contoh";
+//     inputField.classList.add("custom-input");
+
+//     const submitButton = document.createElement("button");
+//     submitButton.textContent = "Seterusnya";
+//     submitButton.classList.add("submit-button");
+
+//     submitButton.addEventListener("click", () => {
+//         const userInput = inputField.value.trim();
+
+//         if (!userInput) {
+//             showToast("Sila masukkan nama calon dan parti pilihan anda.", "error");
+//         } else {
+//             // Store the answer
+//             handleAnswer(questionId, { calon: userInput });
+
+//             // Remove previous answer bubbles (if any)
+//             document.querySelectorAll(".answer-bubble").forEach(el => el.remove());
+
+//             // Show user input in message view
+//             const userMessage = document.createElement("div");
+//             userMessage.classList.add("message-bubble", "answer-bubble");
+//             userMessage.innerHTML = `Anda: ${userInput}`;
+//             messageView.appendChild(userMessage);
+
+//             // Proceed to next question
+//             showQuestion(nextIndex);
+//         }
+//     });
+
+//     // Back button
+//     const backButton = document.createElement("button");
+//     backButton.innerHTML = `<i class="fas fa-arrow-left" style="color: black; margin-right: 5px;"></i> Kembali`;
+//     backButton.classList.add("previous-button", "survey-option");
+
+//     backButton.addEventListener("click", () => {
+//         const backBubble = document.createElement("div");
+//         backBubble.classList.add("previousQuestion-bubble");
+//         backBubble.innerHTML = `----- Kembali ke soalan sebelumnya. -----`;
+//         messageView.appendChild(backBubble);
+
+//         setTimeout(() => {
+//             showQuestion(3);
+//         }, 1000);
+//     });
+
+//     // Append everything
+//     surveyContainer.append(questionTitle, inputField, submitButton, backButton);
+// }
+
+
+
     //     // Add "Back" button
     //     const backButton = document.createElement("button");
     //     backButton.innerHTML = `<i class="fas fa-arrow-left" style="color: black; margin-right: 5px;"></i> Kembali`;
@@ -1076,18 +1383,45 @@ function showFilteredParliments(parlimen, nextIndex) {
     //     surveyContainer.append(questionTitle, inputField, submitButton, backButton);
     // }
 
-    function handleAnswer(questionId, selectedOption) {
-        let survey = JSON.parse(localStorage.getItem("currentSurvey")) || { userId: Date.now(), answers: {} };
-            // Get current date and time in "DD/MM/YYYY HH:MM:SS" format
-            survey.answers["date"] = new Date().toLocaleString("en-GB", { 
-                day: '2-digit', 
-                month: '2-digit', 
-                year: 'numeric', 
-            }).toUpperCase();//Make am/pm Capital Letters
-        survey.answers[questionId] = selectedOption.name || selectedOption.code;
+    // function handleAnswer(questionId, selectedOption) {
+    //     let survey = JSON.parse(localStorage.getItem("currentSurvey")) || { userId: Date.now(), answers: {} };
+    //         // Get current date and time in "DD/MM/YYYY HH:MM:SS" format
+    //         survey.answers["date"] = new Date().toLocaleString("en-GB", { 
+    //             day: '2-digit', 
+    //             month: '2-digit', 
+    //             year: 'numeric', 
+    //         }).toUpperCase();//Make am/pm Capital Letters
+    //     survey.answers[questionId] = selectedOption.name || selectedOption.code;
 
-        localStorage.setItem("currentSurvey", JSON.stringify(survey));
+    //     localStorage.setItem("currentSurvey", JSON.stringify(survey));
+    // }
+
+
+function handleAnswer(questionId, selectedOption) {
+    let survey = JSON.parse(localStorage.getItem("currentSurvey")) || { userId: Date.now(), answers: {} };
+
+    survey.answers["date"] = new Date().toLocaleString("en-GB", { 
+        day: '2-digit', 
+        month: '2-digit', 
+        year: 'numeric', 
+    }).toUpperCase();
+
+    // Always set main answer using selectedOption.name or fallback to string
+    if (typeof selectedOption === 'object' && selectedOption !== null) {
+        survey.answers[questionId] = selectedOption.name || "";
+        if ('mengundiAdunLain' in selectedOption) {
+            survey.answers.mengundiAdunLain = selectedOption.mengundiAdunLain;
+        }
+        if ('bangsalain' in selectedOption) {
+            survey.answers.bangsalain = selectedOption.bangsalain;
+        }
+    } else {
+        survey.answers[questionId] = selectedOption;
     }
+
+    localStorage.setItem("currentSurvey", JSON.stringify(survey));
+}
+
 
 
     function saveSurveyResponses() {
@@ -1121,12 +1455,14 @@ function showFilteredParliments(parlimen, nextIndex) {
             umur: currentSurvey.answers.umur ? String(currentSurvey.answers.umur) : "-",
             jantina: currentSurvey.answers.jantina || "-",
             bangsa: currentSurvey.answers.bangsa || "-",
-            bangsalain: "",
+            bangsalain: currentSurvey.answers.bangsalain,
             parlimen : currentSurvey.answers.parlimen || "-",
+            cenderungUntukUndi : currentSurvey.answers.cenderungUntukUndi || "-",
             mengundiAdun: currentSurvey.answers.mengundiAdun || "-",
+            mengundiAdunLain : currentSurvey.answers.mengundiAdunLain || "-",
             pemimpinsabah: currentSurvey.answers.pemimpinSabah || "-",
-            pemimpinsabahlain: "",
             isiboranglagi: currentSurvey.answers.isiBorangLagi || "-",
+            lokasi: currentSurvey.answers.location || "-",
             responseid: uniqueId,
             starttime: formattedStartTime,
             endtime: formattedEndTime,
@@ -1873,7 +2209,7 @@ function redoSurvey() {
         // Define headers
         const headers = [
             "Kod", "Tarikh", "Zon", "Parlimen", "DUN", "Umur", "Jantina",
-            "Bangsa", "Bangsa Lain", "Mengundi Adun", "Pemimpin Sabah", "Response ID", "Start Time", "End Time"
+            "Bangsa", "Bangsa Lain", "Mengundi Adun", "Mengundi Adun Lain", "Pemimpin Sabah", "Response ID", "Start Time"
         ];
 
         // Convert survey data
@@ -1890,10 +2226,10 @@ function redoSurvey() {
                 s.bangsa || "-",
                 s.bangsalain || "-",
                 s.mengundiAdun || "-",
+                s.mengundiAdunLain || "-",
                 s.pemimpinsabah || "-",
                 s.responseid || "-", 
-                s.starttime || "-",
-                s.endtime || "-"
+                s.starttime || "-"
             ];
         });
 

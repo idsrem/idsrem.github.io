@@ -9,7 +9,7 @@ h3{
 }
 body {
     margin: 0;
-    /* background-image: url("IDS_Background_Picture_Cycle_4.png");  */
+    background-image: url("IDS_Final_Design.png");
      background-color: #aaa;
     background-size: cover;
     color: white;
@@ -231,7 +231,7 @@ footer{
     margin-left: auto;
     margin-right: auto;
     display: block;
-    text-align: right;
+    text-align: center;
     width: 95%;
     font-size: 20px;
 }
@@ -614,6 +614,7 @@ td{
   align-items: center;
   padding: 10px;
   z-index: 9999;
+  justify-content: space-between;
 }
 
 /* Hamburger icon */
@@ -636,6 +637,7 @@ td{
   height: 100%;
   width: 0;
   position: fixed;
+  justify-content: space-between;
   z-index: 2000;
   top: 0;
   left: 0;
@@ -653,10 +655,23 @@ td{
   color: white;
   display: block;
   transition: 0.2s;
+  font-weight: 800;
 }
 
 .sidepanel a:hover {
   background-color: #005999;
+}
+
+.navbar-username {
+  font-weight: 500;
+  font-size: 18px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: right;
+  margin-left: auto;
+  margin-right: 30px;
+  font-weight: 800;
+
 }
 
 

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/cycle4-demo/admin/index.css">
+    <title>IDS|Fasa 4 (2025)</title>
+    <link rel="icon" type="image/x-icon" href="ids_logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Basic&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Hind+Madurai:wght@300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Share+Tech&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+
+  <!-- ✅ Minimal Hamburger + Sidepanel -->
+<div class="navbar">
+  <span class="hamburger" id="hamburger">&#9776;</span>
+  <span class="navbar-title">IDS | Fasa 4 (2025)</span>
+</div>
+
+<div id="sidePanel" class="sidepanel">
+  <a href="#">
+    <i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Kaji Selidik
+  </a>
+  <a href="#">
+    <i class="fas fa-clock-rotate-left" style="margin-right:10px;"></i> Rekod Responden
+  </a>
+  <a href="#" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
+    <i class="fas fa-sign-out-alt" style="margin-right:10px;"></i> Log Keluar
+  </a>
+</div>
+
+
+    <script>
+
+  const hamburger = document.getElementById("hamburger");
+  const sidePanel = document.getElementById("sidePanel");
+
+  hamburger.addEventListener("click", () => {
+    sidePanel.style.width = sidePanel.style.width === "250px" ? "0" : "250px";
+  });
+
+  document.getElementById("logout-button-sidebar").addEventListener("click", () => {
+    sessionStorage.clear();
+    const totalRespondents = localStorage.getItem("totalRespondents");
+
+    localStorage.removeItem("currentUserId");
+    localStorage.removeItem("showIdInput");
+    localStorage.removeItem("surveyCompleted");
+    localStorage.removeItem("currentSurvey");
+    localStorage.removeItem("pushedRespondentIds");
+
+    if (totalRespondents !== null) {
+      localStorage.setItem("totalRespondents", totalRespondents);
+    }
+
+    sessionStorage.setItem("justLoggedOut", "true");
+    window.location.href = "logout.html";
+  });
+
+
+    if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+    window.location.href = 'index.html'; // Redirect to login if not authenticated
+    }
+
+
+
+  const INACTIVITY_LIMIT = 15 * 60 * 1000; // 5 minutes in milliseconds
+  let inactivityTimer;
+  let remainingTime = INACTIVITY_LIMIT;
+  let countdownInterval;
+
+  function updateCountdownDisplay() {
+    const minutes = Math.floor(remainingTime / 60000);
+    const seconds = Math.floor((remainingTime % 60000) / 1000);
+    const countdownEl = document.getElementById("countdown");
+    if (countdownEl) {
+      countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+  }
+
+  function startCountdown() {
+    clearInterval(countdownInterval);
+    countdownInterval = setInterval(() => {
+      remainingTime -= 1000;
+      if (remainingTime <= 0) {
+        clearInterval(countdownInterval);
+      }
+      updateCountdownDisplay();
+    }, 1000);
+  }
+
+  function resetInactivityTimer() {
+    clearTimeout(inactivityTimer);
+    clearInterval(countdownInterval);
+
+    remainingTime = INACTIVITY_LIMIT;
+    updateCountdownDisplay();
+    startCountdown();
+
+    inactivityTimer = setTimeout(() => {
+      autoLogout();
+    }, INACTIVITY_LIMIT);
+  }
+
+  function autoLogout() {
+    sessionStorage.clear();
+    const totalRespondents = localStorage.getItem("totalRespondents");
+
+    // Remove relevant items
+    localStorage.removeItem("currentUserId");
+    localStorage.removeItem("showIdInput");
+    localStorage.removeItem("surveyCompleted");
+    localStorage.removeItem("currentSurvey");
+    localStorage.removeItem("pushedRespondentIds");
+
+    if (totalRespondents !== null) {
+      localStorage.setItem("totalRespondents", totalRespondents);
+    }
+
+    sessionStorage.setItem("justLoggedOut", "true");
+    window.location.href = "logout.html";
+  }
+
+  // Attach listeners to reset timer on user activity
+  ['click', 'mousemove', 'keydown', 'touchstart'].forEach(event => {
+    document.addEventListener(event, resetInactivityTimer);
+  });
+
+  // Start on page load
+  resetInactivityTimer();
+
+
+document.getElementById("logout-button").addEventListener("click", () => {
+  //Clear session storage (login/session info)
+  sessionStorage.clear();
+
+
+  sessionStorage.setItem("justLoggedOut", "true");
+
+  //Redirect to login page
+  window.location.href = "../logout.html";
+});
+
+    </script>
+
+
+    <div id="timeout-timer">
+    Sesi akan tamat secara automatik dalam: <span id="countdown">--:--</span>
+    </div>
+
+</body>
+
+<!--Version No. if there are any updates, bug fixes or new features applied-->
+<footer>
+    <p>v 4.1.13</p>
+</footer>
+</html> 
