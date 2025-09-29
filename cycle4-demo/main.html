@@ -227,26 +227,52 @@ async function fetchLocationName(lat, lon) {
   // }
 
 
+// function updateLocation(position) {
+//   const lat = position.coords.latitude;
+//   const lon = position.coords.longitude;
+
+//   if (navigator.onLine) {
+//     // ONLINE: Try reverse geocoding to get location name
+//     document.querySelectorAll('.location-display').forEach(el => {
+//       el.textContent = 'Menentukan lokasi anda (atas talian)...';
+//     });
+//     fetchLocationName(lat, lon);
+//   } else {
+//     // OFFLINE: Fallback to raw GPS coordinates
+//     const rawLocation = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)}`;
+//     document.querySelectorAll('.location-display').forEach(el => {
+//       el.textContent = rawLocation;
+//     });
+
+//     // Store in localStorage
+//     let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
+//     survey.answers.location = rawLocation;
+//     localStorage.setItem("currentSurvey", JSON.stringify(survey));
+//   }
+// }
+
+
 function updateLocation(position) {
   const lat = position.coords.latitude;
   const lon = position.coords.longitude;
 
   if (navigator.onLine) {
-    // ONLINE: Try reverse geocoding to get location name
     document.querySelectorAll('.location-display').forEach(el => {
       el.textContent = 'Menentukan lokasi anda (atas talian)...';
     });
     fetchLocationName(lat, lon);
   } else {
-    // OFFLINE: Fallback to raw GPS coordinates
+    // OFFLINE: fallback to raw GPS coordinates
     const rawLocation = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)}`;
     document.querySelectorAll('.location-display').forEach(el => {
       el.textContent = rawLocation;
     });
 
-    // Store in localStorage
     let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
-    survey.answers.location = rawLocation;
+    survey.answers = survey.answers || {};
+    survey.answers.latitude = lat;
+    survey.answers.longitude = lon;
+    survey.answers.locationName = rawLocation;
     localStorage.setItem("currentSurvey", JSON.stringify(survey));
   }
 }
@@ -256,22 +282,34 @@ function fetchLocationName(lat, lon) {
 
   fetch(url, {
     headers: {
-      'User-Agent': 'SurveyApp/1.0 (youremail@example.com)'  // Add a real email if possible
+      'User-Agent': 'SurveyApp/1.0 (youremail@example.com)'  // Replace with your email
     }
   })
     .then(response => response.json())
     .then(data => {
-      // Use full formatted address here
-      const location = data.display_name || 'Lokasi tidak dapat dikenalpasti';
+      const address = data.address || {};
+      // Construct full address string (you can customize which parts to include)
+      const parts = [
+        address.road,
+        address.neighbourhood,
+        address.suburb,
+        address.city || address.town || address.village || address.hamlet,
+        address.state,
+        address.postcode,
+        address.country
+      ];
+      const locationName = parts.filter(Boolean).join(', ') || 'Lokasi tidak dapat dikenalpasti';
 
-      // Update all elements with .location-display
       document.querySelectorAll('.location-display').forEach(el => {
-        el.textContent = location;
+        el.textContent = locationName;
       });
 
-      // Save location to localStorage
+      // Save lat, lon, and location name
       let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
-      survey.answers.location = location;
+      survey.answers = survey.answers || {};
+      survey.answers.latitude = lat;
+      survey.answers.longitude = lon;
+      survey.answers.locationName = locationName;
       localStorage.setItem("currentSurvey", JSON.stringify(survey));
     })
     .catch(error => {
@@ -281,6 +319,7 @@ function fetchLocationName(lat, lon) {
       });
     });
 }
+
 
 
 function handleError(error) {

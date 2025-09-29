@@ -385,6 +385,8 @@ function showIdInput() {
             surveyContainer.appendChild(backButton);
         }
 
+
+
         if (question.id === "mengundiAdun") {
             const currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
             const selectedDun = currentSurvey.answers?.dun?.trim();
@@ -1462,7 +1464,9 @@ function handleAnswer(questionId, selectedOption) {
             mengundiAdunLain : currentSurvey.answers.mengundiAdunLain || "-",
             pemimpinsabah: currentSurvey.answers.pemimpinSabah || "-",
             isiboranglagi: currentSurvey.answers.isiBorangLagi || "-",
-            lokasi: currentSurvey.answers.location || "-",
+            lokasi: currentSurvey.answers.locationName || "-",
+            latitude: currentSurvey.answers.latitude || null,
+            longitude: currentSurvey.answers.longitude || null,
             responseid: uniqueId,
             starttime: formattedStartTime,
             endtime: formattedEndTime,
