@@ -38,6 +38,9 @@
   <div class="navbar">
     <span class="hamburger" id="hamburger">&#9776;</span>
     <span class="navbar-title">IDS | Fasa 4 (2025)</span>
+    <span id="username" class="navbar-username">
+    <i class="fas fa-user" style="margin-right:10px;"></i>Memuat...
+  </span>
   </div>
 
   <!-- ✅ Sidepanel -->
@@ -52,7 +55,7 @@
 
   <!-- ✅ Main Content -->
   <div class="main-content" id="mainContent">
-    <h2>Dashboard Overview</h2>
+    <h2>Dashboard</h2>
     <iframe
       width="100%"
       src="https://app.powerbi.com/view?r=eyJrIjoiNDJiMTI4MDMtNzYzZC00MzJjLTllMjktNDBmNDU4ZDM3NTgyIiwidCI6IjNiNmFjMTJhLTgwMDAtNGYwZS1iYmMyLWYwNzhiNTY0NGFlNiIsImMiOjEwfQ%3D%3D"
@@ -162,5 +165,22 @@
 
     resetInactivityTimer();
   </script>
+  <script>
+// Wait until the DOM is ready
+document.addEventListener("DOMContentLoaded", () => {
+  // Retrieve user data from sessionStorage
+  const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
+
+  // Try to use enumerator_code or fallback to name
+  const displayName = userData.enumerator_code || userData.name || "Pengguna";
+
+  // Replace username in the navbar
+  const usernameEl = document.getElementById("username");
+  if (usernameEl) {
+    usernameEl.innerHTML = `<i class="fas fa-user" style="margin-right:10px;"></i>${displayName}`;
+    usernameEl.title = userData.role || ""; // Optional: show role as tooltip
+  }
+});
+</script>
 </body>
 </html>

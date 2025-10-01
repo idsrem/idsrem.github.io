@@ -6,28 +6,14 @@
   <link rel="stylesheet" href="/cycle4-demo/admin/user_management.css" />
   <title>IDS | Fasa 4 (2025)</title>
   <link rel="icon" type="image/x-icon" href="ids_logo.png" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Basic&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Hind+Madurai:wght@300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Share+Tech&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
-    rel="stylesheet"
-  />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Basic&family=Chakra+Petch&family=Hind+Madurai&family=Poppins&family=Share+Tech&family=Source+Sans+3&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    /* Inline styles to reflect changes */
     .main-content {
       transition: margin-left 0.3s ease;
       padding: 20px;
       margin-left: 0;
     }
-
     .main-content.shifted {
       margin-left: 250px;
     }
@@ -38,6 +24,7 @@
   <div class="navbar">
     <span class="hamburger" id="hamburger">&#9776;</span>
     <span class="navbar-title">IDS | Fasa 4 (2025)</span>
+    <span id="username" class="navbar-username"><i class="fas fa-user" style="margin-right:10px;"></i>Memuat...</span>
   </div>
 
   <!-- ✅ Sidepanel -->
@@ -53,10 +40,8 @@
   <!-- ✅ Main Content -->
   <div class="main-content" id="mainContent">
     <h2>User Management</h2>
-    <!-- Add User Button -->
     <button id="addUserBtn" class="add-user-button">+ Add User</button>
 
-    <!-- Users Table -->
     <table id="userTable">
       <thead>
         <tr>
@@ -67,16 +52,14 @@
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
-        <!-- Filled by JavaScript -->
-      </tbody>
+      <tbody></tbody>
     </table>
 
-    <!-- Add User Modal -->
+    <!-- Modal -->
     <div id="userModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
-        <h3>Add New User</h3>
+        <h3>Add / Edit User</h3>
         <form id="userForm">
           <input type="text" name="name" placeholder="Name" required />
           <select name="role" required>
@@ -85,33 +68,29 @@
             <option value="Enumerator">Enumerator</option>
           </select>
           <input type="text" name="enumerator_code" placeholder="Enumerator Code" required />
-          <input type="password" name="password" placeholder="Password" required />
-          <input type="password" name="confirmPassword" placeholder="Confirm Password" required />
-          <button type="submit">Create User</button>
+          <input type="password" name="password" placeholder="Password" />
+          <input type="password" name="confirmPassword" placeholder="Confirm Password" />
+          <button type="submit">Save User</button>
         </form>
       </div>
     </div>
   </div>
 
-  <div id="timeout-timer">
-    Sesi akan tamat secara automatik dalam: <span id="countdown">--:--</span>
-  </div>
-
-  <footer>
-    <p>v 4.1.18</p>
-  </footer>
-
   <script>
-    const hamburger = document.getElementById("hamburger");
-    const sidePanel = document.getElementById("sidePanel");
-    const mainContent = document.getElementById("mainContent");
     const modal = document.getElementById('userModal');
-    const openBtn = document.getElementById('addUserBtn');
-    const closeBtn = document.querySelector('.close');
     const form = document.getElementById('userForm');
     const tableBody = document.querySelector('#userTable tbody');
+    const openBtn = document.getElementById('addUserBtn');
+    const closeBtn = document.querySelector('.close');
+    let editUserId = null;
 
-    openBtn.onclick = () => modal.style.display = 'block';
+    // Open modal for add
+    openBtn.onclick = () => {
+      editUserId = null;
+      form.reset();
+      modal.style.display = 'block';
+    };
+
     closeBtn.onclick = () => modal.style.display = 'none';
     window.onclick = e => { if (e.target === modal) modal.style.display = 'none'; };
 
@@ -126,35 +105,30 @@
         confirmPassword: form.confirmPassword.value
       };
 
-      if (formData.password !== formData.confirmPassword) {
+      if (formData.password && formData.password !== formData.confirmPassword) {
         alert("Passwords do not match");
         return;
       }
 
+      const url = editUserId
+        ? `https://atiqahst-github-io.onrender.com/users/${editUserId}`
+        : `https://atiqahst-github-io.onrender.com/users`;
+
+      const method = editUserId ? 'PUT' : 'POST';
+
       try {
-        const res = await fetch('https://atiqahst-github-io.onrender.com/users', {
-          method: 'POST',
+        const res = await fetch(url, {
+          method,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)
         });
 
-        const contentType = res.headers.get('content-type');
         if (!res.ok) {
-          if (contentType && contentType.includes('application/json')) {
-            const errorData = await res.json();
-            throw new Error(errorData.error || 'Failed to create user');
-          } else {
-            throw new Error('Failed to create user, server returned non-JSON response');
-          }
+          const errorData = await res.json();
+          throw new Error(errorData.error || "Operation failed");
         }
 
-        if (!contentType || !contentType.includes('application/json')) {
-          throw new Error('Server did not return JSON');
-        }
-
-        const data = await res.json();
-
-        alert('User created!');
+        alert(editUserId ? "User updated!" : "User created!");
         modal.style.display = 'none';
         form.reset();
         loadUsers();
@@ -166,65 +140,93 @@
     async function loadUsers() {
       try {
         const res = await fetch('https://atiqahst-github-io.onrender.com/users');
-
-        const contentType = res.headers.get('content-type');
-
-        if (!res.ok) {
-          if (contentType && contentType.includes('application/json')) {
-            const errorData = await res.json();
-            throw new Error(errorData.error || 'Failed to load users');
-          } else {
-            throw new Error('Failed to load users, server returned non-JSON response');
-          }
-        }
-
-        if (!contentType || !contentType.includes('application/json')) {
-          throw new Error('Server did not return JSON');
-        }
-
         const users = await res.json();
 
         tableBody.innerHTML = '';
         users.forEach(user => {
           const tr = document.createElement('tr');
+          tr.setAttribute('data-id', user.id);
           tr.innerHTML = `
             <td>${user.name}</td>
             <td>${user.role}</td>
             <td>${user.enumerator_code}</td>
             <td>${new Date(user.created_at).toLocaleString()}</td>
             <td>
-              <!-- You can add edit/delete buttons here -->
+              <button class="edit-btn"><i class="fas fa-edit"></i></button>
+              <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
             </td>
           `;
           tableBody.appendChild(tr);
         });
-      } catch (error) {
-        alert(error.message);
+
+        attachActionListeners();
+      } catch (err) {
+        alert('Failed to load users');
+      }
+    }
+
+    function attachActionListeners() {
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', handleEdit);
+      });
+
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', handleDelete);
+      });
+    }
+
+    function handleEdit(e) {
+      const row = e.target.closest('tr');
+      editUserId = row.getAttribute('data-id');
+      form.name.value = row.children[0].textContent;
+      form.role.value = row.children[1].textContent;
+      form.enumerator_code.value = row.children[2].textContent;
+      form.password.value = '';
+      form.confirmPassword.value = '';
+      modal.style.display = 'block';
+    }
+
+    async function handleDelete(e) {
+      const row = e.target.closest('tr');
+      const userId = row.getAttribute('data-id');
+      const confirmDelete = confirm("Are you sure you want to delete this user?");
+      if (!confirmDelete) return;
+
+      try {
+        const res = await fetch(`https://atiqahst-github-io.onrender.com/users/${userId}`, {
+          method: "DELETE"
+        });
+
+        if (!res.ok) throw new Error("Delete failed");
+
+        alert("User deleted successfully");
+        loadUsers();
+      } catch (err) {
+        alert(err.message);
       }
     }
 
     loadUsers();
+  </script>
 
-    hamburger.addEventListener("click", () => {
-      const isOpen = sidePanel.style.width === "250px";
-      sidePanel.style.width = isOpen ? "0" : "250px";
-      mainContent.classList.toggle("shifted", !isOpen);
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
+      const displayName = userData.enumerator_code || userData.name || "Pengguna";
+      const usernameEl = document.getElementById("username");
+      if (usernameEl) {
+        usernameEl.innerHTML = `<i class="fas fa-user" style="margin-right:10px;"></i>${displayName}`;
+        usernameEl.title = userData.role || "";
+      }
     });
 
     document.getElementById("logout-button-sidebar").addEventListener("click", () => {
       sessionStorage.clear();
       const totalRespondents = localStorage.getItem("totalRespondents");
-
-      localStorage.removeItem("currentUserId");
-      localStorage.removeItem("showIdInput");
-      localStorage.removeItem("surveyCompleted");
-      localStorage.removeItem("currentSurvey");
-      localStorage.removeItem("pushedRespondentIds");
-
+      localStorage.clear();
       if (totalRespondents !== null) {
         localStorage.setItem("totalRespondents", totalRespondents);
       }
-
       sessionStorage.setItem("justLoggedOut", "true");
       window.location.href = "logout.html";
     });
@@ -232,65 +234,6 @@
     if (sessionStorage.getItem('isLoggedIn') !== 'true') {
       window.location.href = 'index.html';
     }
-
-    const INACTIVITY_LIMIT = 15 * 60 * 1000;
-    let inactivityTimer;
-    let remainingTime = INACTIVITY_LIMIT;
-    let countdownInterval;
-
-    function updateCountdownDisplay() {
-      const minutes = Math.floor(remainingTime / 60000);
-      const seconds = Math.floor((remainingTime % 60000) / 1000);
-      const countdownEl = document.getElementById("countdown");
-      if (countdownEl) {
-        countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-      }
-    }
-
-    function startCountdown() {
-      clearInterval(countdownInterval);
-      countdownInterval = setInterval(() => {
-        remainingTime -= 1000;
-        if (remainingTime <= 0) {
-          clearInterval(countdownInterval);
-        }
-        updateCountdownDisplay();
-      }, 1000);
-    }
-
-    function resetInactivityTimer() {
-      clearTimeout(inactivityTimer);
-      clearInterval(countdownInterval);
-      remainingTime = INACTIVITY_LIMIT;
-      updateCountdownDisplay();
-      startCountdown();
-
-      inactivityTimer = setTimeout(autoLogout, INACTIVITY_LIMIT);
-    }
-
-    function autoLogout() {
-      sessionStorage.clear();
-      const totalRespondents = localStorage.getItem("totalRespondents");
-
-      localStorage.removeItem("currentUserId");
-      localStorage.removeItem("showIdInput");
-      localStorage.removeItem("surveyCompleted");
-      localStorage.removeItem("currentSurvey");
-      localStorage.removeItem("pushedRespondentIds");
-
-      if (totalRespondents !== null) {
-        localStorage.setItem("totalRespondents", totalRespondents);
-      }
-
-      sessionStorage.setItem("justLoggedOut", "true");
-      window.location.href = "logout.html";
-    }
-
-    ['click', 'mousemove', 'keydown', 'touchstart'].forEach(event => {
-      document.addEventListener(event, resetInactivityTimer);
-    });
-
-    resetInactivityTimer();
   </script>
 </body>
 </html>

@@ -152,6 +152,75 @@ app.post('/users', async (req, res) => {
 });
 
 
+// Update a user
+app.put('/users/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, role, enumerator_code, password, confirmPassword } = req.body;
+
+  if (!name || !role || !enumerator_code) {
+    return res.status(400).json({ error: 'Name, role, and enumerator code are required' });
+  }
+
+  try {
+    // Check if enumerator_code is taken by another user
+    const existing = await pool.query(
+      'SELECT id FROM users WHERE enumerator_code = $1 AND id != $2',
+      [enumerator_code, id]
+    );
+
+    if (existing.rows.length > 0) {
+      return res.status(400).json({ error: 'Enumerator code already in use' });
+    }
+
+    let hashedPassword = null;
+    if (password || confirmPassword) {
+      if (password !== confirmPassword) {
+        return res.status(400).json({ error: 'Passwords do not match' });
+      }
+      hashedPassword = await bcrypt.hash(password, 10);
+    }
+
+    if (hashedPassword) {
+      await pool.query(
+        `UPDATE users SET name = $1, role = $2, enumerator_code = $3, password_hash = $4 WHERE id = $5`,
+        [name, role, enumerator_code, hashedPassword, id]
+      );
+    } else {
+      await pool.query(
+        `UPDATE users SET name = $1, role = $2, enumerator_code = $3 WHERE id = $4`,
+        [name, role, enumerator_code, id]
+      );
+    }
+
+    res.json({ message: 'User updated successfully' });
+  } catch (err) {
+    console.error('Error updating user:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+// Delete a user
+app.delete('/users/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const result = await pool.query('DELETE FROM users WHERE id = $1 RETURNING id', [id]);
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json({ message: 'User deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting user:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
+
 //work in progress for cycle 2
 // app.post('/exportResponse', async (req, res) => {
 //   const newDataArray = req.body; // The new data array
