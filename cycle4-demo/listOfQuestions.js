@@ -2,11 +2,11 @@ export const surveyQuestions = [
     {
         id: "introduction",
         picture: "ids_logo.png",
-        text: "Selamat datang ke kaji selidik bagi 'Pemantauan Dinamika Pembangunan Kerajaan Fasa 4 Bagi Tahun 2025'.",
+        text: "Selamat datang ke kaji selidik bagi 'Pemantauan Dinamika Pembangunan Kerajaan Fasa 4 Bagi Tahun 2025'",
         options: [{name:"Mula Survey"}]
     },
     {
-        id: "zone",
+        id: "zon",
         text: "Sila pilih 'Zon' anda",
         options: [
             { name: "Kudat", parlimenCodes: ["P167", "P168"] },
@@ -80,6 +80,29 @@ export const surveyQuestions = [
             {name: "Melayu"},
             {name: "India"},
             {name: "Lain - Lain"}
+        ]
+    },
+    {
+        id: "kerajaanSemasa",
+        text: "Kategori manakah kerajaan semasa telah menambah baik kualiti kehidupan rakyat Sabah?",
+        options: [
+            {name: "Kemajuan Ekonomi"},
+            {name: "Perkembangan MA63 yang dijanjikan"},
+            {name: "Kerja & Gaji"},
+            {name: "Infrastruktur lebih baik"},
+            {name: "Hubungan kuat dengan Persekutan"},
+            {name: "Pendidikan"}
+        ]
+    },
+    {
+        id: "mempengaruhiUndian",
+        text: "Apakah isu utama yang akan mempengaruhi undian anda dalam pilihan raya akan datang?",
+        type: "multiselect",
+        options: [
+            {name: "Rasuah"},
+            {name: "Bencana Alam"},
+            {name: "Skandal"},
+            {name: "Isu Air & Elektrik"}
         ]
     },
     {

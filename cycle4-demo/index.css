@@ -68,6 +68,12 @@ body {
     text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
 }
 
+#location{
+  text-align: center;
+  font-size: 16px;
+  font-weight: 900;
+}
+
 
   .poweredBy{
     align-items: center;
@@ -701,6 +707,10 @@ td{
 
     .dataBlu{
       width: 100px;
+    }
+
+    .navbar-title{
+      display: none;
     }
 
     .container-view {

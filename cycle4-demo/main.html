@@ -274,6 +274,14 @@ function updateLocation(position) {
     survey.answers.longitude = lon;
     survey.answers.locationName = rawLocation;
     localStorage.setItem("currentSurvey", JSON.stringify(survey));
+
+    // Store last known location for fallback
+  localStorage.setItem("lastKnownLocation", JSON.stringify({
+  latitude: lat,
+  longitude: lon,
+  locationName: locationName  // or rawLocation in offline case
+}));
+
   }
 }
 
@@ -311,6 +319,14 @@ function fetchLocationName(lat, lon) {
       survey.answers.longitude = lon;
       survey.answers.locationName = locationName;
       localStorage.setItem("currentSurvey", JSON.stringify(survey));
+
+      // Store last known location for fallback
+      localStorage.setItem("lastKnownLocation", JSON.stringify({
+        latitude: lat,
+        longitude: lon,
+        locationName: locationName  // or rawLocation in offline case
+      }));
+
     })
     .catch(error => {
       console.error('Reverse geocoding failed:', error);
@@ -603,6 +619,6 @@ document.getElementById("logout-button").addEventListener("click", () => {
 
 <!--Version No. if there are any updates, bug fixes or new features applied-->
 <footer>
-    <p>v 4.1.15</p>
+    <p>v 4.1.17</p>
 </footer>
 </html> 

@@ -502,6 +502,100 @@ function showIdInput() {
         if (question.id === "umur") {
             showAgeInput(question.text, question.id, index + 1);
         }
+
+
+        else if (question.type === "multiselect") {
+            const checkboxesDiv = document.createElement("div");
+            checkboxesDiv.classList.add("options-container");
+
+            let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
+
+// Make sure it's always an array to begin with
+if (!Array.isArray(currentSurvey.answers[question.id])) {
+    currentSurvey.answers[question.id] = [];
+}
+
+question.options.forEach(option => {
+    const label = document.createElement("label");
+    label.classList.add("answer-option");
+
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.value = option.name;
+
+    // Always get the current array from storage (prevents stale data)
+    input.checked = currentSurvey.answers[question.id].includes(option.name);
+
+    input.addEventListener("change", (e) => {
+        let updatedSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
+
+        if (!Array.isArray(updatedSurvey.answers[question.id])) {
+            updatedSurvey.answers[question.id] = [];
+        }
+
+        if (e.target.checked) {
+            if (!updatedSurvey.answers[question.id].includes(option.name)) {
+                updatedSurvey.answers[question.id].push(option.name);
+            }
+        } else {
+            updatedSurvey.answers[question.id] = updatedSurvey.answers[question.id].filter(
+                item => item !== option.name
+            );
+        }
+
+        localStorage.setItem("currentSurvey", JSON.stringify(updatedSurvey));
+        console.log("Updated answers:", updatedSurvey.answers[question.id]);
+    });
+
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(option.name));
+    checkboxesDiv.appendChild(label);
+});
+
+
+           // const currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
+
+            // const selectedValues = currentSurvey.answers[question.id] || [];
+
+            // question.options.forEach(option => {
+            //     const label = document.createElement("label");
+            //     label.classList.add("answer-option");
+
+            //     const input = document.createElement("input");
+            //     input.type = "checkbox";
+            //     input.value = option.name;
+            //     input.checked = selectedValues.includes(option.name);
+
+            //     input.addEventListener("change", (e) => {
+            //         const checked = e.target.checked;
+            //         let updatedValues = [...selectedValues];
+
+            //         if (checked) {
+            //             updatedValues.push(option.name);
+            //         } else {
+            //             updatedValues = updatedValues.filter(item => item !== option.name);
+            //         }
+
+            //         currentSurvey.answers[question.id] = updatedValues;
+            //         localStorage.setItem("currentSurvey", JSON.stringify(currentSurvey));
+                //});
+
+                // label.appendChild(input);
+                // label.appendChild(document.createTextNode(option.name));
+                // checkboxesDiv.appendChild(label);
+            //});
+
+            // Add a "Next" button to proceed
+            const nextButton = document.createElement("button");
+            nextButton.textContent = "Seterusnya";
+            nextButton.classList.add("survey-option");
+            nextButton.addEventListener("click", () => {
+                showQuestion(index + 1);
+            });
+
+            surveyContainer.append(questionDiv, checkboxesDiv, nextButton);
+        }
+
     
         else {
             const optionsDiv = document.createElement("div");
@@ -629,7 +723,7 @@ function showIdInput() {
             showAdunLainInput(question.text, question.id, index + 1);
         }
       
-        else if (question.id === "zone") {
+        else if (question.id === "zon") {
          handleAnswer(question.id, option);
     
         const parlimenQuestion = surveyQuestions.find(q => q.id === "parlimen");
@@ -868,12 +962,12 @@ function showIdInput() {
             }
         });
     
-        // Add "Previous" button to return to zone selection
+        // Add "Previous" button to return to zoe selection
         const backButton = document.createElement("button");
         backButton.innerHTML = `<i class="fas fa-arrow-left" style="color: black; margin-right: 5px;"></i> Kembali`;
         backButton.classList.add("previous-button");
         backButton.addEventListener("click", () => {
-            showQuestion(nextIndex - 1); // Go back to Zone selection
+            showQuestion(nextIndex - 1); // Go back to Zon selection
         });
     
         surveyContainer.append(questionTitle, inputField, nextButton, backButton);
@@ -922,12 +1016,12 @@ function showFilteredParliments(parlimen, nextIndex) {
         surveyContainer.appendChild(button);
     });
 
-    // Add "Previous" button to return to zone selection
+    // Add "Previous" button to return to zon selection
     const backButton = document.createElement("button");
     backButton.innerHTML = `<i class="fas fa-arrow-left" style="color: black; margin-right: 5px;"></i> Kembali`;
     backButton.classList.add("previous-button");
     backButton.addEventListener("click", () => {
-        showQuestion(1); // Go back to Zone selection
+        showQuestion(1); // Go back to Zon selection
     });
     surveyContainer.appendChild(backButton);
 }
@@ -1099,11 +1193,11 @@ function showBangsaLainInput(questionText, questionId, nextIndex) {
     instructionText.style.marginBottom = "30px";
 
     // Create question title (optional)
-    const questionTitle = document.createElement("p");
-    questionTitle.textContent = questionText;
-    questionTitle.style.textAlign = "center";
-    questionTitle.style.marginTop = "20px";
-    questionTitle.style.marginBottom = "20px";
+    // const questionTitle = document.createElement("p");
+    // questionTitle.textContent = questionText;
+    // questionTitle.style.textAlign = "center";
+    // questionTitle.style.marginTop = "20px";
+    // questionTitle.style.marginBottom = "20px";
 
     const inputField = document.createElement("input");
     inputField.type = "text";
@@ -1135,7 +1229,7 @@ function showBangsaLainInput(questionText, questionId, nextIndex) {
     handleAnswer(questionId, answerData);
 
     // Remove previous answer bubbles (if any)
-    document.querySelectorAll(".answer-bubble").forEach(el => el.remove());
+    // document.querySelectorAll(".answer-bubble").forEach(el => el.remove());
 
     // Show what the user entered or "Lain - Lain"
     const userMessage = document.createElement("div");
@@ -1179,9 +1273,8 @@ function showBangsaLainInput(questionText, questionId, nextIndex) {
             showQuestion(3);
         }, 1000);
     });
-
     // Append everything in correct order
-    surveyContainer.append(instructionText, questionTitle, inputField, submitButton, backButton);
+    surveyContainer.append(instructionText, inputField, submitButton, backButton);
 }
 
 
@@ -1448,31 +1541,43 @@ function handleAnswer(questionId, selectedOption) {
     // Generate a truly unique ID
     const uniqueId = generateUniqueId(existingIds);
 
+
+
     if (currentSurvey) {
+        const lastLocation = JSON.parse(localStorage.getItem("lastKnownLocation")) || {};
+         
         let formattedSurvey = {
             tarikh: currentSurvey.answers.date || "-",
+            responseid: uniqueId,
             kod: userid || "-",
-            zone: currentSurvey.answers.zone || "-",
+            zon: currentSurvey.answers.zon || "-",
             dun: currentSurvey.answers.dun || "-",
             umur: currentSurvey.answers.umur ? String(currentSurvey.answers.umur) : "-",
             jantina: currentSurvey.answers.jantina || "-",
             bangsa: currentSurvey.answers.bangsa || "-",
             bangsalain: currentSurvey.answers.bangsalain,
+            kerajaansemasa : currentSurvey.answers.kerajaanSemasa || "-",
+
+            // mempengaruhiundian : currentSurvey.answers.mempengaruhiUndian || "-",
+
+            mempengaruhiundian: Array.isArray(currentSurvey.answers.mempengaruhiUndian)
+            ? currentSurvey.answers.mempengaruhiUndian.join(", ")
+            : currentSurvey.answers.mempengaruhiUndian || "-",
+
             parlimen : currentSurvey.answers.parlimen || "-",
-            cenderungUntukUndi : currentSurvey.answers.cenderungUntukUndi || "-",
+            cenderunguntukundi : currentSurvey.answers.cenderungUntukUndi || "-",
             mengundiAdun: currentSurvey.answers.mengundiAdun || "-",
             mengundiAdunLain : currentSurvey.answers.mengundiAdunLain || "-",
             pemimpinsabah: currentSurvey.answers.pemimpinSabah || "-",
+            pemimpinsabahlain: currentSurvey.answers.pemimpinsabahlain || "-",
             isiboranglagi: currentSurvey.answers.isiBorangLagi || "-",
-            lokasi: currentSurvey.answers.locationName || "-",
-            latitude: currentSurvey.answers.latitude || null,
-            longitude: currentSurvey.answers.longitude || null,
-            responseid: uniqueId,
+            lokasi: currentSurvey.answers.locationName || lastLocation.locationName || "-",
+            latitude: currentSurvey.answers.latitude ?? lastLocation.latitude ?? null,
+            longitude: currentSurvey.answers.longitude ?? lastLocation.longitude ?? null,
             starttime: formattedStartTime,
             endtime: formattedEndTime,
             pushed: false
         };
-
         allSurveys.push(formattedSurvey);
         localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
     }
@@ -2109,6 +2214,8 @@ function redoSurvey() {
     userResponses = {};
     currentUserId = null;
 
+    
+
     //Clear local storage
     localStorage.removeItem("surveyCompleted");
     localStorage.removeItem("currentSurvey");
@@ -2137,6 +2244,8 @@ function redoSurvey() {
 
     //Start fresh from ID input
     showIdInput();
+
+    requestLocation();
 }
 
 
@@ -2213,7 +2322,7 @@ function redoSurvey() {
         // Define headers
         const headers = [
             "Kod", "Tarikh", "Zon", "Parlimen", "DUN", "Umur", "Jantina",
-            "Bangsa", "Bangsa Lain", "Mengundi Adun", "Mengundi Adun Lain", "Pemimpin Sabah", "Response ID", "Start Time"
+            "Bangsa", "Bangsa Lain", "Kerajaan Semasa", "Mempengaruhi Undian", "Mengundi Adun", "Mengundi Adun Lain", "Pemimpin Sabah", "Response ID", "Start Time"
         ];
 
         // Convert survey data
@@ -2222,13 +2331,15 @@ function redoSurvey() {
             return [
                 s.kod || "-",
                 s.tarikh || s.date || "-",
-                s.zone || "-",
+                s.zon || "-",
                 s.parlimen || "-",
                 s.dun || "-",
                 s.umur || "-",
                 s.jantina || "-",
                 s.bangsa || "-",
                 s.bangsalain || "-",
+                s.kerajaansemasa || "-",
+                s.mempengaruhiundian || "-",
                 s.mengundiAdun || "-",
                 s.mengundiAdunLain || "-",
                 s.pemimpinsabah || "-",

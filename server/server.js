@@ -186,6 +186,60 @@ app.post('/exportResponse', async (req, res) => {
 });
 
 
+
+app.post('/testResponse2', async (req, res) => {
+  const userDataArray = req.body;
+
+  console.log("Hi Habri");
+
+  // Validate input
+  if (!Array.isArray(userDataArray) || userDataArray.length === 0) {
+    return res.status(400).send('Invalid data');
+  }
+
+  // Define column names (in correct table order)
+  const columns = [
+    'tarikh', 'kod', 'dun', 'umur', 'jantina', 'bangsa', 'bangsalain',
+    'kerajaansemasa', 'mempengaruhiundian', 'cenderunguntukundi',
+    'mengundiAdun', 'mengundiAdunLain', 'pemimpinsabah', 'pemimpinsabahlain',
+    'lokasi', 'longitude', 'latitude', 'responseid', 'starttime', 'endtime'
+  ];
+
+  const columnCount = columns.length;
+
+  try {
+    // Dynamically generate placeholders
+    const placeholders = userDataArray.map((_, rowIndex) => {
+      const rowPlaceholders = columns.map((_, colIndex) =>
+        `$${rowIndex * columnCount + colIndex + 1}`
+      );
+      return `(${rowPlaceholders.join(', ')})`;
+    }).join(', ');
+
+    // Flatten values in correct column order
+    const values = userDataArray.flatMap(user =>
+      columns.map(col => user[col] ?? '') // Use empty string if any field is undefined
+    );
+
+    // Construct dynamic SQL query
+    const queryText = `
+      INSERT INTO cycle4Test (${columns.join(', ')})
+      VALUES ${placeholders}
+    `;
+
+    // Execute query
+    await pool.query(queryText, values);
+
+    // Respond success
+    res.status(200).json({ message: 'Data saved successfully' });
+
+  } catch (error) {
+    console.error('Error saving data:', error);
+    res.status(500).json({ message: 'Error saving data', error: error.message });
+  }
+});
+
+
 // for test table
 app.post('/testResponse', async (req, res) => {
   const userDataArray = req.body;  // The array of user data
@@ -199,7 +253,7 @@ app.post('/testResponse', async (req, res) => {
 
   try {
     // Construct the placeholders for the values dynamically
-    const columnCount = 24;  // Adjust based on the number of columns in your table
+    const columnCount = 25;  // Adjust based on the number of columns in your table
     const placeholders = userDataArray.map((_, index) => {
       return `(${Array.from({ length: columnCount }, (_, i) => `$${index * columnCount + (i + 1)}`).join(', ')})`;
     }).join(',');
@@ -207,16 +261,16 @@ app.post('/testResponse', async (req, res) => {
     // Flatten the userDataArray into a single array of values
     const values = userDataArray.reduce((acc, {
       tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain, pendapatperibadi, partiataucalon,
-      mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime
+      mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime, lokasi
     }) => {
       acc.push(tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain, pendapatperibadi, partiataucalon,
-        mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime || '');
+        mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime, lokasi || '');
       return acc;
     }, []);
 
     // Construct the SQL query dynamically | table name + column name
     const queryText = `INSERT INTO cycle2Test (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain,
-      pendapatperibadi, partiataucalon, mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime) 
+      pendapatperibadi, partiataucalon, mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime, lokasi) 
       VALUES ${placeholders}`;
 
     // Execute the query
@@ -230,7 +284,6 @@ app.post('/testResponse', async (req, res) => {
     res.status(500).json({ message: 'Error saving data', error: error.message });
   }
 });
-
 
 // for test table cycle 3
 app.post('/cycle3Demo', async (req, res) => {
@@ -262,6 +315,51 @@ app.post('/cycle3Demo', async (req, res) => {
 
     // Construct the SQL query dynamically | table name + column name
     const queryText = `INSERT INTO cycle3 (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, mengundiAdun,  cenderunguntukundi, pemimpinsabah, pemimpinsabahlain, responseid, starttime, endtime, mengundiAdunLain) 
+      VALUES ${placeholders}`;
+
+    // Execute the query
+    await pool.query(queryText, values);
+
+   // Send a JSON response
+    res.status(200).json({ message: 'Data saved successfully' });
+  } catch (error) {
+    console.error('Error saving data', error);
+    res.status(500).json({ message: 'Error saving data', error: error.message });
+  }
+});
+
+
+
+// for test table cycle 3
+app.post('/cycle4', async (req, res) => {
+  const userDataArray = req.body;  // The array of user data
+
+  console.log("Hi Amiirul");
+  
+  // Ensure the array is valid
+  if (!Array.isArray(userDataArray) || userDataArray.length === 0) {
+    return res.status(400).send('Invalid data');
+  }
+
+  try {
+    // Construct the placeholders for the values dynamically
+    const columnCount = 22;  // Adjust based on the number of columns in your table
+    const placeholders = userDataArray.map((_, index) => {
+      return `(${Array.from({ length: columnCount }, (_, i) => `$${index * columnCount + (i + 1)}`).join(', ')})`;
+    }).join(',');
+
+    // Flatten the userDataArray into a single array of values
+    const values = userDataArray.reduce((acc, { tarikh, responseid, kod, zon, dun, umur, jantina, bangsa, bangsalain, kerajaansemasa, mempengaruhiundian
+       , parlimen, cenderunguntukundi, mengundiAdun, mengundiAdunLain, pemimpinsabah, pemimpinsabahlain, lokasi, latitude, longitude, starttime, endtime
+
+    }) => {
+      acc.push(tarikh, responseid, kod, zon, dun, umur, jantina, bangsa, bangsalain, kerajaansemasa, mempengaruhiundian
+       , parlimen, cenderunguntukundi, mengundiAdun, mengundiAdunLain, pemimpinsabah, pemimpinsabahlain, lokasi, latitude, longitude, starttime, endtime || '');
+      return acc;
+    }, []);
+
+    // Construct the SQL query dynamically | table name + column name
+    const queryText = `INSERT INTO cycle4 (tarikh, responseid, kod, zon, dun, umur, jantina, bangsa, bangsalain, kerajaansemasa, mempengaruhiundian, parlimen, cenderunguntukundi, mengundiAdun, mengundiAdunLain, pemimpinsabah, pemimpinsabahlain, lokasi, latitude, longitude, starttime, endtime) 
       VALUES ${placeholders}`;
 
     // Execute the query
@@ -319,7 +417,6 @@ app.post('/cycle3Demo', async (req, res) => {
 //     res.status(500).json({ message: 'Error saving data', error: error.message });
 //   }
 //});
-
 
 // for test table cycle 3
 app.post('/testResponseCycle3', async (req, res) => {
