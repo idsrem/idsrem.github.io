@@ -20,9 +20,10 @@
   <span class="hamburger" id="hamburger">&#9776;</span>
   <span class="navbar-title">IDS | Permantauan Dinamika Pembangunan Kerajaan</span>
   <span id="username" class="navbar-username">
-    <i class="fas fa-user" style="margin-right:10px;"></i>ST00 
+    <i class="fas fa-user" style="margin-right:10px;"></i>Memuat...
   </span>
 </div>
+
 
 <div id="sidePanel" class="sidepanel">
   <a href="/cycle4-demo/main.html">
@@ -566,6 +567,25 @@ document.getElementById("logout-button").addEventListener("click", () => {
 
     </script>
 
+    <script>
+// Wait until the DOM is ready
+document.addEventListener("DOMContentLoaded", () => {
+  // Retrieve user data from sessionStorage
+  const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
+
+  // Try to use enumerator_code or fallback to name
+  const displayName = userData.enumerator_code || userData.name || "Pengguna";
+
+  // Replace username in the navbar
+  const usernameEl = document.getElementById("username");
+  if (usernameEl) {
+    usernameEl.innerHTML = `<i class="fas fa-user" style="margin-right:10px;"></i>${displayName}`;
+    usernameEl.title = userData.role || ""; // Optional: show role as tooltip
+  }
+});
+</script>
+
+
     <!-- Toast Notification Container -->
     <!--Toast Message-->
     <div id="toast-container"></div>
@@ -619,6 +639,6 @@ document.getElementById("logout-button").addEventListener("click", () => {
 
 <!--Version No. if there are any updates, bug fixes or new features applied-->
 <footer>
-    <p>v 4.1.17</p>
+    <p>v 4.1.18</p>
 </footer>
 </html> 
