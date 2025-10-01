@@ -36,28 +36,28 @@ function updateClockAndSurvey() {
     document.getElementById('clock-time').textContent = timeString;
     document.getElementById('clock-date').textContent = dateString;
 
-    // Working hours logic: 8:30 AM to 5:30 PM
-    const currentMinutes = hours * 60 + minutes;
-    const startMinutes = 6 * 60;
-    const endMinutes = 20 * 60;
+    // // Working hours logic: 8:30 AM to 5:30 PM
+    // const currentMinutes = hours * 60 + minutes;
+    // const startMinutes = 6 * 60;
+    // const endMinutes = 20 * 60;
 
-    const isWithinAllowedTime = currentMinutes >= startMinutes && currentMinutes <= endMinutes;
+    // const isWithinAllowedTime = currentMinutes >= startMinutes && currentMinutes <= endMinutes;
 
-    const surveyContainer = document.getElementById("survey-container");
-    const surveyCloseModal = document.getElementById("surveyCloseModal");
-    const containerView = document.querySelector(".container-view");
+    // const surveyContainer = document.getElementById("survey-container");
+    // const surveyCloseModal = document.getElementById("surveyCloseModal");
+    // const containerView = document.querySelector(".container-view");
 
-    if (isWithinAllowedTime) {
-        //Show everything
-        surveyContainer.style.display = "block";
-        containerView.style.display = "flex";
-        surveyCloseModal.style.display = "none";
-    } else {
-        // Hide entire app UI, show only pop-up
-        surveyContainer.style.display = "none";
-        containerView.style.display = "none";
-        surveyCloseModal.style.display = "block";
-    }
+    // if (isWithinAllowedTime) {
+    //     //Show everything
+    //     surveyContainer.style.display = "block";
+    //     containerView.style.display = "flex";
+    //     surveyCloseModal.style.display = "none";
+    // } else {
+    //     // Hide entire app UI, show only pop-up
+    //     surveyContainer.style.display = "none";
+    //     containerView.style.display = "none";
+    //     surveyCloseModal.style.display = "block";
+    // }
 }
 
 // Initial check
