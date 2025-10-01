@@ -64,10 +64,6 @@ app.post('/export', async (req, res) => {
   }
 });
 
-const express = require('express');
-const bcrypt = require('bcrypt');
-const pool = require('./db'); // your database connection
-
 
 app.post('/login', async (req, res) => {
   const { enumerator_code, password } = req.body;
