@@ -64,6 +64,42 @@ app.post('/export', async (req, res) => {
   }
 });
 
+const express = require('express');
+const bcrypt = require('bcrypt');
+const pool = require('./db'); // your database connection
+
+
+app.post('/login', async (req, res) => {
+  const { enumerator_code, password } = req.body;
+
+  try {
+    const result = await pool.query('SELECT * FROM users WHERE enumerator_code = $1', [enumerator_code]);
+
+    if (result.rows.length === 0) {
+      return res.status(401).json({ error: 'User not found' });
+    }
+
+    const user = result.rows[0];
+    const match = await bcrypt.compare(password, user.password_hash);
+
+    if (!match) {
+      return res.status(401).json({ error: 'Invalid password' });
+    }
+
+    res.json({
+      id: user.id,
+      name: user.name,
+      role: user.role,
+      enumerator_code: user.enumerator_code,
+    });
+
+  } catch (err) {
+    console.error('Login error:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 
 // Get all users (without password)
 app.get('/users', async (req, res) => {
