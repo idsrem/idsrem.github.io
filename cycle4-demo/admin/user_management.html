@@ -53,15 +53,48 @@
   <!-- ✅ Main Content -->
   <div class="main-content" id="mainContent">
     <h2>User Management</h2>
-    <iframe
-      width="100%"
-      src="https://app.powerbi.com/view?r=eyJrIjoiNDJiMTI4MDMtNzYzZC00MzJjLTllMjktNDBmNDU4ZDM3NTgyIiwidCI6IjNiNmFjMTJhLTgwMDAtNGYwZS1iYmMyLWYwNzhiNTY0NGFlNiIsImMiOjEwfQ%3D%3D"
-      frameborder="0"
-      allowfullscreen="true"
-    ></iframe>
-    <div id="timeout-timer">
-      Sesi akan tamat secara automatik dalam: <span id="countdown">--:--</span>
+    <!-- Add User Button -->
+    <button id="addUserBtn" class="add-user-button">+ Add User</button>
+
+    <!-- Users Table -->
+    <table id="userTable">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Role</th>
+          <th>Enumerator Code</th>
+          <th>Created At</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Filled by JavaScript -->
+      </tbody>
+    </table>
+
+    <!-- Add User Modal -->
+    <div id="userModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Add New User</h3>
+        <form id="userForm">
+          <input type="text" name="name" placeholder="Name" required />
+          <select name="role" required>
+            <option value="">Select Role</option>
+            <option value="Admin">Admin</option>
+            <option value="Enumerator">Enumerator</option>
+          </select>
+          <input type="text" name="enumerator_code" placeholder="Enumerator Code" required />
+          <input type="password" name="password" placeholder="Password" required />
+          <input type="password" name="confirmPassword" placeholder="Confirm Password" required />
+          <button type="submit">Create User</button>
+        </form>
+      </div>
     </div>
+  </div>
+
+  <div id="timeout-timer">
+    Sesi akan tamat secara automatik dalam: <span id="countdown">--:--</span>
   </div>
 
   <footer>
@@ -72,13 +105,111 @@
     const hamburger = document.getElementById("hamburger");
     const sidePanel = document.getElementById("sidePanel");
     const mainContent = document.getElementById("mainContent");
+    const modal = document.getElementById('userModal');
+    const openBtn = document.getElementById('addUserBtn');
+    const closeBtn = document.querySelector('.close');
+    const form = document.getElementById('userForm');
+    const tableBody = document.querySelector('#userTable tbody');
+
+    openBtn.onclick = () => modal.style.display = 'block';
+    closeBtn.onclick = () => modal.style.display = 'none';
+    window.onclick = e => { if (e.target === modal) modal.style.display = 'none'; };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        name: form.name.value.trim(),
+        role: form.role.value,
+        enumerator_code: form.enumerator_code.value.trim(),
+        password: form.password.value,
+        confirmPassword: form.confirmPassword.value
+      };
+
+      if (formData.password !== formData.confirmPassword) {
+        alert("Passwords do not match");
+        return;
+      }
+
+      try {
+        const res = await fetch('https://atiqahst-github-io.onrender.com/users', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+
+        const contentType = res.headers.get('content-type');
+        if (!res.ok) {
+          if (contentType && contentType.includes('application/json')) {
+            const errorData = await res.json();
+            throw new Error(errorData.error || 'Failed to create user');
+          } else {
+            throw new Error('Failed to create user, server returned non-JSON response');
+          }
+        }
+
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Server did not return JSON');
+        }
+
+        const data = await res.json();
+
+        alert('User created!');
+        modal.style.display = 'none';
+        form.reset();
+        loadUsers();
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+
+    async function loadUsers() {
+      try {
+        const res = await fetch('https://atiqahst-github-io.onrender.com/users');
+
+        const contentType = res.headers.get('content-type');
+
+        if (!res.ok) {
+          if (contentType && contentType.includes('application/json')) {
+            const errorData = await res.json();
+            throw new Error(errorData.error || 'Failed to load users');
+          } else {
+            throw new Error('Failed to load users, server returned non-JSON response');
+          }
+        }
+
+        if (!contentType || !contentType.includes('application/json')) {
+          throw new Error('Server did not return JSON');
+        }
+
+        const users = await res.json();
+
+        tableBody.innerHTML = '';
+        users.forEach(user => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${user.name}</td>
+            <td>${user.role}</td>
+            <td>${user.enumerator_code}</td>
+            <td>${new Date(user.created_at).toLocaleString()}</td>
+            <td>
+              <!-- You can add edit/delete buttons here -->
+            </td>
+          `;
+          tableBody.appendChild(tr);
+        });
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+
+    loadUsers();
 
     hamburger.addEventListener("click", () => {
       const isOpen = sidePanel.style.width === "250px";
       sidePanel.style.width = isOpen ? "0" : "250px";
       mainContent.classList.toggle("shifted", !isOpen);
     });
-
 
     document.getElementById("logout-button-sidebar").addEventListener("click", () => {
       sessionStorage.clear();

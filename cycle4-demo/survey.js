@@ -36,6 +36,7 @@ function updateClockAndSurvey() {
     document.getElementById('clock-time').textContent = timeString;
     document.getElementById('clock-date').textContent = dateString;
 
+    //!-- REMEMEBER TO UNCOMMENT WHEN THE TIME COMES
     // // Working hours logic: 8:30 AM to 5:30 PM
     // const currentMinutes = hours * 60 + minutes;
     // const startMinutes = 6 * 60;

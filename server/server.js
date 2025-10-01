@@ -1,6 +1,7 @@
 const express = require('express');
 const { Pool } = require('pg');
 const bodyParser = require('body-parser');
+const bcrypt = require('bcrypt');
 const cors = require('cors');
 require('dotenv').config();
 
@@ -60,6 +61,61 @@ app.post('/export', async (req, res) => {
   } catch (error) {
     console.error('Error saving data', error);
     res.status(500).send('Error saving data');
+  }
+});
+
+
+// Get all users (without password)
+app.get('/users', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT id, name, role, enumerator_code, created_at
+      FROM users
+      ORDER BY id DESC
+    `);
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching users:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Create a new user
+app.post('/users', async (req, res) => {
+  const { name, role, enumerator_code, password, confirmPassword } = req.body;
+
+  if (!name || !role || !enumerator_code || !password || !confirmPassword) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  if (password !== confirmPassword) {
+    return res.status(400).json({ error: 'Passwords do not match' });
+  }
+
+  try {
+    // Check for duplicate enumerator_code
+    const existing = await pool.query(
+      'SELECT id FROM users WHERE enumerator_code = $1',
+      [enumerator_code]
+    );
+
+    if (existing.rows.length > 0) {
+      return res.status(400).json({ error: 'Enumerator code already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const insert = await pool.query(
+      `INSERT INTO users (name, role, enumerator_code, password_hash)
+       VALUES ($1, $2, $3, $4)
+       RETURNING id, name, role, enumerator_code, created_at`,
+      [name, role, enumerator_code, hashedPassword]
+    );
+
+    res.status(201).json({ message: 'User created', user: insert.rows[0] });
+  } catch (err) {
+    console.error('Error adding user:', err);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 
