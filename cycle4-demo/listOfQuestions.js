@@ -132,8 +132,9 @@ export const surveyQuestions = [
         options: [
             {name: "Hajiji Noor (GRS)", image: "adun_pictures/N12 SULAMAN - HAJIJI NOOR.jpg"},
             {name: "Shafie Apdal (WARISAN)", image: "adun_pictures/N65 SENALLANG - SHAFIE APDAL.jpg"},
-            {name: "Bung Moktar(BN)", image: "adun_pictures/N58 LAMAG - BUNG MOKTAR RADIN.jpg"},
-            {name: "Ewon Benedick(PH)" , image: "adun_pictures/N11 KADAMAIAN - EWON BENEDICK.jpg"},
+            {name: "Bung Moktar (BN)", image: "adun_pictures/N58 LAMAG - BUNG MOKTAR RADIN.jpg"},
+            {name: "Ewon Benedick (PH)" , image: "adun_pictures/N11 KADAMAIAN - EWON BENEDICK.jpg"},
+            {name: "Tidak Pasti"},
             {name: "Lain - Lain"}
         ]
     },

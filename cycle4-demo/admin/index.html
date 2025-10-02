@@ -21,23 +21,14 @@
     rel="stylesheet"
   />
   <style>
-    /* Inline styles to reflect changes */
-    .main-content {
-      transition: margin-left 0.3s ease;
-      padding: 20px;
-      margin-left: 0;
-    }
 
-    .main-content.shifted {
-      margin-left: 250px;
-    }
   </style>
 </head>
 <body>
   <!-- ✅ Navbar -->
   <div class="navbar">
     <span class="hamburger" id="hamburger">&#9776;</span>
-    <span class="navbar-title">IDS | Fasa 4 (2025)</span>
+    <span class="navbar-title">IDS | Permantauan Dinamika Pembangunan Kerajaan</span>
     <span id="username" class="navbar-username">
     <i class="fas fa-user" style="margin-right:10px;"></i>Memuat...
   </span>
@@ -78,9 +69,16 @@
     const mainContent = document.getElementById("mainContent");
 
     hamburger.addEventListener("click", () => {
+      const isMobile = window.innerWidth <= 768;
+      if(isMobile){
+        sidePanel.classList.toggle("open");
+      }
+      else{
+        // This applies to default function if not mobile
       const isOpen = sidePanel.style.width === "250px";
       sidePanel.style.width = isOpen ? "0" : "250px";
-      mainContent.classList.toggle("shifted", !isOpen);
+      mainContent.classList.toggle("shifted", !isOpen)
+      };
     });
     
     

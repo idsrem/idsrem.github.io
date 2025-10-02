@@ -2040,7 +2040,6 @@ window.addEventListener("resize", () => {
 //     showingSurvey = !showingSurvey;
 // };
 
-
 //     mainButtonsWrapper.appendChild(resetSurveyButton);
 //     mainButtonsWrapper.appendChild(toggleButton);
 //     mainButtonsWrapper.appendChild(toggleViewButton);

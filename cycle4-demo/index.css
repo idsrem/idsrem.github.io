@@ -242,6 +242,33 @@ footer{
     font-size: 20px;
 }
 
+.timeout-footer {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  font-size: 12px;
+  z-index: 999;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.timeout-left,
+.timeout-right {
+  display: flex;
+  align-items: center;
+}
+
+.footer-logo {
+  height: 50px;
+  margin-left: 8px;
+}
+
+
+
 table {
     width: 30%;
     border-collapse: collapse;
@@ -269,7 +296,7 @@ td{
 
 .container-view{
     display: flex;
-    width: 95%;
+    width: 90%;
     padding: 20px;
     flex-wrap: wrap;
     margin-top: 20px;
@@ -600,12 +627,13 @@ td{
   width: 98%;
   padding: 10px;
   font-size: 20px; 
-  margin-top: 10px; 
-  margin-left: auto;
-  margin-right: auto;
   font-weight: 800;
   text-align: right;
   color: black;
+}
+
+#countdown{
+  margin-left:10px;
 }
 
 /* Navbar */
@@ -743,7 +771,7 @@ td{
     .container-view {
         align-items: center; /* Center them */
         flex-direction: column-reverse; /* Flip the order */
-        width: 95%;
+        width: 85%;
         height: 100%;
     }
 
@@ -760,6 +788,7 @@ td{
     #timeout-timer{
       width: 50%;
       font-size: 16px;
+      display: block;
       text-align: center;
     }
 

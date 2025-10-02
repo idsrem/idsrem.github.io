@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="/cycle4-demo/index.css">
     <title>IDS|Fasa 4 (2025)</title>
     <link rel="icon" type="image/x-icon" href="ids_logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Basic&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Hind+Madurai:wght@300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Share+Tech&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
@@ -70,16 +70,6 @@
         Dikemaskini setakat () - 0 Responden
     </div>
 </div>
-
-     <!-- <div class="clock-wrapper">
-            <div class="clock-display">
-                <div id="clock-time" class="clock-time"></div>
-                <hr class="clock-divider">
-                <div id="clock-date" class="clock-date"></div>
-            </div>
-
-            <div class="respondents" id="todayRespondents"> Dikemaskini setakat () - 0 Responden</div>
-    </div> -->
 
     <div class="container-view">
         <div id="message-view"></div>
@@ -179,79 +169,6 @@ async function fetchLocationName(lat, lon) {
     });
   }
 }
-
-
-
-  //     async function fetchLocationName(lat, lon) {
-  //   try {
-  //     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=14&addressdetails=1`;
-  //     const response = await fetch(url, {
-  //       headers: {
-  //         'User-Agent': 'LiveLocationApp/1.0 (your-email@example.com)' // Replace with your contact info
-  //       }
-  //     });
-  //     if (!response.ok) throw new Error('Reverse geocoding failed');
-
-  //     const data = await response.json();
-  //     const address = data.address || {};
-
-  //     // Collect relevant location parts
-  //     const locationParts = [];
-  //     if (address.city) locationParts.push(address.city);
-  //     else if (address.town) locationParts.push(address.town);
-  //     else if (address.village) locationParts.push(address.village);
-  //     else if (address.hamlet) locationParts.push(address.hamlet);
-  //     else if (address.suburb) locationParts.push(address.suburb);
-
-  //     if (address.state) locationParts.push(address.state);
-  //     if (address.country) locationParts.push(address.country);
-
-  //     const location = locationParts.join(', ') || 'Unknown location';
-
-  //     // document.getElementById('location').textContent = location;
-  //         // ✅ Update ALL elements with location display
-  //   document.querySelectorAll('.location-display').forEach(el => {
-  //     el.textContent = location;
-  //   });
-
-  //   // ✅ Save to localStorage (currentSurvey)
-  //   let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
-  //   survey.answers = survey.answers || {};
-  //   survey.answers.location = location;
-  //   localStorage.setItem("currentSurvey", JSON.stringify(survey));
-
-  //   } catch (error) {
-  //     console.error('Error fetching location:', error);
-  //     document.getElementById('location').textContent = 'Error retrieving location';
-  //   }
-
-  // }
-
-
-// function updateLocation(position) {
-//   const lat = position.coords.latitude;
-//   const lon = position.coords.longitude;
-
-//   if (navigator.onLine) {
-//     // ONLINE: Try reverse geocoding to get location name
-//     document.querySelectorAll('.location-display').forEach(el => {
-//       el.textContent = 'Menentukan lokasi anda (atas talian)...';
-//     });
-//     fetchLocationName(lat, lon);
-//   } else {
-//     // OFFLINE: Fallback to raw GPS coordinates
-//     const rawLocation = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)}`;
-//     document.querySelectorAll('.location-display').forEach(el => {
-//       el.textContent = rawLocation;
-//     });
-
-//     // Store in localStorage
-//     let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
-//     survey.answers.location = rawLocation;
-//     localStorage.setItem("currentSurvey", JSON.stringify(survey));
-//   }
-// }
-
 
 function updateLocation(position) {
   const lat = position.coords.latitude;
@@ -366,54 +283,6 @@ window.addEventListener("online", requestLocation);
 window.addEventListener("offline", requestLocation);
 
 
-// function updateLocation(position) {
-//   const lat = position.coords.latitude;
-//   const lon = position.coords.longitude;
-
-//   if (navigator.onLine) {
-//     document.querySelectorAll('.location-display').forEach(el => {
-//       el.textContent = 'Menentukan lokasi anda (atas talian)...';
-//     });
-//     fetchLocationName(lat, lon);
-//   } else {
-//     const rawLocation = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)}`;
-
-//     document.querySelectorAll('.location-display').forEach(el => {
-//       el.textContent = rawLocation;
-//     });
-
-//     // Save raw coordinates to localStorage
-//     let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
-//     survey.answers = survey.answers || {};
-//     survey.answers.location = rawLocation;
-//     localStorage.setItem("currentSurvey", JSON.stringify(survey));
-//   }
-// }
-
-
-
-//   // function updateLocation(position) {
-//   //   const lat = position.coords.latitude;
-//   //   const lon = position.coords.longitude;
-//   //   document.getElementById('location').textContent = 'Menentukan lokasi anda...';
-//   //   fetchLocationName(lat, lon);
-//   // }
-
-//   function handleError(error) {
-//     console.error('Error getting location:', error);
-//     document.getElementById('location').textContent = 'Akses lokasi ditolak atau tidak tersedia';
-//   }
-
-//   if (navigator.geolocation) {
-//       navigator.geolocation.watchPosition(updateLocation, handleError, {
-//         enableHighAccuracy: true,
-//         maximumAge: 0,
-//         timeout: 10000
-//       });
-//   } else {
-//     alert('Geolocation tidak disokong oleh pelayar anda.');
-//   }
-
   const INACTIVITY_LIMIT = 15 * 60 * 1000; // 5 minutes in milliseconds
   let inactivityTimer;
   let remainingTime = INACTIVITY_LIMIT;
@@ -478,57 +347,6 @@ window.addEventListener("offline", requestLocation);
 
   // Start on page load
   resetInactivityTimer();
-
-
-
-
-    //     async function fetchLocationName(lat, lon) {
-    //   try {
-    //     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`;
-    //     const response = await fetch(url, {
-    //       headers: {
-    //         'User-Agent': 'LiveLocationApp/1.0 (amiirul@stadvisory.com)' // Replace with your email for polite usage
-    //       }
-    //     });
-
-    //     if (!response.ok) {
-    //       throw new Error('Reverse geocoding failed.');
-    //     }
-
-    //     const data = await response.json();
-    //     const address = data.address;
-    //     const city = address.city || address.town || address.village || address.hamlet || '';
-    //     const country = address.country || '';
-    //     const locationText = `${city}, ${country}`;
-    //     document.getElementById('location').textContent = locationText;
-
-    //   } catch (error) {
-    //     console.error("Error fetching location name:", error);
-    //     document.getElementById('location').textContent = "Error retrieving location";
-    //   }
-    // }
-
-    // function updateLocation(position) {
-    //   const lat = position.coords.latitude;
-    //   const lon = position.coords.longitude;
-    //   // document.getElementById('latitude').textContent = lat.toFixed(6);
-    //   // document.getElementById('longitude').textContent = lon.toFixed(6);
-    //   fetchLocationName(lat, lon);
-    // }
-
-    // function handleError(error) {
-    //   console.error("Error getting location: ", error);
-    //   document.getElementById('location').textContent = "Permission denied or unavailable";
-    // }
-
-    // if (navigator.geolocation) {
-    //   navigator.geolocation.watchPosition(updateLocation, handleError, {
-    //     enableHighAccuracy: true,
-    //     maximumAge: 0,
-    //     timeout: 10000
-    //   });
-    // } else {
-    //   alert("Geolocation is not supported by your browser.");
 
 document.getElementById("logout-button").addEventListener("click", () => {
   //Clear session storage (login/session info)
@@ -629,8 +447,14 @@ document.addEventListener("DOMContentLoaded", () => {
         <p>Kajiselidik ini hanya boleh dilakukan dari jam <strong>6 pagi sehingga 8 malam</strong></p>
     </div>
 
-    <div id="timeout-timer">
-    Sesi akan tamat secara automatik dalam: <span id="countdown">--:--</span>
+    <div id="timeout-timer" class="timeout-footer">
+      <div class="timeout-left">
+        Sesi akan tamat secara automatik dalam: <span id="countdown">--:--</span>
+      </div>
+      <div class="timeout-right">
+        <span>Powered By:</span>
+        <img src="/cycle4-demo/DataBlu_Logo.png" alt="DataBlu Logo" class="footer-logo">
+      </div>
     </div>
 
 </body>

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/cycle4-demo/admin/user_management.css" />
   <title>User Management | IDS Fasa 4</title>
-  <link rel="icon" type="image/x-icon" href="ids_logo.png" />
+  <link rel="icon" type="image/x-icon" href="/ids logo.png" />
   <link href="https://fonts.googleapis.com/css2?family=Basic&family=Chakra+Petch&family=Hind+Madurai&family=Poppins&family=Share+Tech&family=Source+Sans+3&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
@@ -47,7 +47,7 @@
 
     <table id="userTable">
       <thead>
-        <tr>
+        <tr class="headers-table">
           <th>Name</th>
           <th>Role</th>
           <th>Enumerator Code</th>
@@ -63,15 +63,25 @@
       <div class="modal-content">
         <span class="close">&times;</span>
         <h3>Add / Edit User</h3>
+
         <form id="userForm">
+          <label>Name</label>
           <input type="text" name="name" placeholder="Name" required />
-          <select name="role" required>
+
+            <label>Role</label>
+            <select name="role" required>
             <option value="">Select Role</option>
             <option value="Admin">Admin</option>
             <option value="Enumerator">Enumerator</option>
           </select>
+
+          <label>Enumerator Code</label>
           <input type="text" name="enumerator_code" placeholder="Enumerator Code" required />
+
+          <label>Password</label>
           <input type="password" name="password" placeholder="Password" />
+
+          <label>Confirmed Password</label>
           <input type="password" name="confirmPassword" placeholder="Confirm Password" />
           <button type="submit">Save User</button>
         </form>
