@@ -25,20 +25,19 @@
     <span class="hamburger" id="hamburger">&#9776;</span>
     <span class="navbar-title">IDS | Permantauan Dinamika Pembangunan Kerajaan (2025)</span>
     <span id="username" class="navbar-username">
-    <i class="fas fa-user" style="margin-right:10px;"></i>Memuat...
-  </span>
+      <i class="fas fa-user" style="margin-right:10px;"></i>Memuat...
+    </span>
   </div>
 
-<!-- Sidepanel -->
-<div id="sidePanel" class="sidepanel">
-  <a href="/cycle4-demo/admin/index.html"><i class="fas fa-chart-line" style="margin-right:10px;"></i> Dashboard</a>
-  <a href="/cycle4-demo/admin/responses_records.html"><i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Rekod Responden</a>
-  <a href="/cycle4-demo/admin/user_management.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a>
-  <a href="/cycle4-demo/logout.html" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
-    <i class="fas fa-sign-out-alt" style="margin-right:10px;"></i> Log Keluar
-  </a>
-</div>
-
+  <!-- ✅ Sidepanel -->
+  <div id="sidePanel" class="sidepanel">
+    <a href="/cycle4-demo/admin/index.html"><i class="fas fa-chart-line" style="margin-right:10px;"></i> Dashboard</a>
+    <a href="/cycle4-demo/admin/responses_records.html"><i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Rekod Responden</a>
+    <a href="/cycle4-demo/admin/user_management_2.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a>
+    <a href="/cycle4-demo/logout.html" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
+      <i class="fas fa-sign-out-alt" style="margin-right:10px;"></i> Log Keluar
+    </a>
+  </div>
 
   <!-- ✅ Main Content -->
   <div class="main-content" id="mainContent">
@@ -58,19 +57,18 @@
       <tbody></tbody>
     </table>
 
-    <!-- Modal -->
+    <!-- ✅ Modal -->
     <div id="userModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
         <h3>Add / Edit User</h3>
         <hr/>
-
         <form id="userForm">
           <label>Name</label>
           <input type="text" name="name" placeholder="Name" required />
 
-            <label>Role</label>
-            <select name="role" required>
+          <label>Role</label>
+          <select name="role" required>
             <option value="">Select Role</option>
             <option value="Admin">Admin</option>
             <option value="Enumerator">Enumerator</option>
@@ -84,15 +82,16 @@
 
           <label>Confirmed Password</label>
           <input type="password" name="confirmPassword" placeholder="Confirm Password" />
+
           <div class="button-container">
-           <button class="submit-button" type="submit"><i class="fas fa-save" style="margin-right:10px;"></i>Save User</button>
-        </div>
-         
+            <button class="submit-button" type="submit"><i class="fas fa-save" style="margin-right:10px;"></i>Save User</button>
+          </div>
         </form>
       </div>
     </div>
   </div>
 
+  <!-- ✅ Your Existing JavaScript (unchanged) -->
   <script>
     const modal = document.getElementById('userModal');
     const form = document.getElementById('userForm');
@@ -101,7 +100,6 @@
     const closeBtn = document.querySelector('.close');
     let editUserId = null;
 
-    // Open modal for add
     openBtn.onclick = () => {
       editUserId = null;
       form.reset();
@@ -109,11 +107,9 @@
     };
 
     closeBtn.onclick = () => modal.style.display = 'none';
-    // window.onclick = e => { if (e.target === modal) modal.style.display = 'none'; };
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-
       const formData = {
         name: form.name.value.trim(),
         role: form.role.value,
@@ -121,16 +117,13 @@
         password: form.password.value,
         confirmPassword: form.confirmPassword.value
       };
-
       if (formData.password && formData.password !== formData.confirmPassword) {
         alert("Passwords do not match");
         return;
       }
-
       const url = editUserId
         ? `https://atiqahst-github-io.onrender.com/users/${editUserId}`
         : `https://atiqahst-github-io.onrender.com/users`;
-
       const method = editUserId ? 'PUT' : 'POST';
 
       try {
@@ -139,12 +132,10 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)
         });
-
         if (!res.ok) {
           const errorData = await res.json();
           throw new Error(errorData.error || "Operation failed");
         }
-
         alert(editUserId ? "User updated!" : "User created!");
         modal.style.display = 'none';
         form.reset();
@@ -186,7 +177,6 @@
       document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', handleEdit);
       });
-
       document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', handleDelete);
       });
@@ -213,9 +203,7 @@
         const res = await fetch(`https://atiqahst-github-io.onrender.com/users/${userId}`, {
           method: "DELETE"
         });
-
         if (!res.ok) throw new Error("Delete failed");
-
         alert("User deleted successfully");
         loadUsers();
       } catch (err) {
@@ -226,8 +214,10 @@
     loadUsers();
   </script>
 
+  <!-- ✅ Hamburger & User Session Script -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      // ✅ User session
       const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
       const displayName = userData.enumerator_code || userData.name || "Pengguna";
       const usernameEl = document.getElementById("username");
@@ -235,22 +225,32 @@
         usernameEl.innerHTML = `<i class="fas fa-user" style="margin-right:10px;"></i>${displayName}`;
         usernameEl.title = userData.role || "";
       }
-    });
 
-    document.getElementById("logout-button-sidebar").addEventListener("click", () => {
-      sessionStorage.clear();
-      const totalRespondents = localStorage.getItem("totalRespondents");
-      localStorage.clear();
-      if (totalRespondents !== null) {
-        localStorage.setItem("totalRespondents", totalRespondents);
+      // ✅ Logout
+      document.getElementById("logout-button-sidebar").addEventListener("click", () => {
+        sessionStorage.clear();
+        const totalRespondents = localStorage.getItem("totalRespondents");
+        localStorage.clear();
+        if (totalRespondents !== null) {
+          localStorage.setItem("totalRespondents", totalRespondents);
+        }
+        sessionStorage.setItem("justLoggedOut", "true");
+        window.location.href = "logout.html";
+      });
+
+      // ✅ Redirect if not logged in
+      if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+        window.location.href = 'index.html';
       }
-      sessionStorage.setItem("justLoggedOut", "true");
-      window.location.href = "logout.html";
-    });
 
-    if (sessionStorage.getItem('isLoggedIn') !== 'true') {
-      window.location.href = 'index.html';
-    }
+      // ✅ Hamburger toggle logic (✨ ADDED THIS ✨)
+      const hamburger = document.getElementById("hamburger");
+      const sidePanel = document.getElementById("sidePanel");
+
+      hamburger.addEventListener("click", () => {
+        sidePanel.classList.toggle("open");
+      });
+    });
   </script>
 </body>
 </html>
