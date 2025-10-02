@@ -1791,29 +1791,59 @@ if (isMobileView) {
 
 
     // Toggle logic for mobile
-    toggleViewButton.onclick = () => {
-        if (!isMobileView) return;
 
-        if (showingSurvey) {
-            surveyView.style.display = "none";
-            messageView.style.display = "block";
-            resetSurveyButton.style.display = "none";
-            toggleButton.style.display = "none";
-            surveyQuestions.forEach(q => q.style.display = "none");
+toggleViewButton.onclick = () => {
+    if (!window.matchMedia("(max-width: 800px)").matches) return;
 
-            toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right:5px;"></i> Tutup Kaji Selidik`;
-        } else {
-            surveyView.style.display = "block";
-            messageView.style.display = "none";
-            resetSurveyButton.style.display = "inline-block";
-            toggleButton.style.display = "inline-block";
-            surveyQuestions.forEach(q => q.style.display = "block");
+    if (showingSurvey) {
+        // HIDE survey view
+        surveyView.style.display = "none";
+        messageView.style.display = "block";
+        resetSurveyButton.style.display = "none";
+        toggleButton.style.display = "none";
+        surveyQuestions.forEach(q => q.style.display = "none");
 
-            toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right:5px;"></i> Papar Kaji Selidik`;
-        }
+        // Now it's hidden, offer to SHOW again
+        toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right:5px;"></i> Papar Kaji Selidik`;
+    } else {
+        // SHOW survey view again
+        surveyView.style.display = "block";
+        messageView.style.display = "none";
+        resetSurveyButton.style.display = "inline-block";
+        toggleButton.style.display = "inline-block";
+        surveyQuestions.forEach(q => q.style.display = "block");
 
-        showingSurvey = !showingSurvey;
-    };
+        // Now it's visible, offer to CLOSE it
+        toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right:5px;"></i> Tutup Kaji Selidik`;
+    }
+
+    showingSurvey = !showingSurvey;
+};
+
+
+    // toggleViewButton.onclick = () => {
+    //     if (!isMobileView) return;
+
+    //     if (showingSurvey) {
+    //         surveyView.style.display = "none";
+    //         messageView.style.display = "block";
+    //         resetSurveyButton.style.display = "none";
+    //         toggleButton.style.display = "none";
+    //         surveyQuestions.forEach(q => q.style.display = "none");
+
+    //         toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right:5px;"></i> Tutup Kaji Selidik`;
+    //     } else {
+    //         surveyView.style.display = "block";
+    //         messageView.style.display = "none";
+    //         resetSurveyButton.style.display = "inline-block";
+    //         toggleButton.style.display = "inline-block";
+    //         surveyQuestions.forEach(q => q.style.display = "block");
+
+    //         toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right:5px;"></i> Papar Kaji Selidik`;
+    //     }
+
+    //     showingSurvey = !showingSurvey;
+    // };
 
     // ===== Table =====
     const tableDiv = document.createElement("div");
@@ -2230,7 +2260,7 @@ function updateTodayRespondentsDisplay() {
 
     const element = document.getElementById("todayRespondents");
     if (element) {
-        element.textContent = `Dikemaskini setakat (${todayDate}) - ${count} Responden`;
+        element.textContent = `Jumlah Responden Hari Ini (${todayDate}) - ${count} Responden`;
     }
 }
 
