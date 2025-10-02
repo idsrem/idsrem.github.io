@@ -40,7 +40,6 @@ body {
     display: flex;
     flex-direction: column; /* Stack vertically */
     align-items: center;
-    font-family: 'Poppins', sans-serif;
     color: #1F5385;
 }
 
@@ -253,18 +252,25 @@ footer{
   padding: 5px;
   font-size: 12px;
   z-index: 999;
-  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
 }
 
-.timeout-left,
-.timeout-right {
+.timeout-left{
   display: flex;
+  font-size: 18px;
   align-items: center;
 }
 
+.timeout-right{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: right;
+}
+
 .footer-logo {
-  height: 50px;
-  margin-left: 8px;
+  align-items: center;
+  height: 35px;
+  margin-left: 20px;
 }
 
 
@@ -624,9 +630,9 @@ td{
 }
 
 #timeout-timer{
-  width: 98%;
+  width: 90%;
   padding: 10px;
-  font-size: 20px; 
+  font-size: 18px; 
   font-weight: 800;
   text-align: right;
   color: black;
@@ -764,6 +770,10 @@ td{
       width: 100px;
     }
 
+    .timeout-left{
+    flex-direction: column;
+    }
+
     .navbar-title{
       display: none;
     }
@@ -786,10 +796,16 @@ td{
     }
 
     #timeout-timer{
-      width: 50%;
+      width: 90%;
       font-size: 16px;
       display: block;
+      align-items: center;
       text-align: center;
+    }
+
+    .timeout-right, .timeout-left{
+      text-align: center;
+      margin-top: 20px;
     }
 
     #message-view{
