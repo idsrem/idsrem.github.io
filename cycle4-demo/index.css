@@ -295,6 +295,7 @@ td{
     border-left: 4px solid #1F5385;
     border-radius: 0;
     height: auto;
+    overflow-y: scroll;
   }
 
   .previous-button {
@@ -667,6 +668,33 @@ td{
 .sidepanel a:hover {
   background-color: #005999;
 }
+
+
+.options-checkboxes label {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+  gap: 20px;
+}
+
+.options-checkboxes {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  gap: 10px; /* space between each checkbox row */
+  margin-top: 10px;
+}
+
+/* For the disable button if the user doesnt check one of the boxes in the 'mempengaruhiUndian' question */
+.survey-option:disabled {
+  margin-top: 30px;
+  background-color: #cccccc;
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 
 .navbar-username {
   font-weight: 500;

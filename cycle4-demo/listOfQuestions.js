@@ -84,13 +84,13 @@ export const surveyQuestions = [
     },
     {
         id: "kerajaanSemasa",
-        text: "Kategori manakah kerajaan semasa telah menambah baik kualiti kehidupan rakyat Sabah?",
+        text: "Kategori manakah kerajaan negeri semasa telah menambah baik kualiti kehidupan rakyat Sabah?",
         options: [
             {name: "Kemajuan Ekonomi"},
             {name: "Perkembangan MA63 yang dijanjikan"},
             {name: "Kerja & Gaji"},
             {name: "Infrastruktur lebih baik"},
-            {name: "Hubungan kuat dengan Persekutan"},
+            {name: "Hubungan kuat dengan Persekutuan"},
             {name: "Pendidikan"}
         ]
     },
@@ -118,9 +118,9 @@ export const surveyQuestions = [
         id: "cenderungUntukUndi",
         text: "Parti manakah anda lebih cenderung untuk undi?",
         options: [
+            {name: "GRS"},
             {name: "BN"},
             {name: "PH"},
-            {name: "GRS"},
             {name: "WARISAN"},
             {name: "Tidak Pasti"},
             {name: "Lain - Lain"}
@@ -128,7 +128,7 @@ export const surveyQuestions = [
     },
     {
         id: "pemimpinSabah",
-        text: "Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin sabah?",
+        text: "Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah?",
         options: [
             {name: "Hajiji Noor (GRS)", image: "adun_pictures/N12 SULAMAN - HAJIJI NOOR.jpg"},
             {name: "Shafie Apdal (WARISAN)", image: "adun_pictures/N65 SENALLANG - SHAFIE APDAL.jpg"},

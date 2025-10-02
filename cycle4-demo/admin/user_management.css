@@ -44,6 +44,7 @@ h2 {
 }
 
 /* Navbar */
+/* Navbar */
 .navbar {
   position: fixed;
   top: 0;
@@ -145,8 +146,11 @@ footer{
   background-color: #007bff;
   color: white;
   border: none;
+  float: right;
   border-radius: 5px;
   margin-bottom: 15px;
+  font-size: 18px;
+  font-weight: 800;
   cursor: pointer;
 }
 
@@ -156,9 +160,16 @@ footer{
 }
 
 #userTable th, #userTable td {
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: left;
+  border: transparent;
+  border-bottom: 1px solid #003366;
+  padding: 15px;
+  font-size: 18px;
+  text-align: center
+}
+
+#userTable th{
+  background-color: #005999;
+  color: #ffffff;
 }
 
 .modal {
@@ -210,12 +221,15 @@ footer{
   border-radius: 4px;
   cursor: pointer;
   margin-bottom: 20px;
+  width: 200px;
 }
 
 table {
   width: 100%;
+  font-weight: 18px;
   border-collapse: collapse;
   margin-bottom: 30px;
+  border-color: transparent;
 }
 
 th, td {

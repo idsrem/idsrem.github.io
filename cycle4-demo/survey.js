@@ -443,6 +443,27 @@ function showIdInput() {
     // surveyContainer.appendChild(questionDiv);
 }
 
+            if (question.id === "kerajaanSemasa") {
+                questionDiv.innerHTML = ""; // Clear existing content
+
+                const fallback = document.createElement("p");
+                fallback.innerHTML = `Kategori manakah kerajaan negeri <span style="color:#C9980B; font-weight:bold;">semasa</span> telah menambah baik kualiti kehidupan rakyat Sabah?`;
+                questionDiv.appendChild(fallback);
+            }
+
+
+            // if (question.id === "kerajaanSemasa"){
+            //     // questionDiv
+            //     // const text = document.createElement("p");
+            //     // text.innerHTML = `Kategori manakah kerajaan negeri <span style="color:gold; font-weight:bold;">semasa</span> telah menambah baik kualiti kehidupan rakyat Sabah?`;
+            //     // questionDiv.appendChild(text);
+
+
+            //     questionDiv.innerHTML = "";
+            //     const fallback = document.createElement("p");
+            //     fallback.textContent = "Kategori manakah kerajaan negeri <span style="color:gold; font-weight:bold;">semasa</span> telah menambah baik kualiti kehidupan rakyat Sabah?";
+            //     questionDiv.appendChild(fallback);
+            // }
 
             if (question.id === "mengundiAdun") {
                 const currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
@@ -456,15 +477,15 @@ function showIdInput() {
                 if (selectedDun && dunToAdun[selectedDun]) {
                     const adunInfo = dunToAdun[selectedDun];
 
-                    // questionDiv.innerHTML = "";
+                    questionDiv.innerHTML = "";
 
-                    // const adunImg = document.createElement("img");
-                    // adunImg.src = adunInfo.photo;
-                    // adunImg.alt = adunInfo.name;
-                    // adunImg.style.maxWidth = "300px";
-                    // adunImg.style.marginTop = "5px";
-                    // adunImg.style.borderRadius = "8px";
-                    // questionDiv.appendChild(adunImg);
+                    const adunImg = document.createElement("img");
+                    adunImg.src = adunInfo.photo;
+                    adunImg.alt = adunInfo.name;
+                    adunImg.style.maxWidth = "200px";
+                    adunImg.style.marginTop = "5px";
+                    adunImg.style.borderRadius = "8px";
+                    questionDiv.appendChild(adunImg);
 
                     const text = document.createElement("p");
                     text.innerHTML = `Adakah anda akan mengundi ADUN <strong>${adunInfo.name}</strong> dari parti <strong>${adunInfo.party}</strong>?`;
@@ -506,96 +527,169 @@ function showIdInput() {
 
 
         else if (question.type === "multiselect") {
-            const checkboxesDiv = document.createElement("div");
-            checkboxesDiv.classList.add("options-container");
+    const checkboxesDiv = document.createElement("div");
+    checkboxesDiv.classList.add("options-checkboxes");
 
-            let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
+    let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
 
-// Make sure it's always an array to begin with
-if (!Array.isArray(currentSurvey.answers[question.id])) {
-    currentSurvey.answers[question.id] = [];
-}
+    if (!Array.isArray(currentSurvey.answers[question.id])) {
+        currentSurvey.answers[question.id] = [];
+    }
 
-question.options.forEach(option => {
-    const label = document.createElement("label");
-    label.classList.add("answer-option");
+    // Create the "Seterusnya" button
+    const nextButton = document.createElement("button");
+    nextButton.style.marginTop = "30px";
+    nextButton.textContent = "Seterusnya";
+    nextButton.classList.add("survey-option");
+    nextButton.disabled = true; // Disabled by default
 
-    const input = document.createElement("input");
-    input.type = "checkbox";
-    input.value = option.name;
-
-    // Always get the current array from storage (prevents stale data)
-    input.checked = currentSurvey.answers[question.id].includes(option.name);
-
-    input.addEventListener("change", (e) => {
-        let updatedSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
-
-        if (!Array.isArray(updatedSurvey.answers[question.id])) {
-            updatedSurvey.answers[question.id] = [];
-        }
-
-        if (e.target.checked) {
-            if (!updatedSurvey.answers[question.id].includes(option.name)) {
-                updatedSurvey.answers[question.id].push(option.name);
-            }
-        } else {
-            updatedSurvey.answers[question.id] = updatedSurvey.answers[question.id].filter(
-                item => item !== option.name
-            );
-        }
-
-        localStorage.setItem("currentSurvey", JSON.stringify(updatedSurvey));
-        console.log("Updated answers:", updatedSurvey.answers[question.id]);
+    nextButton.addEventListener("click", () => {
+        showQuestion(index + 1);
     });
 
-    label.appendChild(input);
-    label.appendChild(document.createTextNode(option.name));
-    checkboxesDiv.appendChild(label);
-});
+    // Function to check if at least one checkbox is checked
+    function updateButtonState() {
+        const anyChecked = checkboxesDiv.querySelectorAll('input[type="checkbox"]:checked').length > 0;
+        nextButton.disabled = !anyChecked;
+    }
+
+    // Build checkboxes
+    question.options.forEach(option => {
+        const label = document.createElement("label");
+        label.classList.add("answer-option");
+
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.value = option.name;
+
+        input.checked = currentSurvey.answers[question.id].includes(option.name);
+
+        input.addEventListener("change", (e) => {
+            let updatedSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
+
+            if (!Array.isArray(updatedSurvey.answers[question.id])) {
+                updatedSurvey.answers[question.id] = [];
+            }
+
+            if (e.target.checked) {
+                if (!updatedSurvey.answers[question.id].includes(option.name)) {
+                    updatedSurvey.answers[question.id].push(option.name);
+                }
+            } else {
+                updatedSurvey.answers[question.id] = updatedSurvey.answers[question.id].filter(
+                    item => item !== option.name
+                );
+            }
+
+            localStorage.setItem("currentSurvey", JSON.stringify(updatedSurvey));
+
+            updateButtonState(); //Check after any change
+        });
+
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(option.name));
+        checkboxesDiv.appendChild(label);
+    });
+
+    // Call it once initially in case there's already a selection saved
+    updateButtonState();
+
+    surveyContainer.append(questionDiv, checkboxesDiv, nextButton);
+}
 
 
-           // const currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
 
-            // const selectedValues = currentSurvey.answers[question.id] || [];
+//         else if (question.type === "multiselect") {
+//             const checkboxesDiv = document.createElement("div");
+//             checkboxesDiv.classList.add("options-checkboxes");
 
-            // question.options.forEach(option => {
-            //     const label = document.createElement("label");
-            //     label.classList.add("answer-option");
+//             let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
 
-            //     const input = document.createElement("input");
-            //     input.type = "checkbox";
-            //     input.value = option.name;
-            //     input.checked = selectedValues.includes(option.name);
+// // Make sure it's always an array to begin with
+// if (!Array.isArray(currentSurvey.answers[question.id])) {
+//     currentSurvey.answers[question.id] = [];
+// }
 
-            //     input.addEventListener("change", (e) => {
-            //         const checked = e.target.checked;
-            //         let updatedValues = [...selectedValues];
+// question.options.forEach(option => {
+//     const label = document.createElement("label");
+//     label.classList.add("answer-option");
 
-            //         if (checked) {
-            //             updatedValues.push(option.name);
-            //         } else {
-            //             updatedValues = updatedValues.filter(item => item !== option.name);
-            //         }
+//     const input = document.createElement("input");
+//     input.type = "checkbox";
+//     input.value = option.name;
 
-            //         currentSurvey.answers[question.id] = updatedValues;
-            //         localStorage.setItem("currentSurvey", JSON.stringify(currentSurvey));
-                //});
+//     // Always get the current array from storage (prevents stale data)
+//     input.checked = currentSurvey.answers[question.id].includes(option.name);
 
-                // label.appendChild(input);
-                // label.appendChild(document.createTextNode(option.name));
-                // checkboxesDiv.appendChild(label);
-            //});
+//     input.addEventListener("change", (e) => {
+//         let updatedSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
 
-            // Add a "Next" button to proceed
-            const nextButton = document.createElement("button");
-            nextButton.textContent = "Seterusnya";
-            nextButton.classList.add("survey-option");
-            nextButton.addEventListener("click", () => {
-                showQuestion(index + 1);
-            });
+//         if (!Array.isArray(updatedSurvey.answers[question.id])) {
+//             updatedSurvey.answers[question.id] = [];
+//         }
 
-            surveyContainer.append(questionDiv, checkboxesDiv, nextButton);
-        }
+//         if (e.target.checked) {
+//             if (!updatedSurvey.answers[question.id].includes(option.name)) {
+//                 updatedSurvey.answers[question.id].push(option.name);
+//             }
+//         } else {
+//             updatedSurvey.answers[question.id] = updatedSurvey.answers[question.id].filter(
+//                 item => item !== option.name
+//             );
+//         }
+
+//         localStorage.setItem("currentSurvey", JSON.stringify(updatedSurvey));
+//         console.log("Updated answers:", updatedSurvey.answers[question.id]);
+//     });
+
+//     label.appendChild(input);
+//     label.appendChild(document.createTextNode(option.name));
+//     checkboxesDiv.appendChild(label);
+// });
+
+
+//            // const currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
+
+//             // const selectedValues = currentSurvey.answers[question.id] || [];
+
+//             // question.options.forEach(option => {
+//             //     const label = document.createElement("label");
+//             //     label.classList.add("answer-option");
+
+//             //     const input = document.createElement("input");
+//             //     input.type = "checkbox";
+//             //     input.value = option.name;
+//             //     input.checked = selectedValues.includes(option.name);
+
+//             //     input.addEventListener("change", (e) => {
+//             //         const checked = e.target.checked;
+//             //         let updatedValues = [...selectedValues];
+
+//             //         if (checked) {
+//             //             updatedValues.push(option.name);
+//             //         } else {
+//             //             updatedValues = updatedValues.filter(item => item !== option.name);
+//             //         }
+
+//             //         currentSurvey.answers[question.id] = updatedValues;
+//             //         localStorage.setItem("currentSurvey", JSON.stringify(currentSurvey));
+//                 //});
+
+//                 // label.appendChild(input);
+//                 // label.appendChild(document.createTextNode(option.name));
+//                 // checkboxesDiv.appendChild(label);
+//             //});
+
+//             // Add a "Next" button to proceed
+//             const nextButton = document.createElement("button");
+//             nextButton.textContent = "Seterusnya";
+//             nextButton.classList.add("survey-option");
+//             nextButton.addEventListener("click", () => {
+//                 showQuestion(index + 1);
+//             });
+
+//             surveyContainer.append(questionDiv, checkboxesDiv, nextButton);
+//         }
 
     
         else {
