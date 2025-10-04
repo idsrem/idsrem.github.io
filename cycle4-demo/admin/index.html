@@ -35,8 +35,8 @@
 
 <!-- Sidepanel -->
 <div id="sidePanel" class="sidepanel">
-  <a href="/cycle4-demo/admin/index.html"><i class="fas fa-chart-line" style="margin-right:10px;"></i> Dashboard</a>
-  <a href="/cycle4-demo/admin/responses_records.html"><i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Rekod Responden</a>
+  <a class="active" href="/cycle4-demo/admin/index.html"><i class="fas fa-chart-line" style="margin-right:10px;"></i> Dashboard</a>
+  <a href="/cycle4-demo/admin/responses_records_v2.html"><i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Rekod Responden</a>
   <!-- <a href="/cycle4-demo/admin/user_management.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a> -->
   <a href="/cycle4-demo/admin/user_management_2.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a>
   <a href="/cycle4-demo/logout.html" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
@@ -59,9 +59,10 @@
     </div>
   </div>
 
-  <footer>
+  <!-- <footer>
     <p>v 4.1.21</p>
-  </footer>
+  </footer> -->
+
 
   <script>
     const hamburger = document.getElementById("hamburger");
@@ -75,7 +76,18 @@
       }
       else{
         // This applies to default function if not mobile
-      const isOpen = sidePanel.style.width === "250px";
+      const isOpen = sidePanel.classList.contains("open");
+
+      if (isOpen) {
+        sidePanel.classList.remove("open");
+        sidePanel.style.width = "0";
+        mainContent.style.marginLeft = "0";
+      } else {
+        sidePanel.classList.add("open");
+        sidePanel.style.width = "250px";
+        mainContent.style.marginLeft = "250px";
+      }
+
       sidePanel.style.width = isOpen ? "0" : "250px";
       mainContent.classList.toggle("shifted", !isOpen)
       };
@@ -181,5 +193,36 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 </script>
+
+
+<!--This is for hovering other options if not highlighted-->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const links = document.querySelectorAll('#sidePanel a');
+    const currentPath = window.location.pathname;
+    let activeLink = null;
+
+    // Identify and store the initially active link
+    links.forEach(link => {
+      const linkPath = new URL(link.href).pathname;
+      if (linkPath === currentPath) {
+        link.classList.add('active');
+        activeLink = link;
+      }
+
+      // Add hover event listeners
+      link.addEventListener('mouseenter', () => {
+        if (activeLink) activeLink.classList.remove('active');
+        link.classList.add('hovered');
+      });
+
+      link.addEventListener('mouseleave', () => {
+        link.classList.remove('hovered');
+        if (activeLink) activeLink.classList.add('active');
+      });
+    });
+  });
+</script>
+
 </body>
 </html>

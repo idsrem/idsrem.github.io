@@ -15,6 +15,18 @@ h2 {
   border-radius: 10px;
 }
 
+
+    .main-content {
+      transition: margin-left 0.3s ease;
+      padding: 20px;
+      margin-left: 250px;
+    }
+
+    .main-content.shifted {
+      margin-left: 0;
+    }
+
+
 .logout-button {
   position: absolute;
   top: 10px;
@@ -40,7 +52,7 @@ h2 {
   margin-right: auto;
   font-weight: 800;
   text-align: right;
-  color: black;
+  color: rgb(212, 212, 212);
 }
 
 /* Navbar */
@@ -76,7 +88,7 @@ h2 {
 /* Sidepanel */
 .sidepanel {
   height: 100%;
-  width: 0;
+  width: 250px;
   position: fixed;
   justify-content: space-between;
   z-index: 2000;
@@ -103,12 +115,18 @@ h2 {
   background-color: #005999;
 }
 
+.sidepanel a.active {
+  background-color: #005999;
+  color: #fff;
+  font-weight: bold;
+}
+
 /* Main content default - no margin */
-.main-content {
+/* .main-content {
   transition: margin-left 0.3s ease;
   margin-left: 0;
   padding: 20px;
-}
+} */
 
 footer{
     color: #003366;
@@ -184,11 +202,23 @@ footer{
 
 .modal-content .close {
   position: absolute;
+  background-color: #ff3d37;
+  padding: 0;
+  width: 30px;
+  height: 30px;
   right: 10px;
   top: 5px;
-  font-size: 20px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  line-height: 29px;
+  margin-top: 20px;
+  margin-right: 20px;
 }
+
 
 .modal-content input, .modal-content select {
   width: 100%;
@@ -206,6 +236,12 @@ footer{
   color: #ffffff;
   font-weight: 700;
   border: transparent;
+}
+
+.submit-button:hover{
+  background-color: #00ab00;
+  transition: 0.3s;
+
 }
 
 .button-container {

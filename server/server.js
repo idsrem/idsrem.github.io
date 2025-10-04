@@ -64,7 +64,7 @@ app.post('/export', async (req, res) => {
   }
 });
 
-
+//Login Credentials Verfier
 app.post('/login', async (req, res) => {
   const { enumerator_code, password } = req.body;
 
@@ -79,7 +79,7 @@ app.post('/login', async (req, res) => {
     const match = await bcrypt.compare(password, user.password_hash);
 
     if (!match) {
-      return res.status(401).json({ error: 'Invalid password' });
+      return res.status(401).json({ error: 'Username atau Kata Laluan Anda Salah.. Sila cuba lagi nanti' });
     }
 
     res.json({

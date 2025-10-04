@@ -19,11 +19,11 @@ h2 {
     .main-content {
       transition: margin-left 0.3s ease;
       padding: 20px;
-      margin-left: 0;
+      margin-left: 250px;
     }
 
     .main-content.shifted {
-      margin-left: 250px;
+      margin-left: 0;
     }
 
 .logout-button {
@@ -87,7 +87,7 @@ h2 {
 /* Sidepanel */
 .sidepanel {
   height: 100%;
-  width: 0;
+  width: 250px;
   position: fixed;
   justify-content: space-between;
   z-index: 3000;
@@ -114,6 +114,13 @@ h2 {
   background-color: #005999;
 }
 
+.sidepanel a.active {
+  background-color: #005999; /* highlighted background */
+  color: #fff;
+  font-weight: bold;
+}
+
+
 /* Iframe styling */
 iframe {
   border: 1px solid #ccc;
@@ -127,11 +134,11 @@ iframe {
 }
 
 /* Main content default - no margin */
-.main-content {
+/* .main-content {
   transition: margin-left 0.3s ease;
   margin-left: 0;
   padding: 20px;
-}
+} */
 
 footer{
     color: #003366;

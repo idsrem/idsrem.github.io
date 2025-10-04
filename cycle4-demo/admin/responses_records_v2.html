@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/cycle4-demo/admin/responses_records.css" />
-  <title>IDS | Fasa 4 (2025)</title>
+  <link rel="stylesheet" href="/cycle4-demo/admin/index.css" />
+    <title>Dashboard | IDS Fasa 4</title>
   <link rel="icon" type="image/x-icon" href="ids_logo.png" />
   <link
     href="https://fonts.googleapis.com/css2?family=Basic&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Hind+Madurai:wght@300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Share+Tech&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
@@ -20,53 +20,44 @@
     href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
     rel="stylesheet"
   />
-  <style>
-    /* Inline styles to reflect changes */
-    .main-content {
-      transition: margin-left 0.3s ease;
-      padding: 20px;
-      margin-left: 0;
-    }
-
-    .main-content.shifted {
-      margin-left: 250px;
-    }
-  </style>
 </head>
+
+
 <body>
   <!-- ✅ Navbar -->
   <div class="navbar">
     <span class="hamburger" id="hamburger">&#9776;</span>
-    <span class="navbar-title">IDS | Fasa 4 (2025)</span>
+    <span class="navbar-title">IDS | Permantauan Dinamika Pembangunan Kerajaan</span>
+    <span id="username" class="navbar-username">
+    <i class="fas fa-user" style="margin-right:10px;"></i>Memuat...
+  </span>
   </div>
 
-  <!-- ✅ Sidepanel -->
-  <div id="sidePanel" class="sidepanel">
-    <a href="/cycle4-demo/admin/index.html"><i class="fas fa-chart-line" style="margin-right:10px;"></i> Dashboard</a>
-    <a href="/cycle4-demo/admin/responses_records.html"><i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Rekod Responden</a>
-    <a href="/cycle4-demo/admin/user_management_2.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a>
-    <a href="/cycle4-demo/logout.html" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
-      <i class="fas fa-sign-out-alt" style="margin-right:10px;"></i> Log Keluar
-    </a>
-  </div>
+<!-- Sidepanel -->
+<div id="sidePanel" class="sidepanel">
+  <a href="/cycle4-demo/admin/index.html"><i class="fas fa-chart-line" style="margin-right:10px;"></i> Dashboard</a>
+  <a class="active" href="/cycle4-demo/admin/responses_records_v2.html"><i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Rekod Responden</a>
+  <!-- <a href="/cycle4-demo/admin/user_management.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a> -->
+  <a href="/cycle4-demo/admin/user_management_2.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a>
+  <a href="/cycle4-demo/logout.html" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
+    <i class="fas fa-sign-out-alt" style="margin-right:10px;"></i> Log Keluar
+  </a>
+</div>
+
 
   <!-- ✅ Main Content -->
   <div class="main-content" id="mainContent">
-    <h2>Responses Records</h2>
-    <!-- <iframe
-      width="100%"
-      src="https://app.powerbi.com/view?r=eyJrIjoiNDJiMTI4MDMtNzYzZC00MzJjLTllMjktNDBmNDU4ZDM3NTgyIiwidCI6IjNiNmFjMTJhLTgwMDAtNGYwZS1iYmMyLWYwNzhiNTY0NGFlNiIsImMiOjEwfQ%3D%3D"
-      frameborder="0"
-      allowfullscreen="true"
-    ></iframe> -->
+    <h2>Rekod Responden</h2>
+
     <div id="timeout-timer">
       Sesi akan tamat secara automatik dalam: <span id="countdown">--:--</span>
     </div>
   </div>
 
-  <footer>
-    <p>v 4.1.18</p>
-  </footer>
+  <!-- <footer>
+    <p>v 4.1.21</p>
+  </footer> -->
+
 
   <script>
     const hamburger = document.getElementById("hamburger");
@@ -74,9 +65,27 @@
     const mainContent = document.getElementById("mainContent");
 
     hamburger.addEventListener("click", () => {
-      const isOpen = sidePanel.style.width === "250px";
+      const isMobile = window.innerWidth <= 768;
+      if(isMobile){
+        sidePanel.classList.toggle("open");
+      }
+      else{
+        // This applies to default function if not mobile
+      const isOpen = sidePanel.classList.contains("open");
+
+      if (isOpen) {
+        sidePanel.classList.remove("open");
+        sidePanel.style.width = "0";
+        mainContent.style.marginLeft = "0";
+      } else {
+        sidePanel.classList.add("open");
+        sidePanel.style.width = "250px";
+        mainContent.style.marginLeft = "250px";
+      }
+
       sidePanel.style.width = isOpen ? "0" : "250px";
-      mainContent.classList.toggle("shifted", !isOpen);
+      mainContent.classList.toggle("shifted", !isOpen)
+      };
     });
     
     
@@ -162,5 +171,53 @@
 
     resetInactivityTimer();
   </script>
+  <script>
+// Wait until the DOM is ready
+document.addEventListener("DOMContentLoaded", () => {
+  // Retrieve user data from sessionStorage
+  const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
+
+  // Try to use enumerator_code or fallback to name
+  const displayName = userData.enumerator_code || userData.name || "Pengguna";
+
+  // Replace username in the navbar
+  const usernameEl = document.getElementById("username");
+  if (usernameEl) {
+    usernameEl.innerHTML = `<i class="fas fa-user" style="margin-right:10px;"></i>${displayName}`;
+    usernameEl.title = userData.role || ""; // Optional: show role as tooltip
+  }
+});
+</script>
+
+
+<!--This is for hovering other options if not highlighted-->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const links = document.querySelectorAll('#sidePanel a');
+    const currentPath = window.location.pathname;
+    let activeLink = null;
+
+    // Identify and store the initially active link
+    links.forEach(link => {
+      const linkPath = new URL(link.href).pathname;
+      if (linkPath === currentPath) {
+        link.classList.add('active');
+        activeLink = link;
+      }
+
+      // Add hover event listeners
+      link.addEventListener('mouseenter', () => {
+        if (activeLink) activeLink.classList.remove('active');
+        link.classList.add('hovered');
+      });
+
+      link.addEventListener('mouseleave', () => {
+        link.classList.remove('hovered');
+        if (activeLink) activeLink.classList.add('active');
+      });
+    });
+  });
+</script>
+
 </body>
 </html>

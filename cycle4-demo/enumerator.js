@@ -16,6 +16,11 @@ export const enumerator = [
     { userID: 'AM00', name: 'Albert' },
 
     //For Testing Purposes
-    {userID: 'ST00', name: 'ST Advisory Member'}
+    {userID: 'ST00', name: 'ST Advisory Member'},
+    {userID: 'ST01', name: 'ST Advisory Member'},
+    {userID: 'ST02', name: 'ST Advisory Member'},
+    {userID: 'ST03', name: 'ST Advisory Member'},
+    {userID: 'ST04', name: 'ST Advisory Member'},
+    {userID: 'ST05', name: 'ST Advisory Member'}
 ]
 

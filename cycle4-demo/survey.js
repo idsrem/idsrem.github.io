@@ -186,6 +186,9 @@ function showIdInput() {
         return;
     }
 
+    surveyContainer.style.display = "block";
+    surveyContainer.innerHTML = ""; // Clear the survey container
+
     // Get current date
     const currentDate = new Date().toLocaleDateString('ms-MY', { // 'ms-MY' is the language/locale for Malaysia
         year: 'numeric',
@@ -231,7 +234,25 @@ function showIdInput() {
     inputField.placeholder = "Masukkan ID anda...";
     inputField.classList.add("custom-input");
 
-    if (currentUserId) inputField.value = currentUserId; // Auto-fill if ID exists
+
+    // Load userData from sessionStorage
+    const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
+    const autoId = userData.enumerator_code || "";  // Or fallback to userData.id or userData.name if needed
+
+    if (autoId) {
+        inputField.value = autoId;
+        inputField.readOnly = true; // Prevent user from editing the input
+        inputField.style.backgroundColor = "#f0f0f0";  // Light gray
+        inputField.style.cursor = "not-allowed"; 
+        currentUserId = autoId;
+        localStorage.setItem("currentUserId", currentUserId);
+    }
+
+    //if (currentUserId) inputField.value = currentUserId; // Auto-fill if ID exists
+    if (currentUserId) {
+    inputField.value = currentUserId;
+    updateTodayRespondentsDisplay();
+}
 
     const nextButton = document.createElement("button");
     nextButton.textContent = "Seterusnya";
@@ -258,7 +279,29 @@ function showIdInput() {
         // If user exists, store ID and proceed
         currentUserId = kodInput;
         localStorage.setItem("currentUserId", currentUserId); // Store the ID in local storage
+        // updateTodayRespondentsDisplay();
+        
 
+        if (autoId) {
+        const userMessage = document.createElement("div");
+        userMessage.classList.add("message-bubble", "answer-bubble");
+        userMessage.innerHTML = `Anda: ${autoId}`;
+        messageView.appendChild(userMessage);
+
+        startSurvey();
+
+        setTimeout(() => {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+        }, 100);
+
+        return; // Exit the function to skip the manual input step
+    }
+
+
+        
+
+        
+        
         // Show user input in message view
         const userMessage = document.createElement("div");
         userMessage.classList.add("message-bubble", "answer-bubble");
@@ -722,6 +765,17 @@ function showIdInput() {
                     icon.style.fontSize = "20px";                    
                     button.appendChild(document.createTextNode("Mula Survey"));
                     button.appendChild(icon);
+
+
+                } else if (option.name === "Semua Yang Tertera") {
+                    button.style.backgroundColor = "#339A00";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Semua Yang Tertera";
+
+                } else if (option.name === "Tiada") {
+                    button.style.backgroundColor = "#ff0000ff";
+                    button.style.color = "#FFFFFF";
+                     button.innerHTML = "Tiada";
                 }
                 else {
                     button.textContent = option.name || option.code;
@@ -1615,9 +1669,13 @@ function handleAnswer(questionId, selectedOption) {
 
 
     function saveSurveyResponses() {
-    let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
-    let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey"));
     let userid = localStorage.getItem("currentUserId");
+    let storageKey = `allSurveyResponses_${userid}`;
+    let allSurveys = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+    //let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey"));
+    //let userid = localStorage.getItem("currentUserId");
 
     let startTime = new Date(localStorage.getItem("surveyStartTime"));
     if (isNaN(startTime)) {
@@ -1658,7 +1716,7 @@ function handleAnswer(questionId, selectedOption) {
             mempengaruhiundian: Array.isArray(currentSurvey.answers.mempengaruhiUndian)
             ? currentSurvey.answers.mempengaruhiUndian.join(", ")
             : currentSurvey.answers.mempengaruhiUndian || "-",
-
+            pilihanRaya : currentSurvey.answers.pilihanRaya || "-",
             parlimen : currentSurvey.answers.parlimen || "-",
             cenderunguntukundi : currentSurvey.answers.cenderungUntukUndi || "-",
             mengundiAdun: currentSurvey.answers.mengundiAdun || "-",
@@ -1674,7 +1732,9 @@ function handleAnswer(questionId, selectedOption) {
             pushed: false
         };
         allSurveys.push(formattedSurvey);
-        localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+        //localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+        localStorage.setItem(storageKey, JSON.stringify(allSurveys));
+
     }
 
     localStorage.removeItem("currentSurvey");
@@ -1710,7 +1770,11 @@ function displayAllSurveyResponses(hideTable = false) {
     document.getElementById("green-buttons-wrapper")?.remove();
 
     // Get all surveys
-    let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    // let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    let userid = localStorage.getItem("currentUserId");
+    let storageKey = `allSurveyResponses_${userid}`;
+    let allSurveys = JSON.parse(localStorage.getItem(storageKey)) || [];
+
     allSurveys = allSurveys.map(survey => survey.answers ? survey.answers : survey);
 
     // ===== Main Buttons (Red, Blue, ToggleView) =====
@@ -1937,7 +2001,11 @@ window.pushToDatabaseButton = pushToDatabaseButton;
 window.downloadInExcelDoc = downloadInExcelDoc;
 
 window.deleteSurveyResponse = (responseId) => {
-    let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    //let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    let userid = localStorage.getItem("currentUserId");
+    let storageKey = `allSurveyResponses_${userid}`;
+    let allSurveys = JSON.parse(localStorage.getItem(storageKey)) || [];
+
     allSurveys = allSurveys.map(survey => survey.answers ? survey : { responseid: survey.responseid, answers: survey });
     const updatedSurveys = allSurveys.filter(survey => survey.responseid !== responseId);
     localStorage.setItem("allSurveyResponses", JSON.stringify(updatedSurveys));
@@ -2204,59 +2272,100 @@ window.addEventListener("resize", () => {
 
 
 //FUNCTION : ONCE THE SURVEY ANSWERS ARE STORED IN THE LOCAL DATABASE, BY CLICK THE "SIMPAN DATA" BUTTON, IT WILL PUSH TO THE ACTUAL DATABASE
+// function pushToDatabaseButton() {
+//     // Only handle pushing logic — no button creation here
+//     let allResponses = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+//     let pushedIds = JSON.parse(localStorage.getItem("pushedRespondentIds")) || [];
+
+//     // Filter only responses not pushed yet
+//     const unpushedResponses = allResponses.filter(r => !pushedIds.includes(r.responseid));
+//     showToast("Sedang menghantar data ke pangkalan data...", "success");
+
+//     if (unpushedResponses.length === 0) {
+//         //("Tiada data baru untuk dihantar.");
+//         showToast("Tiada data baru untuk dihantar", "error");
+//         return;
+//     }
+
+//     sendDataToBackend(unpushedResponses)
+//         .then(() => {
+//             // Mark as pushed
+//             pushedIds = pushedIds.concat(unpushedResponses.map(r => r.responseid));
+//             localStorage.setItem("pushedRespondentIds", JSON.stringify(pushedIds));
+
+//             // Remove pushed surveys from allSurveyResponses
+//             allResponses = allResponses.filter(r => !pushedIds.includes(r.responseid));
+//             localStorage.setItem("allSurveyResponses", JSON.stringify(allResponses));
+
+//             updateConfirmedRespondentCount(unpushedResponses.length);
+
+//             // alert("Data berjaya dihantar ke pangkalan data.");
+//             document.getElementById("saveDatabaseModal").style.display = "block";
+//             document.getElementById("table-container").innerHTML = '';
+//         })
+//         .catch(error => {
+//             document.getElementById("errorDatabaseModal").style.display = "block";
+//             // alert("Ralat semasa menghantar data.");
+//             console.error("Send to backend failed:", error);
+//         });
+// }
+
 function pushToDatabaseButton() {
-    // Only handle pushing logic — no button creation here
-    let allResponses = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    const userid = localStorage.getItem("currentUserId");
+    const storageKey = `allSurveyResponses_${userid}`;
+    let allResponses = JSON.parse(localStorage.getItem(storageKey)) || [];
     let pushedIds = JSON.parse(localStorage.getItem("pushedRespondentIds")) || [];
 
-    // Filter only responses not pushed yet
+    // Filter only responses not yet pushed
     const unpushedResponses = allResponses.filter(r => !pushedIds.includes(r.responseid));
     showToast("Sedang menghantar data ke pangkalan data...", "success");
 
     if (unpushedResponses.length === 0) {
-        //("Tiada data baru untuk dihantar.");
         showToast("Tiada data baru untuk dihantar", "error");
         return;
     }
 
     sendDataToBackend(unpushedResponses)
         .then(() => {
-            // Mark as pushed
+            // Mark these responses as pushed
             pushedIds = pushedIds.concat(unpushedResponses.map(r => r.responseid));
             localStorage.setItem("pushedRespondentIds", JSON.stringify(pushedIds));
 
-            // Remove pushed surveys from allSurveyResponses
+            // Remove pushed surveys from local storage (optional)
             allResponses = allResponses.filter(r => !pushedIds.includes(r.responseid));
-            localStorage.setItem("allSurveyResponses", JSON.stringify(allResponses));
+            localStorage.setItem(storageKey, JSON.stringify(allResponses));
 
             updateConfirmedRespondentCount(unpushedResponses.length);
 
-            // alert("Data berjaya dihantar ke pangkalan data.");
+            // Show success modal
             document.getElementById("saveDatabaseModal").style.display = "block";
             document.getElementById("table-container").innerHTML = '';
         })
         .catch(error => {
             document.getElementById("errorDatabaseModal").style.display = "block";
-            // alert("Ralat semasa menghantar data.");
             console.error("Send to backend failed:", error);
         });
 }
 
 
 function updateConfirmedRespondentCount(countJustPushed) {
+    const userid = localStorage.getItem("currentUserId");
     const todayDate = new Date().toISOString().split('T')[0];
-    let confirmedCount = parseInt(localStorage.getItem(`confirmedRespondents_${todayDate}`)) || 0;
+    const storageKey = `confirmedRespondents_${userid}_${todayDate}`;
 
+    let confirmedCount = parseInt(localStorage.getItem(storageKey)) || 0;
     confirmedCount += countJustPushed;
-    localStorage.setItem(`confirmedRespondents_${todayDate}`, confirmedCount);
+    localStorage.setItem(storageKey, confirmedCount);
 
     updateTodayRespondentsDisplay(); // Refresh UI
 }
 
-
 function updateTodayRespondentsDisplay() {
+    const userid = localStorage.getItem("currentUserId");
     const todayDate = new Date().toISOString().split('T')[0];
-    const count = parseInt(localStorage.getItem(`confirmedRespondents_${todayDate}`)) || 0;
+    const storageKey = `confirmedRespondents_${userid}_${todayDate}`;
+
+    const count = parseInt(localStorage.getItem(storageKey)) || 0;
 
     const element = document.getElementById("todayRespondents");
     if (element) {
@@ -2267,6 +2376,33 @@ function updateTodayRespondentsDisplay() {
 document.addEventListener("DOMContentLoaded", () => {
     updateTodayRespondentsDisplay(); // Show initial count
 });
+
+
+
+// function updateConfirmedRespondentCount(countJustPushed) {
+//     const todayDate = new Date().toISOString().split('T')[0];
+//     let confirmedCount = parseInt(localStorage.getItem(`confirmedRespondents_${todayDate}`)) || 0;
+
+//     confirmedCount += countJustPushed;
+//     localStorage.setItem(`confirmedRespondents_${todayDate}`, confirmedCount);
+
+//     updateTodayRespondentsDisplay(); // Refresh UI
+// }
+
+
+// function updateTodayRespondentsDisplay() {
+//     const todayDate = new Date().toISOString().split('T')[0];
+//     const count = parseInt(localStorage.getItem(`confirmedRespondents_${todayDate}`)) || 0;
+
+//     const element = document.getElementById("todayRespondents");
+//     if (element) {
+//         element.textContent = `Jumlah Responden Hari Ini (${todayDate}) - ${count} Responden`;
+//     }
+// }
+
+// document.addEventListener("DOMContentLoaded", () => {
+//     updateTodayRespondentsDisplay(); // Show initial count
+// });
 
     // function pushToDatabaseButton(){
     //     const data = JSON.parse(localStorage.getItem("allSurveyResponses"));
@@ -2434,7 +2570,12 @@ function redoSurvey() {
 
     function downloadInExcelDoc() {
     // Read survey data from localStorage
-    let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    //let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+
+    let userid = localStorage.getItem("currentUserId");
+    let storageKey = `allSurveyResponses_${userid}`;
+    let allSurveys = JSON.parse(localStorage.getItem(storageKey)) || [];
+
 
     if (allSurveys.length === 0) {
         //alert("Tiada data untuk dimuat turun.");
@@ -2446,7 +2587,8 @@ function redoSurvey() {
         // Define headers
         const headers = [
             "Kod", "Tarikh", "Zon", "Parlimen", "DUN", "Umur", "Jantina",
-            "Bangsa", "Bangsa Lain", "Kerajaan Semasa", "Mempengaruhi Undian", "Mengundi Adun", "Mengundi Adun Lain", "Pemimpin Sabah", "Response ID", "Start Time"
+            "Bangsa", "Bangsa Lain", "Kerajaan Semasa", "Mempengaruhi Undian", "Mengundi Adun", "Mengundi Adun Lain",
+            "Pemimpin Sabah", "Longitude", "Latitude", "Location", "Response ID", "Start Time"
         ];
 
         // Convert survey data
@@ -2467,6 +2609,9 @@ function redoSurvey() {
                 s.mengundiAdun || "-",
                 s.mengundiAdunLain || "-",
                 s.pemimpinsabah || "-",
+                s.longitude || "-",
+                s.latitude || "-",
+                s.lastLocation || "-",
                 s.responseid || "-", 
                 s.starttime || "-"
             ];

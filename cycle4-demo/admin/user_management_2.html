@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/cycle4-demo/admin/user_management_2.css" />
-  <title>IDS | Fasa 4 (2025)</title>
-  <link rel="icon" type="image/x-icon" href="ids_logo.png" />
+  <title>User Management | IDS Fasa 4</title>
+  <link rel="icon" type="image/x-icon" href="/cycle4-demo/ids_logo.png" />
   <link
     href="https://fonts.googleapis.com/css2?family=Basic&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Hind+Madurai:wght@300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Share+Tech&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
     rel="stylesheet"
@@ -20,32 +20,24 @@
     href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
     rel="stylesheet"
   />
-  <style>
-    /* Inline styles to reflect changes */
-    .main-content {
-      transition: margin-left 0.3s ease;
-      padding: 20px;
-      margin-left: 0;
-    }
-
-    .main-content.shifted {
-      margin-left: 250px;
-    }
-  </style>
+ 
 </head>
 <body>
   <!-- ✅ Navbar -->
   <div class="navbar">
     <span class="hamburger" id="hamburger">&#9776;</span>
     <span class="navbar-title">IDS | Permantauan Dinamika Pembangunan Kerajaan</span>
+    <span id="username" class="navbar-username">
+      <i class="fas fa-user" style="margin-right:10px;"></i>Memuat...
+    </span>
   </div>
 
   <!-- ✅ Sidepanel -->
   <div id="sidePanel" class="sidepanel">
     <a href="/cycle4-demo/admin/index.html"><i class="fas fa-chart-line" style="margin-right:10px;"></i> Dashboard</a>
-    <a href="/cycle4-demo/admin/responses_records.html"><i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Rekod Responden</a>
+    <a href="/cycle4-demo/admin/responses_records_v2.html"><i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Rekod Responden</a>
     <!-- <a href="/cycle4-demo/admin/user_management.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a> -->
-    <a href="/cycle4-demo/admin/user_management_2.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a>
+    <a class="active" href="/cycle4-demo/admin/user_management_2.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a>
     <a href="/cycle4-demo/logout.html" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
       <i class="fas fa-sign-out-alt" style="margin-right:10px;"></i> Log Keluar
     </a>
@@ -59,11 +51,12 @@
     <table id="userTable">
       <thead>
         <tr class="headers-table">
+          <th></th>
           <th>Name</th>
           <th>Role</th>
           <th>Enumerator Code</th>
           <th>Created At</th>
-          <th>Actions</th>
+
         </tr>
       </thead>
       <tbody></tbody>
@@ -73,7 +66,7 @@
         <div id="userModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h3>Add / Edit User</h3>
+            <h3>Add New User</h3>
             <hr/>
             <form id="userForm">
             <label>Name</label>
@@ -108,141 +101,37 @@
     </div>
   </div>
 
-  <footer>
-    <p>v 4.1.18</p>
-  </footer>
-
-    <script>
-    const modal = document.getElementById('userModal');
-    const form = document.getElementById('userForm');
-    const tableBody = document.querySelector('#userTable tbody');
-    const openBtn = document.getElementById('addUserBtn');
-    const closeBtn = document.querySelector('.close');
-    let editUserId = null;
-
-    openBtn.onclick = () => {
-      editUserId = null;
-      form.reset();
-      modal.style.display = 'block';
-    };
-
-    closeBtn.onclick = () => modal.style.display = 'none';
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = {
-        name: form.name.value.trim(),
-        role: form.role.value,
-        enumerator_code: form.enumerator_code.value.trim(),
-        password: form.password.value,
-        confirmPassword: form.confirmPassword.value
-      };
-      if (formData.password && formData.password !== formData.confirmPassword) {
-        alert("Passwords do not match");
-        return;
-      }
-      const url = editUserId
-        ? `https://atiqahst-github-io.onrender.com/users/${editUserId}`
-        : `https://atiqahst-github-io.onrender.com/users`;
-      const method = editUserId ? 'PUT' : 'POST';
-
-      try {
-        const res = await fetch(url, {
-          method,
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
-        });
-        if (!res.ok) {
-          const errorData = await res.json();
-          throw new Error(errorData.error || "Operation failed");
-        }
-        alert(editUserId ? "User updated!" : "User created!");
-        modal.style.display = 'none';
-        form.reset();
-        loadUsers();
-      } catch (err) {
-        alert(err.message);
-      }
-    });
-
-    async function loadUsers() {
-      try {
-        const res = await fetch('https://atiqahst-github-io.onrender.com/users');
-        const users = await res.json();
-
-        tableBody.innerHTML = '';
-        users.forEach(user => {
-          const tr = document.createElement('tr');
-          tr.setAttribute('data-id', user.id);
-          tr.innerHTML = `
-            <td>${user.name}</td>
-            <td>${user.role}</td>
-            <td>${user.enumerator_code}</td>
-            <td>${new Date(user.created_at).toLocaleString()}</td>
-            <td>
-              <button class="edit-btn"><i class="fas fa-edit"></i></button>
-              <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
-            </td>
-          `;
-          tableBody.appendChild(tr);
-        });
-
-        attachActionListeners();
-      } catch (err) {
-        alert('Failed to load users');
-      }
-    }
-
-    function attachActionListeners() {
-      document.querySelectorAll('.edit-btn').forEach(btn => {
-        btn.addEventListener('click', handleEdit);
-      });
-      document.querySelectorAll('.delete-btn').forEach(btn => {
-        btn.addEventListener('click', handleDelete);
-      });
-    }
-
-    function handleEdit(e) {
-      const row = e.target.closest('tr');
-      editUserId = row.getAttribute('data-id');
-      form.name.value = row.children[0].textContent;
-      form.role.value = row.children[1].textContent;
-      form.enumerator_code.value = row.children[2].textContent;
-      form.password.value = '';
-      form.confirmPassword.value = '';
-      modal.style.display = 'block';
-    }
-
-    async function handleDelete(e) {
-      const row = e.target.closest('tr');
-      const userId = row.getAttribute('data-id');
-      const confirmDelete = confirm("Are you sure you want to delete this user?");
-      if (!confirmDelete) return;
-
-      try {
-        const res = await fetch(`https://atiqahst-github-io.onrender.com/users/${userId}`, {
-          method: "DELETE"
-        });
-        if (!res.ok) throw new Error("Delete failed");
-        alert("User deleted successfully");
-        loadUsers();
-      } catch (err) {
-        alert(err.message);
-      }
-    }
-
-    loadUsers();
-  </script>
-
   <script>
     const hamburger = document.getElementById("hamburger");
     const sidePanel = document.getElementById("sidePanel");
     const mainContent = document.getElementById("mainContent");
+        hamburger.addEventListener("click", () => {
+      const isMobile = window.innerWidth <= 768;
+      if(isMobile){
+        sidePanel.classList.toggle("open");
+      }
+      else{
+        // This applies to default function if not mobile
+      const isOpen = sidePanel.classList.contains("open");
 
-    hamburger.addEventListener("click", () => {
-      const isOpen = sidePanel.style.width === "250px";
+      if (isOpen) {
+        sidePanel.classList.remove("open");
+        sidePanel.style.width = "0";
+        mainContent.style.marginLeft = "0";
+      } else {
+        sidePanel.classList.add("open");
+        sidePanel.style.width = "250px";
+        mainContent.style.marginLeft = "250px";
+      }
+
       sidePanel.style.width = isOpen ? "0" : "250px";
-      mainContent.classList.toggle("shifted", !isOpen);
+      mainContent.classList.toggle("shifted", !isOpen)
+      };
+
+    // hamburger.addEventListener("click", () => {
+    //   const isOpen = sidePanel.style.width === "250px";
+    //   sidePanel.style.width = isOpen ? "0" : "250px";
+    //   mainContent.classList.toggle("shifted", !isOpen);
     });
 
     document.getElementById("logout-button-sidebar").addEventListener("click", () => {
@@ -326,5 +215,186 @@
 
     resetInactivityTimer();
   </script>
+
+
+  <!--Username setting where once the user is logged in it will show on the right side of the navbar-->
+  <script>
+    // Wait until the DOM is ready
+    document.addEventListener("DOMContentLoaded", () => {
+    // Retrieve user data from sessionStorage
+    const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
+
+    // Try to use enumerator_code or fallback to name
+    const displayName = userData.enumerator_code || userData.name || "Pengguna";
+
+    // Replace username in the navbar
+    const usernameEl = document.getElementById("username");
+    if (usernameEl) {
+        usernameEl.innerHTML = `<i class="fas fa-user" style="margin-right:10px;"></i>${displayName}`;
+        usernameEl.title = userData.role || ""; // Optional: show role as tooltip
+    }
+    });
+    </script>
+
+
+
+
+    <script>
+    const modal = document.getElementById('userModal');
+    const form = document.getElementById('userForm');
+    const tableBody = document.querySelector('#userTable tbody');
+    const openBtn = document.getElementById('addUserBtn');
+    const closeBtn = document.querySelector('.close');
+    let editUserId = null;
+
+    openBtn.onclick = () => {
+      editUserId = null;
+      form.reset();
+      modal.style.display = 'block';
+    };
+
+    closeBtn.onclick = () => modal.style.display = 'none';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = {
+        name: form.name.value.trim(),
+        role: form.role.value,
+        enumerator_code: form.enumerator_code.value.trim(),
+        password: form.password.value,
+        confirmPassword: form.confirmPassword.value
+      };
+      if (formData.password && formData.password !== formData.confirmPassword) {
+        alert("Passwords do not match");
+        return;
+      }
+      const url = editUserId
+        ? `https://atiqahst-github-io.onrender.com/users/${editUserId}`
+        : `https://atiqahst-github-io.onrender.com/users`;
+      const method = editUserId ? 'PUT' : 'POST';
+
+      try {
+        const res = await fetch(url, {
+          method,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.error || "Operation failed");
+        }
+        alert(editUserId ? "User updated!" : "User created!");
+        modal.style.display = 'none';
+        form.reset();
+        loadUsers();
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+
+    async function loadUsers() {
+      try {
+        const res = await fetch('https://atiqahst-github-io.onrender.com/users');
+        const users = await res.json();
+
+        tableBody.innerHTML = '';
+        users.forEach(user => {
+          const tr = document.createElement('tr');
+          tr.setAttribute('data-id', user.id);
+          tr.innerHTML = `
+            <td>
+              <button class="edit-btn"><i class="fas fa-edit"></i></button>
+              <button class="delete-btn"><i class="fas fa-trash-alt"></i></button>
+            </td>
+            <td>${user.name}</td>
+            <td>${user.role}</td>
+            <td>${user.enumerator_code}</td>
+            <td>${new Date(user.created_at).toLocaleString()}</td>
+
+          `;
+          tableBody.appendChild(tr);
+        });
+
+        attachActionListeners();
+      } catch (err) {
+        alert('Failed to load users');
+      }
+    }
+
+    function attachActionListeners() {
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', handleEdit);
+      });
+      document.querySelectorAll('.delete-btn').forEach(btn => {
+        btn.addEventListener('click', handleDelete);
+      });
+    }
+
+    function handleEdit(e) {
+    const btn = e.currentTarget; // Use the button, not the icon
+    const row = btn.closest('tr');
+    if (!row) return;
+
+    editUserId = row.getAttribute('data-id');
+    const cells = row.querySelectorAll('td');
+
+    form.name.value = cells[1]?.textContent.trim() || '';
+    form.role.value = cells[2]?.textContent.trim() || '';
+    form.enumerator_code.value = cells[3]?.textContent.trim() || '';
+    form.password.value = '';
+    form.confirmPassword.value = '';
+    modal.style.display = 'block';
+    }
+
+    async function handleDelete(e) {
+      const row = e.target.closest('tr');
+      const userId = row.getAttribute('data-id');
+      const confirmDelete = confirm("Are you sure you want to delete this user?");
+      if (!confirmDelete) return;
+
+      try {
+        const res = await fetch(`https://atiqahst-github-io.onrender.com/users/${userId}`, {
+          method: "DELETE"
+        });
+        if (!res.ok) throw new Error("Delete failed");
+        alert("User deleted successfully");
+        loadUsers();
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    loadUsers();
+  </script>
+
+
+  <!--This is for hovering other options if not highlighted-->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const links = document.querySelectorAll('#sidePanel a');
+    const currentPath = window.location.pathname;
+    let activeLink = null;
+
+    // Identify and store the initially active link
+    links.forEach(link => {
+      const linkPath = new URL(link.href).pathname;
+      if (linkPath === currentPath) {
+        link.classList.add('active');
+        activeLink = link;
+      }
+
+      // Add hover event listeners
+      link.addEventListener('mouseenter', () => {
+        if (activeLink) activeLink.classList.remove('active');
+        link.classList.add('hovered');
+      });
+
+      link.addEventListener('mouseleave', () => {
+        link.classList.remove('hovered');
+        if (activeLink) activeLink.classList.add('active');
+      });
+    });
+  });
+</script>
 </body>
 </html>
