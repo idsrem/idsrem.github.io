@@ -91,18 +91,9 @@ export const surveyQuestions = [
             {name: "Kerja & Gaji"},
             {name: "Infrastruktur lebih baik"},
             {name: "Hubungan kuat dengan Persekutuan"},
-            {name: "Pendidikan"}
-        ]
-    },
-    {
-        id: "mempengaruhiUndian",
-        text: "Apakah isu utama yang akan mempengaruhi undian anda dalam pilihan raya akan datang?",
-        type: "multiselect",
-        options: [
-            {name: "Rasuah"},
-            {name: "Bencana Alam"},
-            {name: "Skandal"},
-            {name: "Isu Air & Elektrik"}
+            {name: "Pendidikan"},
+            {name: "Semua Yang Tertera"},
+            {name: "Tiada"}
         ]
     },
     {
@@ -136,6 +127,27 @@ export const surveyQuestions = [
             {name: "Ewon Benedick (PH)" , image: "adun_pictures/N11 KADAMAIAN - EWON BENEDICK.jpg"},
             {name: "Tidak Pasti"},
             {name: "Lain - Lain"}
+        ]
+    },
+    {
+        id: "mempengaruhiUndian",
+        text: "Apakah isu utama yang akan mempengaruhi undian anda dalam pilihan raya akan datang?",
+        type: "multiselect",
+        options: [
+            {name: "Rasuah"},
+            {name: "Bencana Alam"},
+            // {name: "Skandal"},
+            {name: "Infrastruktur(Air, Elektrik & Jalan"},
+            {name: "Sosioekonomi"}
+        ]
+    },
+    {
+        id: "pilihanRaya",
+        text: "Adakah anda akan mengundi pada pilihan raya akan datang?",
+        options: [
+            {name: "Ya"},
+            {name: "Tidak"},
+            {name: "Tidak Pasti"}
         ]
     },
     {
