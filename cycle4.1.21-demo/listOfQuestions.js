@@ -106,7 +106,7 @@ export const surveyQuestions = [
     },
     {
         id: "pemimpinSabah",
-        text: "Akhir sekali, pada pendapat anda siapa yang layak untuk memimpin Sabah?",
+        text: "Pada pendapat anda siapa yang layak untuk memimpin Sabah?",
         options: [
             {name: "Hajiji Noor (GRS)", image: "adun_pictures/N12 SULAMAN - HAJIJI NOOR.jpg"},
             {name: "Shafie Apdal (WARISAN)", image: "adun_pictures/N65 SENALLANG - SHAFIE APDAL.jpg"},
@@ -143,7 +143,7 @@ export const surveyQuestions = [
     },
     {
         id: "pilihanRaya",
-        text: "Adakah anda akan mengundi pada pilihan raya akan datang?",
+        text: "Adakah anda akan mengundi pada pilihan raya negeri akan datang?",
         options: [
             {name: "Ya"},
             {name: "Tidak"},
