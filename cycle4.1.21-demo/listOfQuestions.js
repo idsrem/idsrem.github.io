@@ -137,8 +137,7 @@ export const surveyQuestions = [
         options: [
             {name: "Rasuah"},
             {name: "Bencana Alam"},
-            // {name: "Skandal"},
-            {name: "Infrastruktur(Air, Elektrik & Jalan"},
+            {name: "Infrastruktur(Air, Elektrik & Jalan)"},
             {name: "Sosioekonomi"}
         ]
     },
