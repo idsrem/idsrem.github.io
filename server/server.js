@@ -301,7 +301,7 @@ app.delete('/users/:id', async (req, res) => {
 app.post('/exportResponse', async (req, res) => {
   const userDataArray = req.body;  // The array of user data
 
-  console.log("Hi Habri");
+  console.log("Hi Amiirul");
   
   // Ensure the array is valid
   if (!Array.isArray(userDataArray) || userDataArray.length === 0) {
@@ -430,7 +430,6 @@ app.post('/test_cycle4', async (req, res) => {
     const queryText = `INSERT INTO cycle4_demo (responseid, tarikh, kod, zon, dun, parlimen, umur, jantina, bangsa, bangsalain, kerajaansemasa, mempengaruhiundian, pilihanRaya, cenderunguntukundi,
       mengundiAdun, mengundiAdunLain, pemimpinsabah, pemimpinsabahlain, starttime, endtime, lokasi, latitude, longitude, isiboranglagi) 
       VALUES ${placeholders}`;
-s
     // Execute the query
     await pool.query(queryText, values);
 
