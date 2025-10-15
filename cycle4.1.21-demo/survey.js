@@ -776,7 +776,38 @@ function showIdInput() {
                     button.style.backgroundColor = "#ff0000ff";
                     button.style.color = "#FFFFFF";
                      button.innerHTML = "Tiada";
+
+                } else if (option.name === "Ya" && question.id === "mengundiAdun") {
+                    button.style.backgroundColor = "#339A00";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Ya";
+
+                }else if (option.name === "Tidak" && question.id === "mengundiAdun") {
+                    button.style.backgroundColor = "#ff0000ff";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Tidak";
+
+                }else if (option.name === "Ya" && question.id === "pilihanRaya") {
+                    button.style.backgroundColor = "#339A00";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Ya";
+
+                }else if (option.name === "Tidak" && question.id === "pilihanRaya") {
+                    button.style.backgroundColor = "#ff0000ff";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Tidak";
+
+                }else if (option.name === "Iya, (isi kaji selidik yang baru)" && question.id === "isiBorangLagi") {
+                    button.style.backgroundColor = "#339A00";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Iya, (isi kaji selidik yang baru)";
+
+                }else if (option.name === "Tidak, (Sesi ditamatkan)" && question.id === "isiBorangLagi") {
+                    button.style.backgroundColor = "#ff0000ff";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Tidak, (Sesi ditamatkan)";
                 }
+
                 else {
                     button.textContent = option.name || option.code;
                 }
@@ -2444,7 +2475,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function sendDataToBackend(data){
     try {
-        const response = await fetch('https://atiqahst-github-io.onrender.com/testResponse', {
+        const response = await fetch('https://atiqahst-github-io.onrender.com/test_cycle4', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
