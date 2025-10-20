@@ -245,25 +245,24 @@ app.delete('/users/:id', async (req, res) => {
 
 app.get("/respondent-history", async (req, res) => {
   try {
-  const result = await db.query(`
-    SELECT 
-        to_date(tarikh, 'DD/MM/YYYY') AS date,
-        kod AS enumerator_code,
-        COUNT(*) AS respondent_count
-    FROM 
-        cycle4_demo
-    WHERE 
-        tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'  -- Make sure it's in DD/MM/YYYY format
-    GROUP BY 
-        to_date(tarikh, 'DD/MM/YYYY'), kod
-    ORDER BY 
-        date DESC, kod ASC;
-  `);
-
+    const result = await pool.query(`
+      SELECT 
+          to_date(tarikh, 'DD/MM/YYYY') AS date,
+          kod AS enumerator_code,
+          COUNT(*) AS respondent_count
+      FROM 
+          cycle4_demo
+      WHERE 
+          tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
+      GROUP BY 
+          to_date(tarikh, 'DD/MM/YYYY'), kod
+      ORDER BY 
+          date DESC, kod ASC;
+    `);
     res.json(result.rows);
   } catch (err) {
     console.error("Database error", err);
-    res.status(500).json({ error: err.message }); // <-- send error message to frontend
+    res.status(500).json({ error: err.message });
   }
 });
 
