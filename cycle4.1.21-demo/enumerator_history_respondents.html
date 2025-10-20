@@ -40,33 +40,39 @@
         <tbody></tbody>
     </table>
 
-    <script>
-        async function loadRespondentData() {
-            try {
-                const response = await fetch("/respondent-history");
-                const data = await response.json();
+<script>
+    async function loadRespondentData() {
+        try {
+            const response = await fetch('https://atiqahst-github-io.onrender.com/respondent-history');
+            const data = await response.json();
 
-                const tbody = document.querySelector("#respondent-table tbody");
-                tbody.innerHTML = "";
+            const tbody = document.querySelector("#respondent-table tbody");
+            tbody.innerHTML = "";
 
-                data.forEach(row => {
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = `
-                        <td>${row.date}</td>
-                        <td>${row.enumerator_code}</td>
-                        <td>${row.respondent_count}</td>
-                    `;
-                    tbody.appendChild(tr);
+            data.forEach(row => {
+                const formattedDate = new Date(row.date).toLocaleDateString('ms-MY', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
                 });
 
-            } catch (err) {
-                alert("Gagal memuatkan data.");
-                console.error(err);
-            }
-        }
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td>${row.enumerator_code}</td>
+                    <td>${row.respondent_count}</td>
+                `;
+                tbody.appendChild(tr);
+            });
 
-        window.onload = loadRespondentDsata;
-    </script>
+        } catch (err) {
+            alert("Gagal memuatkan data.");
+            console.error(err);
+        }
+    }
+
+    window.onload = loadRespondentData;
+</script>
 
 </body>
 </html>
