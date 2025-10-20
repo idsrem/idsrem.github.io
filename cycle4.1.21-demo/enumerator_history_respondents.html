@@ -55,8 +55,9 @@
 
       // Fetch data filtered by enumerator_code
     //   const response = await fetch(`https://atiqahst-github-io.onrender.com/respondent-history?user=${encodeURIComponent(enumeratorCode)}`);
-      const response = await fetch(`https://atiqahst-github-io.onrender.com/overall-respondents`);
-    
+      const response = await fetch(`https://atiqahst-github-io.onrender.com/respondent-history?user=${encodeURIComponent(enumeratorCode)}`);
+
+
       const data = await response.json();
 
       const tbody = document.querySelector("#respondent-table tbody");

@@ -363,6 +363,31 @@ app.get("/respondent-history", async (req, res) => {
 });
 
 
+app.get("/admin-summary", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT
+        kod AS enumerator_code,
+        COUNT(*) AS total_respondents
+      FROM
+        cycle4_demo
+      WHERE
+        tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
+      GROUP BY
+        kod
+      ORDER BY
+        kod ASC;
+    `);
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Database error", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+
 app.get("/respondent-history", async (req, res) => {
   try {
     const user = req.user || { role: "User", enumerator_code: req.query.user }; // fallback if no auth
