@@ -289,6 +289,39 @@ app.delete('/users/:id', async (req, res) => {
 // });
 
 
+// app.get("/respondent-history", async (req, res) => {
+//   try {
+//     // Prefer query param for user code
+//     const enumeratorCode = req.query.user;
+
+//     if (!enumeratorCode || typeof enumeratorCode !== 'string') {
+//       return res.status(400).json({ error: "Kod enumerator diperlukan dalam query (?user=st01)" });
+//     }
+
+//     const query = `
+//       SELECT 
+//         to_date(tarikh, 'DD/MM/YYYY') AS date,
+//         kod AS enumerator_code,
+//         COUNT(*) AS respondent_count
+//       FROM 
+//         cycle4_demo
+//       WHERE 
+//         tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$' AND kod = $1
+//       GROUP BY 
+//         to_date(tarikh, 'DD/MM/YYYY'), kod
+//       ORDER BY 
+//         date DESC, kod ASC;
+//     `;
+
+//     const result = await pool.query(query, [enumeratorCode]);
+//     res.json(result.rows);
+//   } catch (err) {
+//     console.error("Database error", err);
+//     res.status(500).json({ error: err.message });
+//   }
+// });
+
+
 app.get("/respondent-history", async (req, res) => {
   try {
     // Use req.user if set, else fallback to query param
@@ -330,55 +363,55 @@ app.get("/respondent-history", async (req, res) => {
 });
 
 
-// app.get("/respondent-history", async (req, res) => {
-//   try {
-//     const user = req.user || { role: "User", enumerator_code: req.query.user }; // fallback if no auth
+app.get("/respondent-history", async (req, res) => {
+  try {
+    const user = req.user || { role: "User", enumerator_code: req.query.user }; // fallback if no auth
     
-//     let query = "";
-//     let params = [];
+    let query = "";
+    let params = [];
 
-//     if (user.role === "Admin") {
-//       // Accumulated total respondents over time (all enumerators)
-//       query = `
-//       SELECT 
-//         kod AS enumerator_code,
-//         COUNT(*) AS total_respondents
-//       FROM
-//         cycle4_demo
-//       GROUP BY
-//         kod
-//       ORDER BY
-//         kod ASC;
+    if (user.role === "Admin") {
+      // Accumulated total respondents over time (all enumerators)
+      query = `
+      SELECT 
+        kod AS enumerator_code,
+        COUNT(*) AS total_respondents
+      FROM
+        cycle4_demo
+      GROUP BY
+        kod
+      ORDER BY
+        kod ASC;
 
-//       `;
-//     } else {
-//       // Regular enumerator-specific counts by date
-//       query = `
-//         SELECT 
-//           to_date(tarikh, 'DD/MM/YYYY') AS date,
-//           kod AS enumerator_code,
-//           COUNT(*) AS respondent_count
-//         FROM 
-//           cycle4_demo
-//         WHERE 
-//           tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
-//           AND kod = $1
-//         GROUP BY 
-//           to_date(tarikh, 'DD/MM/YYYY'), kod
-//         ORDER BY 
-//           date DESC, kod ASC;
-//       `;
-//       params.push(user.enumerator_code);
-//     }
+      `;
+    } else {
+      // Regular enumerator-specific counts by date
+      query = `
+        SELECT 
+          to_date(tarikh, 'DD/MM/YYYY') AS date,
+          kod AS enumerator_code,
+          COUNT(*) AS respondent_count
+        FROM 
+          cycle4_demo
+        WHERE 
+          tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
+          AND kod = $1
+        GROUP BY 
+          to_date(tarikh, 'DD/MM/YYYY'), kod
+        ORDER BY 
+          date DESC, kod ASC;
+      `;
+      params.push(user.enumerator_code);
+    }
 
-//     const result = await pool.query(query, params);
-//     res.json(result.rows);
+    const result = await pool.query(query, params);
+    res.json(result.rows);
 
-//   } catch (err) {
-//     console.error("Database error", err);
-//     res.status(500).json({ error: err.message });
-//   }
-// });
+  } catch (err) {
+    console.error("Database error", err);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 
 
