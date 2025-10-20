@@ -219,6 +219,30 @@ app.delete('/users/:id', async (req, res) => {
 });
 
 
+//Respondent History (Test making sure it works)
+app.get("/respondent-history",async(req, res) =>{
+  try{
+        const result = await db.query(`
+        SELECT 
+            to_date(tarikh, 'DD/MM/YYYY') AS date,
+            kod AS enumerator_code,
+            COUNT(*) AS respondent_count
+        FROM 
+            cycle4_demo
+        GROUP BY 
+            to_date(tarikh, 'DD/MM/YYYY'), kod
+        ORDER BY 
+            date DESC, kod ASC;
+
+        `);
+        res.json(result.rows) //Sends all the data to the frontend.
+  } catch (err){
+    console.error("Database error", err); 
+    res.status(500).json({error: "Internal server error"});
+  }
+})
+
+
 
 
 //work in progress for cycle 2

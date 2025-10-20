@@ -211,7 +211,8 @@ function showIdInput() {
     dateBubble.style.color = "#000000";
     
 
-    const questionText = "Sila masukkan kod anda untuk memulakan kaji selidik";
+    // const questionText = "Sila masukkan kod anda untuk memulakan kaji selidik";
+    const questionText = "Klik seterusnya untuk memulakan tinjauan";
 
     // Create question bubble element
     const questionBubble = document.createElement("div");
@@ -220,7 +221,7 @@ function showIdInput() {
     messageView.appendChild(questionBubble);
 
     const questionTitle = document.createElement("p");
-    questionTitle.textContent = "Sila masukkan kod anda untuk memulakan kaji selidik:";
+    questionTitle.textContent = "Klik seterusnya untuk memulakan tinjauan";
     questionTitle.style.textAlign = "center";
     questionTitle.style.marginTop = "35px";
     questionTitle.style.marginBottom = "10px";
