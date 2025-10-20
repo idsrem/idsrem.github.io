@@ -219,29 +219,29 @@ app.delete('/users/:id', async (req, res) => {
 });
 
 
-// app.get("/respondent-history", async (req, res) => {
-//   try {
-//     const result = await pool.query(`
-//       SELECT 
-//           to_date(tarikh, 'DD/MM/YYYY') AS date,
-//           kod AS enumerator_code,
-//           COUNT(*) AS respondent_count
-//       FROM 
-//           cycle4_demo
-//       WHERE 
-//           tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
-//       GROUP BY 
-//           to_date(tarikh, 'DD/MM/YYYY'), kod
-//       ORDER BY 
-//           date DESC, kod ASC;
-//     `);
+app.get("/overall-respondents", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+          to_date(tarikh, 'DD/MM/YYYY') AS date,
+          kod AS enumerator_code,
+          COUNT(*) AS respondent_count
+      FROM 
+          cycle4_demo
+      WHERE 
+          tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
+      GROUP BY 
+          to_date(tarikh, 'DD/MM/YYYY'), kod
+      ORDER BY 
+          date DESC, kod ASC;
+    `);
 
-//     res.json(result.rows);
-//   } catch (err) {
-//     console.error("Database error", err);
-//     res.status(500).json({ error: err.message });
-//   }
-// });
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Database error", err);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 
 // app.get("/respondent-history", async (req, res) => {
@@ -330,78 +330,28 @@ app.delete('/users/:id', async (req, res) => {
 // });
 
 
-// app.get("/respondent-history", async (req, res) => {
-//   try {
-//     const user = req.user || { role: "User", enumerator_code: req.query.user }; // fallback if no auth
-    
-//     let query = "";
-//     let params = [];
-
-//     if (user.role === "Admin") {
-//       // Accumulated total respondents over time (all enumerators)
-//       query = `
-//       SELECT 
-//         kod AS enumerator_code,
-//         COUNT(*) AS total_respondents
-//       FROM
-//         cycle4_demo
-//       GROUP BY
-//         kod
-//       ORDER BY
-//         kod ASC;
-//       `;
-//     } else {
-//       // Regular enumerator-specific counts by date
-//       query = `
-//         SELECT 
-//           to_date(tarikh, 'DD/MM/YYYY') AS date,
-//           kod AS enumerator_code,
-//           COUNT(*) AS respondent_count
-//         FROM 
-//           cycle4_demo
-//         WHERE 
-//           tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
-//           AND kod = $1
-//         GROUP BY 
-//           to_date(tarikh, 'DD/MM/YYYY'), kod
-//         ORDER BY 
-//           date DESC, kod ASC;
-//       `;
-//       params.push(user.enumerator_code);
-//     }
-
-//     const result = await pool.query(query, params);
-//     res.json(result.rows);
-
-//   } catch (err) {
-//     console.error("Database error", err);
-//     res.status(500).json({ error: err.message });
-//   }
-// });
-
-
 app.get("/respondent-history", async (req, res) => {
   try {
     const user = req.user || { role: "User", enumerator_code: req.query.user }; // fallback if no auth
-
+    
     let query = "";
     let params = [];
 
     if (user.role === "Admin") {
-      // Total respondents by enumerator
+      // Accumulated total respondents over time (all enumerators)
       query = `
-        SELECT 
-          kod AS enumerator_code,
-          COUNT(*) AS total_respondents
-        FROM
-          cycle4_demo
-        GROUP BY
-          kod
-        ORDER BY
-          kod ASC;
+      SELECT 
+        kod AS enumerator_code,
+        COUNT(*) AS total_respondents
+      FROM
+        cycle4_demo
+      GROUP BY
+        kod
+      ORDER BY
+        kod ASC;
       `;
     } else {
-      // Respondents by date for specific enumerator
+      // Regular enumerator-specific counts by date
       query = `
         SELECT 
           to_date(tarikh, 'DD/MM/YYYY') AS date,
@@ -410,7 +360,7 @@ app.get("/respondent-history", async (req, res) => {
         FROM 
           cycle4_demo
         WHERE 
-          tarikh ~ '^\\d{1,2}/\\d{1,2}/\\d{4}$'
+          tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
           AND kod = $1
         GROUP BY 
           to_date(tarikh, 'DD/MM/YYYY'), kod
@@ -428,6 +378,56 @@ app.get("/respondent-history", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+
+// app.get("/respondent-history", async (req, res) => {
+//   try {
+//     const user = req.user || { role: "User", enumerator_code: req.query.user }; // fallback if no auth
+
+//     let query = "";
+//     let params = [];
+
+//     if (user.role === "Admin") {
+//       // Total respondents by enumerator
+//       query = `
+//         SELECT 
+//           kod AS enumerator_code,
+//           COUNT(*) AS total_respondents
+//         FROM
+//           cycle4_demo
+//         GROUP BY
+//           kod
+//         ORDER BY
+//           kod ASC;
+//       `;
+//     } else {
+//       // Respondents by date for specific enumerator
+//       query = `
+//         SELECT 
+//           to_date(tarikh, 'DD/MM/YYYY') AS date,
+//           kod AS enumerator_code,
+//           COUNT(*) AS respondent_count
+//         FROM 
+//           cycle4_demo
+//         WHERE 
+//           tarikh ~ '^\\d{1,2}/\\d{1,2}/\\d{4}$'
+//           AND kod = $1
+//         GROUP BY 
+//           to_date(tarikh, 'DD/MM/YYYY'), kod
+//         ORDER BY 
+//           date DESC, kod ASC;
+//       `;
+//       params.push(user.enumerator_code);
+//     }
+
+//     const result = await pool.query(query, params);
+//     res.json(result.rows);
+
+//   } catch (err) {
+//     console.error("Database error", err);
+//     res.status(500).json({ error: err.message });
+//   }
+// });
 
 
 
