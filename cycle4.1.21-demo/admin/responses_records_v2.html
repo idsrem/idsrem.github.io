@@ -262,26 +262,18 @@
         }
 
         if (role === "Admin") {
-          // Admin view
+          // Admin view: Show total per enumerator
           data.forEach(row => {
-            const dateObj = new Date(row.date);
-            const formattedDate = isNaN(dateObj)
-              ? row.date
-              : dateObj.toLocaleDateString('ms-MY', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                });
-
             const tr = document.createElement("tr");
             tr.innerHTML = `
-              <td style="border: 1px solid #ccc; padding: 10px;">${formattedDate}</td>
-              <td style="border: 1px solid #ccc; padding: 10px;">--</td>
-              <td style="border: 1px solid #ccc; padding: 10px;">${row.cumulative_respondent_count}</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">—</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">${row.enumerator_code}</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">${row.total_respondents}</td>
             `;
             tbody.appendChild(tr);
           });
-        } else {
+        }
+        else {
           // Enumerator view
           data.forEach(row => {
             const dateObj = new Date(row.date);
