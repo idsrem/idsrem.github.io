@@ -65,8 +65,6 @@ app.post('/export', async (req, res) => {
 });
 
 
-const jwt = require('jsonwebtoken');
-const secret = process.env.JWT_SECRET || 'yourSecretKey';
 
 app.post('/login', async (req, res) => {
   const { enumerator_code, password } = req.body;
