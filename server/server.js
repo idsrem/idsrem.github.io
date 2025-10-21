@@ -244,16 +244,60 @@ app.delete('/users/:id', async (req, res) => {
 // });
 
 
+// app.get("/respondent-history", async (req, res) => {
+//   try {
+//     const userCode = req.query.user;
+//     const userRole = req.query.role;
+
+//     if (!userCode || !userRole) {
+//       return res.status(400).json({ error: "User code and role required" });
+//     }
+
+//     let queryText = `
+//       SELECT 
+//           to_date(tarikh, 'DD/MM/YYYY') AS date,
+//           kod AS enumerator_code,
+//           COUNT(*) AS respondent_count
+//       FROM 
+//           cycle4_demo
+//       WHERE 
+//           tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
+//     `;
+
+//     const queryParams = [];
+
+//     // If user is NOT admin, filter by their own code
+//     if (userRole !== "admin") {
+//       queryText += ` AND kod = $1`;
+//       queryParams.push(userCode);
+//     }
+
+//     queryText += `
+//       GROUP BY 
+//           to_date(tarikh, 'DD/MM/YYYY'), kod
+//       ORDER BY 
+//           date DESC, kod ASC;
+//     `;
+
+//     const result = await pool.query(queryText, queryParams);
+
+//     res.json(result.rows);
+//   } catch (err) {
+//     console.error("Database error", err);
+//     res.status(500).json({ error: err.message });
+//   }
+// });
+
+
 app.get("/respondent-history", async (req, res) => {
   try {
     const userCode = req.query.user;
-    const userRole = req.query.role;
 
-    if (!userCode || !userRole) {
-      return res.status(400).json({ error: "User code and role required" });
+    if (!userCode) {
+      return res.status(400).json({ error: "User code is required" });
     }
 
-    let queryText = `
+    const result = await pool.query(`
       SELECT 
           to_date(tarikh, 'DD/MM/YYYY') AS date,
           kod AS enumerator_code,
@@ -262,24 +306,12 @@ app.get("/respondent-history", async (req, res) => {
           cycle4_demo
       WHERE 
           tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
-    `;
-
-    const queryParams = [];
-
-    // If user is NOT admin, filter by their own code
-    if (userRole !== "admin") {
-      queryText += ` AND kod = $1`;
-      queryParams.push(userCode);
-    }
-
-    queryText += `
+          AND kod = $1
       GROUP BY 
           to_date(tarikh, 'DD/MM/YYYY'), kod
       ORDER BY 
           date DESC, kod ASC;
-    `;
-
-    const result = await pool.query(queryText, queryParams);
+    `, [userCode]);
 
     res.json(result.rows);
   } catch (err) {
@@ -287,6 +319,7 @@ app.get("/respondent-history", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 
 
