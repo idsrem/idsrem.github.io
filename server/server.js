@@ -291,34 +291,44 @@ app.delete('/users/:id', async (req, res) => {
 
 app.get("/respondent-history", async (req, res) => {
   try {
-    const userCode = req.query.user;
-
-    if (!userCode) {
-      return res.status(400).json({ error: "User code is required" });
+    const user = req.user; // Should be set by your auth middleware
+    
+    if (!user) {
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
-    const result = await pool.query(`
+    let query = `
       SELECT 
-          to_date(tarikh, 'DD/MM/YYYY') AS date,
-          kod AS enumerator_code,
-          COUNT(*) AS respondent_count
+        to_date(tarikh, 'DD/MM/YYYY') AS date,
+        kod AS enumerator_code,
+        COUNT(*) AS respondent_count
       FROM 
-          cycle4_demo
+        cycle4_demo
       WHERE 
-          tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
-          AND kod = $1
-      GROUP BY 
-          to_date(tarikh, 'DD/MM/YYYY'), kod
-      ORDER BY 
-          date DESC, kod ASC;
-    `, [userCode]);
+        tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
+    `;
 
+    let params = [];
+
+    if (user.role !== "Admin") {
+      query += ` AND kod = $1`;
+      params.push(user.enumerator_code);
+    }
+
+    query += `
+      GROUP BY to_date(tarikh, 'DD/MM/YYYY'), kod
+      ORDER BY date DESC, kod ASC;
+    `;
+
+    const result = await pool.query(query, params);
     res.json(result.rows);
+
   } catch (err) {
     console.error("Database error", err);
     res.status(500).json({ error: err.message });
   }
 });
+
 
 
 
