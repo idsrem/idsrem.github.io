@@ -253,16 +253,16 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         thead.innerHTML = `
           <tr>
-            <th style="border: 1px solid #ccc; padding: 10px;">Tarikh</th>
             <th style="border: 1px solid #ccc; padding: 10px;">Kod Enumerator</th>
             <th style="border: 1px solid #ccc; padding: 10px;">Jumlah Responden</th>
           </tr>
         `;
       }
 
+
       if (!data || data.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="${isAdmin ? 2 : 3}" style="text-align:center; padding: 10px;">Tiada data untuk dipaparkan.</td></tr>`;
-        return;
+         tbody.innerHTML = `<tr><td colspan="2" style="text-align:center; padding: 10px;">Tiada data untuk dipaparkan.</td></tr>`;
+         return;
       }
 
       // Display table rows
@@ -281,7 +281,6 @@ document.addEventListener("DOMContentLoaded", () => {
             day: 'numeric'
           });
           tr.innerHTML = `
-            <td style="border: 1px solid #ccc; padding: 10px;">${formattedDate}</td>
             <td style="border: 1px solid #ccc; padding: 10px;">${row.enumerator_code}</td>
             <td style="border: 1px solid #ccc; padding: 10px;">${row.respondent_count || 0}</td>
           `;

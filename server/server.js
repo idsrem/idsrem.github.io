@@ -387,7 +387,7 @@ app.get("/pic-summary", async (req, res) => {
       return res.status(400).json({ error: "Missing enumerator_code" });
     }
 
-    const codePrefix = picCode.substring(0, 2); // "ST"
+    const codePrefix = picCode.substring(0, 2); // e.g. "ST"
 
     const result = await pool.query(`
       SELECT
@@ -397,12 +397,11 @@ app.get("/pic-summary", async (req, res) => {
         cycle4_demo
       WHERE
         kod LIKE $1
-        AND tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
       GROUP BY
         kod
       ORDER BY
         kod ASC;
-    `, [`${codePrefix}%`]); // Matches ST01, ST02, etc.
+    `, [`${codePrefix}%`]);
 
     res.json(result.rows);
   } catch (err) {
@@ -410,8 +409,6 @@ app.get("/pic-summary", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
-
 
 
 
