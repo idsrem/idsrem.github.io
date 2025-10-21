@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/cycle4-demo/admin/index.css" />
-    <title>Dashboard | IDS Fasa 4</title>
+  <title>Dashboard | IDS Fasa 4</title>
   <link rel="icon" type="image/x-icon" href="ids_logo.png" />
   <link
     href="https://fonts.googleapis.com/css2?family=Basic&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Hind+Madurai:wght@300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Share+Tech&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
@@ -22,33 +22,29 @@
   />
 </head>
 
-
 <body>
-  <!-- ✅ Navbar -->
+  <!-- Navbar -->
   <div class="navbar">
     <span class="hamburger" id="hamburger">&#9776;</span>
     <span class="navbar-title">IDS | Permantauan Dinamika Pembangunan Kerajaan</span>
     <span id="username" class="navbar-username">
-    <i class="fas fa-user" style="margin-right:10px;"></i>Memuat...
-  </span>
+      <i class="fas fa-user" style="margin-right:10px;"></i>Memuat...
+    </span>
   </div>
 
-<!-- Sidepanel -->
-<div id="sidePanel" class="sidepanel">
-  <a href="/cycle4.1.21-demo/admin/index.html"><i class="fas fa-chart-line" style="margin-right:10px;"></i> Dashboard</a>
-  <a class="active" href="/cycle4.1.21-demo/admin/responses_records_v2.html"><i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Rekod Responden</a>
-  <!-- <a href="/cycle4-demo/admin/user_management.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a> -->
-  <a href="/cycle4.1.21-demo/admin/user_management_2.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a>
-  <a href="/cycle4.1.21-demo/logout.html" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
-    <i class="fas fa-sign-out-alt" style="margin-right:10px;"></i> Log Keluar
-  </a>
-</div>
+  <!-- Sidepanel -->
+  <div id="sidePanel" class="sidepanel">
+    <a href="/cycle4.1.21-demo/admin/index.html"><i class="fas fa-chart-line" style="margin-right:10px;"></i> Dashboard</a>
+    <a class="active" href="/cycle4.1.21-demo/admin/responses_records_v2.html"><i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Rekod Responden</a>
+    <a href="/cycle4.1.21-demo/admin/user_management_2.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a>
+    <a href="/cycle4.1.21-demo/logout.html" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
+      <i class="fas fa-sign-out-alt" style="margin-right:10px;"></i> Log Keluar
+    </a>
+  </div>
 
-
-  <!-- ✅ Main Content -->
+  <!-- Main Content -->
   <div class="main-content" id="mainContent">
     <h2>Rekod Responden</h2>
-
 
     <table id="respondent-table" style="width: 80%; margin: 20px auto; border-collapse: collapse;">
       <thead>
@@ -61,20 +57,13 @@
       <tbody></tbody>
     </table>
 
-
-
-
     <div id="timeout-timer">
       Sesi akan tamat secara automatik dalam: <span id="countdown">--:--</span>
     </div>
   </div>
 
-  <!-- <footer>
-    <p>v 4.1.21</p>
-  </footer> -->
-
-
   <script>
+    // Hamburger menu toggling
     const hamburger = document.getElementById("hamburger");
     const sidePanel = document.getElementById("sidePanel");
     const mainContent = document.getElementById("mainContent");
@@ -83,28 +72,23 @@
       const isMobile = window.innerWidth <= 768;
       if(isMobile){
         sidePanel.classList.toggle("open");
-      }
-      else{
-        // This applies to default function if not mobile
-      const isOpen = sidePanel.classList.contains("open");
-
-      if (isOpen) {
-        sidePanel.classList.remove("open");
-        sidePanel.style.width = "0";
-        mainContent.style.marginLeft = "0";
       } else {
-        sidePanel.classList.add("open");
-        sidePanel.style.width = "250px";
-        mainContent.style.marginLeft = "250px";
+        const isOpen = sidePanel.classList.contains("open");
+        if (isOpen) {
+          sidePanel.classList.remove("open");
+          sidePanel.style.width = "0";
+          mainContent.style.marginLeft = "0";
+        } else {
+          sidePanel.classList.add("open");
+          sidePanel.style.width = "250px";
+          mainContent.style.marginLeft = "250px";
+        }
+        sidePanel.style.width = isOpen ? "0" : "250px";
+        mainContent.classList.toggle("shifted", !isOpen);
       }
-
-      sidePanel.style.width = isOpen ? "0" : "250px";
-      mainContent.classList.toggle("shifted", !isOpen)
-      };
     });
-    
-    
 
+    // Logout button clears session and redirects
     document.getElementById("logout-button-sidebar").addEventListener("click", () => {
       sessionStorage.clear();
       const totalRespondents = localStorage.getItem("totalRespondents");
@@ -123,10 +107,12 @@
       window.location.href = "logout.html";
     });
 
+    // Redirect to login if not logged in
     if (sessionStorage.getItem('isLoggedIn') !== 'true') {
       window.location.href = 'index.html';
     }
 
+    // Inactivity timer and auto logout (unchanged)
     const INACTIVITY_LIMIT = 15 * 60 * 1000;
     let inactivityTimer;
     let remainingTime = INACTIVITY_LIMIT;
@@ -186,161 +172,144 @@
 
     resetInactivityTimer();
   </script>
+
   <script>
-// Wait until the DOM is ready
-document.addEventListener("DOMContentLoaded", () => {
-  // Retrieve user data from sessionStorage
-  const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
-
-  // Try to use enumerator_code or fallback to name
-  const displayName = userData.enumerator_code || userData.name || "Pengguna";
-
-  // Replace username in the navbar
-  const usernameEl = document.getElementById("username");
-  if (usernameEl) {
-    usernameEl.innerHTML = `<i class="fas fa-user" style="margin-right:10px;"></i>${displayName}`;
-    usernameEl.title = userData.role || ""; // Optional: show role as tooltip
-  }
-});
-</script>
-
-
-<!--This is for hovering other options if not highlighted-->
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const links = document.querySelectorAll('#sidePanel a');
-    const currentPath = window.location.pathname;
-    let activeLink = null;
-
-    // Identify and store the initially active link
-    links.forEach(link => {
-      const linkPath = new URL(link.href).pathname;
-      if (linkPath === currentPath) {
-        link.classList.add('active');
-        activeLink = link;
+    // Display user name or enumerator code in navbar on DOM ready
+    document.addEventListener("DOMContentLoaded", () => {
+      const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
+      const displayName = userData.enumerator_code || userData.name || "Pengguna";
+      const usernameEl = document.getElementById("username");
+      if (usernameEl) {
+        usernameEl.innerHTML = `<i class="fas fa-user" style="margin-right:10px;"></i>${displayName}`;
+        usernameEl.title = userData.role || "";
       }
+    });
+  </script>
 
-      // Add hover event listeners
-      link.addEventListener('mouseenter', () => {
-        if (activeLink) activeLink.classList.remove('active');
-        link.classList.add('hovered');
-      });
+  <script>
+    // Highlight active sidebar link and hover effect
+    document.addEventListener("DOMContentLoaded", () => {
+      const links = document.querySelectorAll('#sidePanel a');
+      const currentPath = window.location.pathname;
+      let activeLink = null;
 
-      link.addEventListener('mouseleave', () => {
-        link.classList.remove('hovered');
-        if (activeLink) activeLink.classList.add('active');
+      links.forEach(link => {
+        const linkPath = new URL(link.href).pathname;
+        if (linkPath === currentPath) {
+          link.classList.add('active');
+          activeLink = link;
+        }
+
+        link.addEventListener('mouseenter', () => {
+          if (activeLink) activeLink.classList.remove('active');
+          link.classList.add('hovered');
+        });
+
+        link.addEventListener('mouseleave', () => {
+          link.classList.remove('hovered');
+          if (activeLink) activeLink.classList.add('active');
+        });
       });
     });
-  });
-</script>
+  </script>
 
 
-<script>
-  // async function loadRespondentData() {
-  //   try {
-  //     const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
-  //     const enumeratorCode = userData.enumerator_code;
 
-  //     if (!enumeratorCode) {
-  //       alert("User not logged in or enumerator code missing.");
-  //       return;
-  //     }
+  <script>
+    // Load respondent data from API depending on role
+    async function loadRespondentData() {
+      try {
+        const userDataRaw = sessionStorage.getItem("userData");
+        if (!userDataRaw) {
+          alert("Data pengguna tidak dijumpai. Sila log masuk semula.");
+          console.error("sessionStorage userData missing or empty");
+          return;
+        }
 
-  //     // Make sure this URL points to your backend API endpoint
-  //     const response = await fetch(`https://atiqahst-github-io.onrender.com/respondent-history?user=${encodeURIComponent(enumeratorCode)}`);
+        const userData = JSON.parse(userDataRaw);
+        const enumeratorCode = userData.enumerator_code;
+        const role = userData.role || "User";
 
-  //     if (!response.ok) {
-  //       throw new Error('Network response was not ok');
-  //     }
+        let url = "https://atiqahst-github-io.onrender.com/respondent-history";
+        if (role !== "Admin") {
+          if (!enumeratorCode) {
+            alert("Kod enumerator tidak ditemui dalam data pengguna.");
+            console.error("Enumerator code missing in userData");
+            return;
+          }
+          url += `?user=${encodeURIComponent(enumeratorCode)}`;
+        }
 
-  //     const data = await response.json();
 
-  //     const tbody = document.querySelector("#respondent-table tbody");
-  //     tbody.innerHTML = "";
+        console.log("Fetching respondent data from URL:", url);
 
-  //     data.forEach(row => {
-  //       const formattedDate = new Date(row.date).toLocaleDateString('ms-MY', {
-  //         year: 'numeric',
-  //         month: 'long',
-  //         day: 'numeric'
-  //       });
+        const response = await fetch(url);
+        console.log("Response status:", response.status);
 
-  //       const tr = document.createElement("tr");
-  //       tr.innerHTML = `
-  //         <td style="border: 1px solid #ccc; padding: 10px;">${formattedDate}</td>
-  //         <td style="border: 1px solid #ccc; padding: 10px;">${row.enumerator_code}</td>
-  //         <td style="border: 1px solid #ccc; padding: 10px;">${row.respondent_count}</td>
-  //       `;
-  //       tbody.appendChild(tr);
-  //     });
-  //   } catch (err) {
-  //     alert("Gagal memuatkan data.");
-  //     console.error(err);
-  //   }
-  // }
+        if (!response.ok) {
+          throw new Error("Rangkaian gagal: " + response.status);
+        }
 
-  // window.addEventListener("load", loadRespondentData);
+        const data = await response.json();
+        console.log("Data fetched:", data);
 
-  async function loadRespondentData() {
-  try {
-    const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
-    const enumeratorCode = userData.enumerator_code;
-    const role = userData.role || "User";
+        const tbody = document.querySelector("#respondent-table tbody");
+        tbody.innerHTML = "";
 
-    let url = "https://atiqahst-github-io.onrender.com/respondent-history";
-    if (role !== "Admin") {
-      url += `?user=${encodeURIComponent(enumeratorCode)}`;
+        if (!data || data.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding: 10px;">Tiada data untuk dipaparkan.</td></tr>`;
+          return;
+        }
+
+        if (role === "Admin") {
+          // Admin view
+          data.forEach(row => {
+            const dateObj = new Date(row.date);
+            const formattedDate = isNaN(dateObj)
+              ? row.date
+              : dateObj.toLocaleDateString('ms-MY', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                });
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td style="border: 1px solid #ccc; padding: 10px;">${formattedDate}</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">--</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">${row.cumulative_respondent_count}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        } else {
+          // Enumerator view
+          data.forEach(row => {
+            const dateObj = new Date(row.date);
+            const formattedDate = isNaN(dateObj)
+              ? row.date
+              : dateObj.toLocaleDateString('ms-MY', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                });
+
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td style="border: 1px solid #ccc; padding: 10px;">${formattedDate}</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">${row.enumerator_code}</td>
+              <td style="border: 1px solid #ccc; padding: 10px;">${row.respondent_count}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      } catch (err) {
+        alert("Gagal memuatkan data.");
+        console.error(err);
+      }
     }
 
-    const response = await fetch(url);
-    if (!response.ok) throw new Error('Network response was not ok');
-
-    const data = await response.json();
-
-    const tbody = document.querySelector("#respondent-table tbody");
-    tbody.innerHTML = "";
-
-    if (role === "Admin") {
-      // Admin: show cumulative totals
-      data.forEach(row => {
-        const formattedDate = new Date(row.date).toLocaleDateString('ms-MY', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        });
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td style="border: 1px solid #ccc; padding: 10px;">${formattedDate}</td>
-          <td style="border: 1px solid #ccc; padding: 10px;" colspan="1">--</td>
-          <td style="border: 1px solid #ccc; padding: 10px;">${row.cumulative_respondent_count}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    } else {
-      // Enumerator: show regular per-date counts
-      data.forEach(row => {
-        const formattedDate = new Date(row.date).toLocaleDateString('ms-MY', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric'
-        });
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td style="border: 1px solid #ccc; padding: 10px;">${formattedDate}</td>
-          <td style="border: 1px solid #ccc; padding: 10px;">${row.enumerator_code}</td>
-          <td style="border: 1px solid #ccc; padding: 10px;">${row.respondent_count}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-  } catch (err) {
-    alert("Gagal memuatkan data.");
-    console.error(err);
-  }
-}
-
-</script>
-
-
+    // Load data on page load
+    window.addEventListener("load", loadRespondentData);
+  </script>
 </body>
 </html>
