@@ -2,6 +2,19 @@
     font-family: 'Nunito', sans-serif;
 }
 
+h1 {
+  font-weight: 900;
+  font-size: 20px;
+  padding: 20px;
+  color: #003366;
+  width: 90%;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 10px;
+  text-align: center;
+}
+
 
 h2 {
   background-color: #005999;
@@ -25,10 +38,12 @@ body {
     margin: 0;
     background-image: url("/cycle4.1.21-demo/IDS_Final_Design.png");
      background-color: #aaa;
-    background-size: cover;
-    color: white;
-    font-size: 15px;
-    padding-top: 50px;
+     background-repeat: no-repeat;
+     background-size: cover;
+     color: white;
+     font-size: 15px;
+     padding-top: 50px;
+     height: 100%;
     /* background-attachment: fixed; */
   }
 
@@ -255,46 +270,31 @@ footer{
     font-size: 20px;
 }
 
-.timeout-footer {
-  margin-top: 20px;
+#timeout-timer {
+  width: 98%;
+  padding: 10px;
+  font-size: 30px;
+  margin-top: 90px;
   margin-left: auto;
   margin-right: auto;
-  width: 10%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px;
-  font-size: 12px;
-  z-index: 999;
-}
-
-.timeout-left{
-  display: flex;
-  font-size: 18px;
-  align-items: center;
-}
-
-.timeout-right{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  font-weight: 800;
   text-align: right;
-}
-
-.footer-logo {
-  align-items: center;
-  height: 35px;
-  margin-left: 20px;
+  color: black;
 }
 
 
-
-table {
-    width: 30%;
+table{
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
     border-collapse: collapse;
     margin-top: 5px;
     font-family: 16px;
     font-weight: 600;
+}
+
+table tr{
+    background-color: #FFFFFF;
 }
 
 th, td {
@@ -314,146 +314,6 @@ td{
   color: #000;
 }
 
-.container-view{
-    display: flex;
-    width: 90%;
-    padding: 20px;
-    flex-wrap: wrap;
-    margin-top: 20px;
-    margin-right: auto;
-    margin-left: auto;
-    grid-template-columns: 40% 45%;
-    gap: 10px;
-    background-color: #FFFFFF;
-    border-radius: 10px;
-    height: auto;
-}
-
-#survey-container {
-    position: relative;
-    padding: 50px;
-    margin: 10px;
-    width: 100%;
-    max-width: 50%;
-    max-height: 400px;
-    height: 400px;
-    text-align: center;
-    transition: height 0.3s ease;
-    border-left: 4px solid #1F5385;
-    border-radius: 0;
-    height: auto;
-    overflow-y: scroll;
-  }
-
-  .previous-button {
-    position: absolute;
-    top: 10px; /* Keeps it at the top */
-    left: 10px; /* Aligns it to the left */
-    clip-path: polygon(100% 0%, 20% 0%, 0% 50%, 20% 100%, 100% 100%);
-    left: 10px;
-    padding: 10px 20px 10px 30px;
-    background-color: transparent;
-    color: #000000;
-    border: none;
-    font-weight: 900;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 10;
-}
-
-.previous-button:hover {
-    background-color: transparent;
-    color: #000000;
-}
-
-
-/* .surveyQuestions {
-    white-space: pre-line;
-} */
-
-
-.submit-button {
-    padding: 10px 20px;
-    background-color: green;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 30px;
-    margin: 5px;
-}
-
-#message-view {
-    flex: 1;
-    padding: 25px;
-    max-height: 1000px;
-    height: 450px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    width: 500px;
-    border-radius: 10px;
-    margin-left: auto;
-    margin-right: auto;
-    scroll-behavior: smooth;
-}
-
-.message-bubble {
-    animation: fadeIn 1s ease-out; /* 0.5s duration, easing function for smooth effect */
-    display: flex;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 20px;
-}
-
-.question-bubble {
-    background-color: #D6E9EC; /* Light gray for question */
-    display: block;
-    color: #2B6290;
-    font-weight: bold;
-    max-width: 100%; /* Set the maximum width for questions */
-    margin-right: auto; /* Align questions to the left */
-    padding: 10px;
-    font-size: 16px;
-}
-
-.answer-bubble {
-    background-color: #2B6290; 
-    color: white; /* Text color for answer */
-    max-width: 70%; /* Set the maximum width for answers */
-    margin-left: auto; /* Align answers to the right */
-    text-align: center;
-    padding: 10px;
-    font-size: 16px;
-}
-
-.overallTotalRespondents-bubble {
-    background-color: #325dd0;
-    border-radius: 30px;
-    padding: 10px 20px; /* Adjusted padding for better spacing */
-    color: white;
-    margin-top: -30px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 30px;
-    max-width: 60%;
-    text-align: center; /* Ensures text is centered horizontally */
-    display: flex; /* Apply flexbox */
-    justify-content: center; /* Horizontally centers the text */
-    align-items: center; /* Vertically centers the text */
-    width: fit-content; /* Ensures the width adjusts to content size */
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(10px); /* Slightly move the element up from its position */
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0); /* Element returns to its original position */
-    }
-}
-
-
 /* Modal Overlay */
 .modal-overlay {
   display: none; /* Hidden by default */
@@ -465,165 +325,6 @@ td{
   height: 100%;
   overflow: auto;
   background-color: rgba(0,0,0,0.5);
-}
-
-/* Modal Content */
-.modal-content {
-  background-color: #fff;
-  margin: 15% auto;
-  padding: 30px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  position: relative;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.modal-content h2 {
-  color: #1e90ff;
-  margin-bottom: 10px;
-  font-weight: 900;
-}
-
-.modal-content p {
-  font-size: 16px;
-  color: #333;
-}
-
-/* Close Button */
-.close-button {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  color: #aaa;
-  font-size: 24px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.close-button:hover {
-  color: #000;
-}
-
-/* Icon */
-.modal-icon {
-  font-size: 40px;
-  color: #28a745;
-}
-
-.modal-icon img{
-    width: 20%;
-}
-
-/* Fade-in Animation */
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
-}
-
-
-/*For the close Survey*/
-/* Clean floating pop-up box */
-.clean-popup {
-  position: fixed;
-  margin-top: 30px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 20px; 
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
-  z-index: 9999;
-  text-align: center;
-  max-width: 400px;
-  display: none; /* Start hidden */
-}
-
-/* Icon */
-.clean-popup .popup-icon {
-  width: 150px;
-  margin-bottom: 20px;
-}
-
-/* Heading */
-.clean-popup h2 {
-  font-size: 20px;
-  font-weight: 900;
-  margin-top: -10px;
-  color: #003366;
-}
-
-/* Paragraph */
-.clean-popup p {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #333;
-  line-height: 1.4;
-}
-
-/* Bold inside paragraph */
-.clean-popup p strong {
-  font-weight: 700;
-  color: #003366;
-}
-
-/* Toast Container */
-#toast-container {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
-}
-
-/* Toast Style */
-/* Default toast style (shared by all types) */
-.toast {
-  min-width: 250px;
-  margin-top: 10px;
-  color: #fff;
-  padding: 15px 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  animation: fadeInUp 0.5s ease forwards;
-  position: relative;
-}
-
-/* Error Toast (Red) */
-.toast-error {
-  background-color: #dc3545; /* Bootstrap danger */
-}
-
-/* Success Toast (Green) */
-.toast-success {
-  background-color: #28a745; /* Bootstrap success */
-}
-
-/* Close Button */
-.toast .toast-close {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  margin-left: 15px;
-}
-
-@keyframes fadeInUp {
-  from {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
 }
 
 
@@ -646,7 +347,7 @@ td{
 #timeout-timer{
   width: 90%;
   padding: 10px;
-  font-size: 18px; 
+  font-size: 20px; 
   font-weight: 800;
   text-align: right;
   color: black;
@@ -728,58 +429,18 @@ td{
   font-weight: 800;
 }
 
-
-
 @media (max-width: 900px) {
 
   body{
     margin: 10px;
   }
 
-    .idsLogo{
-      width: 100px;
-      height: 100%;
-    }
-
-    .clock-wrapper{
-      margin-top: 90px;
-    }
-
-    .clock-display{
-      font-size: 20px;
-    }
-
-    .respondents{
-      font-size: 20px;
-    }
-
-    .dataBlu{
-      width: 100px;
-    }
-
-    .timeout-left{
-    flex-direction: column;
-    }
+  table{
+    width: 90%;
+}
 
     .navbar-title{
       display: none;
-    }
-
-    .container-view {
-        align-items: center; /* Center them */
-        flex-direction: column-reverse; /* Flip the order */
-        width: 85%;
-        height: 100%;
-    }
-
-    #message-view, #survey-container {
-        max-width: 80%; /* Take full width */
-        max-height: 100%;
-    }
-
-    #survey-container{
-        border-left: none;
-        border-bottom: 4px solid #1F5385;
     }
 
     #timeout-timer{
@@ -788,26 +449,6 @@ td{
       display: block;
       align-items: center;
       text-align: center;
-    }
-
-    .timeout-right, .timeout-left{
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    #message-view{
-        width: 100%;
-        scroll-behavior: smooth;
-        max-height: 250px;
-        overflow-y: scroll;
-    }
-    .modal-content{
-      margin-top: 200px;
-      width: 70%;
-    }
-
-    #toast-container{
-      margin-left: 100px;
     }
 
 }

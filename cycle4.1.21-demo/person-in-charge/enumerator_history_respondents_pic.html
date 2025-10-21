@@ -35,7 +35,7 @@
   <a href="/cycle4.1.21-demo/person-in-charge/enumerator_history_respondents_pic.html">
     <i class="fas fa-clock-rotate-left" style="margin-right:10px;"></i> Rekod Responden
   </a>
-  <a href="#">
+  <a href="/cycle4.1.21-demo/person-in-charge/user_profile_pic.html">
     <i class="fas fa-user" style="margin-right:10px;"></i> Profil
   </a>
   <a href="/cycle4.1.21-demo/logout.html" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
@@ -45,18 +45,28 @@
 
 <h2>Rekod Responden</h2>
 
-
- <p>Berikut adalah jumlah responden bagi setiap enumerator:</p>
-    <table id="respondent-table" style="width: 90%; margin-top: 30px; margin-bottom: 50px; border-collapse: collapse; text-align: center; margin-left: auto; margin-right: auto;">
-      <thead>
+    <h1>Sejarah Jumlah Responden Harian</h1>
+    <table id="user-history-table">
+    <thead>
         <tr>
-          <th style="border: 1px solid #ccc; padding: 10px;">Tarikh</th>
-          <th style="border: 1px solid #ccc; padding: 10px;">Kod Enumerator</th>
-          <th style="border: 1px solid #ccc; padding: 10px;">Jumlah Responden</th>
+        <th>Tarikh</th>
+        <th>Jumlah Responden</th>
         </tr>
-      </thead>
-      <tbody></tbody>
+    </thead>
+    <tbody></tbody>
     </table>
+
+    <h1>Jumlah Keseluruhan Setiap Enumerator</h1>
+    <table id="overall-summary-table">
+    <thead>
+        <tr>
+        <th>Kod Enumerator</th>
+        <th>Jumlah Responden</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    </table>
+
     <div id="timeout-timer">
       Sesi akan tamat secara automatik dalam: <span id="countdown">--:--</span>
     </div>
@@ -201,7 +211,83 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 <!-- Load respondent data -->
-   <script>
+<script>
+async function loadRespondentData() {
+  try {
+    const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
+    const enumeratorCode = userData.enumerator_code;
+    const role = userData.role || "user";
+    const token = userData.token;
+
+    if (!token) throw new Error("Token tidak dijumpai. Sila log masuk semula.");
+
+    const isAdmin = role.toLowerCase() === "admin";
+    const isPIC = role.toLowerCase() === "pic";
+
+    // Fetch personal respondent history
+    const userHistoryUrl = `https://atiqahst-github-io.onrender.com/respondent-history?user=${encodeURIComponent(enumeratorCode)}`;
+    const historyRes = await fetch(userHistoryUrl);
+    const historyData = await historyRes.json();
+
+    const historyTbody = document.querySelector("#user-history-table tbody");
+    historyTbody.innerHTML = "";
+
+    if (historyData.length === 0) {
+      historyTbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding: 10px;">Tiada data untuk dipaparkan.</td></tr>`;
+    } else {
+      historyData.forEach(row => {
+        const formattedDate = new Date(row.date).toLocaleDateString('ms-MY', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td style="border: 1px solid #ccc; padding: 10px;">${formattedDate}</td>
+          <td style="border: 1px solid #ccc; padding: 10px;">${row.respondent_count || 0}</td>
+        `;
+        historyTbody.appendChild(tr);
+      });
+    }
+
+    // Fetch overall summary
+    let summaryUrl = "";
+    if (isAdmin) {
+      summaryUrl = "https://atiqahst-github-io.onrender.com/admin-summary";
+    } else {
+      summaryUrl = `https://atiqahst-github-io.onrender.com/pic-summary?enumerator_code=${encodeURIComponent(enumeratorCode)}`;
+    }
+
+    const summaryRes = await fetch(summaryUrl);
+    const summaryData = await summaryRes.json();
+
+    const summaryTbody = document.querySelector("#overall-summary-table tbody");
+    summaryTbody.innerHTML = "";
+
+    if (summaryData.length === 0) {
+      summaryTbody.innerHTML = `<tr><td colspan="2" style="text-align:center; padding: 10px;">Tiada data untuk dipaparkan.</td></tr>`;
+    } else {
+      summaryData.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td style="border: 1px solid #ccc; padding: 10px;">${row.enumerator_code}</td>
+          <td style="border: 1px solid #ccc; padding: 10px;">${row.total_respondents || 0}</td>
+        `;
+        summaryTbody.appendChild(tr);
+      });
+    }
+
+  } catch (err) {
+    alert("Gagal memuatkan data.");
+    console.error(err);
+  }
+}
+
+window.addEventListener("load", loadRespondentData);
+</script>
+
+
+   <!-- <script>
 
   async function loadRespondentData() {
     try {
@@ -222,6 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
         url = "https://atiqahst-github-io.onrender.com/admin-summary";
         } else if (isPIC) {
         url = `https://atiqahst-github-io.onrender.com/pic-summary?enumerator_code=${encodeURIComponent(enumeratorCode)}`;
+        url = `https://atiqahst-github-io.onrender.com/respondent-history?user=${encodeURIComponent(enumeratorCode)}`;
         } else {
         if (!enumeratorCode) {
             alert("Kod enumerator tidak dijumpai dalam data pengguna.");
@@ -272,7 +359,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isAdmin) {
           tr.innerHTML = `
             <td style="border: 1px solid #ccc; padding: 10px;">${row.enumerator_code}</td>
-            <td style="border: 1px solid #ccc; padding: 10px;">${row.total_respondents || row.respondent_count || 0}</td>
+            <td style="border: 1px solid #ccc; padding: 10px;">${row.total_respondents || 0}</td>
           `;
         } else {
           const formattedDate = new Date(row.date).toLocaleDateString('ms-MY', {
@@ -282,7 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
           tr.innerHTML = `
             <td style="border: 1px solid #ccc; padding: 10px;">${row.enumerator_code}</td>
-            <td style="border: 1px solid #ccc; padding: 10px;">${row.respondent_count || 0}</td>
+            <td style="border: 1px solid #ccc; padding: 10px;">${row.total_respondents || 0}</td>
           `;
         }
 
@@ -297,7 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.addEventListener("load", loadRespondentData);
 
-   </script>
+   </script> -->
 
 </body>
 

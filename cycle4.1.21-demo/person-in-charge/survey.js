@@ -1752,7 +1752,7 @@ function handleAnswer(questionId, selectedOption) {
             pemimpinsabah: currentSurvey.answers.pemimpinSabah || "-",
             pemimpinsabahlain: currentSurvey.answers.pemimpinsabahlain || "-",
             isiboranglagi: currentSurvey.answers.isiBorangLagi || "-",
-            lokasi: currentSurvey.answers.locationName || lastLocation.locationName || "-",
+            lokasi: currentSurvey.answers.locationName || lastLocation.lastLocation || "-",
             latitude: currentSurvey.answers.latitude ?? lastLocation.latitude ?? null,
             longitude: currentSurvey.answers.longitude ?? lastLocation.longitude ?? null,
             starttime: formattedStartTime,
@@ -2695,7 +2695,7 @@ function redoSurvey() {
                 s.pemimpinsabah || "-",
                 s.longitude || "-",
                 s.latitude || "-",
-                s.lastLocation || "-",
+                s.lokasi || s.lastLocation || "-",
                 s.responseid || "-", 
                 s.starttime || "-"
             ];
