@@ -112,7 +112,10 @@
         setTimeout(() => {
           if (data.role === 'Admin') {
             window.location.href = 'admin/index.html';
-          } else {
+          }  else if (data.role === 'PIC') {
+            window.location.href = 'person-in-charge/main.html';
+          }
+          else {
             window.location.href = 'main.html';
           }
         }, 2000);

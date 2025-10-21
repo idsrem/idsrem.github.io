@@ -378,6 +378,36 @@ app.get("/admin-summary", async (req, res) => {
 });
 
 
+//For PIC
+app.get("/pic-summary", authenticateUser, async (req, res) => {
+  try {
+    const picCode = req.user.enumerator_code; // e.g. "ST00"
+    const codePrefix = picCode.substring(0, 2); // "ST"
+
+    const result = await pool.query(`
+      SELECT
+        kod AS enumerator_code,
+        COUNT(*) AS total_respondents
+      FROM
+        cycle4_demo
+      WHERE
+        kod LIKE $1
+        AND tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
+      GROUP BY
+        kod
+      ORDER BY
+        kod ASC;
+    `, [`${codePrefix}%`]); // Matches ST01, ST02, etc.
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Database error", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+
 
 app.get("/respondent-history", async (req, res) => {
   try {

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/cycle4.1.21-demo/person-in-charge/enumerator_history_responsents_pic.css">
+    <title>Rekod Responden | IDS Fasa 4 </title>
+    <link rel="icon" type="image/x-icon" href="ids_logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Basic&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Hind+Madurai:wght@300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Share+Tech&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+
+<div class="navbar">
+  <span class="hamburger" id="hamburger">&#9776;</span>
+  <span class="navbar-title">IDS | Permantauan Dinamika Pembangunan Kerajaan</span>
+  <span id="username" class="navbar-username">
+    <i class="fas fa-user" style="margin-right:10px;"></i>Memuat...
+  </span>
+</div>
+
+
+<div id="sidePanel" class="sidepanel">
+  <a href="#">
+    <i class="fas fa-chart-line" style="margin-right:10px;"></i> Dashboard 
+  </a>
+  <a href="/cycle4.1.21-demo/person-in-charge/main.html">
+    <i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Kaji Selidik
+  </a>
+  <a href="/cycle4.1.21-demo/person-in-charge/enumerator_history_respondents_pic.html">
+    <i class="fas fa-clock-rotate-left" style="margin-right:10px;"></i> Rekod Responden
+  </a>
+  <a href="#">
+    <i class="fas fa-user" style="margin-right:10px;"></i> Profil
+  </a>
+  <a href="/cycle4.1.21-demo/logout.html" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
+    <i class="fas fa-sign-out-alt" style="margin-right:10px;"></i> Log Keluar
+  </a>
+</div>
+
+<h2>Rekod Responden</h2>
+
+
+ <p>Berikut adalah jumlah responden bagi setiap enumerator:</p>
+    <table id="respondent-table" style="width: 90%; margin-top: 30px; margin-bottom: 50px; border-collapse: collapse; text-align: center; margin-left: auto; margin-right: auto;">
+      <thead>
+        <tr>
+          <th style="border: 1px solid #ccc; padding: 10px;">Tarikh</th>
+          <th style="border: 1px solid #ccc; padding: 10px;">Kod Enumerator</th>
+          <th style="border: 1px solid #ccc; padding: 10px;">Jumlah Responden</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div id="timeout-timer">
+      Sesi akan tamat secara automatik dalam: <span id="countdown">--:--</span>
+    </div>
+  </div>
+
+
+<!--TIMEOUT FUNCTION-->
+<script>
+ const hamburger = document.getElementById("hamburger");
+  const sidePanel = document.getElementById("sidePanel");
+
+  hamburger.addEventListener("click", () => {
+    sidePanel.style.width = sidePanel.style.width === "250px" ? "0" : "250px";
+  });
+
+  document.getElementById("logout-button-sidebar").addEventListener("click", () => {
+    sessionStorage.clear();
+    const totalRespondents = localStorage.getItem("totalRespondents");
+
+    localStorage.removeItem("currentUserId");
+    localStorage.removeItem("showIdInput");
+    localStorage.removeItem("surveyCompleted");
+    localStorage.removeItem("currentSurvey");
+    localStorage.removeItem("pushedRespondentIds");
+
+    if (totalRespondents !== null) {
+      localStorage.setItem("totalRespondents", totalRespondents);
+    }
+
+    sessionStorage.setItem("justLoggedOut", "true");
+    window.location.href = "logout.html";
+  });
+
+
+    if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+    window.location.href = 'index.html'; // Redirect to login if not authenticated
+    }
+
+    function closeModal() {
+        document.getElementById("customModal").style.display = "none";
+        document.getElementById("saveDatabaseModal").style.display = "none";
+        document.getElementById("errorDatabaseModal").style.display = "none";
+    }
+
+    function showToast(message, type = "error", duration = 4000) {
+        const container = document.getElementById("toast-container");
+
+        const toast = document.createElement("div");
+        toast.classList.add("toast", `toast-${type}`); // Add the dynamic class based on type
+
+        toast.innerHTML = `
+            <span>${message}</span>
+            <button class="toast-close" onclick="this.parentElement.remove()">&times;</button>
+        `;
+
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            toast.remove();
+        }, duration);
+    }
+
+        const INACTIVITY_LIMIT = 15 * 60 * 1000;
+    let inactivityTimer;
+    let remainingTime = INACTIVITY_LIMIT;
+    let countdownInterval;
+
+    function updateCountdownDisplay() {
+      const minutes = Math.floor(remainingTime / 60000);
+      const seconds = Math.floor((remainingTime % 60000) / 1000);
+      const countdownEl = document.getElementById("countdown");
+      if (countdownEl) {
+        countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      }
+    }
+
+    function startCountdown() {
+      clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        remainingTime -= 1000;
+        if (remainingTime <= 0) {
+          clearInterval(countdownInterval);
+        }
+        updateCountdownDisplay();
+      }, 1000);
+    }
+
+    function resetInactivityTimer() {
+      clearTimeout(inactivityTimer);
+      clearInterval(countdownInterval);
+      remainingTime = INACTIVITY_LIMIT;
+      updateCountdownDisplay();
+      startCountdown();
+
+      inactivityTimer = setTimeout(autoLogout, INACTIVITY_LIMIT);
+    }
+
+    function autoLogout() {
+      sessionStorage.clear();
+      const totalRespondents = localStorage.getItem("totalRespondents");
+
+      localStorage.removeItem("currentUserId");
+      localStorage.removeItem("showIdInput");
+      localStorage.removeItem("surveyCompleted");
+      localStorage.removeItem("currentSurvey");
+      localStorage.removeItem("pushedRespondentIds");
+
+      if (totalRespondents !== null) {
+        localStorage.setItem("totalRespondents", totalRespondents);
+      }
+
+      sessionStorage.setItem("justLoggedOut", "true");
+      window.location.href = "logout.html";
+    }
+
+    ['click', 'mousemove', 'keydown', 'touchstart'].forEach(event => {
+      document.addEventListener(event, resetInactivityTimer);
+    });
+
+    resetInactivityTimer();
+</script>
+
+
+<!--USERNAME FUNCTION-->
+<script>
+// Wait until the DOM is ready
+document.addEventListener("DOMContentLoaded", () => {
+  // Retrieve user data from sessionStorage
+  const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
+
+  // Try to use enumerator_code or fallback to name
+  const displayName = userData.enumerator_code || userData.name || "Pengguna";
+
+  // Replace username in the navbar
+  const usernameEl = document.getElementById("username");
+  if (usernameEl) {
+    usernameEl.innerHTML = `<i class="fas fa-user" style="margin-right:10px;"></i>${displayName}`;
+    usernameEl.title = userData.role || ""; // Optional: show role as tooltip
+  }
+});
+</script>
+
+
+<!-- Load respondent data -->
+   <script>
+
+  async function loadRespondentData() {
+    try {
+      const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
+      const enumeratorCode = userData.enumerator_code;
+      const role = userData.role || "User";
+
+        let url = "";
+        const isAdmin = role.toLowerCase() === "admin";
+        const isPIC = role.toLowerCase() === "pic";
+
+        if (isAdmin) {
+        url = "https://atiqahst-github-io.onrender.com/admin-summary";
+        } else if (isPIC) {
+        url = "https://atiqahst-github-io.onrender.com/pic-summary";
+        } else {
+        if (!enumeratorCode) {
+            alert("Kod enumerator tidak dijumpai dalam data pengguna.");
+            return;
+        }
+        url = `https://atiqahst-github-io.onrender.com/respondent-history?user=${encodeURIComponent(enumeratorCode)}`;
+        }
+
+
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error("Rangkaian gagal: " + response.status);
+      }
+
+      const data = await response.json();
+      const tbody = document.querySelector("#respondent-table tbody");
+      const thead = document.querySelector("#respondent-table thead");
+
+      tbody.innerHTML = "";
+
+      // Update table headers for admin or regular user
+      if (isAdmin) {
+        thead.innerHTML = `
+          <tr>
+            <th style="border: 1px solid #ccc; padding: 10px; background-color: #005999; color: white">Kod Enumerator</th>
+            <th style="border: 1px solid #ccc; padding: 10px; background-color: #005999; color: white">Jumlah Responden</th>
+          </tr>
+        `;
+      } else {
+        thead.innerHTML = `
+          <tr>
+            <th style="border: 1px solid #ccc; padding: 10px;">Tarikh</th>
+            <th style="border: 1px solid #ccc; padding: 10px;">Kod Enumerator</th>
+            <th style="border: 1px solid #ccc; padding: 10px;">Jumlah Responden</th>
+          </tr>
+        `;
+      }
+
+      if (!data || data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="${isAdmin ? 2 : 3}" style="text-align:center; padding: 10px;">Tiada data untuk dipaparkan.</td></tr>`;
+        return;
+      }
+
+      // Display table rows
+      data.forEach(row => {
+        const tr = document.createElement("tr");
+
+        if (isAdmin) {
+          tr.innerHTML = `
+            <td style="border: 1px solid #ccc; padding: 10px;">${row.enumerator_code}</td>
+            <td style="border: 1px solid #ccc; padding: 10px;">${row.total_respondents || row.respondent_count || 0}</td>
+          `;
+        } else {
+          const formattedDate = new Date(row.date).toLocaleDateString('ms-MY', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          });
+          tr.innerHTML = `
+            <td style="border: 1px solid #ccc; padding: 10px;">${formattedDate}</td>
+            <td style="border: 1px solid #ccc; padding: 10px;">${row.enumerator_code}</td>
+            <td style="border: 1px solid #ccc; padding: 10px;">${row.respondent_count || 0}</td>
+          `;
+        }
+
+        tbody.appendChild(tr);
+      });
+
+    } catch (err) {
+      alert("Gagal memuatkan data.");
+      console.error(err);
+    }
+  }
+
+  window.addEventListener("load", loadRespondentData);
+
+   </script>
+
+</body>
+
+<!--Version No. if there are any updates, bug fixes or new features applied-->
+<!-- <footer>
+    <p>v 4.1.21</p>
+</footer> -->
+</html> 
