@@ -379,9 +379,14 @@ app.get("/admin-summary", async (req, res) => {
 
 
 //For PIC
-app.get("/pic-summary", authenticateUser, async (req, res) => {
+// GET /pic-summary?enumerator_code=ST00
+app.get("/pic-summary", async (req, res) => {
   try {
-    const picCode = req.user.enumerator_code; // e.g. "ST00"
+    const picCode = req.query.enumerator_code; // from URL
+    if (!picCode) {
+      return res.status(400).json({ error: "Missing enumerator_code" });
+    }
+
     const codePrefix = picCode.substring(0, 2); // "ST"
 
     const result = await pool.query(`
@@ -405,6 +410,7 @@ app.get("/pic-summary", authenticateUser, async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 
 

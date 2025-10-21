@@ -208,6 +208,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
       const enumeratorCode = userData.enumerator_code;
       const role = userData.role || "User";
+      const token = userData.token;
+        if (!token) {
+        throw new Error("Token tidak dijumpai. Sila log masuk semula.");
+        }
+
 
         let url = "";
         const isAdmin = role.toLowerCase() === "admin";
@@ -216,7 +221,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (isAdmin) {
         url = "https://atiqahst-github-io.onrender.com/admin-summary";
         } else if (isPIC) {
-        url = "https://atiqahst-github-io.onrender.com/pic-summary";
+        url = `https://atiqahst-github-io.onrender.com/pic-summary?enumerator_code=${encodeURIComponent(enumeratorCode)}`;
         } else {
         if (!enumeratorCode) {
             alert("Kod enumerator tidak dijumpai dalam data pengguna.");
