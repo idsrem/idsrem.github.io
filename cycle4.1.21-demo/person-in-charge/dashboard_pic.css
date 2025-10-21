@@ -47,6 +47,18 @@ body {
     /* background-attachment: fixed; */
   }
 
+  /* Iframe styling */
+iframe {
+  border: 1px solid #ccc;
+  height: 600px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  margin-top: 20px;
+}
+
   .top-header{
     display: flex;
     justify-content: space-between;
@@ -284,7 +296,7 @@ footer{
 
 
 table{
-    width: 90%;
+    width: 60%;
     margin-left: auto;
     margin-right: auto;
     border-collapse: collapse;
@@ -436,7 +448,12 @@ td{
   }
 
   table{
+    width: 90%;
+}
+
+iframe{
     width: 95%;
+    height: 300px;
 }
 
     .navbar-title{
