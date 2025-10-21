@@ -168,7 +168,6 @@ footer{
   font-weight: 800;
 }
 
-
 /* MOBILE/TABLET (<=768px) media query: sidepanel overlays content */
 @media (max-width: 768px) {
   .main-content {

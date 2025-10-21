@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/cycle4.1.21-demo/index.css">
-    <title>Kaji Selidik | IDS Fasa 4 </title>
+    <link rel="stylesheet" href="/cycle4-demo/index.css">
+    <title>IDS|Fasa 4 (2025)</title>
     <link rel="icon" type="image/x-icon" href="ids_logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Basic&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Hind+Madurai:wght@300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Share+Tech&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -26,13 +26,13 @@
 
 
 <div id="sidePanel" class="sidepanel">
-  <a href="/cycle4.1.21-demo/main.html">
+  <a href="/cycle4-demo/main.html">
     <i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Kaji Selidik
   </a>
-  <a href="/cycle4.1.21-demo/enumerator_history_respondents.html">
+  <a href="#">
     <i class="fas fa-clock-rotate-left" style="margin-right:10px;"></i> Rekod Responden
   </a>
-  <a href="/cycle4.1.21-demo/user_profile.html">
+  <a href="#">
     <i class="fas fa-user" style="margin-right:10px;"></i> Profil
   </a>
   <a href="#" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
@@ -47,7 +47,7 @@
 
     <div class="top-header">
         <!-- Logo IDS at the top left-->
-        <img class="idsLogo" src="/cycle4.1.21-demo/ids_logo.png" alt="IDS Logo">
+        <img class="idsLogo" src="/cycle4-demo/ids_logo.png" alt="IDS Logo">
          <!-- Powered By at the top right-->
         <div class="poweredBy">
         <!-- <p> Powered By:</p>
@@ -413,7 +413,7 @@ document.addEventListener("DOMContentLoaded", () => {
     <div id="customModal" class="modal-overlay">
     <div class="modal-content">
         <span class="close-button" onclick="closeModal()">&times;</span>
-        <div class="modal-icon"><img src="/cycle4.1.21-demo/check-icon.png" alt="check-icon"></div>
+        <div class="modal-icon"><img src="/cycle4-demo/check-icon.png" alt="check-icon"></div>
         <h2>Sesi Ditamatkan</h2>
         <p>Respon anda telah disimpan! Terima kasih!</p>
     </div>
@@ -423,7 +423,7 @@ document.addEventListener("DOMContentLoaded", () => {
     <div id="saveDatabaseModal" class="modal-overlay">
     <div class="modal-content">
         <span class="close-button" onclick="closeModal()">&times;</span>
-        <div class="modal-icon"><img src="/cycle4.1.21-demo/successful_database.png" alt="save_"></div>
+        <div class="modal-icon"><img src="/cycle4-demo/successful_database.png" alt="save_"></div>
         <h2>Berjaya!</h2>
         <p>Semua data telah disimpan</p>
     </div>
@@ -433,7 +433,7 @@ document.addEventListener("DOMContentLoaded", () => {
     <div id="errorDatabaseModal" class="modal-overlay">
     <div class="modal-content">
         <span class="close-button" onclick="closeModal()">&times;</span>
-        <div class="modal-icon"><img src="/cycle4.1.21-demo/error_database.png" alt="error-icon"></div>
+        <div class="modal-icon"><img src="/cycle4-demo/error_database.png" alt="error-icon"></div>
         <h2>Error!</h2>
         <p>Data anda tidak dapat disimpan. Sila pastikan sambungan intenet anda stabil.</p>
     </div>
@@ -442,7 +442,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     <!-- Minimal floating pop-up -->
     <div id="surveyCloseModal" class="clean-popup">
-        <img src="/cycle4.1.21-demo/clock.png" alt="clock icon" class="popup-icon" />
+        <img src="/cycle4-demo/clock.png" alt="clock icon" class="popup-icon" />
         <h2>Maaf!</h2>
         <p>Kajiselidik ini hanya boleh dilakukan dari jam <strong>6 pagi sehingga 8 malam</strong></p>
     </div>
@@ -453,14 +453,16 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
       <div class="timeout-right">
         <span>Powered By:</span>
-        <img src="/cycle4.1.21-demo/DataBlu_Logo.png" alt="DataBlu Logo" class="footer-logo">
+        <img src="/cycle4-demo/DataBlu_Logo.png" alt="DataBlu Logo" class="footer-logo">
       </div>
     </div>
 
 </body>
 
+
+
 <!--Version No. if there are any updates, bug fixes or new features applied-->
-<!-- <footer>
+<footer>
     <p>v 4.1.21</p>
-</footer> -->
+</footer>
 </html> 

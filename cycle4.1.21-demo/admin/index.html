@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/cycle4-demo/admin/index.css" />
-    <title>Rekod Responden | IDS Fasa 4</title>
+    <title>Dashboard | IDS Fasa 4</title>
   <link rel="icon" type="image/x-icon" href="ids_logo.png" />
   <link
     href="https://fonts.googleapis.com/css2?family=Basic&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Hind+Madurai:wght@300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Share+Tech&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
@@ -35,11 +35,11 @@
 
 <!-- Sidepanel -->
 <div id="sidePanel" class="sidepanel">
-  <a class="active" href="/cycle4.1.21-demo/admin/index.html"><i class="fas fa-chart-line" style="margin-right:10px;"></i> Dashboard</a>
-  <a href="/cycle4.1.21-demo/admin/responses_records_v2.html"><i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Rekod Responden</a>
+  <a class="active" href="/cycle4-demo/admin/index.html"><i class="fas fa-chart-line" style="margin-right:10px;"></i> Dashboard</a>
+  <a href="/cycle4-demo/admin/responses_records_v2.html"><i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Rekod Responden</a>
   <!-- <a href="/cycle4-demo/admin/user_management.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a> -->
-  <a href="/cycle4.1.21-demo/admin/user_management_2.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a>
-  <a href="/cycle4.1.21-demo/logout.html" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
+  <a href="/cycle4-demo/admin/user_management_2.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a>
+  <a href="/cycle4-demo/logout.html" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
     <i class="fas fa-sign-out-alt" style="margin-right:10px;"></i> Log Keluar
   </a>
 </div>
@@ -114,7 +114,7 @@
     });
 
     if (sessionStorage.getItem('isLoggedIn') !== 'true') {
-      window.location.href = '/cycle4.1.21-demo/index.html';
+      window.location.href = 'index.html';
     }
 
     const INACTIVITY_LIMIT = 15 * 60 * 1000;

@@ -211,8 +211,7 @@ function showIdInput() {
     dateBubble.style.color = "#000000";
     
 
-    // const questionText = "Sila masukkan kod anda untuk memulakan kaji selidik";
-    const questionText = "Klik seterusnya untuk memulakan tinjauan";
+    const questionText = "Sila masukkan kod anda untuk memulakan kaji selidik";
 
     // Create question bubble element
     const questionBubble = document.createElement("div");
@@ -221,7 +220,7 @@ function showIdInput() {
     messageView.appendChild(questionBubble);
 
     const questionTitle = document.createElement("p");
-    questionTitle.textContent = "Klik seterusnya untuk memulakan tinjauan";
+    questionTitle.textContent = "Sila masukkan kod anda untuk memulakan kaji selidik:";
     questionTitle.style.textAlign = "center";
     questionTitle.style.marginTop = "35px";
     questionTitle.style.marginBottom = "10px";
@@ -299,6 +298,10 @@ function showIdInput() {
     }
 
 
+        
+
+        
+        
         // Show user input in message view
         const userMessage = document.createElement("div");
         userMessage.classList.add("message-bubble", "answer-bubble");
@@ -773,38 +776,7 @@ function showIdInput() {
                     button.style.backgroundColor = "#ff0000ff";
                     button.style.color = "#FFFFFF";
                      button.innerHTML = "Tiada";
-
-                } else if (option.name === "Ya" && question.id === "mengundiAdun") {
-                    button.style.backgroundColor = "#339A00";
-                    button.style.color = "#FFFFFF";
-                    button.innerHTML = "Ya";
-
-                }else if (option.name === "Tidak" && question.id === "mengundiAdun") {
-                    button.style.backgroundColor = "#ff0000ff";
-                    button.style.color = "#FFFFFF";
-                    button.innerHTML = "Tidak";
-
-                }else if (option.name === "Ya" && question.id === "pilihanRaya") {
-                    button.style.backgroundColor = "#339A00";
-                    button.style.color = "#FFFFFF";
-                    button.innerHTML = "Ya";
-
-                }else if (option.name === "Tidak" && question.id === "pilihanRaya") {
-                    button.style.backgroundColor = "#ff0000ff";
-                    button.style.color = "#FFFFFF";
-                    button.innerHTML = "Tidak";
-
-                }else if (option.name === "Iya, (isi kaji selidik yang baru)" && question.id === "isiBorangLagi") {
-                    button.style.backgroundColor = "#339A00";
-                    button.style.color = "#FFFFFF";
-                    button.innerHTML = "Iya, (isi kaji selidik yang baru)";
-
-                }else if (option.name === "Tidak, (Sesi ditamatkan)" && question.id === "isiBorangLagi") {
-                    button.style.backgroundColor = "#ff0000ff";
-                    button.style.color = "#FFFFFF";
-                    button.innerHTML = "Tidak, (Sesi ditamatkan)";
                 }
-
                 else {
                     button.textContent = option.name || option.code;
                 }
@@ -1803,14 +1775,7 @@ function displayAllSurveyResponses(hideTable = false) {
     let storageKey = `allSurveyResponses_${userid}`;
     let allSurveys = JSON.parse(localStorage.getItem(storageKey)) || [];
 
-    //allSurveys = allSurveys.map(survey => survey.answers ? survey.answers : survey);
-
-    allSurveys = allSurveys.map(survey =>
-    survey.answers
-        ? { ...survey.answers, responseid: survey.responseid }
-        : survey
-);
-
+    allSurveys = allSurveys.map(survey => survey.answers ? survey.answers : survey);
 
     // ===== Main Buttons (Red, Blue, ToggleView) =====
     const mainButtonsWrapper = document.createElement("div");
@@ -1868,98 +1833,56 @@ function displayAllSurveyResponses(hideTable = false) {
     const surveyView = document.getElementById("survey-container");
     const surveyQuestions = document.querySelectorAll(".survey-question");
 
-    // let showingSurvey = true;
+    let showingSurvey = true;
 
-
-// if (isMobileView) {
-//     // Mobile layout: Only show survey view initially
-//     messageView.style.display = "none";
-//     surveyView.style.display = "block";
-//     toggleViewButton.style.display = "inline-block";
-//     resetSurveyButton.style.display = "inline-block";
-//     toggleButton.style.display = "inline-block";
-//     surveyQuestions.forEach(q => q.style.display = "block");
-// } else {
-//     // Desktop layout: Always show everything
-//     messageView.style.display = "block";
-//     surveyView.style.display = "block";
-//     toggleViewButton.style.display = "none"; // Hide this in desktop
-//     resetSurveyButton.style.display = "inline-block";
-//     toggleButton.style.display = "inline-block";
-//     surveyQuestions.forEach(q => q.style.display = "block");
-// }
-
-// Always show both survey and message views
-messageView.style.display = "block";
-surveyView.style.display = "block";
-
-// Hide toggleViewButton because toggle no longer needed
-toggleViewButton.style.display = "none";
-
-resetSurveyButton.style.display = "inline-block";
-toggleButton.style.display = "inline-block";
-
-surveyQuestions.forEach(q => q.style.display = "block");
-
+if (isMobileView) {
+    // Mobile layout: Only show survey view initially
+    messageView.style.display = "none";
+    surveyView.style.display = "block";
+    toggleViewButton.style.display = "inline-block";
+    resetSurveyButton.style.display = "inline-block";
+    toggleButton.style.display = "inline-block";
+    surveyQuestions.forEach(q => q.style.display = "block");
+} else {
+    // Desktop layout: Always show everything
+    messageView.style.display = "block";
+    surveyView.style.display = "block";
+    toggleViewButton.style.display = "none"; // Hide this in desktop
+    resetSurveyButton.style.display = "inline-block";
+    toggleButton.style.display = "inline-block";
+    surveyQuestions.forEach(q => q.style.display = "block");
+}
 
 
     // Toggle logic for mobile
 
-// toggleViewButton.onclick = () => {
-//     if (!window.matchMedia("(max-width: 800px)").matches) return;
+toggleViewButton.onclick = () => {
+    if (!window.matchMedia("(max-width: 800px)").matches) return;
 
-//     showingSurvey = !showingSurvey;
-    
+    if (showingSurvey) {
+        // HIDE survey view
+        surveyView.style.display = "none";
+        messageView.style.display = "block";
+        resetSurveyButton.style.display = "none";
+        toggleButton.style.display = "none";
+        surveyQuestions.forEach(q => q.style.display = "none");
 
-//     if (showingSurvey) {
-//         surveyView.style.display = "block";
-//         messageView.style.display = "none";
-//         resetSurveyButton.style.display = "inline-block";
-//         toggleButton.style.display = "inline-block";
-//         toggleViewButton.style.display = "inline-block"; // ensure it's visible
-//         surveyQuestions.forEach(q => q.style.display = "block");
+        // Now it's hidden, offer to SHOW again
+        toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right:5px;"></i> Papar Kaji Selidik`;
+    } else {
+        // SHOW survey view again
+        surveyView.style.display = "block";
+        messageView.style.display = "none";
+        resetSurveyButton.style.display = "inline-block";
+        toggleButton.style.display = "inline-block";
+        surveyQuestions.forEach(q => q.style.display = "block");
 
-//         toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right:5px;"></i> Tutup Kaji Selidik`;
-//     } else {
-//         surveyView.style.display = "none";
-//         messageView.style.display = "block";
-//         resetSurveyButton.style.display = "none";
-//         toggleButton.style.display = "none";
-//         toggleViewButton.style.display = "inline-block"; // ensure it's visible
-//         surveyQuestions.forEach(q => q.style.display = "none");
+        // Now it's visible, offer to CLOSE it
+        toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right:5px;"></i> Tutup Kaji Selidik`;
+    }
 
-//         toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right:5px;"></i> Papar Kaji Selidik`;
-//     }
-// };
-
-
-// toggleViewButton.onclick = () => {
-//     if (!window.matchMedia("(max-width: 800px)").matches) return;
-
-//     if (showingSurvey) {
-//         // HIDE survey view
-//         surveyView.style.display = "none";
-//         messageView.style.display = "block";
-//         resetSurveyButton.style.display = "none";
-//         toggleButton.style.display = "none";
-//         surveyQuestions.forEach(q => q.style.display = "none");
-
-//         // Now it's hidden, offer to SHOW again
-//         toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right:5px;"></i> Papar Kaji Selidik`;
-//     } else {
-//         // SHOW survey view again
-//         surveyView.style.display = "block";
-//         messageView.style.display = "none";
-//         resetSurveyButton.style.display = "inline-block";
-//         toggleButton.style.display = "inline-block";
-//         surveyQuestions.forEach(q => q.style.display = "block");
-
-//         // Now it's visible, offer to CLOSE it
-//         toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right:5px;"></i> Tutup Kaji Selidik`;
-//     }
-
-//     showingSurvey = !showingSurvey;
-// };
+    showingSurvey = !showingSurvey;
+};
 
 
     // toggleViewButton.onclick = () => {
@@ -2076,26 +1999,19 @@ surveyQuestions.forEach(q => q.style.display = "block");
 window.redoSurvey = redoSurvey;
 window.pushToDatabaseButton = pushToDatabaseButton;
 window.downloadInExcelDoc = downloadInExcelDoc;
-window.deleteSurveyResponse = (responseId) => {
-    if (!responseId) return; // optional defensive check
 
+window.deleteSurveyResponse = (responseId) => {
+    //let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
     let userid = localStorage.getItem("currentUserId");
     let storageKey = `allSurveyResponses_${userid}`;
     let allSurveys = JSON.parse(localStorage.getItem(storageKey)) || [];
 
-    allSurveys = allSurveys.map(survey =>
-        survey.answers
-            ? { ...survey.answers, responseid: survey.responseid }
-            : survey
-    );
-
+    allSurveys = allSurveys.map(survey => survey.answers ? survey : { responseid: survey.responseid, answers: survey });
     const updatedSurveys = allSurveys.filter(survey => survey.responseid !== responseId);
-    localStorage.setItem(storageKey, JSON.stringify(updatedSurveys));
-
+    localStorage.setItem("allSurveyResponses", JSON.stringify(updatedSurveys));
     displayAllSurveyResponses(false);
 };
 
-let showingSurvey = localStorage.getItem("showingSurvey") === "true";
 let isTableVisible = true;
 let previousIsMobile = window.innerWidth < 800;
 
@@ -2528,7 +2444,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function sendDataToBackend(data){
     try {
-        const response = await fetch('https://atiqahst-github-io.onrender.com/test_cycle4', {
+        const response = await fetch('https://atiqahst-github-io.onrender.com/testResponse', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

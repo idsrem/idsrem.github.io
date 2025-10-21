@@ -17,7 +17,7 @@ body, html {
 /* Left side: background image */
 .login-background {
   flex: 1; /* takes half the screen */
-  background-image: url('/cycle4.1.21-demo/login_background.jpg');
+  background-image: url('/cycle4-demo/sabah-mountain.jpg');
   background-size: cover;
   background-position: center;
   position: relative;

@@ -14,7 +14,7 @@
   <div class="login-wrapper">
     <div class="login-background"></div>
     <div class="login-container">
-      <img src="/cycle4.1.21-demo/ids_logo.png" alt="IDS Logo">
+      <img src="/cycle4-demo/ids_logo.png" alt="IDS Logo">
       <h2>Permantauan Dinamika Pembangunan Kerajaan</h2>
       <hr>
       <form id="loginForm">
@@ -29,7 +29,7 @@
         </div>
 
         <button type="submit">LOGIN</button>
-        <p>v4.2.1</p>
+        <p>v4.1.20</p>
       </form>
       <p id="errorMsg"></p>
     </div>
@@ -96,7 +96,7 @@
         // sessionStorage.setItem('userName', data.name);
         // sessionStorage.setItem('enumeratorCode', data.enumerator_code);
         // Save session data
-        sessionStorage.setItem('userData', JSON.stringify(data)); 
+        sessionStorage.setItem('userData', JSON.stringify(data)); // 👈 This is new
 
 
         // Remember username if checked
@@ -112,10 +112,7 @@
         setTimeout(() => {
           if (data.role === 'Admin') {
             window.location.href = 'admin/index.html';
-          }  else if (data.role === 'PIC') {
-            window.location.href = 'person-in-charge/main.html';
-          }
-          else {
+          } else {
             window.location.href = 'main.html';
           }
         }, 2000);
