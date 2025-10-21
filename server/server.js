@@ -219,7 +219,6 @@ app.delete('/users/:id', async (req, res) => {
 });
 
 
-const authenticateUser = require('./middleware/authenticateUser');
 
 app.get('/users/me', authenticateUser, async (req, res) => {
   try {
