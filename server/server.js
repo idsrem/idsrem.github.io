@@ -291,10 +291,11 @@ app.delete('/users/:id', async (req, res) => {
 
 app.get("/respondent-history", async (req, res) => {
   try {
-    const user = req.user; // Should be set by your auth middleware
-    
-    if (!user) {
-      return res.status(401).json({ error: "Unauthorized" });
+    // Use req.user if set, else fallback to query param
+    const user = req.user || { role: "User", enumerator_code: req.query.user };
+
+    if (!user || !user.enumerator_code) {
+      return res.status(400).json({ error: "User code is required" });
     }
 
     let query = `
@@ -308,7 +309,7 @@ app.get("/respondent-history", async (req, res) => {
         tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
     `;
 
-    let params = [];
+    const params = [];
 
     if (user.role !== "Admin") {
       query += ` AND kod = $1`;
@@ -322,7 +323,6 @@ app.get("/respondent-history", async (req, res) => {
 
     const result = await pool.query(query, params);
     res.json(result.rows);
-
   } catch (err) {
     console.error("Database error", err);
     res.status(500).json({ error: err.message });
