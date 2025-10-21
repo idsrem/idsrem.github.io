@@ -289,45 +289,102 @@ app.delete('/users/:id', async (req, res) => {
 // });
 
 
+// app.get("/respondent-history", async (req, res) => {
+//   try {
+//     // Use req.user if set, else fallback to query param
+//     const user = req.user || { role: "User", enumerator_code: req.query.user };
+
+//     if (!user || !user.enumerator_code) {
+//       return res.status(400).json({ error: "User code is required" });
+//     }
+
+//     let query = `
+//       SELECT 
+//         to_date(tarikh, 'DD/MM/YYYY') AS date,
+//         kod AS enumerator_code,
+//         COUNT(*) AS respondent_count
+//       FROM 
+//         cycle4_demo
+//       WHERE 
+//         tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
+//     `;
+
+//     const params = [];
+
+//     if (user.role !== "Admin") {
+//       query += ` AND kod = $1`;
+//       params.push(user.enumerator_code);
+//     }
+
+//     query += `
+//       GROUP BY to_date(tarikh, 'DD/MM/YYYY'), kod
+//       ORDER BY date DESC, kod ASC;
+//     `;
+
+//     const result = await pool.query(query, params);
+//     res.json(result.rows);
+//   } catch (err) {
+//     console.error("Database error", err);
+//     res.status(500).json({ error: err.message });
+//   }
+// });
+
+
 app.get("/respondent-history", async (req, res) => {
   try {
-    // Use req.user if set, else fallback to query param
-    const user = req.user || { role: "User", enumerator_code: req.query.user };
+    const user = req.user || { role: "User", enumerator_code: req.query.user }; // fallback if no auth
+    
+    let query = "";
+    let params = [];
 
-    if (!user || !user.enumerator_code) {
-      return res.status(400).json({ error: "User code is required" });
-    }
-
-    let query = `
-      SELECT 
-        to_date(tarikh, 'DD/MM/YYYY') AS date,
-        kod AS enumerator_code,
-        COUNT(*) AS respondent_count
-      FROM 
-        cycle4_demo
-      WHERE 
-        tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
-    `;
-
-    const params = [];
-
-    if (user.role !== "Admin") {
-      query += ` AND kod = $1`;
+    if (user.role === "Admin") {
+      // Accumulated total respondents over time (all enumerators)
+      query = `
+        SELECT
+          date,
+          SUM(respondent_count) OVER (ORDER BY date) AS cumulative_respondent_count
+        FROM (
+          SELECT
+            to_date(tarikh, 'DD/MM/YYYY') AS date,
+            COUNT(*) AS respondent_count
+          FROM
+            cycle4_demo
+          WHERE
+            tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
+          GROUP BY
+            to_date(tarikh, 'DD/MM/YYYY')
+          ORDER BY date
+        ) sub
+      `;
+    } else {
+      // Regular enumerator-specific counts by date
+      query = `
+        SELECT 
+          to_date(tarikh, 'DD/MM/YYYY') AS date,
+          kod AS enumerator_code,
+          COUNT(*) AS respondent_count
+        FROM 
+          cycle4_demo
+        WHERE 
+          tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
+          AND kod = $1
+        GROUP BY 
+          to_date(tarikh, 'DD/MM/YYYY'), kod
+        ORDER BY 
+          date DESC, kod ASC;
+      `;
       params.push(user.enumerator_code);
     }
 
-    query += `
-      GROUP BY to_date(tarikh, 'DD/MM/YYYY'), kod
-      ORDER BY date DESC, kod ASC;
-    `;
-
     const result = await pool.query(query, params);
     res.json(result.rows);
+
   } catch (err) {
     console.error("Database error", err);
     res.status(500).json({ error: err.message });
   }
 });
+
 
 
 
