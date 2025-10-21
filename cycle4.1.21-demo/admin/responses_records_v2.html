@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/cycle4-demo/admin/index.css" />
-  <title>Dashboard | IDS Fasa 4</title>
+  <link rel="stylesheet" href="/cycle4-demo/admin/responses_records_v2.css" />
+  <title>Rekod Responden | IDS Fasa 4</title>
   <link rel="icon" type="image/x-icon" href="ids_logo.png" />
   <link
     href="https://fonts.googleapis.com/css2?family=Basic&family=Chakra+Petch&family=Hind+Madurai&family=Poppins&family=Share+Tech&family=Source+Sans+3&display=swap"
@@ -36,7 +36,9 @@
   <!-- Main Content -->
   <div class="main-content" id="mainContent">
     <h2>Rekod Responden</h2>
-    <table id="respondent-table" style="width: 80%; margin: 20px auto; border-collapse: collapse;">
+    
+    <p>Berikut adalah jumlah responden bagi setiap enumerator:</p>
+    <table id="respondent-table" style="width: 100%; margin-top: 30px; margin-bottom: 50px; border-collapse: collapse; text-align: center;">
       <thead>
         <tr>
           <th style="border: 1px solid #ccc; padding: 10px;">Tarikh</th>
@@ -229,8 +231,8 @@
       if (isAdmin) {
         thead.innerHTML = `
           <tr>
-            <th style="border: 1px solid #ccc; padding: 10px;">Kod Enumerator</th>
-            <th style="border: 1px solid #ccc; padding: 10px;">Jumlah Responden</th>
+            <th style="border: 1px solid #ccc; padding: 10px; background-color: #005999; color: white">Kod Enumerator</th>
+            <th style="border: 1px solid #ccc; padding: 10px; background-color: #005999; color: white">Jumlah Responden</th>
           </tr>
         `;
       } else {

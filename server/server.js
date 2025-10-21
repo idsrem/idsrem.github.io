@@ -219,107 +219,53 @@ app.delete('/users/:id', async (req, res) => {
 });
 
 
-// app.get("/respondent-history", async (req, res) => {
-//   try {
-//     const result = await pool.query(`
-//       SELECT 
-//           to_date(tarikh, 'DD/MM/YYYY') AS date,
-//           kod AS enumerator_code,
-//           COUNT(*) AS respondent_count
-//       FROM 
-//           cycle4_demo
-//       WHERE 
-//           tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
-//       GROUP BY 
-//           to_date(tarikh, 'DD/MM/YYYY'), kod
-//       ORDER BY 
-//           date DESC, kod ASC;
-//     `);
+const authenticateUser = require('./middleware/authenticateUser');
 
-//     res.json(result.rows);
-//   } catch (err) {
-//     console.error("Database error", err);
-//     res.status(500).json({ error: err.message });
-//   }
-// });
+app.get('/users/me', authenticateUser, async (req, res) => {
+  try {
+    const userId = req.user.id;
 
+    const result = await pool.query(`
+      SELECT id, name, role, enumerator_code, created_at
+      FROM users
+      WHERE id = $1
+    `, [userId]);
 
-// app.get("/respondent-history", async (req, res) => {
-//   try {
-//     const userCode = req.query.user;
-//     const userRole = req.query.role;
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
-//     if (!userCode || !userRole) {
-//       return res.status(400).json({ error: "User code and role required" });
-//     }
-
-//     let queryText = `
-//       SELECT 
-//           to_date(tarikh, 'DD/MM/YYYY') AS date,
-//           kod AS enumerator_code,
-//           COUNT(*) AS respondent_count
-//       FROM 
-//           cycle4_demo
-//       WHERE 
-//           tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
-//     `;
-
-//     const queryParams = [];
-
-//     // If user is NOT admin, filter by their own code
-//     if (userRole !== "admin") {
-//       queryText += ` AND kod = $1`;
-//       queryParams.push(userCode);
-//     }
-
-//     queryText += `
-//       GROUP BY 
-//           to_date(tarikh, 'DD/MM/YYYY'), kod
-//       ORDER BY 
-//           date DESC, kod ASC;
-//     `;
-
-//     const result = await pool.query(queryText, queryParams);
-
-//     res.json(result.rows);
-//   } catch (err) {
-//     console.error("Database error", err);
-//     res.status(500).json({ error: err.message });
-//   }
-// });
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error('Error fetching current user:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
 
-// app.get("/respondent-history", async (req, res) => {
-//   try {
-//     // Prefer query param for user code
-//     const enumeratorCode = req.query.user;
 
-//     if (!enumeratorCode || typeof enumeratorCode !== 'string') {
-//       return res.status(400).json({ error: "Kod enumerator diperlukan dalam query (?user=st01)" });
-//     }
+const jwt = require('jsonwebtoken');
+const secret = process.env.JWT_SECRET || 'yourSecretKey';
 
-//     const query = `
-//       SELECT 
-//         to_date(tarikh, 'DD/MM/YYYY') AS date,
-//         kod AS enumerator_code,
-//         COUNT(*) AS respondent_count
-//       FROM 
-//         cycle4_demo
-//       WHERE 
-//         tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$' AND kod = $1
-//       GROUP BY 
-//         to_date(tarikh, 'DD/MM/YYYY'), kod
-//       ORDER BY 
-//         date DESC, kod ASC;
-//     `;
+// ✅ Authentication Middleware
+function authenticateUser(req, res, next) {
+  const authHeader = req.headers.authorization;
 
-//     const result = await pool.query(query, [enumeratorCode]);
-//     res.json(result.rows);
-//   } catch (err) {
-//     console.error("Database error", err);
-//     res.status(500).json({ error: err.message });
-//   }
-// });
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  const token = authHeader.split(' ')[1];
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(403).json({ error: 'Invalid token' });
+  }
+}
+
 
 
 app.get("/respondent-history", async (req, res) => {
@@ -439,89 +385,6 @@ app.get("/respondent-history", async (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-//work in progress for cycle 2
-// app.post('/exportResponse', async (req, res) => {
-//   const newDataArray = req.body; // The new data array
-
-//   try {
-//     // Construct placeholders for the new data
-//     // const newPlaceholders = newDataArray.map((_, index) => `($${index * 3 + 1}, $${index * 3 + 2}, $${index * 3 + 3})`).join(',');
-   
-//     const newPlaceholders = newDataArray.map((_, index) => 
-//       // Generate 18 placeholders for each record
-//       `(${
-//         Array.from({ length: 18 }, (_, i) => `$${index * 18 + i + 1}`).join(', ')
-//       })`
-//     ).join(',');
-
-//     // Flatten the new data array into a single array of values
-//     // const newValues = newDataArray.reduce((acc, { field1, field2, field3 }) => {
-//     //   acc.push(field1 || '', field2 || '', field3 || '');  // Push the values for the new table's fields
-//     //   return acc;
-//     // }, []);
-
-//     const values = dataArray.reduce((acc, { 
-//       tarikh , dun, umur, jantina, bangsa, bangsalain,pengaruhmediasemasa,persepsi,persepsilain,
-//       pengaruhberita,faktorlain,pendapatperibadi,partiataucalon,cenderunguntukundi,pilihanpartinasional,pilihanpartitempatan,
-//       pemimpinsabah,pemimpinsabahlain,isiboranglagi}))
-
-//     // Construct the SQL query dynamically for the new table !!change new_table to new table in database
-//     const newQueryText = `INSERT INTO new_table (tarikh , dun, umur, jantina, bangsa, bangsalain,pengaruhmediasemasa,persepsi,persepsilain,
-//       pengaruhberita,faktorlain,pendapatperibadi,partiataucalon,cenderunguntukundi,pilihanpartinasional,pilihanpartitempatan,
-//       pemimpinsabah,pemimpinsabahlain,isiboranglagi) VALUES ${newPlaceholders}`;
-
-//     // Execute the query to insert into the new table
-//     await pool.query(newQueryText, newValues);
-//     res.status(200).send('Data saved successfully to new table');
-//   } catch (error) {
-//     console.error('Error saving data to new table', error);
-//     res.status(500).send('Error saving data to new table');
-//   }
-// });
-
-// new post 
-// app.post('/exportResponse', async (req, res) => {
-//   const userDataArray = req.body;  // The array of user data
-
-//   console.log("Hi Habri")
-//   try {
-//     // Construct the placeholders for the values
-//     const placeholders = userDataArray.map((_, index) => `($${index * 26 + 1}, $${index * 26 + 2}, $${index * 26 + 3}, $${index * 26 + 4}, $${index * 26 + 5}, $${index * 26 + 6}, 
-//       $${index * 26 + 7}, $${index * 26 + 8}, $${index * 26 + 9}, $${index * 26 + 10}, $${index * 26 + 11}, $${index * 26 + 12}, $${index * 26 + 13}, $${index * 26 + 14}, 
-//       $${index * 26 + 15}, $${index * 26 + 16}, $${index * 26 + 17}, $${index * 26 + 18}, $${index * 26 + 19}, $${index * 26 + 20}, $${index * 26 + 21}, $${index * 26 + 22}, 
-//       $${index * 26 + 23}, $${index * 26 + 24}, $${index * 26 + 25}, $${index * 26 + 26})`).join(',');
-
-//     // Flatten the userDataArray into a single array of values
-//     const values = userDataArray.reduce((acc, { 
-//       tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain, pendapatperibadi, partiataucalon,
-//       mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi 
-//     }) => {
-//       acc.push(tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain, pendapatperibadi, partiataucalon,
-//         mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi || '');
-//       return acc;
-//     }, []);
-
-//     // here
-//     // Construct the SQL query dynamically | table name + column name
-//     const queryText = `INSERT INTO cycle2 (tarikh, kod, dun, umur, jantina, bangsa, bangsalain, pengaruhmediasemasa, persepsi, persepsilain, pengaruhberita, faktorlain,
-//       pendapatperibadi, partiataucalon, mengundiAdun, tidakundi, cenderunguntukundi, pilihanpartinasional, pilihanpartitempatan, pemimpinsabah, pemimpinsabahlain, isiboranglagi) 
-//       VALUES ${placeholders}`;
-
-//     // Execute the query
-//     await pool.query(queryText, values);
-//     res.status(200).send('Data saved successfully');
-//   } catch (error) {
-//     console.error('Error saving data', error);
-//     res.status(500).send('Error saving data');
-//   }
-// });
 
 app.post('/exportResponse', async (req, res) => {
   const userDataArray = req.body;  // The array of user data

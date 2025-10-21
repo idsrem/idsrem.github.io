@@ -299,10 +299,6 @@ function showIdInput() {
     }
 
 
-        
-
-        
-        
         // Show user input in message view
         const userMessage = document.createElement("div");
         userMessage.classList.add("message-bubble", "answer-bubble");
@@ -1807,7 +1803,14 @@ function displayAllSurveyResponses(hideTable = false) {
     let storageKey = `allSurveyResponses_${userid}`;
     let allSurveys = JSON.parse(localStorage.getItem(storageKey)) || [];
 
-    allSurveys = allSurveys.map(survey => survey.answers ? survey.answers : survey);
+    //allSurveys = allSurveys.map(survey => survey.answers ? survey.answers : survey);
+
+    allSurveys = allSurveys.map(survey =>
+    survey.answers
+        ? { ...survey.answers, responseid: survey.responseid }
+        : survey
+);
+
 
     // ===== Main Buttons (Red, Blue, ToggleView) =====
     const mainButtonsWrapper = document.createElement("div");
@@ -1865,56 +1868,98 @@ function displayAllSurveyResponses(hideTable = false) {
     const surveyView = document.getElementById("survey-container");
     const surveyQuestions = document.querySelectorAll(".survey-question");
 
-    let showingSurvey = true;
+    // let showingSurvey = true;
 
-if (isMobileView) {
-    // Mobile layout: Only show survey view initially
-    messageView.style.display = "none";
-    surveyView.style.display = "block";
-    toggleViewButton.style.display = "inline-block";
-    resetSurveyButton.style.display = "inline-block";
-    toggleButton.style.display = "inline-block";
-    surveyQuestions.forEach(q => q.style.display = "block");
-} else {
-    // Desktop layout: Always show everything
-    messageView.style.display = "block";
-    surveyView.style.display = "block";
-    toggleViewButton.style.display = "none"; // Hide this in desktop
-    resetSurveyButton.style.display = "inline-block";
-    toggleButton.style.display = "inline-block";
-    surveyQuestions.forEach(q => q.style.display = "block");
-}
+
+// if (isMobileView) {
+//     // Mobile layout: Only show survey view initially
+//     messageView.style.display = "none";
+//     surveyView.style.display = "block";
+//     toggleViewButton.style.display = "inline-block";
+//     resetSurveyButton.style.display = "inline-block";
+//     toggleButton.style.display = "inline-block";
+//     surveyQuestions.forEach(q => q.style.display = "block");
+// } else {
+//     // Desktop layout: Always show everything
+//     messageView.style.display = "block";
+//     surveyView.style.display = "block";
+//     toggleViewButton.style.display = "none"; // Hide this in desktop
+//     resetSurveyButton.style.display = "inline-block";
+//     toggleButton.style.display = "inline-block";
+//     surveyQuestions.forEach(q => q.style.display = "block");
+// }
+
+// Always show both survey and message views
+messageView.style.display = "block";
+surveyView.style.display = "block";
+
+// Hide toggleViewButton because toggle no longer needed
+toggleViewButton.style.display = "none";
+
+resetSurveyButton.style.display = "inline-block";
+toggleButton.style.display = "inline-block";
+
+surveyQuestions.forEach(q => q.style.display = "block");
+
 
 
     // Toggle logic for mobile
 
-toggleViewButton.onclick = () => {
-    if (!window.matchMedia("(max-width: 800px)").matches) return;
+// toggleViewButton.onclick = () => {
+//     if (!window.matchMedia("(max-width: 800px)").matches) return;
 
-    if (showingSurvey) {
-        // HIDE survey view
-        surveyView.style.display = "none";
-        messageView.style.display = "block";
-        resetSurveyButton.style.display = "none";
-        toggleButton.style.display = "none";
-        surveyQuestions.forEach(q => q.style.display = "none");
+//     showingSurvey = !showingSurvey;
+    
 
-        // Now it's hidden, offer to SHOW again
-        toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right:5px;"></i> Papar Kaji Selidik`;
-    } else {
-        // SHOW survey view again
-        surveyView.style.display = "block";
-        messageView.style.display = "none";
-        resetSurveyButton.style.display = "inline-block";
-        toggleButton.style.display = "inline-block";
-        surveyQuestions.forEach(q => q.style.display = "block");
+//     if (showingSurvey) {
+//         surveyView.style.display = "block";
+//         messageView.style.display = "none";
+//         resetSurveyButton.style.display = "inline-block";
+//         toggleButton.style.display = "inline-block";
+//         toggleViewButton.style.display = "inline-block"; // ensure it's visible
+//         surveyQuestions.forEach(q => q.style.display = "block");
 
-        // Now it's visible, offer to CLOSE it
-        toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right:5px;"></i> Tutup Kaji Selidik`;
-    }
+//         toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right:5px;"></i> Tutup Kaji Selidik`;
+//     } else {
+//         surveyView.style.display = "none";
+//         messageView.style.display = "block";
+//         resetSurveyButton.style.display = "none";
+//         toggleButton.style.display = "none";
+//         toggleViewButton.style.display = "inline-block"; // ensure it's visible
+//         surveyQuestions.forEach(q => q.style.display = "none");
 
-    showingSurvey = !showingSurvey;
-};
+//         toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right:5px;"></i> Papar Kaji Selidik`;
+//     }
+// };
+
+
+// toggleViewButton.onclick = () => {
+//     if (!window.matchMedia("(max-width: 800px)").matches) return;
+
+//     if (showingSurvey) {
+//         // HIDE survey view
+//         surveyView.style.display = "none";
+//         messageView.style.display = "block";
+//         resetSurveyButton.style.display = "none";
+//         toggleButton.style.display = "none";
+//         surveyQuestions.forEach(q => q.style.display = "none");
+
+//         // Now it's hidden, offer to SHOW again
+//         toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right:5px;"></i> Papar Kaji Selidik`;
+//     } else {
+//         // SHOW survey view again
+//         surveyView.style.display = "block";
+//         messageView.style.display = "none";
+//         resetSurveyButton.style.display = "inline-block";
+//         toggleButton.style.display = "inline-block";
+//         surveyQuestions.forEach(q => q.style.display = "block");
+
+//         // Now it's visible, offer to CLOSE it
+//         toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right:5px;"></i> Tutup Kaji Selidik`;
+//     }
+
+//     showingSurvey = !showingSurvey;
+// };
 
 
     // toggleViewButton.onclick = () => {
@@ -2031,19 +2076,26 @@ toggleViewButton.onclick = () => {
 window.redoSurvey = redoSurvey;
 window.pushToDatabaseButton = pushToDatabaseButton;
 window.downloadInExcelDoc = downloadInExcelDoc;
-
 window.deleteSurveyResponse = (responseId) => {
-    //let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    if (!responseId) return; // optional defensive check
+
     let userid = localStorage.getItem("currentUserId");
     let storageKey = `allSurveyResponses_${userid}`;
     let allSurveys = JSON.parse(localStorage.getItem(storageKey)) || [];
 
-    allSurveys = allSurveys.map(survey => survey.answers ? survey : { responseid: survey.responseid, answers: survey });
+    allSurveys = allSurveys.map(survey =>
+        survey.answers
+            ? { ...survey.answers, responseid: survey.responseid }
+            : survey
+    );
+
     const updatedSurveys = allSurveys.filter(survey => survey.responseid !== responseId);
-    localStorage.setItem("allSurveyResponses", JSON.stringify(updatedSurveys));
+    localStorage.setItem(storageKey, JSON.stringify(updatedSurveys));
+
     displayAllSurveyResponses(false);
 };
 
+let showingSurvey = localStorage.getItem("showingSurvey") === "true";
 let isTableVisible = true;
 let previousIsMobile = window.innerWidth < 800;
 

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Profile</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="profile-container">
+    <h1>User Profile</h1>
+    <p><strong>ID:</strong> <span id="user-id"></span></p>
+    <p><strong>Name:</strong> <span id="user-name"></span></p>
+    <p><strong>Role:</strong> <span id="user-role"></span></p>
+    <p><strong>Enumerator Code:</strong> <span id="user-code"></span></p>
+    <p><strong>Created At:</strong> <span id="user-created"></span></p>
+    <div id="error" style="color:red;"></div>
+  </div>
+
+<script>
+  const userData = JSON.parse(sessionStorage.getItem('userData'));
+  const token = userData?.token;
+
+  if (!token) {
+    document.getElementById('error').textContent = 'Not logged in';
+  } else {
+    fetch('https://atiqahst-github-io.onrender.com/users/me', { // ✅ Full URL if hosted separately
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        document.getElementById('error').textContent = data.error;
+        return;
+      }
+
+      document.getElementById('user-id').textContent = data.id;
+      document.getElementById('user-name').textContent = data.name;
+      document.getElementById('user-role').textContent = data.role;
+      document.getElementById('user-code').textContent = data.enumerator_code;
+      document.getElementById('user-created').textContent = new Date(data.created_at).toLocaleString();
+    })
+    .catch(err => {
+      document.getElementById('error').textContent = 'Failed to fetch user';
+    });
+  }
+</script>
+
+</body>
+</html>
