@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/cycle4.1.21-demo/admin/user_management_2.css" />
-  <title>User Management | IDS Fasa 4</title>
+  <title>Senarai Pengguna | IDS Fasa 4</title>
   <link rel="icon" type="image/x-icon" href="/cycle4-demo/ids_logo.png" />
   <link
     href="https://fonts.googleapis.com/css2?family=Basic&family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Hind+Madurai:wght@300;400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Share+Tech&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
@@ -37,7 +37,8 @@
     <a href="/cycle4.1.21-demo/admin/index.html"><i class="fas fa-chart-line" style="margin-right:10px;"></i> Dashboard</a>
     <a href="/cycle4.1.21-demo/admin/responses_records_v2.html"><i class="fas fa-clipboard-list" style="margin-right:10px;"></i> Rekod Responden</a>
     <!-- <a href="/cycle4-demo/admin/user_management.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a> -->
-    <a class="active" href="/cycle4.1.21-demo/admin/user_management_2.html"><i class="fas fa-user" style="margin-right:10px;"></i> User Management</a>
+    <a class="active" href="/cycle4.1.21-demo/admin/user_management_2.html"><i class="fas fa-user" style="margin-right:10px;"></i>Senarai Pengguna</a>
+    <a href="/cycle4.1.21-demo/admin/user_profile_admin.html"><i class="fas fa-user" style="margin-right:10px;"></i>Profil</a>
     <a href="/cycle4.1.21-demo/logout.html" id="logout-button-sidebar" style="background-color: red; margin-top: 30px;">
       <i class="fas fa-sign-out-alt" style="margin-right:10px;"></i> Log Keluar
     </a>
@@ -45,17 +46,17 @@
 
   <!-- ✅ Main Content -->
   <div class="main-content" id="mainContent">
-    <h2>User Management</h2>
-     <button id="addUserBtn" class="add-user-button">+ Add User</button>
+    <h2>Senarai Pengguna</h2>
+     <button id="addUserBtn" class="add-user-button"><i class="fas fa-user-plus" style="margin-right:10px;"></i>Tambah User</button>
 
     <table id="userTable">
       <thead>
         <tr class="headers-table">
           <th></th>
-          <th>Name</th>
-          <th>Role</th>
-          <th>Enumerator Code</th>
-          <th>Created At</th>
+          <th>Nama</th>
+          <th>Peranan</th>
+          <th>Kod Enumerator</th>
+          <th>Dicipta Pada</th>
 
         </tr>
       </thead>
@@ -66,30 +67,30 @@
         <div id="userModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h3>Add New User</h3>
+            <h3>Tambah User Baru</h3>
             <hr/>
             <form id="userForm">
-            <label>Name</label>
-            <input type="text" name="name" placeholder="Name" required />
+            <label>Nama Penuh</label>
+            <input type="text" name="name" placeholder="Sila isi nama penuh" required />
 
-            <label>Role</label>
+            <label>Peranan</label>
             <select name="role" required>
-                <option value="">Select Role</option>
+                <option value="">Sila pilih Peranan</option>
                 <option value="Admin">Admin</option>
                 <option value="Enumerator">Enumerator</option>
             </select>
 
-            <label>Enumerator Code</label>
-            <input type="text" name="enumerator_code" placeholder="Enumerator Code" required />
+            <label>Kod Enumerator</label>
+            <input type="text" name="enumerator_code" placeholder="Sila isi Kod Enumerator" required />
 
-            <label>Password</label>
-            <input type="password" name="password" placeholder="Password" />
+            <label>Kata Laluan</label>
+            <input type="password" name="password" placeholder="Sila isi Kata Laluan" />
 
-            <label>Confirmed Password</label>
-            <input type="password" name="confirmPassword" placeholder="Confirm Password" />
+            <label>Mengesahkan Kata Laluan</label>
+            <input type="password" name="confirmPassword" placeholder="Sila Mengesahkan Kata Laluan" />
 
             <div class="button-container">
-                <button class="submit-button" type="submit"><i class="fas fa-save" style="margin-right:10px;"></i>Save User</button>
+                <button class="submit-button" type="submit"><i class="fas fa-save" style="margin-right:10px;"></i>Simpan Pengguna</button>
             </div>
             </form>
         </div>
