@@ -571,6 +571,7 @@ function showIdInput() {
         else if (question.type === "multiselect") {
     const checkboxesDiv = document.createElement("div");
     checkboxesDiv.classList.add("options-checkboxes");
+      
 
     let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
 
