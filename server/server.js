@@ -309,6 +309,36 @@ function authenticateUser(req, res, next) {
   }
 }
 
+//Get today's respondent count for specific enumerator (by kod + tarikh)
+app.get("/respondents/count", async (req, res) => {
+  try {
+    const { kod, date } = req.query; // expects e.g. kod=ST01&date=2025-11-04
+
+    if (!kod || !date) {
+      return res.status(400).json({ error: "Missing kod or date parameter" });
+    }
+
+    // Convert from YYYY-MM-DD → DD/MM/YYYY (matches tarikh format in your DB)
+    const formattedDate = new Date(date).toLocaleDateString("en-GB"); // => "04/11/2025"
+
+    const result = await pool.query(
+      `
+      SELECT COUNT(*) AS count
+      FROM cycle4_demo
+      WHERE kod = $1 AND tarikh = $2
+      `,
+      [kod, formattedDate]
+    );
+
+    const count = parseInt(result.rows[0].count) || 0;
+    res.json({ count });
+  } catch (err) {
+    console.error("Error fetching respondent count:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 
 
 app.get("/respondent-history", async (req, res) => {

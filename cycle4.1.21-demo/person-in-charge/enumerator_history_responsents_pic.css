@@ -454,7 +454,7 @@ td{
 #respondentChart {
     background-color: #FFFFFF;
     border-radius: 10px;
-    width: 90% !important;
+    width: 50% !important;
     margin-left: auto;
     margin-right: auto;
     height: auto !important;
@@ -578,4 +578,9 @@ canvas {
   .chart-container h1 {
     font-size: 1.1rem;
   }
+
+  #respondentChart {
+    width: 100% !important;
+    height: auto !important;
+}
 }

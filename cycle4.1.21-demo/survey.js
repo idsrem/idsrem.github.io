@@ -848,23 +848,57 @@ function showIdInput() {
         localStorage.setItem('totalRespondents', totalRespondents);
     }
 
-    function updateTodayRespondentsDisplay() {
-    const todayDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
-    const todayCount = parseInt(localStorage.getItem(`respondents_${todayDate}`)) || 0;
 
-    // Format date to readable format (e.g., 22 Sep 2025)
+    async function updateTodayRespondentsDisplay() {
+    const userid = localStorage.getItem("currentUserId");
+    const todayDate = new Date().toISOString().split('T')[0];
+
+    // Format date nicely
     const readableDate = new Date().toLocaleDateString('ms-MY', {
         day: 'numeric',
         month: 'short',
         year: 'numeric'
     });
 
-    // Update the display
     const displayElement = document.getElementById("todayRespondents");
-    if (displayElement) {
+    if (!displayElement || !userid) return;
+
+    displayElement.innerHTML = `Memuat data responden...`;
+
+    try {
+        const response = await fetch(`/api/respondents/count?userId=${userid}&date=${todayDate}`);
+        if (!response.ok) throw new Error("Gagal memuat data dari server");
+
+        const data = await response.json();
+        const todayCount = data.count || 0;
+
         displayElement.innerHTML = `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${todayCount} Responden</span>`;
+    } catch (error) {
+        console.error("Error fetching count:", error);
+        displayElement.innerHTML = `Ralat memuat data responden.`;
     }
 }
+
+document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
+
+
+    // function updateTodayRespondentsDisplay() {
+//     const todayDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
+//     const todayCount = parseInt(localStorage.getItem(`respondents_${todayDate}`)) || 0;
+
+//     // Format date to readable format (e.g., 22 Sep 2025)
+//     const readableDate = new Date().toLocaleDateString('ms-MY', {
+//         day: 'numeric',
+//         month: 'short',
+//         year: 'numeric'
+//     });
+
+//     // Update the display
+//     const displayElement = document.getElementById("todayRespondents");
+//     if (displayElement) {
+//         displayElement.innerHTML = `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${todayCount} Responden</span>`;
+//     }
+// }
 
 
 
@@ -1393,6 +1427,13 @@ function showBangsaLainInput(questionText, questionId, nextIndex) {
     submitButton.addEventListener("click", () => {
     const userInput = inputField.value.trim();
 
+    // If field is empty, show toast and stop execution
+    if (!userInput) {
+        showToast("Sila masukkan bangsa anda sebelum meneruskan.", "error");
+        return; // Stop here so it doesn't continue
+    }
+
+
     // Always store 'Lain - Lain' in bangsa
     const answerData = {
         name: "Lain - Lain"
@@ -1481,7 +1522,7 @@ function showAdunLainInput(questionText, questionId, nextIndex) {
     const questionTitle = document.createElement("p");
     questionTitle.textContent = questionText;
     questionTitle.style.textAlign = "center";
-    questionTitle.style.marginTop = "20px";
+    questionTitle.style.marginTop = "20px"; 
     questionTitle.style.marginBottom = "20px";
 
     const inputField = document.createElement("input");
@@ -1499,6 +1540,12 @@ function showAdunLainInput(questionText, questionId, nextIndex) {
 
     submitButton.addEventListener("click", () => {
     const userInput = inputField.value.trim();
+
+    //If input is empty, show toast and stop
+    if (!userInput) {
+        showToast("Sila masukkan nama calon dan parti sebelum meneruskan.", "error");
+        return;
+    }
 
     // Always store 'Tidak pasti' in mengundiAdun
     const answerData = {
@@ -1694,8 +1741,6 @@ function handleAnswer(questionId, selectedOption) {
 
     localStorage.setItem("currentSurvey", JSON.stringify(survey));
 }
-
-
 
     function saveSurveyResponses() {
     let userid = localStorage.getItem("currentUserId");
