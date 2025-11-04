@@ -212,7 +212,7 @@ function showIdInput() {
     
 
     // const questionText = "Sila masukkan kod anda untuk memulakan kaji selidik";
-    const questionText = "Klik seterusnya untuk memulakan tinjauan";
+    const questionText = "Klik butang seterusnya untuk memulakan tinjauan dan menjawab soalan-soalan yang disediakan.";
 
     // Create question bubble element
     const questionBubble = document.createElement("div");
@@ -221,7 +221,7 @@ function showIdInput() {
     messageView.appendChild(questionBubble);
 
     const questionTitle = document.createElement("p");
-    questionTitle.textContent = "Klik seterusnya untuk memulakan tinjauan";
+    questionTitle.textContent = "KKlik butang seterusnya untuk memulakan tinjauan dan menjawab soalan-soalan yang disediakan.";
     questionTitle.style.textAlign = "center";
     questionTitle.style.marginTop = "35px";
     questionTitle.style.marginBottom = "10px";
@@ -245,6 +245,7 @@ function showIdInput() {
         inputField.readOnly = true; // Prevent user from editing the input
         inputField.style.backgroundColor = "#f0f0f0";  // Light gray
         inputField.style.cursor = "not-allowed"; 
+        inputField.style.display = "none";
         currentUserId = autoId;
         localStorage.setItem("currentUserId", currentUserId);
     }

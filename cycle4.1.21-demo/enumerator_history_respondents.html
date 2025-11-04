@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 <body>
@@ -42,6 +42,10 @@
 
 <h2>Rekod Responden</h2>
 
+    <h1>Graf Jumlah Responden Harian</h1>
+    <canvas id="respondentChart"></canvas>
+
+<div style="display:none;">
     <h1>Sejarah Jumlah Responden Harian</h1>
     <table id="user-history-table">
     <thead>
@@ -52,6 +56,7 @@
     </thead>
     <tbody></tbody>
     </table>
+</div>
 
 
     <div id="timeout-timer">
@@ -177,6 +182,7 @@
 </script>
 
 
+
 <!--USERNAME FUNCTION-->
 <script>
 // Wait until the DOM is ready
@@ -196,9 +202,182 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 </script>
 
+<script>
+async function loadRespondentData() {
+  try {
+    // Get user data from sessionStorage
+    const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
+    const enumeratorCode = userData.enumerator_code;
+    const role = userData.role || "user";
+    const token = userData.token;
+
+    if (!token) throw new Error("Token tidak dijumpai. Sila log masuk semula.");
+
+    // Fetch personal respondent history
+    const userHistoryUrl = `https://atiqahst-github-io.onrender.com/respondent-history?user=${encodeURIComponent(enumeratorCode)}`;
+    const historyRes = await fetch(userHistoryUrl);
+    let historyData = await historyRes.json();
+
+    if (!Array.isArray(historyData)) historyData = [];
+
+    // Populate the table
+    const historyTbody = document.querySelector("#user-history-table tbody");
+    historyTbody.innerHTML = "";
+
+    if (historyData.length === 0) {
+      historyTbody.innerHTML = `<tr><td colspan="2" style="text-align:center; padding: 10px;">Tiada data untuk dipaparkan.</td></tr>`;
+    } else {
+      historyData.forEach(row => {
+        const formattedDate = new Date(row.date).toLocaleDateString('ms-MY', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td style="border: 1px solid #ccc; padding: 10px;">${formattedDate}</td>
+          <td style="border: 1px solid #ccc; padding: 10px;">${row.respondent_count || 0}</td>
+        `;
+        historyTbody.appendChild(tr);
+      });
+    }
+
+    // Render chart
+    renderRespondentChart(historyData);
+
+  } catch (err) {
+    alert("Gagal memuatkan data.");
+    console.error(err);
+  }
+}
+
+// Chart function remains the same
+function renderRespondentChart(historyData) {
+  const ctx = document.getElementById('respondentChart').getContext('2d');
+
+  // Sort by date
+  historyData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const labels = historyData.map(row => 
+    new Date(row.date).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' })
+  );
+  const dataPoints = historyData.map(row => row.respondent_count || 0);
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Jumlah Responden',
+        data: dataPoints,
+        borderColor: 'rgba(0, 123, 255, 1)',  
+        backgroundColor: 'rgba(0, 123, 255, 0.2)',
+        pointBackgroundColor: 'rgba(0, 123, 255, 1)', 
+        tension: 0.3,
+        fill: true,
+        pointRadius: 5
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { 
+          display: true, 
+          position: 'top',
+          labels: { font: { family: 'Nunito', size: 14 } } // Legend font
+        },
+        tooltip: { 
+          titleFont: { family: 'Nunito', size: 14 },
+          bodyFont: { family: 'Nunito', size: 14 },
+          callbacks: {
+            label: function(context) {
+              return context.label + ': ' + context.raw; // Show label and value
+            }
+          }
+        }
+      },
+      scales: {
+        x: { 
+          title: { display: true, text: 'Tarikh', font: { family: 'Nunito', size: 14 } },
+          ticks: { font: { family: 'Nunito', size: 12 } }
+        },
+        y: { 
+          beginAtZero: true, 
+          title: { display: true, text: 'Jumlah Responden', font: { family: 'Nunito', size: 14 } },
+          ticks: { font: { family: 'Nunito', size: 12 } }
+        }
+      }
+    }
+  });
+}
+
+
+window.addEventListener("load", loadRespondentData);
+</script>
+
 
 <!-- Load respondent data -->
-<script>
+<!-- <script>
+
+
+
+
+function renderRespondentChart(historyData) {
+  const ctx = document.getElementById('respondentChart').getContext('2d');
+
+  // Sort data by date (optional but recommended)
+  historyData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const labels = historyData.map(row => 
+    new Date(row.date).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' })
+  );
+  const dataPoints = historyData.map(row => row.respondent_count || 0);
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Jumlah Responden',
+        data: dataPoints,
+        borderColor: 'rgba(75, 192, 192, 1)',
+        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+        tension: 0.3, // smooth curve
+        fill: true,
+        pointRadius: 5
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top'
+        },
+        tooltip: {
+          enabled: true
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Tarikh'
+          }
+        },
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Jumlah Responden'
+          }
+        }
+      }
+    }
+  });
+}
+
+
 async function loadRespondentData() {
   try {
     const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
@@ -271,7 +450,7 @@ async function loadRespondentData() {
 }
 
 window.addEventListener("load", loadRespondentData);
-</script>
+</script> -->
 
 </body>
 </html> 

@@ -132,7 +132,7 @@ export const surveyQuestions = [
     },
     {
         id: "mempengaruhiUndian",
-        text: "Apakah isu utama yang akan mempengaruhi undian anda dalam pilihan raya akan datang?",
+        text: "Apakah isu utama yang akan mempengaruhi undian anda dalam pilihan raya akan datang? (Anda boleh memilih lebih daripada satu jawapan)",
         type: "multiselect",
         options: [
             {name: "Rasuah"},

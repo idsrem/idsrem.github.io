@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
 </head>
@@ -46,7 +47,27 @@
 <h2>Rekod Responden</h2>
 
     <h1>Sejarah Jumlah Responden Harian</h1>
-    <table id="user-history-table">
+
+
+    <div class="chart-section">
+      <div class="chart-container">
+        <h1>Graf Jumlah Responden Harian</h1>
+        <div class="chart-wrapper">
+          <canvas id="historyChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h1>Jumlah Keseluruhan Setiap Enumerator</h1>
+        <div class="chart-wrapper">
+          <canvas id="summaryChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    
+    
+    <table id="user-history-table" style="display: none;">
     <thead>
         <tr>
         <th>Tarikh</th>
@@ -55,9 +76,9 @@
     </thead>
     <tbody></tbody>
     </table>
-
-    <h1>Jumlah Keseluruhan Setiap Enumerator</h1>
-    <table id="overall-summary-table">
+<!-- 
+    <h1>Jumlah Keseluruhan Setiap Enumerator</h1> -->
+    <table id="overall-summary-table"  style="display: none;">
     <thead>
         <tr>
         <th>Kod Enumerator</th>
@@ -210,8 +231,285 @@ document.addEventListener("DOMContentLoaded", () => {
 </script>
 
 
-<!-- Load respondent data -->
+<!-- LINECHART, BARCHART AND TABLES (AS OF NOW TABLES NEED TO HIDE SINCE THIS IS PART OF THE FUNCTION)-->
 <script>
+async function loadRespondentData() {
+  try {
+    const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
+    const enumeratorCode = userData.enumerator_code;
+    const role = userData.role || "user";
+    const token = userData.token;
+
+    if (!token) throw new Error("Token tidak dijumpai. Sila log masuk semula.");
+
+    const isAdmin = role.toLowerCase() === "admin";
+    const isPIC = role.toLowerCase() === "pic";
+
+    // ========== FETCH PERSONAL RESPONDENT HISTORY ==========
+    const userHistoryUrl = `https://atiqahst-github-io.onrender.com/respondent-history?user=${encodeURIComponent(enumeratorCode)}`;
+    const historyRes = await fetch(userHistoryUrl);
+    const historyData = await historyRes.json();
+
+    const historyTbody = document.querySelector("#user-history-table tbody");
+    historyTbody.innerHTML = "";
+
+    if (historyData.length === 0) {
+      historyTbody.innerHTML = `<tr><td colspan="3" style="text-align:center; padding: 10px;">Tiada data untuk dipaparkan.</td></tr>`;
+    } else {
+      historyData.forEach(row => {
+        const formattedDate = new Date(row.date).toLocaleDateString('ms-MY', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td style="border: 1px solid #ccc; padding: 10px;">${formattedDate}</td>
+          <td style="border: 1px solid #ccc; padding: 10px;">${row.respondent_count || 0}</td>
+        `;
+        historyTbody.appendChild(tr);
+      });
+    }
+
+    // --- LINE CHART for respondent history ---
+    const historyCtx = document.getElementById("historyChart").getContext("2d");
+    const historyLabels = historyData.map(row => new Date(row.date).toLocaleDateString('ms-MY'));
+    const historyValues = historyData.map(row => row.respondent_count || 0);
+
+    historyLabels.reverse();
+    historyValues.reverse();
+
+    new Chart(historyCtx, {
+      type: "line",
+      data: {
+        labels: historyLabels,
+        datasets: [{
+          label: "Bilangan Responden Harian",
+          data: historyValues,
+          borderColor: "rgba(75, 192, 192, 1)",
+          backgroundColor: "rgba(75, 192, 192, 0.3)",
+          fill: true,
+          tension: 0.3
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: "Carta Responden Harian"
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: "Jumlah Responden" }
+          },
+          x: {
+            title: { display: true, text: "Tarikh" }
+          }
+        }
+      }
+    });
+
+    // ========== FETCH OVERALL SUMMARY (ACCUMULATIVE TOTAL) ==========
+    let summaryUrl = "";
+    if (isAdmin) {
+      summaryUrl = "https://atiqahst-github-io.onrender.com/admin-summary";
+    } else {
+      summaryUrl = `https://atiqahst-github-io.onrender.com/pic-summary?enumerator_code=${encodeURIComponent(enumeratorCode)}`;
+    }
+
+    const summaryRes = await fetch(summaryUrl);
+    const summaryData = await summaryRes.json();
+
+    const summaryTbody = document.querySelector("#overall-summary-table tbody");
+    summaryTbody.innerHTML = "";
+
+    if (summaryData.length === 0) {
+      summaryTbody.innerHTML = `<tr><td colspan="2" style="text-align:center; padding: 10px;">Tiada data untuk dipaparkan.</td></tr>`;
+    } else {
+      summaryData.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td style="border: 1px solid #ccc; padding: 10px;">${row.enumerator_code}</td>
+          <td style="border: 1px solid #ccc; padding: 10px;">${row.total_respondents || 0}</td>
+        `;
+        summaryTbody.appendChild(tr);
+      });
+    }
+
+    // --- BAR CHART for accumulative summary ---
+    const summaryCtx = document.getElementById("summaryChart").getContext("2d");
+    const summaryLabels = summaryData.map(row => row.enumerator_code);
+    const summaryValues = summaryData.map(row => row.total_respondents || 0);
+
+    new Chart(summaryCtx, {
+      type: "bar",
+      data: {
+        labels: summaryLabels,
+        datasets: [{
+          label: "Jumlah Responden Terkumpul",
+          data: summaryValues,
+          backgroundColor: "rgba(54, 162, 235, 0.7)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: true,
+            text: "Carta Jumlah Responden Mengikut Enumerator"
+          },
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: { display: true, text: "Jumlah Responden" }
+          },
+          x: {
+            title: { display: true, text: "Kod Enumerator" }
+          }
+        }
+      }
+    });
+
+  } catch (err) {
+    alert("Gagal memuatkan data.");
+    console.error(err);
+  }
+}
+
+window.addEventListener("load", loadRespondentData);
+</script>
+
+
+
+<!-- Load respondent data -->
+ <!-- <script>
+async function loadRespondentData() {
+  try {
+    // Get user data from sessionStorage
+    const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
+    const enumeratorCode = userData.enumerator_code;
+    const role = userData.role || "user";
+    const token = userData.token;
+
+    if (!token) throw new Error("Token tidak dijumpai. Sila log masuk semula.");
+
+    // Fetch personal respondent history
+    const userHistoryUrl = `https://atiqahst-github-io.onrender.com/respondent-history?user=${encodeURIComponent(enumeratorCode)}`;
+    const historyRes = await fetch(userHistoryUrl);
+    let historyData = await historyRes.json();
+
+    if (!Array.isArray(historyData)) historyData = [];
+
+    // Populate the table
+    const historyTbody = document.querySelector("#user-history-table tbody");
+    historyTbody.innerHTML = "";
+
+    if (historyData.length === 0) {
+      historyTbody.innerHTML = `<tr><td colspan="2" style="text-align:center; padding: 10px;">Tiada data untuk dipaparkan.</td></tr>`;
+    } else {
+      historyData.forEach(row => {
+        const formattedDate = new Date(row.date).toLocaleDateString('ms-MY', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td style="border: 1px solid #ccc; padding: 10px;">${formattedDate}</td>
+          <td style="border: 1px solid #ccc; padding: 10px;">${row.respondent_count || 0}</td>
+        `;
+        historyTbody.appendChild(tr);
+      });
+    }
+
+    // Render chart
+    renderRespondentChart(historyData);
+
+  } catch (err) {
+    alert("Gagal memuatkan data.");
+    console.error(err);
+  }
+}
+
+// Chart function remains the same
+function renderRespondentChart(historyData) {
+  const ctx = document.getElementById('respondentChart').getContext('2d');
+
+  // Sort by date
+  historyData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const labels = historyData.map(row => 
+    new Date(row.date).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' })
+  );
+  const dataPoints = historyData.map(row => row.respondent_count || 0);
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Jumlah Responden',
+        data: dataPoints,
+        borderColor: 'rgba(0, 123, 255, 1)',  
+        backgroundColor: 'rgba(0, 123, 255, 0.2)',
+        pointBackgroundColor: 'rgba(0, 123, 255, 1)', 
+        tension: 0.3,
+        fill: true,
+        pointRadius: 5
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { 
+          display: true, 
+          position: 'top',
+          labels: { font: { family: 'Nunito', size: 14 } } // Legend font
+        },
+        tooltip: { 
+          titleFont: { family: 'Nunito', size: 14 },
+          bodyFont: { family: 'Nunito', size: 14 },
+          callbacks: {
+            label: function(context) {
+              return context.label + ': ' + context.raw; // Show label and value
+            }
+          }
+        }
+      },
+      scales: {
+        x: { 
+          title: { display: true, text: 'Tarikh', font: { family: 'Nunito', size: 14 } },
+          ticks: { font: { family: 'Nunito', size: 12 } }
+        },
+        y: { 
+          beginAtZero: true, 
+          title: { display: true, text: 'Jumlah Responden', font: { family: 'Nunito', size: 14 } },
+          ticks: { font: { family: 'Nunito', size: 12 } }
+        }
+      }
+    }
+  });
+}
+
+
+window.addEventListener("load", loadRespondentData);
+</script> -->
+
+
+
+
+
+
+<!-- <script>
 async function loadRespondentData() {
   try {
     const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
@@ -284,7 +582,7 @@ async function loadRespondentData() {
 }
 
 window.addEventListener("load", loadRespondentData);
-</script>
+</script> -->
 
 
    <!-- <script>
