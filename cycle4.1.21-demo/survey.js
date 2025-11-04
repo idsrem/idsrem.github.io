@@ -849,35 +849,47 @@ function showIdInput() {
     }
 
 
-    async function updateTodayRespondentsDisplay() {
-    const userid = localStorage.getItem("currentUserId");
-    const todayDate = new Date().toISOString().split('T')[0];
+async function updateTodayRespondentsDisplay() {
+  const enumeratorCode = localStorage.getItem("currentEnumeratorCode"); // saved at login
+  if (!enumeratorCode) return;
 
-    // Format date nicely
-    const readableDate = new Date().toLocaleDateString('ms-MY', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric'
-    });
+  // Get today's date in local time as YYYY-MM-DD
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0"); // months are 0-indexed
+  const day = String(today.getDate()).padStart(2, "0");
+  const todayDate = `${year}-${month}-${day}`;
 
-    const displayElement = document.getElementById("todayRespondents");
-    if (!displayElement || !userid) return;
+  // Format date for display
+  const readableDate = today.toLocaleDateString("ms-MY", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  });
 
-    displayElement.innerHTML = `Memuat data responden...`;
+  const displayElement = document.getElementById("todayRespondents");
+  if (!displayElement) return;
 
-    try {
-        const response = await fetch(`/api/respondents/count?userId=${userid}&date=${todayDate}`);
-        if (!response.ok) throw new Error("Gagal memuat data dari server");
+  displayElement.innerHTML = `Memuat data responden...`;
 
-        const data = await response.json();
-        const todayCount = data.count || 0;
+  try {
+    const response = await fetch(
+      `https://atiqahst-github-io.onrender.com/respondents/count?kod=${enumeratorCode}&date=${todayDate}`
+    );
 
-        displayElement.innerHTML = `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${todayCount} Responden</span>`;
-    } catch (error) {
-        console.error("Error fetching count:", error);
-        displayElement.innerHTML = `Ralat memuat data responden.`;
-    }
+    const data = await response.json();
+    const todayCount = data.count || 0;
+
+    displayElement.innerHTML = `Dikemaskini setakat (${readableDate}) - 
+      <span style="color: #007BFF; font-weight: bold;">${todayCount} Responden</span>`;
+  } catch (error) {
+    console.error("Error fetching count:", error);
+    displayElement.innerHTML = `Ralat memuat data responden.`;
+  }
 }
+
+document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
+
 
 document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
 
