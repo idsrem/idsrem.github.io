@@ -221,7 +221,7 @@ function showIdInput() {
     messageView.appendChild(questionBubble);
 
     const questionTitle = document.createElement("p");
-    questionTitle.textContent = "KKlik butang seterusnya untuk memulakan tinjauan dan menjawab soalan-soalan yang disediakan.";
+    questionTitle.textContent = "Klik butang seterusnya untuk memulakan tinjauan dan menjawab soalan-soalan yang disediakan.";
     questionTitle.style.textAlign = "center";
     questionTitle.style.marginTop = "35px";
     questionTitle.style.marginBottom = "10px";
