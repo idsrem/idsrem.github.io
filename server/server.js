@@ -287,8 +287,6 @@ app.get('/users/me', authenticateUser, async (req, res) => {
   }
 });
 
-
-
 const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET || 'yourSecretKey';
 

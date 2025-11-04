@@ -488,7 +488,9 @@ td{
 
 /* Each individual chart card */
 .chart-container {
-  flex: 1 1 48%; /* take about half of the section width */
+  flex: 1 1 300px;       /* flexible: can grow/shrink */
+  min-width: 350px;       /* don’t shrink below this */
+  max-width: 500px;       /* don’t grow beyond this */
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -496,8 +498,11 @@ td{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-width: 350px; /* ensures both charts can fit side by side */
+  text-align: center;
+
+  width: 100%;            /* remove fixed 500px width */
 }
+
 
 /* Chart titles */
 .chart-container h1 {
@@ -516,6 +521,8 @@ td{
   margin-right: auto;
   width: 100%;
   height: 400px;
+  display: flex;
+  justify-content: center;
 }
 
 /* Chart.js canvas responsive behavior */
@@ -528,37 +535,44 @@ canvas {
 @media (max-width: 900px) {
 
   body{
-    margin: 10px;
+    padding: 25px;
   }
 
-  table{
-    width: 95%;
-}
 
-    .navbar-title{
-      display: none;
-    }
+  .navbar-title {
+    display: none;
+  }
 
-    #timeout-timer{
-      width: 90%;
-      font-size: 16px;
-      display: block;
-      align-items: center;
-      text-align: center;
-    }
+  #timeout-timer {
+    width: 90%;
+    font-size: 16px;
+    display: block;
+    align-items: center;
+    text-align: center;
+  }
 
   .chart-section {
     flex-direction: column;
   }
 
-  .chart-container {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.chart-container {
+  width: 78%;
+  display: block;
+  min-width: auto !important;
+  max-width: 100% !important;
+}
 
   .chart-wrapper {
-    height: 300px; /* smaller height for mobile */
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .chart-wrapper canvas {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 600px;
   }
 
   .chart-container h1 {

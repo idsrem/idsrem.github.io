@@ -2696,7 +2696,7 @@ function redoSurvey() {
                 s.pemimpinsabah || "-",
                 s.longitude || "-",
                 s.latitude || "-",
-                s.lokasi || s.lastLocation || "-",
+                s.lokasi ?? "-",   
                 s.responseid || "-", 
                 s.starttime || "-"
             ];
