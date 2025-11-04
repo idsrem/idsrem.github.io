@@ -347,13 +347,14 @@ function showIdInput() {
         }
     
         const question = surveyQuestions[index];
-        surveyContainer.innerHTML = ""; // Clear previous content
+        //surveyContainer.innerHTML = ""; // Clear previous content
 
         if (question.text && question.text.trim() !== "") {
         const questionBubble = document.createElement("div");
         questionBubble.classList.add("message-bubble", "question-bubble");
         questionBubble.innerHTML = `<strong>Tuan Awang:</strong> ${question.text}`;
         messageView.appendChild(questionBubble);
+        scrollToBottom();
     }
 
     
@@ -1485,23 +1486,24 @@ function showAdunLainInput(questionText, questionId, nextIndex) {
         messageView.appendChild(questionBubble);
     }
 
-    // Clear previous content
+    // Clear previous input form (but NOT messages)
     surveyContainer.innerHTML = "";
 
-    // Create and show the prompt above the input field
+    // Instruction text
     const instructionText = document.createElement("p");
     instructionText.textContent = "Siapakah calon pilihan anda untuk menjadi ADUN, dan dari parti manakah beliau?";
     instructionText.style.fontWeight = "bold";
     instructionText.style.textAlign = "center";
     instructionText.style.marginBottom = "30px";
 
-    // Create question title (optional)
+    // Question title (optional)
     const questionTitle = document.createElement("p");
     questionTitle.textContent = questionText;
     questionTitle.style.textAlign = "center";
     questionTitle.style.marginTop = "20px"; 
     questionTitle.style.marginBottom = "20px";
 
+    // Input field
     const inputField = document.createElement("input");
     inputField.type = "text";
     inputField.style.width = "50%";
@@ -1511,63 +1513,35 @@ function showAdunLainInput(questionText, questionId, nextIndex) {
     inputField.placeholder = "Contoh: Ali Bin Abu - Parti Contoh";
     inputField.classList.add("custom-input");
 
+    // Submit button
     const submitButton = document.createElement("button");
     submitButton.textContent = "Seterusnya";
     submitButton.classList.add("submit-button");
 
     submitButton.addEventListener("click", () => {
-    const userInput = inputField.value.trim();
+        const userInput = inputField.value.trim();
 
-    //If input is empty, show toast and stop
-    if (!userInput) {
-        showToast("Sila masukkan nama calon dan parti sebelum meneruskan.", "error");
-        return;
-    }
+        if (!userInput) {
+            showToast("Sila masukkan nama calon dan parti sebelum meneruskan.", "error");
+            return;
+        }
 
-    // Always store 'Tidak pasti' in mengundiAdun
-    const answerData = {
-        name: "Tidak pasti"
-    };
+        // Always store 'Tidak pasti'
+        const answerData = { name: "Tidak pasti" };
+        if (userInput) answerData.mengundiAdunLain = userInput;
 
-    // If user typed something, also store it in mengundiAdunLain
-    if (userInput) {
-        answerData.mengundiAdunLain = userInput;
-    }
+        handleAnswer(questionId, answerData);
 
-    // Save both (or just one) depending on user input
-    handleAnswer(questionId, answerData);
+        // Show user's answer without removing previous bubbles
+        const userMessage = document.createElement("div");
+        userMessage.classList.add("message-bubble", "answer-bubble");
+        userMessage.innerHTML = `Anda: ${userInput || "Tidak pasti"}`;
+        messageView.appendChild(userMessage);
 
-    // Remove previous answer bubbles (if any)
-    document.querySelectorAll(".answer-bubble").forEach(el => el.remove());
+        showQuestion(nextIndex);
+    });
 
-    // Show what the user entered or "Tidak pasti"
-    const userMessage = document.createElement("div");
-    userMessage.classList.add("message-bubble", "answer-bubble");
-    userMessage.innerHTML = `Anda: ${userInput || "Tidak pasti"}`;
-    messageView.appendChild(userMessage);
-
-    // Go to next question
-    showQuestion(nextIndex);
-});
-    // submitButton.addEventListener("click", () => {
-    //     const userInput = inputField.value.trim();
-
-    // //     if (!userInput) {
-    // //         showToast("Sila masukkan nama calon dan parti pilihan anda.", "error");
-    // //     } else {
-    // //         handleAnswer(questionId, { calon: userInput });
-
-    // //         document.querySelectorAll(".answer-bubble").forEach(el => el.remove());
-
-    // //         const userMessage = document.createElement("div");
-    // //         userMessage.classList.add("message-bubble", "answer-bubble");
-    // //         userMessage.innerHTML = `Anda: ${userInput}`;
-    // //         messageView.appendChild(userMessage);
-
-    // //         showQuestion(nextIndex);
-    // //     }
-    // // });
-
+    // Back button
     const backButton = document.createElement("button");
     backButton.innerHTML = `<i class="fas fa-arrow-left" style="color: black; margin-right: 5px;"></i> Kembali`;
     backButton.classList.add("previous-button", "survey-option");
@@ -1583,9 +1557,10 @@ function showAdunLainInput(questionText, questionId, nextIndex) {
         }, 1000);
     });
 
-    // Append everything in correct order
+    // Append everything to surveyContainer (not messageView)
     surveyContainer.append(instructionText, questionTitle, inputField, submitButton, backButton);
 }
+
 
 
 // function showAdunLainInput(questionText, questionId, nextIndex) {

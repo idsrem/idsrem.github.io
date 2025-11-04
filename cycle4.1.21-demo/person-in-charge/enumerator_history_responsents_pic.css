@@ -457,10 +457,18 @@ td{
     width: 50% !important;
     margin-left: auto;
     margin-right: auto;
-    height: auto !important;
-    max-width: 100%;
+    height: 50% !important;
+    max-width: 90%;
+    height: 100% !important;
     padding: 20px;
 }
+
+
+#respondentChart canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 
 /* canvas#respondentChart {
   display: block;
@@ -581,6 +589,6 @@ canvas {
 
   #respondentChart {
     width: 100% !important;
-    height: auto !important;
+    height: 100% !important;
 }
 }
