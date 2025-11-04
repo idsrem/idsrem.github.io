@@ -838,100 +838,44 @@ function showIdInput() {
     }
 
     // Function to increment the total respondent count
-// Increment local count
-function incrementRespondentCount() {
-    let totalRespondents = parseInt(localStorage.getItem('totalRespondents')) || 0;
+    function incrementRespondentCount() {
+        let totalRespondents = parseInt(localStorage.getItem('totalRespondents')) || 0;
 
-    // Increment the total respondent count by 1 locally
-    totalRespondents++;
-    localStorage.setItem('totalRespondents', totalRespondents);
+        // Increment the total respondent count by 1
+        totalRespondents++;
 
-    // Also increment count on server
-    const enumeratorCode = localStorage.getItem("currentEnumeratorCode");
-    if (!enumeratorCode) return;
-
-    const todayDate = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-
-    fetch(`https://atiqahst-github-io.onrender.com/respondents/increment`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ kod: enumeratorCode, date: todayDate })
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log("Server count updated:", data.count);
-        // Optionally update localStorage with server count for consistency
-        localStorage.setItem(`respondents_${todayDate}`, data.count);
-        updateTodayRespondentsDisplay(); // refresh display
-    })
-    .catch(err => {
-        console.warn("Failed to update server count, using local count", err);
-    });
-}
-
+        // Save the updated count back to localStorage
+        localStorage.setItem('totalRespondents', totalRespondents);
+    }
 
 async function updateTodayRespondentsDisplay() {
-  const enumeratorCode = localStorage.getItem("currentEnumeratorCode"); // saved at login
-  if (!enumeratorCode) return;
+    const kod = localStorage.getItem("currentUserKod"); // Save kod after login
+    if (!kod) return;
 
-  // Get today's date in local time as YYYY-MM-DD
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, "0"); // months are 0-indexed
-  const day = String(today.getDate()).padStart(2, "0");
-  const todayDate = `${year}-${month}-${day}`;
+    const todayDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
 
-  // Format date for display
-  const readableDate = today.toLocaleDateString("ms-MY", {
-    day: "numeric",
-    month: "short",
-    year: "numeric"
-  });
+    try {
+       const response = await fetch(`https://atiqahst-github-io.onrender.com/respondents/count?kod=${kod}&date=${todayDate}`);
 
-  const displayElement = document.getElementById("todayRespondents");
-  if (!displayElement) return;
+        const data = await response.json();
+        const count = data.count || 0;
 
-  displayElement.innerHTML = `Memuat data responden...`;
+        const readableDate = new Date(todayDate).toLocaleDateString('ms-MY', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
 
-  try {
-    const response = await fetch(
-      `https://atiqahst-github-io.onrender.com/respondents/count?kod=${enumeratorCode}&date=${todayDate}`
-    );
-
-    const data = await response.json();
-    const todayCount = data.count || 0;
-
-    displayElement.innerHTML = `Dikemaskini setakat (${readableDate}) - 
-      <span style="color: #007BFF; font-weight: bold;">${todayCount} Responden</span>`;
-  } catch (error) {
-    console.error("Error fetching count:", error);
-    displayElement.innerHTML = `Ralat memuat data responden.`;
-  }
+        const element = document.getElementById("todayRespondents");
+        if (element) {
+            element.innerHTML = `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${count} Responden</span>`;
+        }
+    } catch (err) {
+        console.error("Error fetching today's respondents:", err);
+    }
 }
 
 document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
-
-
-
-    // function updateTodayRespondentsDisplay() {
-//     const todayDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
-//     const todayCount = parseInt(localStorage.getItem(`respondents_${todayDate}`)) || 0;
-
-//     // Format date to readable format (e.g., 22 Sep 2025)
-//     const readableDate = new Date().toLocaleDateString('ms-MY', {
-//         day: 'numeric',
-//         month: 'short',
-//         year: 'numeric'
-//     });
-
-//     // Update the display
-//     const displayElement = document.getElementById("todayRespondents");
-//     if (displayElement) {
-//         displayElement.innerHTML = `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${todayCount} Responden</span>`;
-//     }
-// }
-
-
 
     function handleOptionClick(question, option, index) {
 
@@ -2521,22 +2465,35 @@ function updateConfirmedRespondentCount(countJustPushed) {
     updateTodayRespondentsDisplay(); // Refresh UI
 }
 
-function updateTodayRespondentsDisplay() {
-    const userid = localStorage.getItem("currentUserId");
-    const todayDate = new Date().toISOString().split('T')[0];
-    const storageKey = `confirmedRespondents_${userid}_${todayDate}`;
+async function updateTodayRespondentsDisplay() {
+    const kod = localStorage.getItem("currentUserKod"); // Save kod after login
+    if (!kod) return;
 
-    const count = parseInt(localStorage.getItem(storageKey)) || 0;
+    const todayDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
 
-    const element = document.getElementById("todayRespondents");
-    if (element) {
-        element.textContent = `Jumlah Responden Hari Ini (${todayDate}) - ${count} Responden`;
+    try {
+       const response = await fetch(`https://atiqahst-github-io.onrender.com/respondents/count?kod=${kod}&date=${todayDate}`);
+
+        const data = await response.json();
+        const count = data.count || 0;
+
+        const readableDate = new Date(todayDate).toLocaleDateString('ms-MY', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+
+        const element = document.getElementById("todayRespondents");
+        if (element) {
+            element.innerHTML = `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${count} Responden</span>`;
+        }
+    } catch (err) {
+        console.error("Error fetching today's respondents:", err);
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    updateTodayRespondentsDisplay(); // Show initial count
-});
+document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
+
 
 
 
