@@ -21,6 +21,7 @@ export const enumerator = [
     {userID: 'ST02', name: 'ST Advisory Member'},
     {userID: 'ST03', name: 'ST Advisory Member'},
     {userID: 'ST04', name: 'ST Advisory Member'},
-    {userID: 'ST05', name: 'ST Advisory Member'}
+    {userID: 'ST05', name: 'ST Advisory Member'},
+    {userID: 'ST06', name: 'ST Advisory Member'},
 ]
 
