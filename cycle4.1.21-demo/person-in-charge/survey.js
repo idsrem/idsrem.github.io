@@ -838,33 +838,91 @@ function showIdInput() {
     }
 
     // Function to increment the total respondent count
-    function incrementRespondentCount() {
-        let totalRespondents = parseInt(localStorage.getItem('totalRespondents')) || 0;
+function incrementRespondentCount() {
+  const enumeratorCode = localStorage.getItem("currentEnumeratorCode");
+  if (!enumeratorCode) return;
 
-        // Increment the total respondent count by 1
-        totalRespondents++;
+  const todayDate = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+  const todayKey = `respondents_${todayDate}`;
 
-        // Save the updated count back to localStorage
-        localStorage.setItem('totalRespondents', totalRespondents);
-    }
+  // Get today's count from localStorage, default to 0
+  let todayCount = parseInt(localStorage.getItem(todayKey)) || 0;
 
-    function updateTodayRespondentsDisplay() {
-    const todayDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
-    const todayCount = parseInt(localStorage.getItem(`respondents_${todayDate}`)) || 0;
+  // Increment today's count
+  todayCount++;
 
-    // Format date to readable format (e.g., 22 Sep 2025)
-    const readableDate = new Date().toLocaleDateString('ms-MY', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric'
+  // Save back to localStorage
+  localStorage.setItem(todayKey, todayCount);
+
+  // Optional: update totalRespondents (all-time)
+  let totalRespondents = parseInt(localStorage.getItem("totalRespondents")) || 0;
+  totalRespondents++;
+  localStorage.setItem("totalRespondents", totalRespondents);
+
+  // Update the display immediately
+  const displayElement = document.getElementById("todayRespondents");
+  if (displayElement) {
+    const readableDate = new Date().toLocaleDateString("ms-MY", {
+      day: "numeric",
+      month: "short",
+      year: "numeric"
     });
-
-    // Update the display
-    const displayElement = document.getElementById("todayRespondents");
-    if (displayElement) {
-        displayElement.innerHTML = `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${todayCount} Responden</span>`;
-    }
+    displayElement.innerHTML = `Dikemaskini setakat (${readableDate}) - 
+      <span style="color: #007BFF; font-weight: bold;">${todayCount} Responden</span>`;
+  }
 }
+
+
+async function updateTodayRespondentsDisplay() {
+  const enumeratorCode = localStorage.getItem("currentEnumeratorCode"); // saved at login
+  if (!enumeratorCode) return;
+
+  const todayDate = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+  const readableDate = new Date().toLocaleDateString("ms-MY", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  });
+
+  const displayElement = document.getElementById("todayRespondents");
+  if (!displayElement) return;
+
+  displayElement.innerHTML = `Memuat data responden...`;
+
+  try {
+    // Fetch today's confirmed count from the server
+    const response = await fetch(
+      `https://atiqahst-github-io.onrender.com/respondents/count?kod=${enumeratorCode}&date=${todayDate}`
+    );
+
+    let todayCount = 0;
+
+    if (response.ok) {
+      const data = await response.json();
+      todayCount = data.count ?? 0;
+
+      // Save to localStorage so device keeps it for today (optional)
+      localStorage.setItem(`respondents_${todayDate}`, todayCount);
+    } else {
+      // If server fails, fallback to localStorage
+      todayCount = parseInt(localStorage.getItem(`respondents_${todayDate}`)) || 0;
+      console.warn("Server count failed, using local count:", todayCount);
+    }
+
+    displayElement.innerHTML = `Dikemaskini setakat (${readableDate}) - 
+      <span style="color: #007BFF; font-weight: bold;">${todayCount} Responden</span>`;
+  } catch (error) {
+    console.error("Error fetching count:", error);
+
+    // fallback to localStorage if fetch fails
+    const fallbackCount = parseInt(localStorage.getItem(`respondents_${todayDate}`)) || 0;
+    displayElement.innerHTML = `Dikemaskini setakat (${readableDate}) - 
+      <span style="color: #007BFF; font-weight: bold;">${fallbackCount} Responden</span>`;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
+
 
 
 
