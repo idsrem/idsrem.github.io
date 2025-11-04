@@ -838,15 +838,36 @@ function showIdInput() {
     }
 
     // Function to increment the total respondent count
-    function incrementRespondentCount() {
-        let totalRespondents = parseInt(localStorage.getItem('totalRespondents')) || 0;
+// Increment local count
+function incrementRespondentCount() {
+    let totalRespondents = parseInt(localStorage.getItem('totalRespondents')) || 0;
 
-        // Increment the total respondent count by 1
-        totalRespondents++;
+    // Increment the total respondent count by 1 locally
+    totalRespondents++;
+    localStorage.setItem('totalRespondents', totalRespondents);
 
-        // Save the updated count back to localStorage
-        localStorage.setItem('totalRespondents', totalRespondents);
-    }
+    // Also increment count on server
+    const enumeratorCode = localStorage.getItem("currentEnumeratorCode");
+    if (!enumeratorCode) return;
+
+    const todayDate = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+
+    fetch(`https://atiqahst-github-io.onrender.com/respondents/increment`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kod: enumeratorCode, date: todayDate })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Server count updated:", data.count);
+        // Optionally update localStorage with server count for consistency
+        localStorage.setItem(`respondents_${todayDate}`, data.count);
+        updateTodayRespondentsDisplay(); // refresh display
+    })
+    .catch(err => {
+        console.warn("Failed to update server count, using local count", err);
+    });
+}
 
 
 async function updateTodayRespondentsDisplay() {
@@ -890,8 +911,6 @@ async function updateTodayRespondentsDisplay() {
 
 document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
 
-
-document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
 
 
     // function updateTodayRespondentsDisplay() {

@@ -309,6 +309,41 @@ function authenticateUser(req, res, next) {
   }
 }
 
+// POST /respondents/increment
+app.post("/respondents/increment", async (req, res) => {
+  try {
+    const { kod, date } = req.body;
+
+    if (!kod || !date) {
+      return res.status(400).json({ error: "Missing kod or date" });
+    }
+
+    // Convert from YYYY-MM-DD → DD/MM/YYYY to match your DB
+    const formattedDate = new Date(date).toLocaleDateString("en-GB"); // e.g. "04/11/2025"
+
+    // Insert a dummy row to simulate a new respondent
+    // If you have more respondent data to insert, you can add it here
+    const insertResult = await pool.query(
+      `INSERT INTO cycle4_demo (kod, tarikh) VALUES ($1, $2) RETURNING *`,
+      [kod, formattedDate]
+    );
+
+    // Count total respondents for today after insert
+    const countResult = await pool.query(
+      `SELECT COUNT(*) AS count FROM cycle4_demo WHERE kod = $1 AND tarikh = $2`,
+      [kod, formattedDate]
+    );
+
+    const todayCount = parseInt(countResult.rows[0].count) || 0;
+
+    res.json({ count: todayCount });
+  } catch (err) {
+    console.error("Error incrementing respondent count:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
 //Get today's respondent count for specific enumerator (by kod + tarikh)
 app.get("/respondents/count", async (req, res) => {
   try {
