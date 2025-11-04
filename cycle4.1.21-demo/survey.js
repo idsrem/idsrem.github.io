@@ -849,16 +849,16 @@ function showIdInput() {
     }
 
 async function updateTodayRespondentsDisplay() {
-    const kod = localStorage.getItem("currentUserId"); // or enumerator_code
+    const kod = localStorage.getItem("currentUserId");
     if (!kod) return;
 
-    const todayDate = new Date().toISOString().split('T')[0];
+    const todayDate = getFormattedTodayDate(); // DD/MM/YYYY
 
     try {
         const response = await fetch(`https://atiqahst-github-io.onrender.com/respondents/count?kod=${kod}&date=${todayDate}`);
         if (!response.ok) throw new Error("Failed to fetch count");
 
-        const data = await response.json(); // { count: 5 }
+        const data = await response.json();
         const count = data.count || 0;
 
         const readableDate = new Date().toLocaleDateString('ms-MY', {
@@ -875,6 +875,7 @@ async function updateTodayRespondentsDisplay() {
     }
 }
 
+// Update the UI on page load
 document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
 
 
@@ -2422,7 +2423,7 @@ function pushToDatabaseButton() {
     let allResponses = JSON.parse(localStorage.getItem(storageKey)) || [];
     let pushedIds = JSON.parse(localStorage.getItem("pushedRespondentIds")) || [];
 
-    // Filter only responses not yet pushed
+    // Filter responses not yet pushed
     const unpushedResponses = allResponses.filter(r => !pushedIds.includes(r.responseid));
     showToast("Sedang menghantar data ke pangkalan data...", "success");
 
@@ -2433,15 +2434,16 @@ function pushToDatabaseButton() {
 
     sendDataToBackend(unpushedResponses)
         .then(() => {
-            // Mark these responses as pushed
+            // Mark as pushed
             pushedIds = pushedIds.concat(unpushedResponses.map(r => r.responseid));
             localStorage.setItem("pushedRespondentIds", JSON.stringify(pushedIds));
 
-            // Remove pushed surveys from local storage (optional)
+            // Optional: remove pushed responses from local storage
             allResponses = allResponses.filter(r => !pushedIds.includes(r.responseid));
             localStorage.setItem(storageKey, JSON.stringify(allResponses));
 
-            updateConfirmedRespondentCount(unpushedResponses.length);
+            // Update count in UI
+            updateTodayRespondentsDisplay();
 
             // Show success modal
             document.getElementById("saveDatabaseModal").style.display = "block";
@@ -2452,6 +2454,49 @@ function pushToDatabaseButton() {
             console.error("Send to backend failed:", error);
         });
 }
+
+// function pushToDatabaseButton() {
+//     const userid = localStorage.getItem("currentUserId");
+//     const storageKey = `allSurveyResponses_${userid}`;
+//     let allResponses = JSON.parse(localStorage.getItem(storageKey)) || [];
+//     let pushedIds = JSON.parse(localStorage.getItem("pushedRespondentIds")) || [];
+
+//     // Filter only responses not yet pushed
+//     const unpushedResponses = allResponses.filter(r => !pushedIds.includes(r.responseid));
+//     showToast("Sedang menghantar data ke pangkalan data...", "success");
+
+//     if (unpushedResponses.length === 0) {
+//         showToast("Tiada data baru untuk dihantar", "error");
+//         return;
+//     }
+
+//     sendDataToBackend(
+//         unpushedResponses.map(r => ({
+//             ...r,
+//             tarikh: new Date(r.tarikh).toISOString().split('T')[0] // YYYY-MM-DD
+//         }))
+//     )
+//     .then(() => {
+//         // Mark these responses as pushed
+//         pushedIds = pushedIds.concat(unpushedResponses.map(r => r.responseid));
+//         localStorage.setItem("pushedRespondentIds", JSON.stringify(pushedIds));
+
+//         // Remove pushed surveys from local storage (optional)
+//         allResponses = allResponses.filter(r => !pushedIds.includes(r.responseid));
+//         localStorage.setItem(storageKey, JSON.stringify(allResponses));
+
+//         updateConfirmedRespondentCount(unpushedResponses.length);
+
+//         // Show success modal
+//         document.getElementById("saveDatabaseModal").style.display = "block";
+//         document.getElementById("table-container").innerHTML = '';
+//     })
+//     .catch(error => {
+//         document.getElementById("errorDatabaseModal").style.display = "block";
+//         console.error("Send to backend failed:", error);
+//     });
+
+// }
 
 
 function updateConfirmedRespondentCount(countJustPushed) {
@@ -2466,17 +2511,28 @@ function updateConfirmedRespondentCount(countJustPushed) {
     updateTodayRespondentsDisplay(); // Refresh UI
 }
 
+
+
+function getFormattedTodayDate() {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // months are 0-indexed
+    const year = today.getFullYear();
+    return `${day}/${month}/${year}`;
+}
+
+
 async function updateTodayRespondentsDisplay() {
-    const kod = localStorage.getItem("currentUserId"); // or enumerator_code
+    const kod = localStorage.getItem("currentUserId");
     if (!kod) return;
 
-    const todayDate = new Date().toISOString().split('T')[0];
+    const todayDate = getFormattedTodayDate(); // DD/MM/YYYY
 
     try {
         const response = await fetch(`https://atiqahst-github-io.onrender.com/respondents/count?kod=${kod}&date=${todayDate}`);
         if (!response.ok) throw new Error("Failed to fetch count");
 
-        const data = await response.json(); // { count: 5 }
+        const data = await response.json();
         const count = data.count || 0;
 
         const readableDate = new Date().toLocaleDateString('ms-MY', {
@@ -2493,6 +2549,7 @@ async function updateTodayRespondentsDisplay() {
     }
 }
 
+// Update the UI on page load
 document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
 
 
@@ -2562,7 +2619,7 @@ document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
     // }
     
 
-async function sendDataToBackend(data){
+async function sendDataToBackend(data) {
     try {
         const response = await fetch('https://atiqahst-github-io.onrender.com/test_cycle4', {
             method: 'POST',
@@ -2572,13 +2629,9 @@ async function sendDataToBackend(data){
             body: JSON.stringify(data),
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to send data');
-        }
-
+        if (!response.ok) throw new Error('Failed to send data');
         const responseData = await response.json();
         console.log('Data successfully sent:', responseData);
-
         return responseData;
 
     } catch (error) {
@@ -2586,7 +2639,6 @@ async function sendDataToBackend(data){
         throw error;
     }
 }
-
 
 function redoSurvey() {
     //Reset state
