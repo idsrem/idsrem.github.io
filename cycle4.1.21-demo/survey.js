@@ -2514,22 +2514,27 @@ function updateConfirmedRespondentCount(countJustPushed) {
 
 
 function getFormattedTodayDate() {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0'); // months are 0-indexed
-    const year = today.getFullYear();
-    return `${day}/${month}/${year}`;
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`; // <-- backend expects this
 }
+
 
 
 async function updateTodayRespondentsDisplay() {
     const kod = localStorage.getItem("currentUserId");
     if (!kod) return;
 
-    const todayDate = getFormattedTodayDate(); // DD/MM/YYYY
+    const todayDate = getFormattedTodayDate(); // now YYYY-MM-DD
 
     try {
-        const response = await fetch(`https://atiqahst-github-io.onrender.com/respondents/count?kod=${kod}&date=${todayDate}`);
+        // Add timestamp to avoid caching
+        const response = await fetch(`https://atiqahst-github-io.onrender.com/respondents/count?kod=${kod}&date=${todayDate}&t=${Date.now()}`, {
+            cache: "no-store"
+        });
+
         if (!response.ok) throw new Error("Failed to fetch count");
 
         const data = await response.json();
@@ -2541,7 +2546,7 @@ async function updateTodayRespondentsDisplay() {
             year: 'numeric'
         });
 
-        document.getElementById("todayRespondents").innerHTML = 
+        document.getElementById("todayRespondents").innerHTML =
             `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${count} Responden</span>`;
 
     } catch (err) {
@@ -2551,7 +2556,6 @@ async function updateTodayRespondentsDisplay() {
 
 // Update the UI on page load
 document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
-
 
 
 
