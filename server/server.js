@@ -324,13 +324,13 @@ app.post("/respondents/increment", async (req, res) => {
     // Insert a dummy row to simulate a new respondent
     // If you have more respondent data to insert, you can add it here
     const insertResult = await pool.query(
-      `INSERT INTO cycle4_demo (kod, tarikh) VALUES ($1, $2) RETURNING *`,
+      `INSERT INTO cycle4_official  (kod, tarikh) VALUES ($1, $2) RETURNING *`,
       [kod, formattedDate]
     );
 
     // Count total respondents for today after insert
     const countResult = await pool.query(
-      `SELECT COUNT(*) AS count FROM cycle4_demo WHERE kod = $1 AND tarikh = $2`,
+      `SELECT COUNT(*) AS count FROM cycle4_official  WHERE kod = $1 AND tarikh = $2`,
       [kod, formattedDate]
     );
 
@@ -359,7 +359,7 @@ app.get("/respondents/count", async (req, res) => {
     const result = await pool.query(
       `
       SELECT COUNT(*) AS count
-      FROM cycle4_demo
+      FROM cycle4_official 
       WHERE kod = $1 AND tarikh = $2
       `,
       [kod, formattedDate]
@@ -391,7 +391,7 @@ app.get("/respondent-history", async (req, res) => {
         kod AS enumerator_code,
         COUNT(*) AS respondent_count
       FROM 
-        cycle4_demo
+        cycle4_official 
       WHERE 
         tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
     `;
@@ -424,7 +424,7 @@ app.get("/admin-summary", async (req, res) => {
         kod AS enumerator_code,
         COUNT(*) AS total_respondents
       FROM
-        cycle4_demo
+        cycle4_official 
       WHERE
         tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
       GROUP BY
@@ -457,7 +457,7 @@ app.get("/pic-summary", async (req, res) => {
         kod AS enumerator_code,
         COUNT(*) AS total_respondents
       FROM
-        cycle4_demo
+        cycle4_official 
       WHERE
         kod LIKE $1
       GROUP BY
@@ -489,7 +489,7 @@ app.get("/respondent-history", async (req, res) => {
         kod AS enumerator_code,
         COUNT(*) AS total_respondents
       FROM
-        cycle4_demo
+        cycle4_official 
       GROUP BY
         kod
       ORDER BY
@@ -504,7 +504,7 @@ app.get("/respondent-history", async (req, res) => {
           kod AS enumerator_code,
           COUNT(*) AS respondent_count
         FROM 
-          cycle4_demo
+          cycle4_official 
         WHERE 
           tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
           AND kod = $1
@@ -609,7 +609,7 @@ app.post('/testResponse2', async (req, res) => {
 
     // Construct dynamic SQL query
     const queryText = `
-      INSERT INTO cycle4Test (${columns.join(', ')})
+      INSERT INTO cycle4_official  (${columns.join(', ')})
       VALUES ${placeholders}
     `;
 
