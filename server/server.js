@@ -387,13 +387,13 @@ app.get("/respondent-history", async (req, res) => {
 
     let query = `
       SELECT 
-        to_date(tarikh, 'DD/MM/YYYY') AS date,
+        tarikh AS date,
         kod AS enumerator_code,
         COUNT(*) AS respondent_count
       FROM 
-        cycle4_official 
+        cycle4_official
       WHERE 
-        tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'
+        tarikh IS NOT NULL
     `;
 
     const params = [];
