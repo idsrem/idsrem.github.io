@@ -797,6 +797,41 @@ function showIdInput() {
                     button.style.color = "#FFFFFF";
                     button.innerHTML = "Tidak";
 
+                }else if (option.name === "Perempuan" && question.id === "jantina") {
+                    button.style.backgroundColor = "#ca0061ff";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Perempuan";
+
+                }else if (option.name === "Parti" && question.id === "mengundiBedasarkan") {
+                    button.style.backgroundColor = "#2563eb";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Parti";
+                
+                }else if (option.name === "Calon" && question.id === "mengundiBedasarkan") {
+                    button.style.backgroundColor = "#22c55e";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Calon";
+
+                }else if (option.name === "Isu" && question.id === "mengundiBedasarkan") {
+                    button.style.backgroundColor = "#f97316";
+                    button.style.color = "#000000";
+                    button.innerHTML = "Isu";
+
+                }else if (option.name === "Parti Lain" && question.id === "pemimpinSabah") {
+                    button.style.backgroundColor = "#2563eb";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Parti Lain";
+                
+                }else if (option.name === "Parti/Gabungan Lain" && question.id === "pemimpinSabah") {
+                    button.style.backgroundColor = "#475569";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Parti/Gabungan Lain";
+                                
+                }else if (option.name === "Tidak Pasti" && question.id === "pemimpinSabah") {
+                    button.style.backgroundColor = "#CBD5E1";
+                    button.style.color = "#000000";
+                    button.innerHTML = "Tidak Pasti";
+
                 }else if (option.name === "Iya, (isi kaji selidik yang baru)" && question.id === "isiBorangLagi") {
                     button.style.backgroundColor = "#339A00";
                     button.style.color = "#FFFFFF";
@@ -807,7 +842,11 @@ function showIdInput() {
                     button.style.color = "#FFFFFF";
                     button.innerHTML = "Tidak, (Sesi ditamatkan)";
                 }
-
+                else if (option.name === "Tidak Pasti" && question.id === "cenderungUntukUndi") {
+                    button.style.backgroundColor = "#CBD5E1";
+                    button.style.color = "#000000";
+                    button.innerHTML = "Tidak Pasti";
+                }
                 else {
                     button.textContent = option.name || option.code;
                 }
@@ -1736,21 +1775,21 @@ function handleAnswer(questionId, selectedOption) {
             jantina: currentSurvey.answers.jantina || "-",
             bangsa: currentSurvey.answers.bangsa || "-",
             bangsalain: currentSurvey.answers.bangsalain,
-            kerajaansemasa : currentSurvey.answers.kerajaanSemasa || "-",
-
+            mengundiBedasarkan: currentSurvey.answers.mengundiBedasarkan || "-",
+            //kerajaansemasa : currentSurvey.answers.kerajaanSemasa || "-",
             // mempengaruhiundian : currentSurvey.answers.mempengaruhiUndian || "-",
-
-            mempengaruhiundian: Array.isArray(currentSurvey.answers.mempengaruhiUndian)
-            ? currentSurvey.answers.mempengaruhiUndian.join(", ")
-            : currentSurvey.answers.mempengaruhiUndian || "-",
-            pilihanRaya : currentSurvey.answers.pilihanRaya || "-",
+            // mempengaruhiundian: Array.isArray(currentSurvey.answers.mempengaruhiUndian)
+            // ? currentSurvey.answers.mempengaruhiUndian.join(", ")
+            // : currentSurvey.answers.mempengaruhiUndian || "-",
+            // pilihanRaya : currentSurvey.answers.pilihanRaya || "-",
             parlimen : currentSurvey.answers.parlimen || "-",
             cenderunguntukundi : currentSurvey.answers.cenderungUntukUndi || "-",
             mengundiAdun: currentSurvey.answers.mengundiAdun || "-",
             mengundiAdunLain : currentSurvey.answers.mengundiAdunLain || "-",
+            
             pemimpinsabah: currentSurvey.answers.pemimpinSabah || "-",
-            pemimpinsabahlain: currentSurvey.answers.pemimpinsabahlain || "-",
-            isiboranglagi: currentSurvey.answers.isiBorangLagi || "-",
+            //pemimpinsabahlain: currentSurvey.answers.pemimpinsabahlain || "-",
+            //isiboranglagi: currentSurvey.answers.isiBorangLagi || "-",
             lokasi: currentSurvey.answers.locationName || lastLocation.lastLocation || "-",
             latitude: currentSurvey.answers.latitude ?? lastLocation.latitude ?? null,
             longitude: currentSurvey.answers.longitude ?? lastLocation.longitude ?? null,
@@ -2601,7 +2640,7 @@ document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
 
 async function sendDataToBackend(data) {
     try {
-        const response = await fetch('https://atiqahst-github-io.onrender.com/test_cycle4', {
+        const response = await fetch('https://atiqahst-github-io.onrender.com/cycle4_official', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

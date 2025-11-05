@@ -83,73 +83,89 @@ export const surveyQuestions = [
         ]
     },
 
-    {
-        id: "mengundiAdun",
-        text: "",
+    // {
+    //     id: "mengundiAdun",
+    //     text: "",
+    //     options: [
+    //         {name: "Ya"},
+    //         {name: "Tidak"},
+    //         {name: "Tidak Pasti"}
+    //     ]
+    // },
+
+{
+        id: "mengundiBedasarkan",
+        text: "Anda akan mengundi bedasarkan apa?",
         options: [
-            {name: "Ya"},
-            {name: "Tidak"},
+            {name: "Parti"},
+            {name: "Calon"},
+            {name: "Isu"}
+        ]
+    },
+
+    {
+        id: "pemimpinSabah",
+        text: "Pada pendapat anda siapa yang layak untuk memimpin Sabah?",
+        options: [
+            {name: "(GRS) Hajiji Noor", image: "adun_pictures/N12 SULAMAN - HAJIJI NOOR.jpg"},
+            {name: "(WARISAN) Shafie Apdal", image: "adun_pictures/N65 SENALLANG - SHAFIE APDAL.jpg"},
+            {name: "(BN) Bung Moktar", image: "adun_pictures/N58 LAMAG - BUNG MOKTAR RADIN.jpg"},
+            {name: "(PH) Ewon Benedick " , image: "adun_pictures/N11 KADAMAIAN - EWON BENEDICK.jpg"},
+            {name: "Parti Lain"},
+            {name: "Parti/Gabungan Lain"},
             {name: "Tidak Pasti"}
         ]
     },
+
     {
         id: "cenderungUntukUndi",
-        text: "Parti manakah anda lebih cenderung untuk undi?",
+        text: "Parti mana anda akan undi?",
         options: [
             {name: "GRS"},
             {name: "BN"},
             {name: "PH"},
+            {name: "PDKM"},
+            {name: "UPKO"},
             {name: "WARISAN"},
             {name: "Tidak Pasti"},
             {name: "Lain - Lain"}
         ]
     },
-    {
-        id: "pemimpinSabah",
-        text: "Pada pendapat anda siapa yang layak untuk memimpin Sabah?",
-        options: [
-            {name: "Hajiji Noor (GRS)", image: "adun_pictures/N12 SULAMAN - HAJIJI NOOR.jpg"},
-            {name: "Shafie Apdal (WARISAN)", image: "adun_pictures/N65 SENALLANG - SHAFIE APDAL.jpg"},
-            {name: "Bung Moktar (BN)", image: "adun_pictures/N58 LAMAG - BUNG MOKTAR RADIN.jpg"},
-            {name: "Ewon Benedick (PH)" , image: "adun_pictures/N11 KADAMAIAN - EWON BENEDICK.jpg"},
-            {name: "Tidak Pasti"},
-            {name: "Lain - Lain"}
-        ]
-    },
-    {
-        id: "kerajaanSemasa",
-        text: "Kategori manakah kerajaan negeri semasa telah menambah baik kualiti kehidupan rakyat Sabah?",
-        options: [
-            {name: "Kemajuan Ekonomi"},
-            {name: "Perkembangan MA63 yang dijanjikan"},
-            {name: "Kerja & Gaji"},
-            {name: "Infrastruktur lebih baik"},
-            {name: "Hubungan kuat dengan Persekutuan"},
-            {name: "Pendidikan"},
-            {name: "Semua Yang Tertera"},
-            {name: "Tiada"}
-        ]
-    },
-    {
-        id: "mempengaruhiUndian",
-        text: "Apakah isu utama yang akan mempengaruhi undian anda dalam pilihan raya akan datang? (Anda boleh memilih lebih daripada satu jawapan)",
-        type: "multiselect",
-        options: [
-            {name: "Rasuah"},
-            {name: "Bencana Alam"},
-            {name: "Infrastruktur(Air, Elektrik & Jalan)"},
-            {name: "Sosioekonomi"}
-        ]
-    },
-    {
-        id: "pilihanRaya",
-        text: "Adakah anda akan mengundi pada pilihan raya negeri akan datang?",
-        options: [
-            {name: "Ya"},
-            {name: "Tidak"},
-            {name: "Tidak Pasti"}
-        ]
-    },
+ 
+    // {
+    //     id: "kerajaanSemasa",
+    //     text: "Kategori manakah kerajaan negeri semasa telah menambah baik kualiti kehidupan rakyat Sabah?",
+    //     options: [
+    //         {name: "Kemajuan Ekonomi"},
+    //         {name: "Perkembangan MA63 yang dijanjikan"},
+    //         {name: "Kerja & Gaji"},
+    //         {name: "Infrastruktur lebih baik"},
+    //         {name: "Hubungan kuat dengan Persekutuan"},
+    //         {name: "Pendidikan"},
+    //         {name: "Semua Yang Tertera"},
+    //         {name: "Tiada"}
+    //     ]
+    // },
+    // {
+    //     id: "mempengaruhiUndian",
+    //     text: "Apakah isu utama yang akan mempengaruhi undian anda dalam pilihan raya akan datang? (Anda boleh memilih lebih daripada satu jawapan)",
+    //     type: "multiselect",
+    //     options: [
+    //         {name: "Rasuah"},
+    //         {name: "Bencana Alam"},
+    //         {name: "Infrastruktur(Air, Elektrik & Jalan)"},
+    //         {name: "Sosioekonomi"}
+    //     ]
+    // },
+    // {
+    //     id: "pilihanRaya",
+    //     text: "Adakah anda akan mengundi pada pilihan raya negeri akan datang?",
+    //     options: [
+    //         {name: "Ya"},
+    //         {name: "Tidak"},
+    //         {name: "Tidak Pasti"}
+    //     ]
+    // },
     {
         id: "isiBorangLagi",
         text: "Adakah anda ingin mengisi borang lagi sekali?",
