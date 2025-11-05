@@ -521,6 +521,68 @@ app.get("/respondents/count", async (req, res) => {
 // });
 
 
+// New cumulative endpoint
+app.get("/respondent-history", async (req, res) => {
+  try {
+    const user = req.user || { role: "User", enumerator_code: req.query.user };
+
+    if (!user || !user.enumerator_code) {
+      return res.status(400).json({ error: "User code is required" });
+    }
+
+    const params = [];
+    let query = "";
+
+    if (user.role === "Admin") {
+      // Admin sees cumulative counts for all enumerators
+      query = `
+        SELECT
+          date,
+          kod AS enumerator_code,
+          SUM(respondent_count) OVER (PARTITION BY kod ORDER BY to_date(date, 'DD/MM/YYYY')) AS cumulative_count
+        FROM (
+          SELECT
+            tarikh AS date,
+            kod,
+            COUNT(*) AS respondent_count
+          FROM cycle4_official
+          GROUP BY tarikh, kod
+        ) AS daily_counts
+        ORDER BY kod, to_date(date, 'DD/MM/YYYY');
+      `;
+    } else {
+      // Regular user sees only their own cumulative data
+      query = `
+        SELECT
+          date,
+          kod AS enumerator_code,
+          SUM(respondent_count) OVER (ORDER BY to_date(date, 'DD/MM/YYYY')) AS cumulative_count
+        FROM (
+          SELECT
+            tarikh AS date,
+            kod,
+            COUNT(*) AS respondent_count
+          FROM cycle4_official
+          WHERE kod = $1
+          GROUP BY tarikh, kod
+        ) AS daily_counts
+        ORDER BY to_date(date, 'DD/MM/YYYY');
+      `;
+      params.push(user.enumerator_code);
+    }
+
+    const result = await pool.query(query, params);
+
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Database error:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+
+
 
 
 app.get("/admin-summary", async (req, res) => {
