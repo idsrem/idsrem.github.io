@@ -268,47 +268,52 @@ async function loadRespondentData() {
       });
     }
 
-    // --- LINE CHART for respondent history ---
-    const historyCtx = document.getElementById("historyChart").getContext("2d");
-    const historyLabels = historyData.map(row => new Date(row.date).toLocaleDateString('ms-MY'));
-    const historyValues = historyData.map(row => row.respondent_count || 0);
+// --- LINE CHART for respondent history ---
+const historyCtx = document.getElementById("historyChart").getContext("2d");
 
-    historyLabels.reverse();
-    historyValues.reverse();
+// Map labels and values using cumulative_count
+const historyLabels = historyData.map(row => 
+  new Date(row.date).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' })
+);
+const historyValues = historyData.map(row => row.cumulative_count || 0); // <-- change here
 
-    new Chart(historyCtx, {
-      type: "line",
-      data: {
-        labels: historyLabels,
-        datasets: [{
-          label: "Bilangan Responden Harian",
-          data: historyValues,
-          borderColor: "rgba(75, 192, 192, 1)",
-          backgroundColor: "rgba(75, 192, 192, 0.3)",
-          fill: true,
-          tension: 0.3
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          title: {
-            display: true,
-            text: "Carta Responden Harian"
-          }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: { display: true, text: "Jumlah Responden" }
-          },
-          x: {
-            title: { display: true, text: "Tarikh" }
-          }
-        }
+// Sort by date ascending to ensure correct order
+historyData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+// Now create the chart
+new Chart(historyCtx, {
+  type: "line",
+  data: {
+    labels: historyLabels,
+    datasets: [{
+      label: "Jumlah Responden Terkumpul", // <-- updated label
+      data: historyValues,
+      borderColor: "rgba(75, 192, 192, 1)",
+      backgroundColor: "rgba(75, 192, 192, 0.3)",
+      fill: true,
+      tension: 0.3
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: "Carta Responden Harian"
       }
-    });
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: "Jumlah Responden" }
+      },
+      x: {
+        title: { display: true, text: "Tarikh" }
+      }
+    }
+  }
+});
 
     // ========== FETCH OVERALL SUMMARY (ACCUMULATIVE TOTAL) ==========
     let summaryUrl = "";
