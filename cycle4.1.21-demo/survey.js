@@ -849,33 +849,34 @@ function showIdInput() {
     }
 
 async function updateTodayRespondentsDisplay() {
-    const kod = localStorage.getItem("currentUserKod"); // Save kod after login
+    const kod = localStorage.getItem("currentUserId"); // or enumerator_code
     if (!kod) return;
 
-    const todayDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+    const todayDate = new Date().toISOString().split('T')[0];
 
     try {
-       const response = await fetch(`https://atiqahst-github-io.onrender.com/respondents/count?kod=${kod}&date=${todayDate}`);
+        const response = await fetch(`https://atiqahst-github-io.onrender.com/respondents/count?kod=${kod}&date=${todayDate}`);
+        if (!response.ok) throw new Error("Failed to fetch count");
 
-        const data = await response.json();
+        const data = await response.json(); // { count: 5 }
         const count = data.count || 0;
 
-        const readableDate = new Date(todayDate).toLocaleDateString('ms-MY', {
+        const readableDate = new Date().toLocaleDateString('ms-MY', {
             day: 'numeric',
             month: 'short',
             year: 'numeric'
         });
 
-        const element = document.getElementById("todayRespondents");
-        if (element) {
-            element.innerHTML = `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${count} Responden</span>`;
-        }
+        document.getElementById("todayRespondents").innerHTML = 
+            `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${count} Responden</span>`;
+
     } catch (err) {
-        console.error("Error fetching today's respondents:", err);
+        console.error("Error fetching respondents count:", err);
     }
 }
 
 document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
+
 
     function handleOptionClick(question, option, index) {
 
@@ -2466,33 +2467,34 @@ function updateConfirmedRespondentCount(countJustPushed) {
 }
 
 async function updateTodayRespondentsDisplay() {
-    const kod = localStorage.getItem("currentUserKod"); // Save kod after login
+    const kod = localStorage.getItem("currentUserId"); // or enumerator_code
     if (!kod) return;
 
-    const todayDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+    const todayDate = new Date().toISOString().split('T')[0];
 
     try {
-       const response = await fetch(`https://atiqahst-github-io.onrender.com/respondents/count?kod=${kod}&date=${todayDate}`);
+        const response = await fetch(`https://atiqahst-github-io.onrender.com/respondents/count?kod=${kod}&date=${todayDate}`);
+        if (!response.ok) throw new Error("Failed to fetch count");
 
-        const data = await response.json();
+        const data = await response.json(); // { count: 5 }
         const count = data.count || 0;
 
-        const readableDate = new Date(todayDate).toLocaleDateString('ms-MY', {
+        const readableDate = new Date().toLocaleDateString('ms-MY', {
             day: 'numeric',
             month: 'short',
             year: 'numeric'
         });
 
-        const element = document.getElementById("todayRespondents");
-        if (element) {
-            element.innerHTML = `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${count} Responden</span>`;
-        }
+        document.getElementById("todayRespondents").innerHTML = 
+            `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${count} Responden</span>`;
+
     } catch (err) {
-        console.error("Error fetching today's respondents:", err);
+        console.error("Error fetching respondents count:", err);
     }
 }
 
 document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
+
 
 
 
