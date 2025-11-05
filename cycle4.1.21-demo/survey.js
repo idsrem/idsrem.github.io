@@ -2547,7 +2547,7 @@ async function updateTodayRespondentsDisplay() {
         });
 
         document.getElementById("todayRespondents").innerHTML =
-            `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${count} Responden</span>`;
+            `Dikemaskini setakat (${readableDate}) - <span style="color: #003c7cff; font-weight: 900;">${count} Responden</span>`;
 
     } catch (err) {
         console.error("Error fetching respondents count:", err);
