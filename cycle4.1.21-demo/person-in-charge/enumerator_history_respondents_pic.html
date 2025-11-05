@@ -271,22 +271,29 @@ async function loadRespondentData() {
 // --- LINE CHART for respondent history ---
 const historyCtx = document.getElementById("historyChart").getContext("2d");
 
-// Map labels and values using cumulative_count
-const historyLabels = historyData.map(row => 
-  new Date(row.date).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' })
-);
-const historyValues = historyData.map(row => row.cumulative_count || 0); // <-- change here
+// Sort by date ascending
+historyData.sort((a, b) => {
+  const [ad, am, ay] = a.date.split('/').map(Number);
+  const [bd, bm, by] = b.date.split('/').map(Number);
+  return new Date(ay, am - 1, ad) - new Date(by, bm - 1, bd);
+});
 
-// Sort by date ascending to ensure correct order
-historyData.sort((a, b) => new Date(a.date) - new Date(b.date));
+// Map labels and values
+const historyLabels = historyData.map(row => {
+  const [day, month, year] = row.date.split('/').map(Number);
+  const dateObj = new Date(year, month - 1, day);
+  return dateObj.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
+});
 
-// Now create the chart
+const historyValues = historyData.map(row => row.cumulative_count || 0);
+
+// Create chart
 new Chart(historyCtx, {
   type: "line",
   data: {
     labels: historyLabels,
     datasets: [{
-      label: "Jumlah Responden Terkumpul", // <-- updated label
+      label: "Jumlah Responden Terkumpul",
       data: historyValues,
       borderColor: "rgba(75, 192, 192, 1)",
       backgroundColor: "rgba(75, 192, 192, 0.3)",
@@ -304,16 +311,12 @@ new Chart(historyCtx, {
       }
     },
     scales: {
-      y: {
-        beginAtZero: true,
-        title: { display: true, text: "Jumlah Responden" }
-      },
-      x: {
-        title: { display: true, text: "Tarikh" }
-      }
+      y: { beginAtZero: true, title: { display: true, text: "Jumlah Responden" } },
+      x: { title: { display: true, text: "Tarikh" } }
     }
   }
 });
+
 
     // ========== FETCH OVERALL SUMMARY (ACCUMULATIVE TOTAL) ==========
     let summaryUrl = "";

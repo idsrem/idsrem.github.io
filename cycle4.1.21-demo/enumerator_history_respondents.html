@@ -258,12 +258,20 @@ async function loadRespondentData() {
 function renderRespondentChart(historyData) {
   const ctx = document.getElementById('respondentChart').getContext('2d');
 
-  // Sort again to ensure order
-  historyData.sort((a, b) => new Date(a.date) - new Date(b.date));
+  // Sort by date correctly (DD/MM/YYYY)
+  historyData.sort((a, b) => {
+    const [ad, am, ay] = a.date.split('/').map(Number);
+    const [bd, bm, by] = b.date.split('/').map(Number);
+    return new Date(ay, am - 1, ad) - new Date(by, bm - 1, bd);
+  });
 
-  const labels = historyData.map(row => 
-    new Date(row.date).toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' })
-  );
+  // Map labels correctly
+  const labels = historyData.map(row => {
+    const [day, month, year] = row.date.split('/').map(Number);
+    const dateObj = new Date(year, month - 1, day);
+    return dateObj.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
+  });
+
   const dataPoints = historyData.map(row => row.cumulative_count || 0);
 
   new Chart(ctx, {

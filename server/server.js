@@ -536,37 +536,39 @@ app.get("/respondent-history", async (req, res) => {
     if (user.role === "Admin") {
       // Admin sees cumulative counts for all enumerators
       query = `
+      SELECT
+        tarikh AS date,
+        kod AS enumerator_code,
+        SUM(respondent_count) OVER (PARTITION BY kod ORDER BY tarikh::date) AS cumulative_count
+      FROM (
         SELECT
-          date,
-          kod AS enumerator_code,
-          SUM(respondent_count) OVER (PARTITION BY kod ORDER BY to_date(date, 'DD/MM/YYYY')) AS cumulative_count
-        FROM (
-          SELECT
-            tarikh AS date,
-            kod,
-            COUNT(*) AS respondent_count
-          FROM cycle4_official
-          GROUP BY tarikh, kod
-        ) AS daily_counts
-        ORDER BY kod, to_date(date, 'DD/MM/YYYY');
+          tarikh,
+          kod,
+          COUNT(*) AS respondent_count
+        FROM cycle4_official
+        GROUP BY tarikh, kod
+      ) AS daily_counts
+      ORDER BY kod, tarikh::date;
+
       `;
     } else {
       // Regular user sees only their own cumulative data
       query = `
+      SELECT
+        tarikh AS date,
+        kod AS enumerator_code,
+        SUM(respondent_count) OVER (ORDER BY tarikh::date) AS cumulative_count
+      FROM (
         SELECT
-          date,
-          kod AS enumerator_code,
-          SUM(respondent_count) OVER (ORDER BY to_date(date, 'DD/MM/YYYY')) AS cumulative_count
-        FROM (
-          SELECT
-            tarikh AS date,
-            kod,
-            COUNT(*) AS respondent_count
-          FROM cycle4_official
-          WHERE kod = $1
-          GROUP BY tarikh, kod
-        ) AS daily_counts
-        ORDER BY to_date(date, 'DD/MM/YYYY');
+          tarikh,
+          kod,
+          COUNT(*) AS respondent_count
+        FROM cycle4_official
+        WHERE kod = $1
+        GROUP BY tarikh, kod
+      ) AS daily_counts
+      ORDER BY tarikh::date;
+
       `;
       params.push(user.enumerator_code);
     }
