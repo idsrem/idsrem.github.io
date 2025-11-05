@@ -375,44 +375,52 @@ app.get("/respondents/count", async (req, res) => {
 
 
 
-
 app.get("/respondent-history", async (req, res) => {
   try {
-    // Use req.user if set, else fallback to query param
     const user = req.user || { role: "User", enumerator_code: req.query.user };
 
     if (!user || !user.enumerator_code) {
       return res.status(400).json({ error: "User code is required" });
     }
 
+    // Base query
     let query = `
       SELECT 
-        tarikh AS date,
+        TO_CHAR(tarikh, 'YYYY-MM-DD') AS date,
         kod AS enumerator_code,
         COUNT(*) AS respondent_count
-      FROM 
-        cycle4_official
-      WHERE 
-        tarikh IS NOT NULL
+      FROM cycle4_official
+      WHERE tarikh IS NOT NULL
     `;
 
     const params = [];
-
+    // Filter by enumerator if not admin
     if (user.role !== "Admin") {
       query += ` AND kod = $1`;
       params.push(user.enumerator_code);
     }
 
+    // Group and order
     query += `
-      GROUP BY to_date(tarikh, 'DD/MM/YYYY'), kod
+      GROUP BY TO_CHAR(tarikh, 'YYYY-MM-DD'), kod
       ORDER BY date DESC, kod ASC;
     `;
 
+    console.log("Executing query:", query);
+    console.log("With params:", params);
+
     const result = await pool.query(query, params);
+    console.log("Query result:", result.rows);
+
     res.json(result.rows);
   } catch (err) {
-    console.error("Database error", err);
-    res.status(500).json({ error: err.message });
+    console.error("Database error:", {
+      message: err.message,
+      code: err.code,
+      hint: err.hint,
+      stack: err.stack
+    });
+    res.status(500).json({ error: "Database query failed. Check server logs." });
   }
 });
 
