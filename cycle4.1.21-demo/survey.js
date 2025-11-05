@@ -2528,21 +2528,34 @@ function updateConfirmedRespondentCount(countJustPushed) {
 
 
 
+// function getFormattedTodayDate() {
+//   const today = new Date();
+//   const year = today.getFullYear();
+//   const month = String(today.getMonth() + 1).padStart(2, '0');
+//   const day = String(today.getDate()).padStart(2, '0');
+//   return `${year}-${month}-${day}`; // <-- backend expects this
+// }
+
+
+
+// Get today's date in YYYY-MM-DD format for Malaysia timezone (UTC+8)
 function getFormattedTodayDate() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`; // <-- backend expects this
+    const now = new Date();
+    const malaysiaOffset = 8 * 60; // UTC+8 in minutes
+    const localTime = new Date(now.getTime() + (malaysiaOffset - now.getTimezoneOffset()) * 60000);
+
+    const year = localTime.getFullYear();
+    const month = String(localTime.getMonth() + 1).padStart(2, '0');
+    const day = String(localTime.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`; // backend expects this
 }
-
-
 
 async function updateTodayRespondentsDisplay() {
     const kod = localStorage.getItem("currentUserId");
     if (!kod) return;
 
-    const todayDate = getFormattedTodayDate(); // now YYYY-MM-DD
+    const todayDate = getFormattedTodayDate(); // YYYY-MM-DD in Malaysia time
 
     try {
         // Add timestamp to avoid caching
@@ -2555,7 +2568,8 @@ async function updateTodayRespondentsDisplay() {
         const data = await response.json();
         const count = data.count || 0;
 
-        const readableDate = new Date().toLocaleDateString('ms-MY', {
+        // Display readable date in Malaysia format
+        const readableDate = new Date(todayDate).toLocaleDateString('ms-MY', {
             day: 'numeric',
             month: 'short',
             year: 'numeric'
@@ -2571,6 +2585,7 @@ async function updateTodayRespondentsDisplay() {
 
 // Update the UI on page load
 document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
+
 
 
 

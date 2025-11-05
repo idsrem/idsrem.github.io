@@ -797,6 +797,41 @@ function showIdInput() {
                     button.style.color = "#FFFFFF";
                     button.innerHTML = "Tidak";
 
+                }else if (option.name === "Perempuan" && question.id === "jantina") {
+                    button.style.backgroundColor = "#ca0061ff";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Perempuan";
+
+                }else if (option.name === "Parti" && question.id === "mengundiBedasarkan") {
+                    button.style.backgroundColor = "#2563eb";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Parti";
+                
+                }else if (option.name === "Calon" && question.id === "mengundiBedasarkan") {
+                    button.style.backgroundColor = "#22c55e";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Calon";
+
+                }else if (option.name === "Isu" && question.id === "mengundiBedasarkan") {
+                    button.style.backgroundColor = "#f97316";
+                    button.style.color = "#000000";
+                    button.innerHTML = "Isu";
+
+                }else if (option.name === "Parti Lain" && question.id === "pemimpinSabah") {
+                    button.style.backgroundColor = "#2563eb";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Parti Lain";
+                
+                }else if (option.name === "Parti/Gabungan Lain" && question.id === "pemimpinSabah") {
+                    button.style.backgroundColor = "#475569";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Parti/Gabungan Lain";
+                                
+                }else if (option.name === "Tidak Pasti" && question.id === "pemimpinSabah") {
+                    button.style.backgroundColor = "#CBD5E1";
+                    button.style.color = "#000000";
+                    button.innerHTML = "Tidak Pasti";
+
                 }else if (option.name === "Iya, (isi kaji selidik yang baru)" && question.id === "isiBorangLagi") {
                     button.style.backgroundColor = "#339A00";
                     button.style.color = "#FFFFFF";
@@ -807,7 +842,11 @@ function showIdInput() {
                     button.style.color = "#FFFFFF";
                     button.innerHTML = "Tidak, (Sesi ditamatkan)";
                 }
-
+                else if (option.name === "Tidak Pasti" && question.id === "cenderungUntukUndi") {
+                    button.style.backgroundColor = "#CBD5E1";
+                    button.style.color = "#000000";
+                    button.innerHTML = "Tidak Pasti";
+                }
                 else {
                     button.textContent = option.name || option.code;
                 }
@@ -1736,21 +1775,21 @@ function handleAnswer(questionId, selectedOption) {
             jantina: currentSurvey.answers.jantina || "-",
             bangsa: currentSurvey.answers.bangsa || "-",
             bangsalain: currentSurvey.answers.bangsalain,
-            kerajaansemasa : currentSurvey.answers.kerajaanSemasa || "-",
-
+            mengundiBedasarkan: currentSurvey.answers.mengundiBedasarkan || "-",
+            //kerajaansemasa : currentSurvey.answers.kerajaanSemasa || "-",
             // mempengaruhiundian : currentSurvey.answers.mempengaruhiUndian || "-",
-
-            mempengaruhiundian: Array.isArray(currentSurvey.answers.mempengaruhiUndian)
-            ? currentSurvey.answers.mempengaruhiUndian.join(", ")
-            : currentSurvey.answers.mempengaruhiUndian || "-",
-            pilihanRaya : currentSurvey.answers.pilihanRaya || "-",
+            // mempengaruhiundian: Array.isArray(currentSurvey.answers.mempengaruhiUndian)
+            // ? currentSurvey.answers.mempengaruhiUndian.join(", ")
+            // : currentSurvey.answers.mempengaruhiUndian || "-",
+            // pilihanRaya : currentSurvey.answers.pilihanRaya || "-",
             parlimen : currentSurvey.answers.parlimen || "-",
             cenderunguntukundi : currentSurvey.answers.cenderungUntukUndi || "-",
             mengundiAdun: currentSurvey.answers.mengundiAdun || "-",
             mengundiAdunLain : currentSurvey.answers.mengundiAdunLain || "-",
+            
             pemimpinsabah: currentSurvey.answers.pemimpinSabah || "-",
-            pemimpinsabahlain: currentSurvey.answers.pemimpinsabahlain || "-",
-            isiboranglagi: currentSurvey.answers.isiBorangLagi || "-",
+            //pemimpinsabahlain: currentSurvey.answers.pemimpinsabahlain || "-",
+            //isiboranglagi: currentSurvey.answers.isiBorangLagi || "-",
             lokasi: currentSurvey.answers.locationName || lastLocation.lastLocation || "-",
             latitude: currentSurvey.answers.latitude ?? lastLocation.latitude ?? null,
             longitude: currentSurvey.answers.longitude ?? lastLocation.longitude ?? null,
@@ -2489,21 +2528,34 @@ function updateConfirmedRespondentCount(countJustPushed) {
 
 
 
+// function getFormattedTodayDate() {
+//   const today = new Date();
+//   const year = today.getFullYear();
+//   const month = String(today.getMonth() + 1).padStart(2, '0');
+//   const day = String(today.getDate()).padStart(2, '0');
+//   return `${year}-${month}-${day}`; // <-- backend expects this
+// }
+
+
+
+// Get today's date in YYYY-MM-DD format for Malaysia timezone (UTC+8)
 function getFormattedTodayDate() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`; // <-- backend expects this
+    const now = new Date();
+    const malaysiaOffset = 8 * 60; // UTC+8 in minutes
+    const localTime = new Date(now.getTime() + (malaysiaOffset - now.getTimezoneOffset()) * 60000);
+
+    const year = localTime.getFullYear();
+    const month = String(localTime.getMonth() + 1).padStart(2, '0');
+    const day = String(localTime.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`; // backend expects this
 }
-
-
 
 async function updateTodayRespondentsDisplay() {
     const kod = localStorage.getItem("currentUserId");
     if (!kod) return;
 
-    const todayDate = getFormattedTodayDate(); // now YYYY-MM-DD
+    const todayDate = getFormattedTodayDate(); // YYYY-MM-DD in Malaysia time
 
     try {
         // Add timestamp to avoid caching
@@ -2516,7 +2568,8 @@ async function updateTodayRespondentsDisplay() {
         const data = await response.json();
         const count = data.count || 0;
 
-        const readableDate = new Date().toLocaleDateString('ms-MY', {
+        // Display readable date in Malaysia format
+        const readableDate = new Date(todayDate).toLocaleDateString('ms-MY', {
             day: 'numeric',
             month: 'short',
             year: 'numeric'
@@ -2532,6 +2585,7 @@ async function updateTodayRespondentsDisplay() {
 
 // Update the UI on page load
 document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
+
 
 
 
@@ -2601,7 +2655,7 @@ document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
 
 async function sendDataToBackend(data) {
     try {
-        const response = await fetch('https://atiqahst-github-io.onrender.com/test_cycle4', {
+        const response = await fetch('https://atiqahst-github-io.onrender.com/cycle4_official', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
