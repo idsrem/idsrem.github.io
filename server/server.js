@@ -330,7 +330,7 @@ app.post("/respondents/increment", async (req, res) => {
 
     // Count total respondents for today after insert
     const countResult = await pool.query(
-      `SELECT COUNT(*) AS count FROM cycle4_official  WHERE kod = $1 AND tarikh = $2`,
+      `SELECT COUNT(*) AS count FROM cycle4_official WHERE kod = $1 AND tarikh = $2`,
       [kod, formattedDate]
     );
 
@@ -609,7 +609,7 @@ app.post('/testResponse2', async (req, res) => {
 
     // Construct dynamic SQL query
     const queryText = `
-      INSERT INTO cycle4_official  (${columns.join(', ')})
+      INSERT INTO cycle4_official (${columns.join(', ')})
       VALUES ${placeholders}
     `;
 
