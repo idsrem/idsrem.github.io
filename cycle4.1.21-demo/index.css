@@ -712,7 +712,6 @@ td{
   font-size: 18px;
   font-weight: 900;
   cursor: pointer;
-  word-break: break-all;
   gap: 10px;
 }
 
