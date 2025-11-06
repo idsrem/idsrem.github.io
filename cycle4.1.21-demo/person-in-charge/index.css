@@ -792,6 +792,8 @@ td{
     #survey-container{
         border-left: none;
         border-bottom: 4px solid #1F5385;
+        height: 80%;
+
     }
 
     #timeout-timer{
@@ -810,7 +812,7 @@ td{
     #message-view{
         width: 100%;
         scroll-behavior: smooth;
-        max-height: 250px;
+        max-height: 300px;
         overflow-y: scroll;
     }
     .modal-content{
