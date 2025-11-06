@@ -2528,28 +2528,28 @@ function updateConfirmedRespondentCount(countJustPushed) {
 
 
 
-// function getFormattedTodayDate() {
-//   const today = new Date();
-//   const year = today.getFullYear();
-//   const month = String(today.getMonth() + 1).padStart(2, '0');
-//   const day = String(today.getDate()).padStart(2, '0');
-//   return `${year}-${month}-${day}`; // <-- backend expects this
-// }
+function getFormattedTodayDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`; // <-- backend expects this
+}
 
 
 
 // Get today's date in YYYY-MM-DD format for Malaysia timezone (UTC+8)
-function getFormattedTodayDate() {
-    const now = new Date();
-    const malaysiaOffset = 8 * 60; // UTC+8 in minutes
-    const localTime = new Date(now.getTime() + (malaysiaOffset - now.getTimezoneOffset()) * 60000);
+// function getFormattedTodayDate() {
+//     const now = new Date();
+//     const malaysiaOffset = 8 * 60; // UTC+8 in minutes
+//     const localTime = new Date(now.getTime() + (malaysiaOffset - now.getTimezoneOffset()) * 60000);
 
-    const year = localTime.getFullYear();
-    const month = String(localTime.getMonth() + 1).padStart(2, '0');
-    const day = String(localTime.getDate()).padStart(2, '0');
+//     const year = localTime.getFullYear();
+//     const month = String(localTime.getMonth() + 1).padStart(2, '0');
+//     const day = String(localTime.getDate()).padStart(2, '0');
 
-    return `${year}-${month}-${day}`; // backend expects this
-}
+//     return `${year}-${month}-${day}`; // backend expects this
+// }
 
 async function updateTodayRespondentsDisplay() {
     const kod = localStorage.getItem("currentUserId");
