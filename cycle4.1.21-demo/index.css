@@ -321,13 +321,12 @@ td{
     margin: 10px;
     width: 100%;
     max-width: 50%;
-    max-height: 400px;
-    height: 400px;
+    max-height: 500px;
     text-align: center;
     transition: height 0.3s ease;
     border-left: 4px solid #1F5385;
     border-radius: 0;
-    height: auto;
+    height: 500px;
     overflow-y: scroll;
   }
 
@@ -371,8 +370,8 @@ td{
 #message-view {
     flex: 1;
     padding: 25px;
-    max-height: 1000px;
-    height: 450px;
+    max-height: 700px;
+    height: 500px;
     overflow-y: auto;
     overflow-x: hidden;
     width: 500px;
