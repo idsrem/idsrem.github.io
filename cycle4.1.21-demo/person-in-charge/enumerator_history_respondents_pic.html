@@ -75,7 +75,7 @@
     <tbody></tbody>
     </table>
 <!-- <h1>Jumlah Keseluruhan Setiap Enumerator</h1> -->
-    <table id="overall-summary-table"">
+    <table id="overall-summary-table"  style="display: none;"">
     <thead>
         <tr>
         <th>Kod Enumerator</th>
@@ -352,13 +352,15 @@ if (summaryData.length === 0) {
 
 // --- BAR CHART for accumulative summary ---
 const summaryCtx = document.getElementById("summaryChart").getContext("2d");
-const summaryLabels = summaryData.map(row => row.enumerator_name || row.enumerator_code || "Unknown");
+const summaryLabels = summaryData.map(row =>
+  row.enumerator_name ? `${row.enumerator_name} (${row.enumerator_code})` : row.enumerator_code || "Unknown"
+);
 const summaryValues = summaryData.map(row => row.total_respondents || 0);
 
 new Chart(summaryCtx, {
   type: "bar",
   data: {
-    labels: summaryLabels,
+    labels: summaryLabels, // e.g., "Amiirul Alimarjafri (ST00)"
     datasets: [{
       label: "Jumlah Responden Terkumpul",
       data: summaryValues,
@@ -368,6 +370,7 @@ new Chart(summaryCtx, {
     }]
   },
   options: {
+    indexAxis: 'y', // <-- makes the chart horizontal
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -378,16 +381,20 @@ new Chart(summaryCtx, {
       legend: { display: false }
     },
     scales: {
-      y: {
+      x: {
         beginAtZero: true,
         title: { display: true, text: "Jumlah Responden" }
       },
-      x: {
-        title: { display: true, text: "Enumerator Name" }
+      y: {
+        title: { display: true, text: "Enumerator" },
+        ticks: {
+          autoSkip: false // ensures all labels are shown
+        }
       }
     }
   }
 });
+
 
 
   } catch (err) {

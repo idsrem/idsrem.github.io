@@ -498,7 +498,7 @@ td{
 .chart-container {
   flex: 1 1 300px;       /* flexible: can grow/shrink */
   min-width: 350px;       /* don’t shrink below this */
-  max-width: 500px;       /* don’t grow beyond this */
+  max-width: 1000px;       /* don’t grow beyond this */
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
