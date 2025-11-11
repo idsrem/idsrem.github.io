@@ -534,7 +534,7 @@ app.get("/respondent-history", async (req, res) => {
     const params = [];
 
     if (user.role === "Admin") {
-      // Admin sees cumulative counts for all enumerators
+      // Admin still sees cumulative counts
       query = `
         SELECT
           tarikh AS date,
@@ -551,21 +551,15 @@ app.get("/respondent-history", async (req, res) => {
         ORDER BY kod, tarikh::date;
       `;
     } else {
-      // Regular user sees only their own cumulative data
+      // Regular user sees only their own daily data
       query = `
         SELECT
           tarikh AS date,
           kod AS enumerator_code,
-          SUM(daily_count) OVER (ORDER BY tarikh::date) AS cumulative_count
-        FROM (
-          SELECT
-            tarikh,
-            kod,
-            COUNT(*) AS daily_count
-          FROM cycle4_official
-          WHERE kod = $1
-          GROUP BY tarikh, kod
-        ) AS daily_counts
+          COUNT(*) AS daily_count
+        FROM cycle4_official
+        WHERE kod = $1
+        GROUP BY tarikh, kod
         ORDER BY tarikh::date;
       `;
       params.push(user.enumerator_code);
@@ -578,10 +572,6 @@ app.get("/respondent-history", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
-
-
-
 
 
 app.get("/admin-summary", async (req, res) => {
