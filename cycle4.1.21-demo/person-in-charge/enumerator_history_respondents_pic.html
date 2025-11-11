@@ -75,11 +75,13 @@
     <tbody></tbody>
     </table>
 <!-- <h1>Jumlah Keseluruhan Setiap Enumerator</h1> -->
-    <table id="overall-summary-table"  style="display: none;">
+    <table id="overall-summary-table"">
     <thead>
         <tr>
         <th>Kod Enumerator</th>
+        <th>Nama</th>
         <th>Jumlah Responden</th>
+        <th>Status</th>
         </tr>
     </thead>
     <tbody></tbody>
@@ -319,70 +321,74 @@ new Chart(historyCtx, {
 
 
     // ========== FETCH OVERALL SUMMARY (ACCUMULATIVE TOTAL) ==========
-    let summaryUrl = "";
-    if (isAdmin) {
-      summaryUrl = "https://atiqahst-github-io.onrender.com/admin-summary";
-    } else {
-      summaryUrl = `https://atiqahst-github-io.onrender.com/pic-summary?enumerator_code=${encodeURIComponent(enumeratorCode)}`;
-    }
+// ========== FETCH OVERALL SUMMARY (ACCUMULATIVE TOTAL) ==========
+let summaryUrl = "";
+if (isAdmin) {
+  summaryUrl = "https://atiqahst-github-io.onrender.com/admin-summary";
+} else {
+  summaryUrl = `https://atiqahst-github-io.onrender.com/pic-summary?enumerator_code=${encodeURIComponent(enumeratorCode)}`;
+}
 
-    const summaryRes = await fetch(summaryUrl);
-    const summaryData = await summaryRes.json();
+const summaryRes = await fetch(summaryUrl);
+const summaryData = await summaryRes.json();
 
-    const summaryTbody = document.querySelector("#overall-summary-table tbody");
-    summaryTbody.innerHTML = "";
+const summaryTbody = document.querySelector("#overall-summary-table tbody");
+summaryTbody.innerHTML = "";
 
-    if (summaryData.length === 0) {
-      summaryTbody.innerHTML = `<tr><td colspan="2" style="text-align:center; padding: 10px;">Tiada data untuk dipaparkan.</td></tr>`;
-    } else {
-      summaryData.forEach(row => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td style="border: 1px solid #ccc; padding: 10px;">${row.enumerator_code}</td>
-          <td style="border: 1px solid #ccc; padding: 10px;">${row.total_respondents || 0}</td>
-        `;
-        summaryTbody.appendChild(tr);
-      });
-    }
+// If no data
+if (summaryData.length === 0) {
+  summaryTbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 10px;">Tiada data untuk dipaparkan.</td></tr>`;
+} else {
+  summaryData.forEach(row => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td style="border: 1px solid #ccc; padding: 10px;">${row.enumerator_code}</td>
+      <td style="border: 1px solid #ccc; padding: 10px;">${row.enumerator_name || 'MISSING'}</td>
+      <td style="border: 1px solid #ccc; padding: 10px;">${row.total_respondents || 0}</td>
+    `;
+    summaryTbody.appendChild(tr);
+  });
+}
 
-    // --- BAR CHART for accumulative summary ---
-    const summaryCtx = document.getElementById("summaryChart").getContext("2d");
-    const summaryLabels = summaryData.map(row => row.enumerator_code);
-    const summaryValues = summaryData.map(row => row.total_respondents || 0);
+// --- BAR CHART for accumulative summary ---
+const summaryCtx = document.getElementById("summaryChart").getContext("2d");
+const summaryLabels = summaryData.map(row => row.enumerator_name || row.enumerator_code || "Unknown");
+const summaryValues = summaryData.map(row => row.total_respondents || 0);
 
-    new Chart(summaryCtx, {
-      type: "bar",
-      data: {
-        labels: summaryLabels,
-        datasets: [{
-          label: "Jumlah Responden Terkumpul",
-          data: summaryValues,
-          backgroundColor: "rgba(54, 162, 235, 0.7)",
-          borderColor: "rgba(54, 162, 235, 1)",
-          borderWidth: 1
-        }]
+new Chart(summaryCtx, {
+  type: "bar",
+  data: {
+    labels: summaryLabels,
+    datasets: [{
+      label: "Jumlah Responden Terkumpul",
+      data: summaryValues,
+      backgroundColor: "rgba(54, 162, 235, 0.7)",
+      borderColor: "rgba(54, 162, 235, 1)",
+      borderWidth: 1
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: "Carta Jumlah Responden Mengikut Enumerator"
       },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          title: {
-            display: true,
-            text: "Carta Jumlah Responden Mengikut Enumerator"
-          },
-          legend: { display: false }
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: { display: true, text: "Jumlah Responden" }
-          },
-          x: {
-            title: { display: true, text: "Kod Enumerator" }
-          }
-        }
+      legend: { display: false }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: "Jumlah Responden" }
+      },
+      x: {
+        title: { display: true, text: "Enumerator Name" }
       }
-    });
+    }
+  }
+});
+
 
   } catch (err) {
     alert("Gagal memuatkan data.");

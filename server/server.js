@@ -615,23 +615,22 @@ app.get("/admin-summary", async (req, res) => {
 // GET /pic-summary?enumerator_code=ST00
 app.get("/pic-summary", async (req, res) => {
   try {
-    const picCode = req.query.enumerator_code; // e.g., "ST00"
-    if (!picCode) {
-      return res.status(400).json({ error: "Missing enumerator_code" });
-    }
+    const picCode = req.query.enumerator_code;
+    if (!picCode) return res.status(400).json({ error: "Missing enumerator_code" });
 
-    // Extract prefix, e.g., "ST" from "ST00"
-    const codePrefix = picCode.substring(0, 2);
+    const codePrefix = picCode.substring(0, 2).toUpperCase();
 
     const result = await pool.query(`
       SELECT
-        kod AS enumerator_code,
+        c.kod AS enumerator_code,
+        MAX(u.name) AS enumerator_name,
         COUNT(*) AS total_respondents
-      FROM cycle4_official
-      WHERE kod LIKE $1
-        AND tarikh ~ '^\\d{2}/\\d{2}/\\d{4}$'  -- only valid DD/MM/YYYY dates
-      GROUP BY kod
-      ORDER BY kod ASC
+      FROM cycle4_official c
+      LEFT JOIN users u
+        ON UPPER(TRIM(u.enumerator_code)) = UPPER(TRIM(c.kod))
+      WHERE c.kod LIKE $1
+      GROUP BY c.kod
+      ORDER BY c.kod ASC;
     `, [`${codePrefix}%`]);
 
     res.json(result.rows);
@@ -640,6 +639,8 @@ app.get("/pic-summary", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+
 
 // app.get("/pic-summary", async (req, res) => {
 //   try {
