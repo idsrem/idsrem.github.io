@@ -521,7 +521,7 @@ app.get("/respondents/count", async (req, res) => {
 // });
 
 
-// GET /respondent-history
+// New cumulative endpoint
 app.get("/respondent-history", async (req, res) => {
   try {
     const user = req.user || { role: "User", enumerator_code: req.query.user };
@@ -530,48 +530,61 @@ app.get("/respondent-history", async (req, res) => {
       return res.status(400).json({ error: "User code is required" });
     }
 
-    let query = "";
     const params = [];
+    let query = "";
 
     if (user.role === "Admin") {
-      // Admin still sees cumulative counts
+      // Admin sees cumulative counts for all enumerators
       query = `
+      SELECT
+        tarikh AS date,
+        kod AS enumerator_code,
+        SUM(respondent_count) OVER (PARTITION BY kod ORDER BY tarikh::date) AS cumulative_count
+      FROM (
         SELECT
-          tarikh AS date,
-          kod AS enumerator_code,
-          SUM(respondent_count) OVER (PARTITION BY kod ORDER BY tarikh::date) AS cumulative_count
-        FROM (
-          SELECT
-            tarikh,
-            kod,
-            COUNT(*) AS respondent_count
-          FROM cycle4_official
-          GROUP BY tarikh, kod
-        ) AS daily_counts
-        ORDER BY kod, tarikh::date;
+          tarikh,
+          kod,
+          COUNT(*) AS respondent_count
+        FROM cycle4_official
+        GROUP BY tarikh, kod
+      ) AS daily_counts
+      ORDER BY kod, tarikh::date;
+
       `;
     } else {
-      // Regular user sees only their own daily data
+      // Regular user sees only their own cumulative data
       query = `
+      SELECT
+        tarikh AS date,
+        kod AS enumerator_code,
+        SUM(respondent_count) OVER (ORDER BY tarikh::date) AS cumulative_count
+      FROM (
         SELECT
-          tarikh AS date,
-          kod AS enumerator_code,
-          COUNT(*) AS daily_count
+          tarikh,
+          kod,
+          COUNT(*) AS respondent_count
         FROM cycle4_official
         WHERE kod = $1
         GROUP BY tarikh, kod
-        ORDER BY tarikh::date;
+      ) AS daily_counts
+      ORDER BY tarikh::date;
+
       `;
       params.push(user.enumerator_code);
     }
 
     const result = await pool.query(query, params);
+
     res.json(result.rows);
   } catch (err) {
     console.error("Database error:", err);
     res.status(500).json({ error: err.message });
   }
 });
+
+
+
+
 
 
 app.get("/admin-summary", async (req, res) => {
