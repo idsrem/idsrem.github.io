@@ -287,7 +287,8 @@ const historyLabels = historyData.map(row => {
   return dateObj.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
 });
 
-const historyValues = historyData.map(row => row.cumulative_count || 0);
+const historyValues = historyData.map(row => row.daily_count || 0);
+
 
 // Create chart
 new Chart(historyCtx, {

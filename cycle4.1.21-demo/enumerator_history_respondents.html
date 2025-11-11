@@ -239,7 +239,7 @@ async function loadRespondentData() {
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>${formattedDate}</td>
-          <td>${row.cumulative_count || 0}</td>
+          <td>${row.daily_count || 0}</td>
         `;
         tbody.appendChild(tr);
       });
@@ -254,7 +254,7 @@ async function loadRespondentData() {
   }
 }
 
-// Chart function
+// Chart function (DAILY RESPONDENT LINE CHART)
 function renderRespondentChart(historyData) {
   const ctx = document.getElementById('respondentChart').getContext('2d');
 
@@ -272,14 +272,15 @@ function renderRespondentChart(historyData) {
     return dateObj.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
   });
 
-  const dataPoints = historyData.map(row => row.cumulative_count || 0);
+  // ✅ Use daily_count instead of cumulative_count
+  const dataPoints = historyData.map(row => row.daily_count || 0);
 
   new Chart(ctx, {
     type: 'line',
     data: {
       labels: labels,
       datasets: [{
-        label: 'Jumlah Responden Terkumpul',
+        label: 'Jumlah Responden Harian',
         data: dataPoints,
         borderColor: 'rgba(0, 123, 255, 1)',
         backgroundColor: 'rgba(0, 123, 255, 0.2)',
@@ -302,7 +303,7 @@ function renderRespondentChart(historyData) {
           bodyFont: { family: 'Nunito', size: 14 },
           callbacks: {
             label: function(context) {
-              return ` ${context.label}: ${context.raw} responden terkumpul`;
+              return ` ${context.label}: ${context.raw} responden`;
             }
           }
         }
@@ -314,7 +315,7 @@ function renderRespondentChart(historyData) {
         },
         y: { 
           beginAtZero: true, 
-          title: { display: true, text: 'Jumlah Responden Terkumpul', font: { family: 'Nunito', size: 14 } },
+          title: { display: true, text: 'Jumlah Responden Harian', font: { family: 'Nunito', size: 14 } },
           ticks: { font: { family: 'Nunito', size: 12 } }
         }
       }
@@ -322,8 +323,7 @@ function renderRespondentChart(historyData) {
   });
 }
 
-window.addEventListener("load", loadRespondentData)
-
+window.addEventListener("load", loadRespondentData);
 // async function loadRespondentData() {
 //   try {
 //     // Get user data from sessionStorage
