@@ -521,7 +521,7 @@ app.get("/respondents/count", async (req, res) => {
 // });
 
 
-// New cumulative endpoint
+// GET /respondent-history
 app.get("/respondent-history", async (req, res) => {
   try {
     const user = req.user || { role: "User", enumerator_code: req.query.user };
@@ -536,39 +536,31 @@ app.get("/respondent-history", async (req, res) => {
     if (user.role === "Admin") {
       // Admin sees cumulative counts for all enumerators
       query = `
-      SELECT
-        tarikh AS date,
-        kod AS enumerator_code,
-        SUM(respondent_count) OVER (PARTITION BY kod ORDER BY tarikh::date) AS cumulative_count
-      FROM (
         SELECT
-          tarikh,
-          kod,
-          COUNT(*) AS respondent_count
-        FROM cycle4_official
-        GROUP BY tarikh, kod
-      ) AS daily_counts
-      ORDER BY kod, tarikh::date;
-
+          tarikh AS date,
+          kod AS enumerator_code,
+          SUM(respondent_count) OVER (PARTITION BY kod ORDER BY tarikh::date) AS cumulative_count
+        FROM (
+          SELECT
+            tarikh,
+            kod,
+            COUNT(*) AS respondent_count
+          FROM cycle4_official
+          GROUP BY tarikh, kod
+        ) AS daily_counts
+        ORDER BY kod, tarikh::date;
       `;
     } else {
-      // Regular user sees only their own cumulative data
+      // Regular user sees only their own daily counts (not cumulative)
       query = `
-      SELECT
-        tarikh AS date,
-        kod AS enumerator_code,
-        SUM(respondent_count) OVER (ORDER BY tarikh::date) AS cumulative_count
-      FROM (
         SELECT
-          tarikh,
-          kod,
-          COUNT(*) AS respondent_count
+          tarikh AS date,
+          kod AS enumerator_code,
+          COUNT(*) AS daily_count
         FROM cycle4_official
         WHERE kod = $1
         GROUP BY tarikh, kod
-      ) AS daily_counts
-      ORDER BY tarikh::date;
-
+        ORDER BY tarikh::date;
       `;
       params.push(user.enumerator_code);
     }
@@ -581,6 +573,7 @@ app.get("/respondent-history", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
 
 
 
