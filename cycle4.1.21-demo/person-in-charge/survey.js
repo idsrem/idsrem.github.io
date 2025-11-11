@@ -270,13 +270,13 @@ function showIdInput() {
         }
 
         // Check if the entered code exists in the enumerator array
-        const userExists = enumerator.some(user => user.userID === kodInput);
+        //const userExists = enumerator.some(user => user.userID === kodInput);
 
-        if (!userExists) {
-            // alert("ID yang dimasukkan tidak wujud. Sila semak semula.");
-            showToast("Kod tidak dijumpai! Sila semak kembali.", "error");
-            return; // If user doesn't exist, show an alert and return
-        }
+        // if (!userExists) {
+        //     // alert("ID yang dimasukkan tidak wujud. Sila semak semula.");
+        //     showToast("Kod tidak dijumpai! Sila semak kembali.", "error");
+        //     return; // If user doesn't exist, show an alert and return
+        // }
 
         // If user exists, store ID and proceed
         currentUserId = kodInput;

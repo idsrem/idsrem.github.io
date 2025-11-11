@@ -107,10 +107,10 @@ export const surveyQuestions = [
         id: "pemimpinSabah",
         text: "Pada pendapat anda siapa yang layak untuk memimpin Sabah?",
         options: [
-            {name: "(GRS) Hajiji Noor", image: "adun_pictures/N12 SULAMAN - HAJIJI NOOR.jpg"},
-            {name: "(WARISAN) Shafie Apdal", image: "adun_pictures/N65 SENALLANG - SHAFIE APDAL.jpg"},
-            {name: "(BN) Bung Moktar", image: "adun_pictures/N58 LAMAG - BUNG MOKTAR RADIN.jpg"},
-            {name: "(PH) Ewon Benedick " , image: "adun_pictures/N11 KADAMAIAN - EWON BENEDICK.jpg"},
+            {name: "GRS (Hajiji Noor)", image: "adun_pictures/N12 SULAMAN - HAJIJI NOOR.jpg"},
+            {name: "WARISAN (Shafie Apdal)", image: "adun_pictures/N65 SENALLANG - SHAFIE APDAL.jpg"},
+            {name: "BN (Bung Moktar)", image: "adun_pictures/N58 LAMAG - BUNG MOKTAR RADIN.jpg"},
+            {name: "PH (Ewon Benedick) " , image: "adun_pictures/N11 KADAMAIAN - EWON BENEDICK.jpg"},
             {name: "Parti Lain"},
             {name: "Parti/Gabungan Lain"},
             {name: "Tidak Pasti"}
@@ -124,7 +124,7 @@ export const surveyQuestions = [
             {name: "GRS"},
             {name: "BN"},
             {name: "PH"},
-            {name: "PDKM"},
+            {name: "PKDM"},
             {name: "UPKO"},
             {name: "WARISAN"},
             {name: "Tidak Pasti"},

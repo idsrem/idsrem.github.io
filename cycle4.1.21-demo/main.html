@@ -283,43 +283,43 @@ window.addEventListener("online", requestLocation);
 window.addEventListener("offline", requestLocation);
 
 
-  const INACTIVITY_LIMIT = 15 * 60 * 1000; // 5 minutes in milliseconds
-  let inactivityTimer;
-  let remainingTime = INACTIVITY_LIMIT;
-  let countdownInterval;
+  // const INACTIVITY_LIMIT = 15 * 60 * 1000; // 5 minutes in milliseconds
+  // let inactivityTimer;
+  // let remainingTime = INACTIVITY_LIMIT;
+  // let countdownInterval;
 
-  function updateCountdownDisplay() {
-    const minutes = Math.floor(remainingTime / 60000);
-    const seconds = Math.floor((remainingTime % 60000) / 1000);
-    const countdownEl = document.getElementById("countdown");
-    if (countdownEl) {
-      countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-  }
+  // function updateCountdownDisplay() {
+  //   const minutes = Math.floor(remainingTime / 60000);
+  //   const seconds = Math.floor((remainingTime % 60000) / 1000);
+  //   const countdownEl = document.getElementById("countdown");
+  //   if (countdownEl) {
+  //     countdownEl.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  //   }
+  // }
 
-  function startCountdown() {
-    clearInterval(countdownInterval);
-    countdownInterval = setInterval(() => {
-      remainingTime -= 1000;
-      if (remainingTime <= 0) {
-        clearInterval(countdownInterval);
-      }
-      updateCountdownDisplay();
-    }, 1000);
-  }
+  // function startCountdown() {
+  //   clearInterval(countdownInterval);
+  //   countdownInterval = setInterval(() => {
+  //     remainingTime -= 1000;
+  //     if (remainingTime <= 0) {
+  //       clearInterval(countdownInterval);
+  //     }
+  //     updateCountdownDisplay();
+  //   }, 1000);
+  // }
 
-  function resetInactivityTimer() {
-    clearTimeout(inactivityTimer);
-    clearInterval(countdownInterval);
+  // function resetInactivityTimer() {
+  //   clearTimeout(inactivityTimer);
+  //   clearInterval(countdownInterval);
 
-    remainingTime = INACTIVITY_LIMIT;
-    updateCountdownDisplay();
-    startCountdown();
+  //   remainingTime = INACTIVITY_LIMIT;
+  //   updateCountdownDisplay();
+  //   startCountdown();
 
-    inactivityTimer = setTimeout(() => {
-      autoLogout();
-    }, INACTIVITY_LIMIT);
-  }
+  //   inactivityTimer = setTimeout(() => {
+  //     autoLogout();
+  //   }, INACTIVITY_LIMIT);
+  // }
 
   function autoLogout() {
     sessionStorage.clear();
@@ -341,12 +341,12 @@ window.addEventListener("offline", requestLocation);
   }
 
   // Attach listeners to reset timer on user activity
-  ['click', 'mousemove', 'keydown', 'touchstart'].forEach(event => {
-    document.addEventListener(event, resetInactivityTimer);
-  });
+  // ['click', 'mousemove', 'keydown', 'touchstart'].forEach(event => {
+  //   document.addEventListener(event, resetInactivityTimer);
+  // });
 
   // Start on page load
-  resetInactivityTimer();
+  // resetInactivityTimer();
 
 document.getElementById("logout-button").addEventListener("click", () => {
   //Clear session storage (login/session info)
@@ -448,9 +448,9 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
 
     <div id="timeout-timer" class="timeout-footer">
-      <div class="timeout-left">
+      <!-- <div class="timeout-left">
         Sesi akan tamat secara automatik dalam: <span id="countdown">--:--</span>
-      </div>
+      </div> -->
       <div class="timeout-right">
         <span>Powered By:</span>
         <img src="/cycle4-demo/DataBlu_Logo.png" alt="DataBlu Logo" class="footer-logo">
