@@ -613,11 +613,10 @@ app.get("/admin-summary", async (req, res) => {
 
 //For PIC
 // GET /pic-summary?enumerator_code=ST00
-// GET /pic-summary?enumerator_code=ST00 (optional)
+// GET /pic-summary
 app.get("/pic-summary", async (req, res) => {
   try {
-    const picCode = req.query.enumerator_code; // optional
-    let query = `
+    const result = await pool.query(`
       SELECT
         c.kod AS enumerator_code,
         MAX(u.name) AS enumerator_name,
@@ -625,29 +624,16 @@ app.get("/pic-summary", async (req, res) => {
       FROM cycle4_official c
       LEFT JOIN users u
         ON UPPER(TRIM(u.enumerator_code)) = UPPER(TRIM(c.kod))
-    `;
-    const params = [];
-
-    // Optional filtering
-    if (picCode) {
-      query += ` WHERE c.kod LIKE $1`;
-      params.push(`${picCode.toUpperCase()}%`);
-    }
-
-    query += `
       GROUP BY c.kod
-      ORDER BY c.kod ASC
-    `;
+      ORDER BY c.kod ASC;
+    `);
 
-    const result = await pool.query(query, params);
     res.json(result.rows);
   } catch (err) {
     console.error("Database error:", err);
     res.status(500).json({ error: err.message });
   }
 });
-
-
 
 
 // app.get("/pic-summary", async (req, res) => {
