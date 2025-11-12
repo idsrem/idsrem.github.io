@@ -197,7 +197,7 @@ function updateLocation(position) {
   localStorage.setItem("lastKnownLocation", JSON.stringify({
   latitude: lat,
   longitude: lon,
-  locationName: locationName  // or rawLocation in offline case
+  locationName: rawLocation
 }));
 
   }

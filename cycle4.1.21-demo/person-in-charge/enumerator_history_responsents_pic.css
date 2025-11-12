@@ -454,31 +454,13 @@ td{
 #respondentChart {
     background-color: #FFFFFF;
     border-radius: 10px;
-    width: 50% !important;
     margin-left: auto;
     margin-right: auto;
-    height: 50% !important;
     max-width: 90%;
-    height: 100% !important;
+    max-height: 300px;
     padding: 20px;
+    margin-bottom: 30px;
 }
-
-
-#respondentChart canvas {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-
-/* canvas#respondentChart {
-  display: block;
-  margin: 0 auto;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  width: 90%;
-} */
 
 
 /* Section that holds both charts */
@@ -492,13 +474,14 @@ td{
   margin: 0 auto;
   width: 100%;
   padding: 0 20px;
+  margin-bottom: 200px;
 }
 
 /* Each individual chart card */
 .chart-container {
-  flex: 1 1 300px;       /* flexible: can grow/shrink */
-  min-width: 350px;       /* don’t shrink below this */
-  max-width: 1000px;       /* don’t grow beyond this */
+  flex: 1 1 300px;       
+  min-width: 350px;       
+  max-width: 1000px;      
   background: #fff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
@@ -507,8 +490,7 @@ td{
   flex-direction: column;
   justify-content: space-between;
   text-align: center;
-
-  width: 100%;            /* remove fixed 500px width */
+  width: 100%;        
 }
 
 
@@ -545,8 +527,6 @@ canvas {
   body{
     padding: 25px;
   }
-
-
   .navbar-title {
     display: none;
   }
@@ -560,11 +540,13 @@ canvas {
   }
 
   .chart-section {
+    width: 90%;
     flex-direction: column;
+    margin-left: -20px;
   }
 
 .chart-container {
-  width: 78%;
+  width: 100%;
   display: block;
   min-width: auto !important;
   max-width: 100% !important;
@@ -587,8 +569,8 @@ canvas {
     font-size: 1.1rem;
   }
 
-  #respondentChart {
-    width: 100% !important;
-    height: 100% !important;
-}
+  /* #respondentChart {
+    height: 10px;
+    max-width: 100%;
+} */
 }

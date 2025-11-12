@@ -14,7 +14,6 @@ export const surveyQuestions = [
             { name: "Pedalaman", parlimenCodes: ["P176", "P177", "P178", "P180", "P181", "P182"] },
             { name: "Sandakan", parlimenCodes: ["P183", "P184", "P185", "P186", "P187"] },
             { name: "Tawau", parlimenCodes: ["P188", "P189", "P190", "P191"] }
- 
         ]
     },
     

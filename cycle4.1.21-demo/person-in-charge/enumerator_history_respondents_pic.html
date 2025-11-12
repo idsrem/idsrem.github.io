@@ -315,13 +315,16 @@ new Chart(historyCtx, {
     },
     scales: {
       y: { beginAtZero: true, title: { display: true, text: "Jumlah Responden" } },
-      x: { title: { display: true, text: "Tarikh" } }
+      x: { title: { display: true, text: "Tarikh" },
+            ticks: {
+          maxRotation: 45,  // prevent rotation
+          minRotation: 45,  // force horizontal labels
+            }
+          }
     }
   }
 });
 
-
-    // ========== FETCH OVERALL SUMMARY (ACCUMULATIVE TOTAL) ==========
 // ========== FETCH OVERALL SUMMARY (ACCUMULATIVE TOTAL) ==========
 let summaryUrl = "";
 if (isAdmin) {
