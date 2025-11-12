@@ -2793,8 +2793,8 @@ function redoSurvey() {
         // Define headers
         const headers = [
             "Kod", "Tarikh", "Zon", "Parlimen", "DUN", "Umur", "Jantina",
-            "Bangsa", "Bangsa Lain", "Kerajaan Semasa", "Mempengaruhi Undian", "Mengundi Adun", "Mengundi Adun Lain",
-            "Pemimpin Sabah", "Longitude", "Latitude", "Location", "Response ID", "Start Time"
+            "Bangsa", "Bangsa Lain", "Mengundi Bedasarkan", "Pemimpin Sabah", "Cenderung Untuk Undi",
+            "Longitude", "Latitude", "Location", "Response ID", "Start Time"
         ];
 
         // Convert survey data
@@ -2810,11 +2810,9 @@ function redoSurvey() {
                 s.jantina || "-",
                 s.bangsa || "-",
                 s.bangsalain || "-",
-                s.kerajaansemasa || "-",
-                s.mempengaruhiundian || "-",
-                s.mengundiAdun || "-",
-                s.mengundiAdunLain || "-",
+                s.mengundiBedasarkan || "-",
                 s.pemimpinsabah || "-",
+                s.cenderunguntukundi || "-",
                 s.longitude || "-",
                 s.latitude || "-",
                 s.lokasi ?? "-",   
