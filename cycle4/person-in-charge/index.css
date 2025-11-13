@@ -824,6 +824,11 @@ td{
       margin-left: 100px;
     }
 
+    .clean-popup{
+      z-index: 1500;
+      display: none;
+    }
+
 
   .timeout-right img {
     margin-left: 0px;
