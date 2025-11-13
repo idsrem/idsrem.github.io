@@ -142,36 +142,36 @@
     }
 
 
-async function fetchLocationName(lat, lon) {
-  try {
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': 'LiveLocationApp/1.0 (your-email@example.com)' // Replace with your contact info
-      }
-    });
-    if (!response.ok) throw new Error('Reverse geocoding failed');
+// async function fetchLocationName(lat, lon) {
+//   try {
+//     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
+//     const response = await fetch(url, {
+//       headers: {
+//         'User-Agent': 'LiveLocationApp/1.0 (your-email@example.com)' // Replace with your contact info
+//       }
+//     });
+//     if (!response.ok) throw new Error('Reverse geocoding failed');
 
-    const data = await response.json();
-    const location = data.display_name || 'Lokasi tidak dapat dikenalpasti';
+//     const data = await response.json();
+//     const location = data.display_name || 'Lokasi tidak dapat dikenalpasti';
 
-    document.querySelectorAll('.location-display').forEach(el => {
-      el.textContent = location;
-    });
+//     document.querySelectorAll('.location-display').forEach(el => {
+//       el.textContent = location;
+//     });
 
-    // Save to localStorage (currentSurvey)
-    let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
-    survey.answers = survey.answers || {};
-    survey.answers.location = location;
-    localStorage.setItem("currentSurvey", JSON.stringify(survey));
+//     // Save to localStorage (currentSurvey)
+//     let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
+//     survey.answers = survey.answers || {};
+//     survey.answers.location = location;
+//     localStorage.setItem("currentSurvey", JSON.stringify(survey));
 
-  } catch (error) {
-    console.error('Error fetching location:', error);
-    document.querySelectorAll('.location-display').forEach(el => {
-      el.textContent = 'Error retrieving location';
-    });
-  }
-}
+//   } catch (error) {
+//     console.error('Error fetching location:', error);
+//     document.querySelectorAll('.location-display').forEach(el => {
+//       el.textContent = 'Error retrieving location';
+//     });
+//   }
+// }
 
 function updateLocation(position) {
   const lat = position.coords.latitude;
@@ -271,7 +271,7 @@ function requestLocation() {
     navigator.geolocation.getCurrentPosition(updateLocation, handleError, {
       enableHighAccuracy: true,
       maximumAge: 0,
-      timeout: 10000
+      timeout: 1000
     });
   } else {
     alert('Geolocation tidak disokong oleh pelayar anda.');

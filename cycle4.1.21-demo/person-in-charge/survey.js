@@ -836,6 +836,7 @@ function showIdInput() {
                     button.style.backgroundColor = "#339A00";
                     button.style.color = "#FFFFFF";
                     button.innerHTML = "Iya, (isi kaji selidik yang baru)";
+                    requestLocation();
 
                 }else if (option.name === "Tidak, (Sesi ditamatkan)" && question.id === "isiBorangLagi") {
                     button.style.backgroundColor = "#ff0000ff";

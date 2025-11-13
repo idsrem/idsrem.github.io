@@ -139,53 +139,65 @@
     }
 
 
-async function fetchLocationName(lat, lon) {
-  try {
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': 'LiveLocationApp/1.0 (your-email@example.com)' // Replace with your contact info
-      }
-    });
-    if (!response.ok) throw new Error('Reverse geocoding failed');
+// async function fetchLocationName(lat, lon) {
+//   try {
+//     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
+//     const response = await fetch(url, {
+//       headers: {
+//         'User-Agent': 'LiveLocationApp/1.0 (your-email@example.com)' // Replace with your contact info
+//       }
+//     });
+//     if (!response.ok) throw new Error('Reverse geocoding failed');
 
-    const data = await response.json();
-    const location = data.display_name || 'Lokasi tidak dapat dikenalpasti';
+//     const data = await response.json();
+//     const location = data.display_name || 'Lokasi tidak dapat dikenalpasti';
 
-    document.querySelectorAll('.location-display').forEach(el => {
-      el.textContent = location;
-    });
+//     document.querySelectorAll('.location-display').forEach(el => {
+//       el.textContent = location;
+//     });
 
-    // Save to localStorage (currentSurvey)
-    let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
-    survey.answers = survey.answers || {};
-    survey.answers.location = location;
-    localStorage.setItem("currentSurvey", JSON.stringify(survey));
+//     // Save to localStorage (currentSurvey)
+//     let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
+//     survey.answers = survey.answers || {};
+//     survey.answers.location = location;
+//     localStorage.setItem("currentSurvey", JSON.stringify(survey));
 
-  } catch (error) {
-    console.error('Error fetching location:', error);
-    document.querySelectorAll('.location-display').forEach(el => {
-      el.textContent = 'Error retrieving location';
-    });
-  }
-}
+//   } catch (error) {
+//     console.error('Error fetching location:', error);
+//     document.querySelectorAll('.location-display').forEach(el => {
+//       el.textContent = 'Error retrieving location';
+//     });
+//   }
+// }
 
 function updateLocation(position) {
-  const lat = position.coords.latitude;
-  const lon = position.coords.longitude;
+  const lat = position?.coords?.latitude;
+  const lon = position?.coords?.longitude;
+
+  if (!lat || !lon) {
+    // Use last known location
+    const last = JSON.parse(localStorage.getItem("lastKnownLocation") || '{}');
+    if (last.latitude && last.longitude) {
+      document.querySelectorAll('.location-display').forEach(el => el.textContent = last.locationName || `Lat: ${last.latitude}, Lon: ${last.longitude}`);
+      let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
+      survey.answers = survey.answers || {};
+      survey.answers.latitude = last.latitude;
+      survey.answers.longitude = last.longitude;
+      survey.answers.locationName = last.locationName;
+      localStorage.setItem("currentSurvey", JSON.stringify(survey));
+    } else {
+      document.querySelectorAll('.location-display').forEach(el => el.textContent = '-');
+    }
+    return;
+  }
 
   if (navigator.onLine) {
-    document.querySelectorAll('.location-display').forEach(el => {
-      el.textContent = 'Menentukan lokasi anda (atas talian)...';
-    });
+    document.querySelectorAll('.location-display').forEach(el => el.textContent = 'Menentukan lokasi anda...');
     fetchLocationName(lat, lon);
   } else {
-    // OFFLINE: fallback to raw GPS coordinates
+    // Offline fallback
     const rawLocation = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)}`;
-    document.querySelectorAll('.location-display').forEach(el => {
-      el.textContent = rawLocation;
-    });
-
+    document.querySelectorAll('.location-display').forEach(el => el.textContent = rawLocation);
     let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
     survey.answers = survey.answers || {};
     survey.answers.latitude = lat;
@@ -193,15 +205,11 @@ function updateLocation(position) {
     survey.answers.locationName = rawLocation;
     localStorage.setItem("currentSurvey", JSON.stringify(survey));
 
-    // Store last known location for fallback
-  localStorage.setItem("lastKnownLocation", JSON.stringify({
-  latitude: lat,
-  longitude: lon,
-  locationName: rawLocation
-}));
-
+    // Save last known location
+    localStorage.setItem("lastKnownLocation", JSON.stringify({ latitude: lat, longitude: lon, locationName: rawLocation }));
   }
 }
+
 
 function fetchLocationName(lat, lon) {
   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
@@ -268,7 +276,7 @@ function requestLocation() {
     navigator.geolocation.getCurrentPosition(updateLocation, handleError, {
       enableHighAccuracy: true,
       maximumAge: 0,
-      timeout: 10000
+      timeout: 1000
     });
   } else {
     alert('Geolocation tidak disokong oleh pelayar anda.');
