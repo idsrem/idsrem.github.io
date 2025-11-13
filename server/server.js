@@ -536,31 +536,32 @@ app.get("/respondent-history", async (req, res) => {
     if (user.role === "Admin") {
       // Admin sees cumulative counts for all enumerators
       query = `
+      SELECT
+        date,
+        kod AS enumerator_code,
+        SUM(respondent_count) OVER (PARTITION BY kod ORDER BY date) AS count
+      FROM (
         SELECT
-          tarikh AS date,
-          kod AS enumerator_code,
-          SUM(respondent_count) OVER (PARTITION BY kod ORDER BY tarikh::date) AS cumulative_count
-        FROM (
-          SELECT
-            tarikh,
-            kod,
-            COUNT(*) AS respondent_count
-          FROM cycle4_official
-          GROUP BY tarikh, kod
-        ) AS daily_counts
-        ORDER BY kod, tarikh::date;
+          TO_DATE(tarikh, 'DD/MM/YYYY') AS date,
+          kod,
+          COUNT(*) AS respondent_count
+        FROM cycle4_official
+        GROUP BY TO_DATE(tarikh, 'DD/MM/YYYY'), kod
+      ) AS daily_counts
+      ORDER BY kod, date;
+
       `;
     } else {
       // Regular user sees only their own daily counts (not cumulative)
       query = `
-        SELECT
-          tarikh AS date,
-          kod AS enumerator_code,
-          COUNT(*) AS daily_count
-        FROM cycle4_official
-        WHERE kod = $1
-        GROUP BY tarikh, kod
-        ORDER BY tarikh::date;
+      SELECT
+        TO_DATE(tarikh, 'DD/MM/YYYY') AS date,
+        kod AS enumerator_code,
+        COUNT(*) AS count
+      FROM cycle4_official
+      WHERE kod = $1
+      GROUP BY TO_DATE(tarikh, 'DD/MM/YYYY'), kod
+      ORDER BY date;
       `;
       params.push(user.enumerator_code);
     }
@@ -573,9 +574,6 @@ app.get("/respondent-history", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
-
-
 
 
 
