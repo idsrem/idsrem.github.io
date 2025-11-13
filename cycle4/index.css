@@ -8,13 +8,14 @@ h3{
     font-size: 18px;
 }
 body {
-
-    /* background-image: url("IDS_Background_Picture_Cycle_4.png"); */
-    background-color: #aaa;
+    margin: 0;
+    background-image: url("IDS_Final_Design.png");
+     background-color: #aaa;
     background-size: cover;
     color: white;
     font-size: 15px;
-    background-attachment: fixed;
+    padding-top: 50px;
+    /* background-attachment: fixed; */
   }
 
   .top-header{
@@ -39,7 +40,6 @@ body {
     display: flex;
     flex-direction: column; /* Stack vertically */
     align-items: center;
-    font-family: 'Poppins', sans-serif;
     color: #1F5385;
 }
 
@@ -65,6 +65,12 @@ body {
     text-align: center;
     color: #000000;
     text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+#location{
+  text-align: center;
+  font-size: 16px;
+  font-weight: 900;
 }
 
 
@@ -97,6 +103,7 @@ body {
     color: #1F5385;
     text-align: center;
     justify-content: center; 
+    height: auto;
     width: auto;
     border-radius: 10px;
     display: block;
@@ -229,10 +236,44 @@ footer{
     margin-left: auto;
     margin-right: auto;
     display: block;
-    text-align: right;
+    text-align: center;
     width: 95%;
     font-size: 20px;
 }
+
+.timeout-footer {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  font-size: 12px;
+  z-index: 999;
+}
+
+.timeout-left{
+  display: flex;
+  font-size: 18px;
+  align-items: center;
+}
+
+.timeout-right{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: right;
+}
+
+.footer-logo {
+  align-items: center;
+  height: 35px;
+  margin-left: 20px;
+}
+
+
 
 table {
     width: 30%;
@@ -261,8 +302,8 @@ td{
 
 .container-view{
     display: flex;
-    width: 95%;
-    padding: 10px;
+    width: 90%;
+    padding: 20px;
     flex-wrap: wrap;
     margin-top: 20px;
     margin-right: auto;
@@ -279,15 +320,14 @@ td{
     padding: 50px;
     margin: 10px;
     width: 100%;
-    max-width: 900px;
-    max-height: 400px;
-    height: 400px;
+    max-width: 50%;
+    max-height: 300px;
     text-align: center;
     transition: height 0.3s ease;
     border-left: 4px solid #1F5385;
-    overflow-y: scroll;
     border-radius: 0;
-    height: auto;
+    height: 300px;
+    overflow-y: scroll;
   }
 
   .previous-button {
@@ -330,8 +370,8 @@ td{
 #message-view {
     flex: 1;
     padding: 25px;
-    max-height: 1000px;
-    height: 450px;
+    max-height: 700px;
+    height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
     width: 500px;
@@ -397,6 +437,7 @@ td{
         transform: translateY(0); /* Element returns to its original position */
     }
 }
+
 
 
 /* Modal Overlay */
@@ -472,7 +513,7 @@ td{
 /* Clean floating pop-up box */
 .clean-popup {
   position: fixed;
-  margin-top: 30px;
+  margin-top: 100px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -572,7 +613,140 @@ td{
 }
 
 
+.logout-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.logout-button:hover {
+    background-color: #c9302c;
+}
+
+#timeout-timer{
+  width: 90%;
+  padding: 10px;
+  font-size: 18px; 
+  font-weight: 800;
+  text-align: right;
+  color: black;
+}
+
+#countdown{
+  margin-left:10px;
+}
+
+/* Navbar */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px; /* Adjust if needed */
+  background-color: #005999;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  z-index: 9999;
+  justify-content: space-between;
+}
+
+/* Hamburger icon */
+.hamburger {
+  font-size: 24px;
+  cursor: pointer;
+  margin-right: 15px;
+  margin-left: 20px;
+}
+
+/* Title next to hamburger */
+.navbar-title {
+  font-size: 20px;
+  font-weight: 900;
+  margin-left: 20px;
+}
+
+/* Sidepanel*/
+.sidepanel {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  justify-content: space-between;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  background-color: #003366;
+  overflow-x: hidden;
+  transition: 0.3s;
+  padding-top: 70px;
+}
+
+.sidepanel a {
+  margin-top: 10px;
+  padding: 12px 30px;
+  text-decoration: none;
+  font-size: 16px;
+  color: white;
+  display: block;
+  transition: 0.2s;
+  font-weight: 800;
+}
+
+.sidepanel a:hover {
+  background-color: #005999;
+}
+
+
+.options-checkboxes label {
+  display: flex;
+  align-items: center;
+  text-align: left;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.options-checkboxes {
+  display: flex;
+  flex-direction: column; /* stack vertically */
+  gap: 10px; /* space between each checkbox row */
+  margin-top: 10px;
+}
+
+/* For the disable button if the user doesnt check one of the boxes in the 'mempengaruhiUndian' question */
+.survey-option:disabled {
+  margin-top: 30px;
+  background-color: #cccccc;
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+
+.navbar-username {
+  font-weight: 500;
+  font-size: 18px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-align: right;
+  margin-left: auto;
+  margin-right: 30px;
+  font-weight: 800;
+}
+
 @media (max-width: 900px) {
+
+  body{
+    margin: 10px;;
+  }
 
     .idsLogo{
       width: 100px;
@@ -595,22 +769,42 @@ td{
       width: 100px;
     }
 
+    .timeout-left{
+    flex-direction: column;
+    }
+
+    .navbar-title{
+      display: none;
+    }
+
     .container-view {
         align-items: center; /* Center them */
         flex-direction: column-reverse; /* Flip the order */
-        width: 95%;
+        width: 85%;
         height: 100%;
     }
 
     #message-view, #survey-container {
         max-width: 80%; /* Take full width */
+        max-height: 100%;
     }
 
     #survey-container{
         border-left: none;
         border-bottom: 4px solid #1F5385;
-        overflow-y: auto;
-        height: auto;
+    }
+
+    #timeout-timer{
+      width: 90%;
+      font-size: 16px;
+      display: block;
+      align-items: center;
+      text-align: center;
+    }
+
+    .timeout-right, .timeout-left{
+      text-align: center;
+      margin-top: 20px;
     }
 
     #message-view{
@@ -619,6 +813,12 @@ td{
         max-height: 250px;
         overflow-y: scroll;
     }
+
+    .clean-popup {
+    margin-top: 70px;
+    margin-bottom: 300px;
+    width: 80%;
+  }
     .modal-content{
       margin-top: 200px;
       width: 70%;
@@ -627,5 +827,10 @@ td{
     #toast-container{
       margin-left: 100px;
     }
+
+
+  .timeout-right img {
+    margin-left: 0px;
+  }
 
 }

@@ -6,12 +6,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const surveyContainer = document.getElementById("survey-container");
     //const sound = document.getElementById("clickSound");
     let currentQuestionIndex = 0;
-    let currentUserId = localStorage.getItem("currentUserId") || null; // Get ID if stored
+    let currentUserId =  ""; // Get ID if stored
     let userResponses = {};
+
+
 
     surveyContainer.style.width = "65%";
     surveyContainer.style.marginTop = "-10px";
-
 
 
     updateTodayRespondentsDisplay();
@@ -35,6 +36,7 @@ function updateClockAndSurvey() {
     document.getElementById('clock-time').textContent = timeString;
     document.getElementById('clock-date').textContent = dateString;
 
+    //!-- REMEMEBER TO UNCOMMENT WHEN THE TIME COMES
     // Working hours logic: 8:30 AM to 5:30 PM
     const currentMinutes = hours * 60 + minutes;
     const startMinutes = 6 * 60;
@@ -184,6 +186,9 @@ function showIdInput() {
         return;
     }
 
+    surveyContainer.style.display = "block";
+    surveyContainer.innerHTML = ""; // Clear the survey container
+
     // Get current date
     const currentDate = new Date().toLocaleDateString('ms-MY', { // 'ms-MY' is the language/locale for Malaysia
         year: 'numeric',
@@ -206,7 +211,8 @@ function showIdInput() {
     dateBubble.style.color = "#000000";
     
 
-    const questionText = "Sila masukkan kod anda untuk memulakan kaji selidik";
+    // const questionText = "Sila masukkan kod anda untuk memulakan kaji selidik";
+    const questionText = "Klik butang seterusnya untuk memulakan tinjauan dan menjawab soalan-soalan yang disediakan.";
 
     // Create question bubble element
     const questionBubble = document.createElement("div");
@@ -215,7 +221,7 @@ function showIdInput() {
     messageView.appendChild(questionBubble);
 
     const questionTitle = document.createElement("p");
-    questionTitle.textContent = "Sila masukkan kod anda untuk memulakan kaji selidik:";
+    questionTitle.textContent = "Klik butang seterusnya untuk memulakan tinjauan dan menjawab soalan-soalan yang disediakan.";
     questionTitle.style.textAlign = "center";
     questionTitle.style.marginTop = "35px";
     questionTitle.style.marginBottom = "10px";
@@ -229,7 +235,26 @@ function showIdInput() {
     inputField.placeholder = "Masukkan ID anda...";
     inputField.classList.add("custom-input");
 
-    if (currentUserId) inputField.value = currentUserId; // Auto-fill if ID exists
+
+    // Load userData from sessionStorage
+    const userData = JSON.parse(sessionStorage.getItem("userData") || "{}");
+    const autoId = userData.enumerator_code || "";  // Or fallback to userData.id or userData.name if needed
+
+    if (autoId) {
+        inputField.value = autoId;
+        inputField.readOnly = true; // Prevent user from editing the input
+        inputField.style.backgroundColor = "#f0f0f0";  // Light gray
+        inputField.style.cursor = "not-allowed"; 
+        inputField.style.display = "none";
+        currentUserId = autoId;
+        localStorage.setItem("currentUserId", currentUserId);
+    }
+
+    //if (currentUserId) inputField.value = currentUserId; // Auto-fill if ID exists
+    if (currentUserId) {
+    inputField.value = currentUserId;
+    updateTodayRespondentsDisplay();
+}
 
     const nextButton = document.createElement("button");
     nextButton.textContent = "Seterusnya";
@@ -245,17 +270,35 @@ function showIdInput() {
         }
 
         // Check if the entered code exists in the enumerator array
-        const userExists = enumerator.some(user => user.userID === kodInput);
+        //const userExists = enumerator.some(user => user.userID === kodInput);
 
-        if (!userExists) {
-            // alert("ID yang dimasukkan tidak wujud. Sila semak semula.");
-            showToast("Kod tidak dijumpai! Sila semak kembali.", "error");
-            return; // If user doesn't exist, show an alert and return
-        }
+        // if (!userExists) {
+        //     // alert("ID yang dimasukkan tidak wujud. Sila semak semula.");
+        //     showToast("Kod tidak dijumpai! Sila semak kembali.", "error");
+        //     return; // If user doesn't exist, show an alert and return
+        // }
 
         // If user exists, store ID and proceed
         currentUserId = kodInput;
         localStorage.setItem("currentUserId", currentUserId); // Store the ID in local storage
+        // updateTodayRespondentsDisplay();
+        
+
+        if (autoId) {
+        const userMessage = document.createElement("div");
+        userMessage.classList.add("message-bubble", "answer-bubble");
+        userMessage.innerHTML = `Anda: ${autoId}`;
+        messageView.appendChild(userMessage);
+
+        startSurvey();
+
+        setTimeout(() => {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+        }, 100);
+
+        return; // Exit the function to skip the manual input step
+    }
+
 
         // Show user input in message view
         const userMessage = document.createElement("div");
@@ -282,6 +325,10 @@ function showIdInput() {
         // Capture start time and store it as ISO string
         let startTime = new Date();  // Capture the current date and time
         localStorage.setItem("surveyStartTime", startTime.toISOString());  // Store it as an ISO string
+        document.getElementById("main-buttons-wrapper")?.remove();
+        document.getElementById("green-buttons-wrapper")?.remove();
+        document.getElementById("table-container")?.remove();
+
     }
 
     function showQuestion(index) { 
@@ -295,18 +342,19 @@ function showIdInput() {
         if (index >= surveyQuestions.length) {
             surveyContainer.innerHTML = "<h3>Terima kasih kerana menjawab kaji selidik ini!</h3>";
             saveSurveyResponses();
-            displayAllSurveyResponses(true); // Ensure the table appears
+            displayAllSurveyResponses(false); // Ensure the table appears
             return;
         }
     
         const question = surveyQuestions[index];
-        surveyContainer.innerHTML = ""; // Clear previous content
+        //surveyContainer.innerHTML = ""; // Clear previous content
 
         if (question.text && question.text.trim() !== "") {
         const questionBubble = document.createElement("div");
         questionBubble.classList.add("message-bubble", "question-bubble");
         questionBubble.innerHTML = `<strong>Tuan Awang:</strong> ${question.text}`;
         messageView.appendChild(questionBubble);
+        scrollToBottom();
     }
 
     
@@ -338,16 +386,16 @@ function showIdInput() {
         const questionDiv = document.createElement("div");
         questionDiv.classList.add("survey-question");
     
-        // Display the question image if it exists
-        if (question.picture?.trim()) {
-            const img = document.createElement("img");
-            Object.assign(img, {
-                src: question.picture,
-                alt: "IDS Logo",
-                style: "width:30%;display:block;margin:auto;margin-bottom:10px;margin-top:-40px;"
-            });
-            questionDiv.appendChild(img);
-        }
+        // // Display the question image if it exists
+        // if (question.picture?.trim()) {
+        //     const img = document.createElement("img");
+        //     Object.assign(img, {
+        //         src: question.picture,
+        //         alt: "IDS Logo",
+        //         style: "width:30%;display:block;margin:auto;margin-bottom:10px;margin-top:-40px;"
+        //     });
+        //     questionDiv.appendChild(img);
+        // }
     
         const textElement = document.createElement("p");
         textElement.textContent = question.text;
@@ -379,6 +427,8 @@ function showIdInput() {
             });
             surveyContainer.appendChild(backButton);
         }
+
+
 
         if (question.id === "mengundiAdun") {
             const currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
@@ -435,6 +485,27 @@ function showIdInput() {
     // surveyContainer.appendChild(questionDiv);
 }
 
+            if (question.id === "kerajaanSemasa") {
+                questionDiv.innerHTML = ""; // Clear existing content
+
+                const fallback = document.createElement("p");
+                fallback.innerHTML = `Kategori manakah kerajaan negeri <span style="color:#C9980B; font-weight:bold;">semasa</span> telah menambah baik kualiti kehidupan rakyat Sabah?`;
+                questionDiv.appendChild(fallback);
+            }
+
+
+            // if (question.id === "kerajaanSemasa"){
+            //     // questionDiv
+            //     // const text = document.createElement("p");
+            //     // text.innerHTML = `Kategori manakah kerajaan negeri <span style="color:gold; font-weight:bold;">semasa</span> telah menambah baik kualiti kehidupan rakyat Sabah?`;
+            //     // questionDiv.appendChild(text);
+
+
+            //     questionDiv.innerHTML = "";
+            //     const fallback = document.createElement("p");
+            //     fallback.textContent = "Kategori manakah kerajaan negeri <span style="color:gold; font-weight:bold;">semasa</span> telah menambah baik kualiti kehidupan rakyat Sabah?";
+            //     questionDiv.appendChild(fallback);
+            // }
 
             if (question.id === "mengundiAdun") {
                 const currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
@@ -448,15 +519,15 @@ function showIdInput() {
                 if (selectedDun && dunToAdun[selectedDun]) {
                     const adunInfo = dunToAdun[selectedDun];
 
-                    // questionDiv.innerHTML = "";
+                    questionDiv.innerHTML = "";
 
-                    // const adunImg = document.createElement("img");
-                    // adunImg.src = adunInfo.photo;
-                    // adunImg.alt = adunInfo.name;
-                    // adunImg.style.maxWidth = "300px";
-                    // adunImg.style.marginTop = "5px";
-                    // adunImg.style.borderRadius = "8px";
-                    // questionDiv.appendChild(adunImg);
+                    const adunImg = document.createElement("img");
+                    adunImg.src = adunInfo.photo;
+                    adunImg.alt = adunInfo.name;
+                    adunImg.style.maxWidth = "200px";
+                    adunImg.style.marginTop = "5px";
+                    adunImg.style.borderRadius = "8px";
+                    questionDiv.appendChild(adunImg);
 
                     const text = document.createElement("p");
                     text.innerHTML = `Adakah anda akan mengundi ADUN <strong>${adunInfo.name}</strong> dari parti <strong>${adunInfo.party}</strong>?`;
@@ -494,7 +565,177 @@ function showIdInput() {
         // Other code handling question rendering like age input, options buttons, etc.
         if (question.id === "umur") {
             showAgeInput(question.text, question.id, index + 1);
-        } else {
+        }
+
+
+        else if (question.type === "multiselect") {
+    const checkboxesDiv = document.createElement("div");
+    checkboxesDiv.classList.add("options-checkboxes");
+      
+
+    let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
+
+    if (!Array.isArray(currentSurvey.answers[question.id])) {
+        currentSurvey.answers[question.id] = [];
+    }
+
+    // Create the "Seterusnya" button
+    const nextButton = document.createElement("button");
+    nextButton.style.marginTop = "30px";
+    nextButton.textContent = "Seterusnya";
+    nextButton.classList.add("survey-option");
+    nextButton.disabled = true; // Disabled by default
+
+    nextButton.addEventListener("click", () => {
+        showQuestion(index + 1);
+    });
+
+    // Function to check if at least one checkbox is checked
+    function updateButtonState() {
+        const anyChecked = checkboxesDiv.querySelectorAll('input[type="checkbox"]:checked').length > 0;
+        nextButton.disabled = !anyChecked;
+    }
+
+    // Build checkboxes
+    question.options.forEach(option => {
+        const label = document.createElement("label");
+        label.classList.add("answer-option");
+
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.value = option.name;
+
+        input.checked = currentSurvey.answers[question.id].includes(option.name);
+
+        input.addEventListener("change", (e) => {
+            let updatedSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
+
+            if (!Array.isArray(updatedSurvey.answers[question.id])) {
+                updatedSurvey.answers[question.id] = [];
+            }
+
+            if (e.target.checked) {
+                if (!updatedSurvey.answers[question.id].includes(option.name)) {
+                    updatedSurvey.answers[question.id].push(option.name);
+                }
+            } else {
+                updatedSurvey.answers[question.id] = updatedSurvey.answers[question.id].filter(
+                    item => item !== option.name
+                );
+            }
+
+            localStorage.setItem("currentSurvey", JSON.stringify(updatedSurvey));
+
+            updateButtonState(); //Check after any change
+        });
+
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(option.name));
+        checkboxesDiv.appendChild(label);
+    });
+
+    // Call it once initially in case there's already a selection saved
+    updateButtonState();
+
+    surveyContainer.append(questionDiv, checkboxesDiv, nextButton);
+}
+
+
+
+//         else if (question.type === "multiselect") {
+//             const checkboxesDiv = document.createElement("div");
+//             checkboxesDiv.classList.add("options-checkboxes");
+
+//             let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
+
+// // Make sure it's always an array to begin with
+// if (!Array.isArray(currentSurvey.answers[question.id])) {
+//     currentSurvey.answers[question.id] = [];
+// }
+
+// question.options.forEach(option => {
+//     const label = document.createElement("label");
+//     label.classList.add("answer-option");
+
+//     const input = document.createElement("input");
+//     input.type = "checkbox";
+//     input.value = option.name;
+
+//     // Always get the current array from storage (prevents stale data)
+//     input.checked = currentSurvey.answers[question.id].includes(option.name);
+
+//     input.addEventListener("change", (e) => {
+//         let updatedSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
+
+//         if (!Array.isArray(updatedSurvey.answers[question.id])) {
+//             updatedSurvey.answers[question.id] = [];
+//         }
+
+//         if (e.target.checked) {
+//             if (!updatedSurvey.answers[question.id].includes(option.name)) {
+//                 updatedSurvey.answers[question.id].push(option.name);
+//             }
+//         } else {
+//             updatedSurvey.answers[question.id] = updatedSurvey.answers[question.id].filter(
+//                 item => item !== option.name
+//             );
+//         }
+
+//         localStorage.setItem("currentSurvey", JSON.stringify(updatedSurvey));
+//         console.log("Updated answers:", updatedSurvey.answers[question.id]);
+//     });
+
+//     label.appendChild(input);
+//     label.appendChild(document.createTextNode(option.name));
+//     checkboxesDiv.appendChild(label);
+// });
+
+
+//            // const currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
+
+//             // const selectedValues = currentSurvey.answers[question.id] || [];
+
+//             // question.options.forEach(option => {
+//             //     const label = document.createElement("label");
+//             //     label.classList.add("answer-option");
+
+//             //     const input = document.createElement("input");
+//             //     input.type = "checkbox";
+//             //     input.value = option.name;
+//             //     input.checked = selectedValues.includes(option.name);
+
+//             //     input.addEventListener("change", (e) => {
+//             //         const checked = e.target.checked;
+//             //         let updatedValues = [...selectedValues];
+
+//             //         if (checked) {
+//             //             updatedValues.push(option.name);
+//             //         } else {
+//             //             updatedValues = updatedValues.filter(item => item !== option.name);
+//             //         }
+
+//             //         currentSurvey.answers[question.id] = updatedValues;
+//             //         localStorage.setItem("currentSurvey", JSON.stringify(currentSurvey));
+//                 //});
+
+//                 // label.appendChild(input);
+//                 // label.appendChild(document.createTextNode(option.name));
+//                 // checkboxesDiv.appendChild(label);
+//             //});
+
+//             // Add a "Next" button to proceed
+//             const nextButton = document.createElement("button");
+//             nextButton.textContent = "Seterusnya";
+//             nextButton.classList.add("survey-option");
+//             nextButton.addEventListener("click", () => {
+//                 showQuestion(index + 1);
+//             });
+
+//             surveyContainer.append(questionDiv, checkboxesDiv, nextButton);
+//         }
+
+    
+        else {
             const optionsDiv = document.createElement("div");
             optionsDiv.classList.add("options-container");
     
@@ -524,6 +765,88 @@ function showIdInput() {
                     icon.style.fontSize = "20px";                    
                     button.appendChild(document.createTextNode("Mula Survey"));
                     button.appendChild(icon);
+
+
+                } else if (option.name === "Semua Yang Tertera") {
+                    button.style.backgroundColor = "#339A00";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Semua Yang Tertera";
+
+                } else if (option.name === "Tiada") {
+                    button.style.backgroundColor = "#ff0000ff";
+                    button.style.color = "#FFFFFF";
+                     button.innerHTML = "Tiada";
+
+                } else if (option.name === "Ya" && question.id === "mengundiAdun") {
+                    button.style.backgroundColor = "#339A00";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Ya";
+
+                }else if (option.name === "Tidak" && question.id === "mengundiAdun") {
+                    button.style.backgroundColor = "#ff0000ff";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Tidak";
+
+                }else if (option.name === "Ya" && question.id === "pilihanRaya") {
+                    button.style.backgroundColor = "#339A00";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Ya";
+
+                }else if (option.name === "Tidak" && question.id === "pilihanRaya") {
+                    button.style.backgroundColor = "#ff0000ff";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Tidak";
+
+                }else if (option.name === "Perempuan" && question.id === "jantina") {
+                    button.style.backgroundColor = "#ca0061ff";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Perempuan";
+
+                }else if (option.name === "Parti" && question.id === "mengundiBedasarkan") {
+                    button.style.backgroundColor = "#2563eb";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Parti";
+                
+                }else if (option.name === "Calon" && question.id === "mengundiBedasarkan") {
+                    button.style.backgroundColor = "#22c55e";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Calon";
+
+                }else if (option.name === "Isu" && question.id === "mengundiBedasarkan") {
+                    button.style.backgroundColor = "#f97316";
+                    button.style.color = "#000000";
+                    button.innerHTML = "Isu";
+
+                }else if (option.name === "Parti Lain" && question.id === "pemimpinSabah") {
+                    button.style.backgroundColor = "#2563eb";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Parti Lain";
+                
+                }else if (option.name === "Parti/Gabungan Lain" && question.id === "pemimpinSabah") {
+                    button.style.backgroundColor = "#475569";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Parti/Gabungan Lain";
+                                
+                }else if (option.name === "Tidak Pasti" && question.id === "pemimpinSabah") {
+                    button.style.backgroundColor = "#CBD5E1";
+                    button.style.color = "#000000";
+                    button.innerHTML = "Tidak Pasti";
+
+                }else if (option.name === "Iya, (isi kaji selidik yang baru)" && question.id === "isiBorangLagi") {
+                    button.style.backgroundColor = "#339A00";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Iya, (isi kaji selidik yang baru)";
+                    requestLocation();
+
+                }else if (option.name === "Tidak, (Sesi ditamatkan)" && question.id === "isiBorangLagi") {
+                    button.style.backgroundColor = "#ff0000ff";
+                    button.style.color = "#FFFFFF";
+                    button.innerHTML = "Tidak, (Sesi ditamatkan)";
+                }
+                else if (option.name === "Tidak Pasti" && question.id === "cenderungUntukUndi") {
+                    button.style.backgroundColor = "#CBD5E1";
+                    button.style.color = "#000000";
+                    button.innerHTML = "Tidak Pasti";
                 }
                 else {
                     button.textContent = option.name || option.code;
@@ -567,24 +890,35 @@ function showIdInput() {
         localStorage.setItem('totalRespondents', totalRespondents);
     }
 
-    function updateTodayRespondentsDisplay() {
-    const todayDate = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
-    const todayCount = parseInt(localStorage.getItem(`respondents_${todayDate}`)) || 0;
+async function updateTodayRespondentsDisplay() {
+    const kod = localStorage.getItem("currentUserId");
+    if (!kod) return;
 
-    // Format date to readable format (e.g., 22 Sep 2025)
-    const readableDate = new Date().toLocaleDateString('ms-MY', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric'
-    });
+    const todayDate = getFormattedTodayDate(); // DD/MM/YYYY
 
-    // Update the display
-    const displayElement = document.getElementById("todayRespondents");
-    if (displayElement) {
-        displayElement.innerHTML = `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${todayCount} Responden</span>`;
+    try {
+        const response = await fetch(`https://atiqahst-github-io.onrender.com/respondents/count?kod=${kod}&date=${todayDate}`);
+        if (!response.ok) throw new Error("Failed to fetch count");
+
+        const data = await response.json();
+        const count = data.count || 0;
+
+        const readableDate = new Date().toLocaleDateString('ms-MY', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+
+        document.getElementById("todayRespondents").innerHTML = 
+            `Dikemaskini setakat (${readableDate}) - <span style="color: #007BFF; font-weight: bold;">${count} Responden</span>`;
+
+    } catch (err) {
+        console.error("Error fetching respondents count:", err);
     }
 }
 
+// Update the UI on page load
+document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
 
 
     function handleOptionClick(question, option, index) {
@@ -598,18 +932,29 @@ function showIdInput() {
         // Get the current date in 'YYYY-MM-DD' format for storage
         const currentDate = new Date().toISOString().split('T')[0]; // Format as 'YYYY-MM-DD'
     
-        if(option.name === "Lain - Lain") {
-            if (question.id == "partiNasional" || question.id == "partiTempatan"){
-                showQuestion(index + 1);
-                handleAnswer(question.id, option);
 
-            }
-            else{
-            showInputField(question.text, question.id, index + 1);
-            }
+        //This applies for any question that has the "Lain - Lain" option.
+        // if(option.name === "Lain - Lain") {
+
+        //     if (question.id == "partiNasional" || question.id == "partiTempatan"){
+        //         showQuestion(index + 1);
+        //         handleAnswer(question.id, option);
+
+        //     }
+        //     else{
+        //     showInputField(question.text, question.id, index + 1);
+        //     }
+        // }
+
+        if (question.id === "bangsa" && option.name === "Lain - Lain"){
+            showBangsaLainInput(question.text, question.id, index + 1);
+        }
+
+        else if (question.id === "mengundiAdun" && option.name === "Tidak Pasti"){
+            showAdunLainInput(question.text, question.id, index + 1);
         }
       
-        else if (question.id === "zone") {
+        else if (question.id === "zon") {
          handleAnswer(question.id, option);
     
         const parlimenQuestion = surveyQuestions.find(q => q.id === "parlimen");
@@ -635,6 +980,7 @@ function showIdInput() {
             // When the user chooses to redo the survey, do not reset the total respondents.
             saveSurveyResponses();
             incrementRespondentCount();
+            requestLocation();
     
             // Set the start time for the new survey
             let newStartTime = new Date();
@@ -654,6 +1000,9 @@ function showIdInput() {
             showQuestion(currentQuestionIndex);
     
         } else if (option.name.toLowerCase() === "tidak, (sesi ditamatkan)") {
+
+            localStorage.setItem("surveyCompleted", "true");
+
             // When the user finishes the survey, properly increment and show the count.
             saveSurveyResponses();
             
@@ -845,12 +1194,12 @@ function showIdInput() {
             }
         });
     
-        // Add "Previous" button to return to zone selection
+        // Add "Previous" button to return to zoe selection
         const backButton = document.createElement("button");
         backButton.innerHTML = `<i class="fas fa-arrow-left" style="color: black; margin-right: 5px;"></i> Kembali`;
         backButton.classList.add("previous-button");
         backButton.addEventListener("click", () => {
-            showQuestion(nextIndex - 1); // Go back to Zone selection
+            showQuestion(nextIndex - 1); // Go back to Zon selection
         });
     
         surveyContainer.append(questionTitle, inputField, nextButton, backButton);
@@ -899,12 +1248,12 @@ function showFilteredParliments(parlimen, nextIndex) {
         surveyContainer.appendChild(button);
     });
 
-    // Add "Previous" button to return to zone selection
+    // Add "Previous" button to return to zon selection
     const backButton = document.createElement("button");
     backButton.innerHTML = `<i class="fas fa-arrow-left" style="color: black; margin-right: 5px;"></i> Kembali`;
     backButton.classList.add("previous-button");
     backButton.addEventListener("click", () => {
-        showQuestion(1); // Go back to Zone selection
+        showQuestion(1); // Go back to Zon selection
     });
     surveyContainer.appendChild(backButton);
 }
@@ -1053,6 +1402,288 @@ function showFilteredParliments(parlimen, nextIndex) {
     surveyContainer.append(questionTitle, inputField, submitButton, backButton);
 }
 
+
+function showBangsaLainInput(questionText, questionId, nextIndex) {
+    const messageView = document.getElementById("message-view");
+
+    // Ensure the question bubble is added to messageView only once
+    if (!document.querySelector(`.question-bubble-${questionId}`)) {
+        const questionBubble = document.createElement("div");
+        questionBubble.classList.add("message-bubble", "question-bubble", `question-bubble-${questionId}`, "answer-Bubble");
+        questionBubble.textContent = questionText;
+        messageView.appendChild(questionBubble);
+    }
+
+    // Clear previous content
+    surveyContainer.innerHTML = "";
+
+    // Create and show the prompt above the input field
+    const instructionText = document.createElement("p");
+    instructionText.textContent = "Sila nyatakan bangsa anda";
+    instructionText.style.fontWeight = "bold";
+    instructionText.style.textAlign = "center";
+    instructionText.style.marginBottom = "30px";
+
+    // Create question title (optional)
+    // const questionTitle = document.createElement("p");
+    // questionTitle.textContent = questionText;
+    // questionTitle.style.textAlign = "center";
+    // questionTitle.style.marginTop = "20px";
+    // questionTitle.style.marginBottom = "20px";
+
+    const inputField = document.createElement("input");
+    inputField.type = "text";
+    inputField.style.width = "50%";
+    inputField.style.borderRadius = "20px";
+    inputField.style.padding = "10px";
+    inputField.style.marginBottom = "10px";
+    inputField.placeholder = "Taip mesej anda...";
+    inputField.classList.add("custom-input");
+
+    const submitButton = document.createElement("button");
+    submitButton.textContent = "Seterusnya";
+    submitButton.classList.add("submit-button");
+
+    submitButton.addEventListener("click", () => {
+    const userInput = inputField.value.trim();
+
+    // If field is empty, show toast and stop execution
+    if (!userInput) {
+        showToast("Sila masukkan bangsa anda sebelum meneruskan.", "error");
+        return; // Stop here so it doesn't continue
+    }
+
+
+    // Always store 'Lain - Lain' in bangsa
+    const answerData = {
+        name: "Lain - Lain"
+    };
+
+    // If user typed something, also store it in bangsalain
+    if (userInput) {
+        answerData.bangsalain = userInput;
+    }
+
+    // Save both (or just one) depending on user input
+    handleAnswer(questionId, answerData);
+
+    // Remove previous answer bubbles (if any)
+    // document.querySelectorAll(".answer-bubble").forEach(el => el.remove());
+
+    // Show what the user entered or "Lain - Lain"
+    const userMessage = document.createElement("div");
+    userMessage.classList.add("message-bubble", "answer-bubble");
+    userMessage.innerHTML = `Anda: ${userInput || "Lain - Lain"}`;
+    messageView.appendChild(userMessage);
+
+    // Go to next question
+    showQuestion(nextIndex);
+});
+    // submitButton.addEventListener("click", () => {
+    //     const userInput = inputField.value.trim();
+
+    // //     if (!userInput) {
+    // //         showToast("Sila masukkan nama calon dan parti pilihan anda.", "error");
+    // //     } else {
+    // //         handleAnswer(questionId, { calon: userInput });
+
+    // //         document.querySelectorAll(".answer-bubble").forEach(el => el.remove());
+
+    // //         const userMessage = document.createElement("div");
+    // //         userMessage.classList.add("message-bubble", "answer-bubble");
+    // //         userMessage.innerHTML = `Anda: ${userInput}`;
+    // //         messageView.appendChild(userMessage);
+
+    // //         showQuestion(nextIndex);
+    // //     }
+    // // });
+
+    const backButton = document.createElement("button");
+    backButton.innerHTML = `<i class="fas fa-arrow-left" style="color: black; margin-right: 5px;"></i> Kembali`;
+    backButton.classList.add("previous-button", "survey-option");
+
+    backButton.addEventListener("click", () => {
+        const backBubble = document.createElement("div");
+        backBubble.classList.add("previousQuestion-bubble");
+        backBubble.innerHTML = `----- Kembali ke soalan sebelumnya. -----`;
+        messageView.appendChild(backBubble);
+
+        setTimeout(() => {
+            showQuestion(3);
+        }, 1000);
+    });
+    // Append everything in correct order
+    surveyContainer.append(instructionText, inputField, submitButton, backButton);
+}
+
+
+function showAdunLainInput(questionText, questionId, nextIndex) {
+    const messageView = document.getElementById("message-view");
+
+    // Ensure the question bubble is added to messageView only once
+    if (!document.querySelector(`.question-bubble-${questionId}`)) {
+        const questionBubble = document.createElement("div");
+        questionBubble.classList.add("message-bubble", "question-bubble", `question-bubble-${questionId}`, "answer-Bubble");
+        questionBubble.textContent = questionText;
+        messageView.appendChild(questionBubble);
+    }
+
+    // Clear previous input form (but NOT messages)
+    surveyContainer.innerHTML = "";
+
+    // Instruction text
+    const instructionText = document.createElement("p");
+    instructionText.textContent = "Siapakah calon pilihan anda untuk menjadi ADUN, dan dari parti manakah beliau?";
+    instructionText.style.fontWeight = "bold";
+    instructionText.style.textAlign = "center";
+    instructionText.style.marginBottom = "30px";
+
+    // Question title (optional)
+    const questionTitle = document.createElement("p");
+    questionTitle.textContent = questionText;
+    questionTitle.style.textAlign = "center";
+    questionTitle.style.marginTop = "20px"; 
+    questionTitle.style.marginBottom = "20px";
+
+    // Input field
+    const inputField = document.createElement("input");
+    inputField.type = "text";
+    inputField.style.width = "50%";
+    inputField.style.borderRadius = "20px";
+    inputField.style.padding = "10px";
+    inputField.style.marginBottom = "10px";
+    inputField.placeholder = "Contoh: Ali Bin Abu - Parti Contoh";
+    inputField.classList.add("custom-input");
+
+    // Submit button
+    const submitButton = document.createElement("button");
+    submitButton.textContent = "Seterusnya";
+    submitButton.classList.add("submit-button");
+
+    submitButton.addEventListener("click", () => {
+        const userInput = inputField.value.trim();
+
+        if (!userInput) {
+            showToast("Sila masukkan nama calon dan parti sebelum meneruskan.", "error");
+            return;
+        }
+
+        // Always store 'Tidak pasti'
+        const answerData = { name: "Tidak pasti" };
+        if (userInput) answerData.mengundiAdunLain = userInput;
+
+        handleAnswer(questionId, answerData);
+
+        // Show user's answer without removing previous bubbles
+        const userMessage = document.createElement("div");
+        userMessage.classList.add("message-bubble", "answer-bubble");
+        userMessage.innerHTML = `Anda: ${userInput || "Tidak pasti"}`;
+        messageView.appendChild(userMessage);
+
+        showQuestion(nextIndex);
+    });
+
+    // Back button
+    const backButton = document.createElement("button");
+    backButton.innerHTML = `<i class="fas fa-arrow-left" style="color: black; margin-right: 5px;"></i> Kembali`;
+    backButton.classList.add("previous-button", "survey-option");
+
+    backButton.addEventListener("click", () => {
+        const backBubble = document.createElement("div");
+        backBubble.classList.add("previousQuestion-bubble");
+        backBubble.innerHTML = `----- Kembali ke soalan sebelumnya. -----`;
+        messageView.appendChild(backBubble);
+
+        setTimeout(() => {
+            showQuestion(3);
+        }, 1000);
+    });
+
+    // Append everything to surveyContainer (not messageView)
+    surveyContainer.append(instructionText, questionTitle, inputField, submitButton, backButton);
+}
+
+
+
+// function showAdunLainInput(questionText, questionId, nextIndex) {
+//     const messageView = document.getElementById("message-view");
+//     surveyContainer.innerHTML = "Siapakah calon pilihan anda untuk menjadi ADUN, dan dari parti manakah beliau?";
+
+//     // Ensure the question is added only ONCE to the message view
+//     //if (!document.querySelector(".question-bubble")) {
+//         const questionBubble = document.createElement("div");
+//         questionBubble.classList.add("message-bubble", "question-bubble", "answer-Bubble"); // Removed age-question class
+//         questionBubble.textContent = questionText;
+//         messageView.appendChild(questionBubble);
+//     //}
+
+//     // Clear and recreate question + input UI
+//     surveyContainer.innerHTML = "";
+
+//     const questionTitle = document.createElement("p");
+//     questionTitle.textContent = questionText;
+//     questionTitle.style.textAlign = "center";
+//     questionTitle.style.marginTop = "50px";
+//     questionTitle.style.marginBottom = "50px";
+
+//     const inputField = document.createElement("input");
+//     inputField.type = "text";
+//     inputField.style.width = "50%";
+//     inputField.style.borderRadius = "20px";
+//     inputField.style.padding = "10px";
+//     inputField.style.marginBottom = "10px";
+//     inputField.placeholder = "Contoh: Ali Bin Abu - Parti Contoh";
+//     inputField.classList.add("custom-input");
+
+//     const submitButton = document.createElement("button");
+//     submitButton.textContent = "Seterusnya";
+//     submitButton.classList.add("submit-button");
+
+//     submitButton.addEventListener("click", () => {
+//         const userInput = inputField.value.trim();
+
+//         if (!userInput) {
+//             showToast("Sila masukkan nama calon dan parti pilihan anda.", "error");
+//         } else {
+//             // Store the answer
+//             handleAnswer(questionId, { calon: userInput });
+
+//             // Remove previous answer bubbles (if any)
+//             document.querySelectorAll(".answer-bubble").forEach(el => el.remove());
+
+//             // Show user input in message view
+//             const userMessage = document.createElement("div");
+//             userMessage.classList.add("message-bubble", "answer-bubble");
+//             userMessage.innerHTML = `Anda: ${userInput}`;
+//             messageView.appendChild(userMessage);
+
+//             // Proceed to next question
+//             showQuestion(nextIndex);
+//         }
+//     });
+
+//     // Back button
+//     const backButton = document.createElement("button");
+//     backButton.innerHTML = `<i class="fas fa-arrow-left" style="color: black; margin-right: 5px;"></i> Kembali`;
+//     backButton.classList.add("previous-button", "survey-option");
+
+//     backButton.addEventListener("click", () => {
+//         const backBubble = document.createElement("div");
+//         backBubble.classList.add("previousQuestion-bubble");
+//         backBubble.innerHTML = `----- Kembali ke soalan sebelumnya. -----`;
+//         messageView.appendChild(backBubble);
+
+//         setTimeout(() => {
+//             showQuestion(3);
+//         }, 1000);
+//     });
+
+//     // Append everything
+//     surveyContainer.append(questionTitle, inputField, submitButton, backButton);
+// }
+
+
+
     //     // Add "Back" button
     //     const backButton = document.createElement("button");
     //     backButton.innerHTML = `<i class="fas fa-arrow-left" style="color: black; margin-right: 5px;"></i> Kembali`;
@@ -1066,24 +1697,53 @@ function showFilteredParliments(parlimen, nextIndex) {
     //     surveyContainer.append(questionTitle, inputField, submitButton, backButton);
     // }
 
-    function handleAnswer(questionId, selectedOption) {
-        let survey = JSON.parse(localStorage.getItem("currentSurvey")) || { userId: Date.now(), answers: {} };
-            // Get current date and time in "DD/MM/YYYY HH:MM:SS" format
-            survey.answers["date"] = new Date().toLocaleString("en-GB", { 
-                day: '2-digit', 
-                month: '2-digit', 
-                year: 'numeric', 
-            }).toUpperCase();//Make am/pm Capital Letters
-        survey.answers[questionId] = selectedOption.name || selectedOption.code;
+    // function handleAnswer(questionId, selectedOption) {
+    //     let survey = JSON.parse(localStorage.getItem("currentSurvey")) || { userId: Date.now(), answers: {} };
+    //         // Get current date and time in "DD/MM/YYYY HH:MM:SS" format
+    //         survey.answers["date"] = new Date().toLocaleString("en-GB", { 
+    //             day: '2-digit', 
+    //             month: '2-digit', 
+    //             year: 'numeric', 
+    //         }).toUpperCase();//Make am/pm Capital Letters
+    //     survey.answers[questionId] = selectedOption.name || selectedOption.code;
 
-        localStorage.setItem("currentSurvey", JSON.stringify(survey));
+    //     localStorage.setItem("currentSurvey", JSON.stringify(survey));
+    // }
+
+
+function handleAnswer(questionId, selectedOption) {
+    let survey = JSON.parse(localStorage.getItem("currentSurvey")) || { userId: Date.now(), answers: {} };
+
+    survey.answers["date"] = new Date().toLocaleString("en-GB", { 
+        day: '2-digit', 
+        month: '2-digit', 
+        year: 'numeric', 
+    }).toUpperCase();
+
+    // Always set main answer using selectedOption.name or fallback to string
+    if (typeof selectedOption === 'object' && selectedOption !== null) {
+        survey.answers[questionId] = selectedOption.name || "";
+        if ('mengundiAdunLain' in selectedOption) {
+            survey.answers.mengundiAdunLain = selectedOption.mengundiAdunLain;
+        }
+        if ('bangsalain' in selectedOption) {
+            survey.answers.bangsalain = selectedOption.bangsalain;
+        }
+    } else {
+        survey.answers[questionId] = selectedOption;
     }
 
+    localStorage.setItem("currentSurvey", JSON.stringify(survey));
+}
 
     function saveSurveyResponses() {
-    let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
-    let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey"));
     let userid = localStorage.getItem("currentUserId");
+    let storageKey = `allSurveyResponses_${userid}`;
+    let allSurveys = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+    //let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    let currentSurvey = JSON.parse(localStorage.getItem("currentSurvey"));
+    //let userid = localStorage.getItem("currentUserId");
 
     let startTime = new Date(localStorage.getItem("surveyStartTime"));
     if (isNaN(startTime)) {
@@ -1102,29 +1762,47 @@ function showFilteredParliments(parlimen, nextIndex) {
     // Generate a truly unique ID
     const uniqueId = generateUniqueId(existingIds);
 
+
+
     if (currentSurvey) {
+        const lastLocation = JSON.parse(localStorage.getItem("lastKnownLocation")) || {};
+         
         let formattedSurvey = {
             tarikh: currentSurvey.answers.date || "-",
+            responseid: uniqueId,
             kod: userid || "-",
-            zone: currentSurvey.answers.zone || "-",
+            zon: currentSurvey.answers.zon || "-",
             dun: currentSurvey.answers.dun || "-",
             umur: currentSurvey.answers.umur ? String(currentSurvey.answers.umur) : "-",
             jantina: currentSurvey.answers.jantina || "-",
             bangsa: currentSurvey.answers.bangsa || "-",
-            bangsalain: "",
+            bangsalain: currentSurvey.answers.bangsalain,
+            mengundiBedasarkan: currentSurvey.answers.mengundiBedasarkan || "-",
+            //kerajaansemasa : currentSurvey.answers.kerajaanSemasa || "-",
+            // mempengaruhiundian : currentSurvey.answers.mempengaruhiUndian || "-",
+            // mempengaruhiundian: Array.isArray(currentSurvey.answers.mempengaruhiUndian)
+            // ? currentSurvey.answers.mempengaruhiUndian.join(", ")
+            // : currentSurvey.answers.mempengaruhiUndian || "-",
+            // pilihanRaya : currentSurvey.answers.pilihanRaya || "-",
             parlimen : currentSurvey.answers.parlimen || "-",
+            cenderunguntukundi : currentSurvey.answers.cenderungUntukUndi || "-",
             mengundiAdun: currentSurvey.answers.mengundiAdun || "-",
+            mengundiAdunLain : currentSurvey.answers.mengundiAdunLain || "-",
+            
             pemimpinsabah: currentSurvey.answers.pemimpinSabah || "-",
-            pemimpinsabahlain: "",
-            isiboranglagi: currentSurvey.answers.isiBorangLagi || "-",
-            responseid: uniqueId,
+            //pemimpinsabahlain: currentSurvey.answers.pemimpinsabahlain || "-",
+            //isiboranglagi: currentSurvey.answers.isiBorangLagi || "-",
+            lokasi: currentSurvey.answers.locationName || lastLocation.lastLocation || "-",
+            latitude: currentSurvey.answers.latitude ?? lastLocation.latitude ?? null,
+            longitude: currentSurvey.answers.longitude ?? lastLocation.longitude ?? null,
             starttime: formattedStartTime,
             endtime: formattedEndTime,
             pushed: false
         };
-
         allSurveys.push(formattedSurvey);
-        localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+        //localStorage.setItem("allSurveyResponses", JSON.stringify(allSurveys));
+        localStorage.setItem(storageKey, JSON.stringify(allSurveys));
+
     }
 
     localStorage.removeItem("currentSurvey");
@@ -1143,6 +1821,11 @@ function generateUniqueId(existingIds) {
 
 //Displaying all the survey respondents once all questions has been answered.. 
 function displayAllSurveyResponses(hideTable = false) {
+
+    const surveyCompleted = localStorage.getItem("surveyCompleted") === "true";
+    console.log("displayAllSurveyResponses() called | surveyCompleted:", surveyCompleted);
+    if (!surveyCompleted) return;
+
     // ✅ Always check current screen size every time we rebuild
     const isMobileView = window.innerWidth < 800; // or 1000px if you prefer
     isTableVisible = !hideTable;
@@ -1155,8 +1838,19 @@ function displayAllSurveyResponses(hideTable = false) {
     document.getElementById("green-buttons-wrapper")?.remove();
 
     // Get all surveys
-    let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
-    allSurveys = allSurveys.map(survey => survey.answers ? survey.answers : survey);
+    // let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    let userid = localStorage.getItem("currentUserId");
+    let storageKey = `allSurveyResponses_${userid}`;
+    let allSurveys = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+    //allSurveys = allSurveys.map(survey => survey.answers ? survey.answers : survey);
+
+    allSurveys = allSurveys.map(survey =>
+    survey.answers
+        ? { ...survey.answers, responseid: survey.responseid }
+        : survey
+);
+
 
     // ===== Main Buttons (Red, Blue, ToggleView) =====
     const mainButtonsWrapper = document.createElement("div");
@@ -1214,51 +1908,123 @@ function displayAllSurveyResponses(hideTable = false) {
     const surveyView = document.getElementById("survey-container");
     const surveyQuestions = document.querySelectorAll(".survey-question");
 
-    let showingSurvey = true;
+    // let showingSurvey = true;
 
-if (isMobileView) {
-    // Mobile layout: Only show survey view initially
-    messageView.style.display = "none";
-    surveyView.style.display = "block";
-    toggleViewButton.style.display = "inline-block";
-    resetSurveyButton.style.display = "inline-block";
-    toggleButton.style.display = "inline-block";
-    surveyQuestions.forEach(q => q.style.display = "block");
-} else {
-    // Desktop layout: Always show everything
-    messageView.style.display = "block";
-    surveyView.style.display = "block";
-    toggleViewButton.style.display = "none"; // Hide this in desktop
-    resetSurveyButton.style.display = "inline-block";
-    toggleButton.style.display = "inline-block";
-    surveyQuestions.forEach(q => q.style.display = "block");
-}
+
+// if (isMobileView) {
+//     // Mobile layout: Only show survey view initially
+//     messageView.style.display = "none";
+//     surveyView.style.display = "block";
+//     toggleViewButton.style.display = "inline-block";
+//     resetSurveyButton.style.display = "inline-block";
+//     toggleButton.style.display = "inline-block";
+//     surveyQuestions.forEach(q => q.style.display = "block");
+// } else {
+//     // Desktop layout: Always show everything
+//     messageView.style.display = "block";
+//     surveyView.style.display = "block";
+//     toggleViewButton.style.display = "none"; // Hide this in desktop
+//     resetSurveyButton.style.display = "inline-block";
+//     toggleButton.style.display = "inline-block";
+//     surveyQuestions.forEach(q => q.style.display = "block");
+// }
+
+// Always show both survey and message views
+messageView.style.display = "block";
+surveyView.style.display = "block";
+
+// Hide toggleViewButton because toggle no longer needed
+toggleViewButton.style.display = "none";
+
+resetSurveyButton.style.display = "inline-block";
+toggleButton.style.display = "inline-block";
+
+surveyQuestions.forEach(q => q.style.display = "block");
+
 
 
     // Toggle logic for mobile
-    toggleViewButton.onclick = () => {
-        if (!isMobileView) return;
 
-        if (showingSurvey) {
-            surveyView.style.display = "none";
-            messageView.style.display = "block";
-            resetSurveyButton.style.display = "none";
-            toggleButton.style.display = "none";
-            surveyQuestions.forEach(q => q.style.display = "none");
+// toggleViewButton.onclick = () => {
+//     if (!window.matchMedia("(max-width: 800px)").matches) return;
 
-            toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right:5px;"></i> Tutup Kaji Selidik`;
-        } else {
-            surveyView.style.display = "block";
-            messageView.style.display = "none";
-            resetSurveyButton.style.display = "inline-block";
-            toggleButton.style.display = "inline-block";
-            surveyQuestions.forEach(q => q.style.display = "block");
+//     showingSurvey = !showingSurvey;
+    
 
-            toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right:5px;"></i> Papar Kaji Selidik`;
-        }
+//     if (showingSurvey) {
+//         surveyView.style.display = "block";
+//         messageView.style.display = "none";
+//         resetSurveyButton.style.display = "inline-block";
+//         toggleButton.style.display = "inline-block";
+//         toggleViewButton.style.display = "inline-block"; // ensure it's visible
+//         surveyQuestions.forEach(q => q.style.display = "block");
 
-        showingSurvey = !showingSurvey;
-    };
+//         toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right:5px;"></i> Tutup Kaji Selidik`;
+//     } else {
+//         surveyView.style.display = "none";
+//         messageView.style.display = "block";
+//         resetSurveyButton.style.display = "none";
+//         toggleButton.style.display = "none";
+//         toggleViewButton.style.display = "inline-block"; // ensure it's visible
+//         surveyQuestions.forEach(q => q.style.display = "none");
+
+//         toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right:5px;"></i> Papar Kaji Selidik`;
+//     }
+// };
+
+
+// toggleViewButton.onclick = () => {
+//     if (!window.matchMedia("(max-width: 800px)").matches) return;
+
+//     if (showingSurvey) {
+//         // HIDE survey view
+//         surveyView.style.display = "none";
+//         messageView.style.display = "block";
+//         resetSurveyButton.style.display = "none";
+//         toggleButton.style.display = "none";
+//         surveyQuestions.forEach(q => q.style.display = "none");
+
+//         // Now it's hidden, offer to SHOW again
+//         toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right:5px;"></i> Papar Kaji Selidik`;
+//     } else {
+//         // SHOW survey view again
+//         surveyView.style.display = "block";
+//         messageView.style.display = "none";
+//         resetSurveyButton.style.display = "inline-block";
+//         toggleButton.style.display = "inline-block";
+//         surveyQuestions.forEach(q => q.style.display = "block");
+
+//         // Now it's visible, offer to CLOSE it
+//         toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right:5px;"></i> Tutup Kaji Selidik`;
+//     }
+
+//     showingSurvey = !showingSurvey;
+// };
+
+
+    // toggleViewButton.onclick = () => {
+    //     if (!isMobileView) return;
+
+    //     if (showingSurvey) {
+    //         surveyView.style.display = "none";
+    //         messageView.style.display = "block";
+    //         resetSurveyButton.style.display = "none";
+    //         toggleButton.style.display = "none";
+    //         surveyQuestions.forEach(q => q.style.display = "none");
+
+    //         toggleViewButton.innerHTML = `<i class="fas fa-eye-slash" style="margin-right:5px;"></i> Tutup Kaji Selidik`;
+    //     } else {
+    //         surveyView.style.display = "block";
+    //         messageView.style.display = "none";
+    //         resetSurveyButton.style.display = "inline-block";
+    //         toggleButton.style.display = "inline-block";
+    //         surveyQuestions.forEach(q => q.style.display = "block");
+
+    //         toggleViewButton.innerHTML = `<i class="fas fa-eye" style="margin-right:5px;"></i> Papar Kaji Selidik`;
+    //     }
+
+    //     showingSurvey = !showingSurvey;
+    // };
 
     // ===== Table =====
     const tableDiv = document.createElement("div");
@@ -1350,15 +2116,26 @@ if (isMobileView) {
 window.redoSurvey = redoSurvey;
 window.pushToDatabaseButton = pushToDatabaseButton;
 window.downloadInExcelDoc = downloadInExcelDoc;
-
 window.deleteSurveyResponse = (responseId) => {
-    let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
-    allSurveys = allSurveys.map(survey => survey.answers ? survey : { responseid: survey.responseid, answers: survey });
+    if (!responseId) return; // optional defensive check
+
+    let userid = localStorage.getItem("currentUserId");
+    let storageKey = `allSurveyResponses_${userid}`;
+    let allSurveys = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+    allSurveys = allSurveys.map(survey =>
+        survey.answers
+            ? { ...survey.answers, responseid: survey.responseid }
+            : survey
+    );
+
     const updatedSurveys = allSurveys.filter(survey => survey.responseid !== responseId);
-    localStorage.setItem("allSurveyResponses", JSON.stringify(updatedSurveys));
+    localStorage.setItem(storageKey, JSON.stringify(updatedSurveys));
+
     displayAllSurveyResponses(false);
 };
 
+let showingSurvey = localStorage.getItem("showingSurvey") === "true";
 let isTableVisible = true;
 let previousIsMobile = window.innerWidth < 800;
 
@@ -1367,7 +2144,11 @@ window.addEventListener("resize", () => {
     const currentIsMobile = window.innerWidth < 800;
     if (currentIsMobile !== previousIsMobile) {
         previousIsMobile = currentIsMobile;
-        displayAllSurveyResponses(!isTableVisible);
+
+        const surveyCompleted = localStorage.getItem("surveyCompleted") === "true";
+        if (surveyCompleted) {
+            displayAllSurveyResponses(!isTableVisible);
+        }
     }
 });
 
@@ -1480,7 +2261,6 @@ window.addEventListener("resize", () => {
 
 //     showingSurvey = !showingSurvey;
 // };
-
 
 //     mainButtonsWrapper.appendChild(resetSurveyButton);
 //     mainButtonsWrapper.appendChild(toggleButton);
@@ -1616,17 +2396,55 @@ window.addEventListener("resize", () => {
 
 
 //FUNCTION : ONCE THE SURVEY ANSWERS ARE STORED IN THE LOCAL DATABASE, BY CLICK THE "SIMPAN DATA" BUTTON, IT WILL PUSH TO THE ACTUAL DATABASE
+// function pushToDatabaseButton() {
+//     // Only handle pushing logic — no button creation here
+//     let allResponses = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+//     let pushedIds = JSON.parse(localStorage.getItem("pushedRespondentIds")) || [];
+
+//     // Filter only responses not pushed yet
+//     const unpushedResponses = allResponses.filter(r => !pushedIds.includes(r.responseid));
+//     showToast("Sedang menghantar data ke pangkalan data...", "success");
+
+//     if (unpushedResponses.length === 0) {
+//         //("Tiada data baru untuk dihantar.");
+//         showToast("Tiada data baru untuk dihantar", "error");
+//         return;
+//     }
+
+//     sendDataToBackend(unpushedResponses)
+//         .then(() => {
+//             // Mark as pushed
+//             pushedIds = pushedIds.concat(unpushedResponses.map(r => r.responseid));
+//             localStorage.setItem("pushedRespondentIds", JSON.stringify(pushedIds));
+
+//             // Remove pushed surveys from allSurveyResponses
+//             allResponses = allResponses.filter(r => !pushedIds.includes(r.responseid));
+//             localStorage.setItem("allSurveyResponses", JSON.stringify(allResponses));
+
+//             updateConfirmedRespondentCount(unpushedResponses.length);
+
+//             // alert("Data berjaya dihantar ke pangkalan data.");
+//             document.getElementById("saveDatabaseModal").style.display = "block";
+//             document.getElementById("table-container").innerHTML = '';
+//         })
+//         .catch(error => {
+//             document.getElementById("errorDatabaseModal").style.display = "block";
+//             // alert("Ralat semasa menghantar data.");
+//             console.error("Send to backend failed:", error);
+//         });
+// }
+
 function pushToDatabaseButton() {
-    // Only handle pushing logic — no button creation here
-    let allResponses = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    const userid = localStorage.getItem("currentUserId");
+    const storageKey = `allSurveyResponses_${userid}`;
+    let allResponses = JSON.parse(localStorage.getItem(storageKey)) || [];
     let pushedIds = JSON.parse(localStorage.getItem("pushedRespondentIds")) || [];
 
-    // Filter only responses not pushed yet
+    // Filter responses not yet pushed
     const unpushedResponses = allResponses.filter(r => !pushedIds.includes(r.responseid));
     showToast("Sedang menghantar data ke pangkalan data...", "success");
 
     if (unpushedResponses.length === 0) {
-        //("Tiada data baru untuk dihantar.");
         showToast("Tiada data baru untuk dihantar", "error");
         return;
     }
@@ -1637,48 +2455,167 @@ function pushToDatabaseButton() {
             pushedIds = pushedIds.concat(unpushedResponses.map(r => r.responseid));
             localStorage.setItem("pushedRespondentIds", JSON.stringify(pushedIds));
 
-            // Remove pushed surveys from allSurveyResponses
+            // Optional: remove pushed responses from local storage
             allResponses = allResponses.filter(r => !pushedIds.includes(r.responseid));
-            localStorage.setItem("allSurveyResponses", JSON.stringify(allResponses));
+            localStorage.setItem(storageKey, JSON.stringify(allResponses));
 
-            updateConfirmedRespondentCount(unpushedResponses.length);
+            // Update count in UI
+            updateTodayRespondentsDisplay();
 
-            // alert("Data berjaya dihantar ke pangkalan data.");
+            // Show success modal
             document.getElementById("saveDatabaseModal").style.display = "block";
             document.getElementById("table-container").innerHTML = '';
         })
         .catch(error => {
             document.getElementById("errorDatabaseModal").style.display = "block";
-            // alert("Ralat semasa menghantar data.");
             console.error("Send to backend failed:", error);
         });
 }
 
+// function pushToDatabaseButton() {
+//     const userid = localStorage.getItem("currentUserId");
+//     const storageKey = `allSurveyResponses_${userid}`;
+//     let allResponses = JSON.parse(localStorage.getItem(storageKey)) || [];
+//     let pushedIds = JSON.parse(localStorage.getItem("pushedRespondentIds")) || [];
+
+//     // Filter only responses not yet pushed
+//     const unpushedResponses = allResponses.filter(r => !pushedIds.includes(r.responseid));
+//     showToast("Sedang menghantar data ke pangkalan data...", "success");
+
+//     if (unpushedResponses.length === 0) {
+//         showToast("Tiada data baru untuk dihantar", "error");
+//         return;
+//     }
+
+//     sendDataToBackend(
+//         unpushedResponses.map(r => ({
+//             ...r,
+//             tarikh: new Date(r.tarikh).toISOString().split('T')[0] // YYYY-MM-DD
+//         }))
+//     )
+//     .then(() => {
+//         // Mark these responses as pushed
+//         pushedIds = pushedIds.concat(unpushedResponses.map(r => r.responseid));
+//         localStorage.setItem("pushedRespondentIds", JSON.stringify(pushedIds));
+
+//         // Remove pushed surveys from local storage (optional)
+//         allResponses = allResponses.filter(r => !pushedIds.includes(r.responseid));
+//         localStorage.setItem(storageKey, JSON.stringify(allResponses));
+
+//         updateConfirmedRespondentCount(unpushedResponses.length);
+
+//         // Show success modal
+//         document.getElementById("saveDatabaseModal").style.display = "block";
+//         document.getElementById("table-container").innerHTML = '';
+//     })
+//     .catch(error => {
+//         document.getElementById("errorDatabaseModal").style.display = "block";
+//         console.error("Send to backend failed:", error);
+//     });
+
+// }
+
 
 function updateConfirmedRespondentCount(countJustPushed) {
+    const userid = localStorage.getItem("currentUserId");
     const todayDate = new Date().toISOString().split('T')[0];
-    let confirmedCount = parseInt(localStorage.getItem(`confirmedRespondents_${todayDate}`)) || 0;
+    const storageKey = `confirmedRespondents_${userid}_${todayDate}`;
 
+    let confirmedCount = parseInt(localStorage.getItem(storageKey)) || 0;
     confirmedCount += countJustPushed;
-    localStorage.setItem(`confirmedRespondents_${todayDate}`, confirmedCount);
+    localStorage.setItem(storageKey, confirmedCount);
 
     updateTodayRespondentsDisplay(); // Refresh UI
 }
 
 
-function updateTodayRespondentsDisplay() {
-    const todayDate = new Date().toISOString().split('T')[0];
-    const count = parseInt(localStorage.getItem(`confirmedRespondents_${todayDate}`)) || 0;
 
-    const element = document.getElementById("todayRespondents");
-    if (element) {
-        element.textContent = `Dikemaskini setakat (${todayDate}) - ${count} Responden`;
+function getFormattedTodayDate() {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`; // <-- backend expects this
+}
+
+
+
+// Get today's date in YYYY-MM-DD format for Malaysia timezone (UTC+8)
+// function getFormattedTodayDate() {
+//     const now = new Date();
+//     const malaysiaOffset = 8 * 60; // UTC+8 in minutes
+//     const localTime = new Date(now.getTime() + (malaysiaOffset - now.getTimezoneOffset()) * 60000);
+
+//     const year = localTime.getFullYear();
+//     const month = String(localTime.getMonth() + 1).padStart(2, '0');
+//     const day = String(localTime.getDate()).padStart(2, '0');
+
+//     return `${year}-${month}-${day}`; // backend expects this
+// }
+
+async function updateTodayRespondentsDisplay() {
+    const kod = localStorage.getItem("currentUserId");
+    if (!kod) return;
+
+    const todayDate = getFormattedTodayDate(); // YYYY-MM-DD in Malaysia time
+
+    try {
+        // Add timestamp to avoid caching
+        const response = await fetch(`https://atiqahst-github-io.onrender.com/respondents/count?kod=${kod}&date=${todayDate}&t=${Date.now()}`, {
+            cache: "no-store"
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch count");
+
+        const data = await response.json();
+        const count = data.count || 0;
+
+        // Display readable date in Malaysia format
+        const readableDate = new Date(todayDate).toLocaleDateString('ms-MY', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+
+        document.getElementById("todayRespondents").innerHTML =
+            `Dikemaskini setakat (${readableDate}) - <span style="color: #003c7cff; font-weight: 900;">${count} Responden</span>`;
+
+    } catch (err) {
+        console.error("Error fetching respondents count:", err);
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-    updateTodayRespondentsDisplay(); // Show initial count
-});
+// Update the UI on page load
+document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
+
+
+
+
+
+// function updateConfirmedRespondentCount(countJustPushed) {
+//     const todayDate = new Date().toISOString().split('T')[0];
+//     let confirmedCount = parseInt(localStorage.getItem(`confirmedRespondents_${todayDate}`)) || 0;
+
+//     confirmedCount += countJustPushed;
+//     localStorage.setItem(`confirmedRespondents_${todayDate}`, confirmedCount);
+
+//     updateTodayRespondentsDisplay(); // Refresh UI
+// }
+
+
+// function updateTodayRespondentsDisplay() {
+//     const todayDate = new Date().toISOString().split('T')[0];
+//     const count = parseInt(localStorage.getItem(`confirmedRespondents_${todayDate}`)) || 0;
+
+//     const element = document.getElementById("todayRespondents");
+//     if (element) {
+//         element.textContent = `Jumlah Responden Hari Ini (${todayDate}) - ${count} Responden`;
+//     }
+// }
+
+// document.addEventListener("DOMContentLoaded", () => {
+//     updateTodayRespondentsDisplay(); // Show initial count
+// });
 
     // function pushToDatabaseButton(){
     //     const data = JSON.parse(localStorage.getItem("allSurveyResponses"));
@@ -1718,9 +2655,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // }
     
 
-async function sendDataToBackend(data){
+async function sendDataToBackend(data) {
     try {
-        const response = await fetch('https://atiqahst-github-io.onrender.com/testResponse', {
+        const response = await fetch('https://atiqahst-github-io.onrender.com/cycle4_official', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -1728,13 +2665,9 @@ async function sendDataToBackend(data){
             body: JSON.stringify(data),
         });
 
-        if (!response.ok) {
-            throw new Error('Failed to send data');
-        }
-
+        if (!response.ok) throw new Error('Failed to send data');
         const responseData = await response.json();
         console.log('Data successfully sent:', responseData);
-
         return responseData;
 
     } catch (error) {
@@ -1743,55 +2676,114 @@ async function sendDataToBackend(data){
     }
 }
 
+function redoSurvey() {
+    //Reset state
+    currentQuestionIndex = 0;
+    userResponses = {};
+    currentUserId = null;
 
-    function redoSurvey() {
-        // if (!document.getElementById("reset-survey-Button")) {
-        //     const redoSurvey = document.createElement("button");
-        //     redoSurvey.id = "redo-survey"   ;
-        //     redoSurvey.innerHTML = `<i class="fas fa-repeat" style="margin-right: 10px;"></i> Isi Semula`;
-        //     redoSurvey.style.width = "auto";
-        //     redoSurvey.style.backgroundColor = "#FF0000"
-        //     redoSurvey.style.color = "#FFFFFFF"
-        //     redoSurvey.classList.add("survey-option"); 
-        //     redoSurvey.style.marginTop = "10px";
     
-            // When clicked, reset and go back to ID input
-            // redoSurvey.addEventListener("click", () => {
 
-                const messageView = document.getElementById("message-view");
-                const surveyContainer = document.getElementById("survey-container");
-            
-                // Clear the message view (any previous messages)
-                messageView.innerHTML = "";
-            
-                // Clear survey container (e.g., remove any previously shown questions or answers)
-                surveyContainer.innerHTML = "";
+    //Clear local storage
+    localStorage.removeItem("surveyCompleted");
+    localStorage.removeItem("currentSurvey");
+    localStorage.removeItem("pushedRespondentIds");
+    localStorage.removeItem("currentUserId");
+    localStorage.setItem("totalRespondents", 0);
 
-                localStorage.setItem('totalRespondents', 0); // Reset count to zero in localStorage
-                
-                localStorage.removeItem("currentSurvey"); // Clear current survey
+    //Reset views
+    const messageView = document.getElementById("message-view");
+    const surveyContainer = document.getElementById("survey-container");
 
-                // **Clear all previous responses so new survey starts fresh**
-                //localStorage.removeItem("allSurveyResponses");  
-                localStorage.removeItem("pushedRespondentIds");
-
-                localStorage.removeItem("currentUserId"); 
-
-                currentUserId = "";
-
-
-                showIdInput(); // Go back to the ID input screen
-            // });
-    
-            // // Append to the survey container
-            // document.getElementById("survey-container").appendChild(redoSurvey);
-        // }
+    if (messageView) {
+        messageView.style.display = "block";       // Show chat area again
+        messageView.innerHTML = "";               // Clear all messages
     }
+
+    if (surveyContainer) {
+        surveyContainer.style.display = "none";    // Hide survey questions
+        surveyContainer.innerHTML = "";           // Clear contents
+    }
+
+    //Remove any survey-related UI left over
+    document.getElementById("main-buttons-wrapper")?.remove();
+    document.getElementById("green-buttons-wrapper")?.remove();
+    document.getElementById("table-container")?.remove();
+
+    //Start fresh from ID input
+    showIdInput();
+
+    requestLocation();
+}
+
+
+
+    // function redoSurvey() {
+    //     // if (!document.getElementById("reset-survey-Button")) {
+    //     //     const redoSurvey = document.createElement("button");
+    //     //     redoSurvey.id = "redo-survey"   ;
+    //     //     redoSurvey.innerHTML = `<i class="fas fa-repeat" style="margin-right: 10px;"></i> Isi Semula`;
+    //     //     redoSurvey.style.width = "auto";
+    //     //     redoSurvey.style.backgroundColor = "#FF0000"
+    //     //     redoSurvey.style.color = "#FFFFFFF"
+    //     //     redoSurvey.classList.add("survey-option"); 
+    //     //     redoSurvey.style.marginTop = "10px";
+    
+    //         // When clicked, reset and go back to ID input
+    //         // redoSurvey.addEventListener("click", () => {
+
+    //             const messageView = document.getElementById("message-view");
+    //             const surveyContainer = document.getElementById("survey-container");
+
+    //             //The message view will reappear again despite hiding the message vuew
+    //             if (messageView) messageView.style.display = "block";
+    //             if (surveyContainer) surveyView.style.display = "none";
+            
+    //             // Clear the message view (any previous messages)
+    //             messageView.innerHTML = "";
+            
+    //             // Clear survey container (e.g., remove any previously shown questions or answers)
+    //             surveyContainer.innerHTML = "";
+
+    //             localStorage.removeItem("surveyCompleted");
+
+
+    //             localStorage.setItem('totalRespondents', 0); // Reset count to zero in localStorage
+                
+    //             localStorage.removeItem("currentSurvey"); // Clear current survey
+
+
+
+
+
+    //             // **Clear all previous responses so new survey starts fresh**
+    //             //localStorage.removeItem("allSurveyResponses");  
+    //             localStorage.removeItem("pushedRespondentIds");
+
+    //             localStorage.removeItem("currentUserId"); 
+
+    //             currentUserId = "";
+
+
+
+
+    //             showIdInput(); // Go back to the ID input screen
+    //         // });
+    
+    //         // // Append to the survey container
+    //         // document.getElementById("survey-container").appendChild(redoSurvey);
+    //     // }
+    // }
     
 
     function downloadInExcelDoc() {
     // Read survey data from localStorage
-    let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+    //let allSurveys = JSON.parse(localStorage.getItem("allSurveyResponses")) || [];
+
+    let userid = localStorage.getItem("currentUserId");
+    let storageKey = `allSurveyResponses_${userid}`;
+    let allSurveys = JSON.parse(localStorage.getItem(storageKey)) || [];
+
 
     if (allSurveys.length === 0) {
         //alert("Tiada data untuk dimuat turun.");
@@ -1803,7 +2795,8 @@ async function sendDataToBackend(data){
         // Define headers
         const headers = [
             "Kod", "Tarikh", "Zon", "Parlimen", "DUN", "Umur", "Jantina",
-            "Bangsa", "Bangsa Lain", "Mengundi Adun", "Pemimpin Sabah", "Response ID", "Start Time", "End Time"
+            "Bangsa", "Bangsa Lain", "Mengundi Bedasarkan", "Pemimpin Sabah", "Cenderung Untuk Undi",
+            "Longitude", "Latitude", "Location", "Response ID", "Start Time"
         ];
 
         // Convert survey data
@@ -1812,18 +2805,21 @@ async function sendDataToBackend(data){
             return [
                 s.kod || "-",
                 s.tarikh || s.date || "-",
-                s.zone || "-",
+                s.zon || "-",
                 s.parlimen || "-",
                 s.dun || "-",
                 s.umur || "-",
                 s.jantina || "-",
                 s.bangsa || "-",
                 s.bangsalain || "-",
-                s.mengundiAdun || "-",
+                s.mengundiBedasarkan || "-",
                 s.pemimpinsabah || "-",
+                s.cenderunguntukundi || "-",
+                s.longitude || "-",
+                s.latitude || "-",
+                s.lokasi ?? "-",   
                 s.responseid || "-", 
-                s.starttime || "-",
-                s.endtime || "-"
+                s.starttime || "-"
             ];
         });
 
