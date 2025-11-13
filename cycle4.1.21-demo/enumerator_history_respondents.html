@@ -239,7 +239,7 @@ async function loadRespondentData() {
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td>${formattedDate}</td>
-          <td>${row.daily_count || 0}</td>
+          <td>${row.count || 0}</td>
         `;
         tbody.appendChild(tr);
       });
@@ -266,14 +266,13 @@ function renderRespondentChart(historyData) {
   });
 
   // Map labels correctly
-  const labels = historyData.map(row => {
-    const [day, month, year] = row.date.split('/').map(Number);
-    const dateObj = new Date(year, month - 1, day);
-    return dateObj.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
-  });
+const labels = historyData.map(row => {
+  const dateObj = new Date(row.date); // JS parses YYYY-MM-DD automatically
+  return dateObj.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
+});
 
   // ✅ Use daily_count instead of cumulative_count
-  const dataPoints = historyData.map(row => row.daily_count || 0);
+  const dataPoints = historyData.map(row => row.count || 0);
 
   new Chart(ctx, {
     type: 'line',

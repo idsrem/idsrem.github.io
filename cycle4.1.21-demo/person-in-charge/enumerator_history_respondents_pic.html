@@ -282,12 +282,12 @@ historyData.sort((a, b) => {
 
 // Map labels and values
 const historyLabels = historyData.map(row => {
-  const [day, month, year] = row.date.split('/').map(Number);
-  const dateObj = new Date(year, month - 1, day);
+  const dateObj = new Date(row.date); // JS parses YYYY-MM-DD correctly
   return dateObj.toLocaleDateString('ms-MY', { day: 'numeric', month: 'short', year: 'numeric' });
 });
 
-const historyValues = historyData.map(row => row.daily_count || 0);
+
+const historyValues = historyData.map(row => row.count || 0);
 
 
 // Create chart
