@@ -121,11 +121,16 @@ export const surveyQuestions = [
         text: "Parti mana anda akan undi?",
         options: [
             {name: "GRS"},
-            {name: "BN"},
-            {name: "PH"},
-            {name: "PKDM"},
-            {name: "UPKO"},
             {name: "WARISAN"},
+            {name: "BN"},
+            {name: "PN"},
+            {name: "PH"},
+            {name: "STAR"},
+            {name: "UPKO"},
+            {name: "ANAK NEGERI"},
+            {name: "BEBAS"},
+            {name: "PKDM"},
+            {name: "PIS"},
             {name: "Tidak Pasti"},
             {name: "Lain - Lain"}
         ]
