@@ -118,7 +118,7 @@ export const surveyQuestions = [
 
     {
         id: "cenderungUntukUndi",
-        text: "Parti mana anda akan undi?",
+        text: "Parti mana anda akan undi (DUN)?",
         options: [
             {name: "GRS"},
             {name: "WARISAN"},
