@@ -109,7 +109,7 @@ export const surveyQuestions = [
             {name: "GRS (Hajiji Noor)", image: "adun_pictures/N12 SULAMAN - HAJIJI NOOR.jpg"},
             {name: "WARISAN (Shafie Apdal)", image: "adun_pictures/N65 SENALLANG - SHAFIE APDAL.jpg"},
             {name: "BN (Bung Moktar)", image: "adun_pictures/N58 LAMAG - BUNG MOKTAR RADIN.jpg"},
-            {name: "PH (Ewon Benedick) " , image: "adun_pictures/N11 KADAMAIAN - EWON BENEDICK.jpg"},
+            {name: "UPKO (Ewon Benedick) " , image: "adun_pictures/N11 KADAMAIAN - EWON BENEDICK.jpg"},
             {name: "Parti Lain"},
             {name: "Parti/Gabungan Lain"},
             {name: "Tidak Pasti"}
