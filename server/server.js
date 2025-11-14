@@ -955,16 +955,16 @@ app.post('/cycle4_backup', async (req, res) => {
 
     // Flatten the userDataArray into a single array of values
     const values = userDataArray.reduce((acc, {
-     responseid, tarikh, kod, zon, dun, parlimen, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
+     responseid, tarikh, kod, zone, dun, parlimen, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
      pemimpinsabah, starttime, endtime
     }) => {
-      acc.push(responseid, tarikh, kod, zon, dun, parlimen, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
+      acc.push(responseid, tarikh, kod, zone, dun, parlimen, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
       pemimpinsabah, starttime, endtime || '');
       return acc;
     }, []);
 
     // Construct the SQL query dynamically | table name + column name
-    const queryText = `INSERT INTO cycle4_backup (responseid, tarikh, kod, zon, dun, parlimen, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
+    const queryText = `INSERT INTO cycle4_backup (responseid, tarikh, kod, zone, dun, parlimen, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
       pemimpinsabah, starttime, endtime) 
       VALUES ${placeholders}`;
     // Execute the query

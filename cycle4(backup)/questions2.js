@@ -15,7 +15,7 @@ const overlay = document.querySelector('.overlay');
 let userData = {
   tarikh: '',
   kod: '',
-  zon: '',
+  zone: '',
   dun: '',
   umur: '',
   jantina: '',
@@ -3926,7 +3926,7 @@ function initiateConversation() {
     tarikh: '',
     kod: '',
     dun: '',
-    zon: '',
+    zone: '',
     umur: '',
     jantina: '',
     bangsa: '',
