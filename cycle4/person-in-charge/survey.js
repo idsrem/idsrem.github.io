@@ -2814,8 +2814,8 @@ function redoSurvey() {
                 s.mengundiBedasarkan || "-",
                 s.pemimpinsabah || "-",
                 s.cenderunguntukundi || "-",
-                s.longitude || "-",
-                s.latitude || "-",
+                s.longitude || 0,
+                s.latitude || 0,
                 s.lokasi ?? "-",   
                 s.responseid || "-", 
                 s.starttime || "-"
