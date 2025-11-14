@@ -1,0 +1,441 @@
+body {
+  font-family: Arial, sans-serif;
+  /* background-image: url('https://static.vecteezy.com/system/resources/previews/007/677/104/non_2x/white-background-with-blue-geometric-and-white-line-pattern-free-vector.jpg'); */
+  background-image:url(IDS\ Final\ Design.png);
+  background-size: cover;
+  color: white;
+  font-size: 15px;
+  background-attachment: fixed;
+}
+#powered-by-text {
+  position: fixed;
+  top: 20px; /* Adjust the distance from the top */
+  right: 20px; /* Adjust the distance from the right */
+  color: blue; /* Text color */
+  font-size: 12px; /* Font size */
+  font-family: Arial, sans-serif; /* Font family */
+}
+
+.finish-message{
+  background-color: #FF746C;
+  border: solid 2px red;
+  height: 100%;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  margin-bottom: 200px;
+  width: 60%;
+  text-align: center;
+  padding: 50px;
+}
+
+
+.finish-message p{
+ color: #363636;
+ }
+
+#chat-container {
+  padding-top: 5%;
+  position: relative; /* Added to position the overlay */
+  width: 600px;
+  margin: 40px auto;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  color: black;
+  background: white;
+
+}
+#chat-messages {
+  height: 300px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+#section-below-chatbox {
+  background-color: #f1f1f1;
+  padding: 20px; /* Adjust padding as needed */
+  border-radius: 10px; /* Add border radius for rounded corners */
+}
+#input-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+#user-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px 5px 5px 5px; /* Rounded corners on the left */
+  box-sizing: border-box;
+  margin-right: -1px;
+}
+#send-button {
+  margin-top: 10px;
+  right: 40px;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+  border-radius: 5px 5px 5px 5px; /* Rounded corners on the right */
+  cursor: pointer;
+  transition: background-color 0.3s;
+  flex-shrink: 0;
+}
+
+#send-button:hover {
+  background-color: #0056b3;
+}
+
+
+
+#user-info-table {
+  margin-top: 0px;
+  border-collapse: collapse;
+  width: 80%;
+  margin-left:100px;
+  color: black;
+}
+#user-info-table th, #user-info-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+  background-color: white;
+}
+#section-below-export {
+  background-color: white;
+  padding: 20px; /* Adjust padding as needed */
+  border-radius: 10px; /* Add border radius for rounded corners */
+  margin-top: 10px;
+}
+#export-btn {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#export-btn:hover {
+  background-color: #45a049;
+}
+#clear-btn {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #FF4C4C;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#clear-btn:hover {
+  background-color: #B20000;
+}
+#export-csv-btn {
+  background-image: url('csv.png'); 
+  background-size: cover;
+  border: none;
+  cursor: pointer;
+}
+#export-csv-btn {
+  /* width: 30px; 
+  height: 30px; 
+  background-image: url('https://iconape.com/wp-content/png_logo_vector/csv-icon.png'); 
+  background-size: cover;
+  border: none;
+  cursor: pointer;
+  top: 10px;
+  position: relative;
+  left: 320px;
+  border-radius: 4px; */
+  height: 40px;
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;  
+}
+
+#bubble-input-container{
+  text-align: center;
+  display: block;
+}
+
+.bubble-input{
+  display: block;
+  align-items: center;
+  margin-top: 10px;
+  width: 100%;
+  height: 40px;
+}
+
+
+
+.backBtn {
+  background-color:#00008b;      /* Grey background */
+  color:white;                 /* White text */
+  font-size: 12px;                   /* Font size */
+  border: 2px solid #00008b;      /* Grey border */
+  padding: 5px 15px;               /* Padding for size */
+  cursor: pointer;                  /* Pointer cursor on hover */
+  text-decoration: none;             /* No underline */
+  position: relative;                /* For positioning the pseudo-element */
+  display: inline-flex;              /* Align text inline */
+  align-items: center;               /* Vertically center the text */
+  border-radius: 10px;               /* Rounded corners for the button */
+  transition: all 0.3s ease;         /* Smooth transition for color changes */
+}
+
+/* Create the pointed rectangle using ::before */
+.backBtn::before {
+  content: '';                        /* Empty content for the pseudo-element */
+  position: absolute;                 /* Position the point relative to the button */
+  top: 50%;                           /* Vertically center the point */
+  left: -9.5px;                        /* Move it slightly to the left */
+  width: 0;                           /* No width */
+  height: 0;                          /* No height */
+  border-top: 13px solid transparent;  /* Transparent top border */
+  border-bottom: 13px solid transparent; /* Transparent bottom border */
+  border-right: 12px solid #00008b;     /* Right side creates the point */
+  transform: translateY(-50%);        /* Adjust for vertical centering */
+}
+
+
+/* Focus outline styling for accessibility */
+.backBtn:focus {
+  outline: none;                      /* Remove outline when clicked */
+}
+
+.saveBtn{
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  text-align: center;
+  /* width: 100%; */
+  /* height: 40px; */
+}
+
+.delete-button {
+  background-color: grey;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  position: absolute; /* Ensure it's positioned relative to the parent container */
+  left: 0; /* Adjust as needed */
+  margin-left: 40px; /* Add margin to separate from the table */
+}
+
+.delete-button:hover {
+  background-color: #363636; 
+}
+
+.start-button{
+  width: 200px; /* Set the width of the image to make it smaller */
+	height: auto; /* Maintain aspect ratio */
+	display: block; /* Set image display mode to block */
+	margin: 0 auto;
+  /* display: inline-block; */
+  /* margin-right: 10px;
+  margin-bottom: 10px; */
+  padding: 8px 16px;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.bubble-option {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 8px 16px;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.bubble-option.selected {
+  background-color: #00008b;
+  color: white;
+}
+.message-bubble {
+  background-color: #4444dc;
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: white;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.message-bubble.visible {
+  opacity: 1;
+}
+
+.bot-message {
+  background-color: #00008b;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+.bot-message.visible {
+  opacity: 1;
+}
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 10px;
+  max-width: 80vw; /* Set a max width for the modal */
+  max-height: 80vh; /* Set a max height for the modal */
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+}
+
+.btn-container{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 12px;
+}
+
+.table-btn{
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #0c3d5c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+
+.fixed-modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 10px;
+  max-width: 30vw; /* Set a max width for the modal */
+  max-height: 80vh;
+  overflow-y: auto; /* Enable vertical scrolling if needed */
+}
+
+.modal p {
+  margin-bottom: 10px;
+}
+
+.modal .bubble-option {
+  display: inline-block;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 8px 16px;
+  background-color: #f1f1f1;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.modal .bubble-option:hover {
+  background-color: #ddd;
+}
+
+.center-div{
+  display: flex;     
+  flex-direction: column;             /* Use Flexbox layout */
+  justify-content: center;     /* Center items horizontally */
+  align-items: center;         /* Center items vertically */
+  width: 100%;                 /* Full width of the parent container */
+  text-align: center;          /* Center text inside the div */
+}
+
+/* Overlay styles */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* Semi-transparent black */
+  z-index: 0; /* Behind the modal */
+  display: none;
+}
+.small-image {
+	width: 150px; /* Set the width of the image to make it smaller */
+	height: auto; /* Maintain aspect ratio */
+	display: block; /* Set image display mode to block */
+	margin: 0 auto; /* Center-align the image */
+}
+/* Media Queries for Mobile Optimization*/ 
+@media (max-width: 768px) {
+  body {
+    font-size: 14px; /* Adjust font size for smaller screens */
+  }
+  
+  #chat-container {
+    width: 95%; /* Increase width for mobile */
+  }
+
+  #user-info-table {
+    margin-left: 0; /* Remove left margin for mobile */
+    width: 100%; /* Ensure full width for the table */
+  }
+  
+  /*add*/
+  #export-csv-btn {
+    left: 0;
+    /* top: 10px; */
+  }
+
+  
+  .delete-button {
+    position: relative;
+    margin-left: 0;
+    margin-top: 10px;
+  }
+  .small-image {
+  margin: 60px auto;
+  }
+  .fixed-modal {
+    width: 80%;      /* Increase width to 80% for mobile devices */
+    height: auto;    /* Let height adjust automatically */
+    max-width: 90%;  /* Ensure modal doesn't exceed 90% width */
+    max-height: 70%; /* Adjust max height for smaller screens */
+    /* padding: 15px;   Slightly reduce padding for mobile */
+    /* margin-left: 2%; */
+    margin-right: 5%;
+  }
+
+  @media (max-width: 480px) {
+    .fixed-modal {
+      width: 90%;      /* Increase width to 90% for very small mobile devices */
+      height: auto;    /* Let height adjust automatically */
+      max-width: 95%;  /* Ensure modal doesn't exceed 95% width */
+      max-height: 60%; /* Adjust max height further for small screens */
+      /* padding: 10px;    */
+      /* margin-left: 2%; */
+      margin-right: 5%;
+    }
+  }
+}

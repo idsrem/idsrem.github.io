@@ -124,7 +124,7 @@ export const surveyQuestions = [
             {name: "WARISAN"},
             {name: "BN"},
             {name: "PN"},
-            {name: "PH"},
+            {name: "PH (DAP, PKR)"},
             {name: "STAR"},
             {name: "UPKO"},
             {name: "ANAK NEGERI"},

@@ -935,6 +935,52 @@ app.post('/cycle4_official', async (req, res) => {
 });
 
 
+//USE THIS FOR CYCLE 4 BACKUP!!
+app.post('/cycle4_backup', async (req, res) => {
+  const userDataArray = req.body;  // The array of user data
+
+  console.log("Hi Amiirul");
+  
+  // Ensure the array is valid
+  if (!Array.isArray(userDataArray) || userDataArray.length === 0) {
+    return res.status(400).send('Invalid data');
+  }
+
+  try {
+    // Construct the placeholders for the values dynamically
+    const columnCount = 14;  // Adjust based on the number of columns in your table
+    const placeholders = userDataArray.map((_, index) => {
+      return `(${Array.from({ length: columnCount }, (_, i) => `$${index * columnCount + (i + 1)}`).join(', ')})`;
+    }).join(',');
+
+    // Flatten the userDataArray into a single array of values
+    const values = userDataArray.reduce((acc, {
+     responseid, tarikh, kod, zon, dun, parlimen, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
+     pemimpinsabah, starttime, endtime
+    }) => {
+      acc.push(responseid, tarikh, kod, zon, dun, parlimen, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
+      pemimpinsabah, starttime, endtime || '');
+      return acc;
+    }, []);
+
+    // Construct the SQL query dynamically | table name + column name
+    const queryText = `INSERT INTO cycle4_backup (responseid, tarikh, kod, zon, dun, parlimen, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
+      pemimpinsabah, starttime, endtime) 
+      VALUES ${placeholders}`;
+    // Execute the query
+    await pool.query(queryText, values);
+
+
+   // Send a JSON response
+    res.status(200).json({ message: 'Data saved successfully' });
+  } catch (error) {
+    console.error('Error saving data', error);
+    res.status(500).json({ message: 'Error saving data', error: error.message });
+  }
+});
+
+
+
 
 //Use this for Cycle 4 to test
 // for test table
