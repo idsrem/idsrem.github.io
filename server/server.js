@@ -948,23 +948,23 @@ app.post('/cycle4_backup', async (req, res) => {
 
   try {
     // Construct the placeholders for the values dynamically
-    const columnCount = 14;  // Adjust based on the number of columns in your table
+    const columnCount = 13;  // Adjust based on the number of columns in your table
     const placeholders = userDataArray.map((_, index) => {
       return `(${Array.from({ length: columnCount }, (_, i) => `$${index * columnCount + (i + 1)}`).join(', ')})`;
     }).join(',');
 
     // Flatten the userDataArray into a single array of values
     const values = userDataArray.reduce((acc, {
-     responseid, tarikh, kod, zone, dun, parlimen, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
+     responseid, tarikh, kod, dun, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
      pemimpinsabah, starttime, endtime
     }) => {
-      acc.push(responseid, tarikh, kod, zone, dun, parlimen, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
+      acc.push(responseid, tarikh, kod, dun, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
       pemimpinsabah, starttime, endtime || '');
       return acc;
     }, []);
 
     // Construct the SQL query dynamically | table name + column name
-    const queryText = `INSERT INTO cycle4_backup (responseid, tarikh, kod, zone, dun, parlimen, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
+    const queryText = `INSERT INTO cycle4_backup (responseid, tarikh, kod, dun, umur, jantina, bangsa, bangsalain, mengundibedasarkan, cenderunguntukundi,
       pemimpinsabah, starttime, endtime) 
       VALUES ${placeholders}`;
     // Execute the query

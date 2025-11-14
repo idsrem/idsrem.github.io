@@ -15,7 +15,6 @@ const overlay = document.querySelector('.overlay');
 let userData = {
   tarikh: '',
   kod: '',
-  zone: '',
   dun: '',
   umur: '',
   jantina: '',
@@ -1050,7 +1049,11 @@ function displayUserInfo(userData) {
 	<td style="display: none;">${userData.pilihanpartitempatan}</td>
 	<td style="display: none;">${userData.pemimpinsabah}</td>
 	<td style="display: none;">${userData.pemimpinsabahlain}</td>
+  <td style="display: none;">${userData.mengundibedasarkan}</td>
+  <td style="display: none;">${userData.zone}</td>
+  <td style="display: none;">${userData.parlimen}</td>
   <td style="display: none;">${userData.responseid}</td>`;
+  
 
 
   // <td style="display: none;">${userData.kebajikantidakpuashati}</td>
@@ -1139,7 +1142,9 @@ function saveToLocalStorage(userData) {
       data.pilihanpartinasional === userData.pilihanpartinasional &&
       data.pilihanpartitempatan === userData.pilihanpartitempatan &&
       data.pemimpinsabah === userData.pemimpinsabah &&
-      data.pemimpinsabahlain === userData.pemimpinsabahlain
+      data.pemimpinsabahlain === userData.pemimpinsabahlain &&
+      data.parlimen === userData.parlimen &&
+      data.selectZone === userData.selectZone
       // data.tahappendidikan === userData.tahappendidikan &&
       // data.pekerjaan === userData.pekerjaan &&
       // data.pendapatanbulanan === userData.pendapatanbulanan &&
@@ -3926,7 +3931,6 @@ function initiateConversation() {
     tarikh: '',
     kod: '',
     dun: '',
-    zone: '',
     umur: '',
     jantina: '',
     bangsa: '',
