@@ -171,47 +171,27 @@
 // }
 
 function updateLocation(position) {
-const lat = position?.coords?.latitude;
-const lon = position?.coords?.longitude;
+  const lat = position?.coords?.latitude;
+  const lon = position?.coords?.longitude;
 
-// Reject invalid coordinates (null, undefined, or 0,0)
-if (lat == null || lon == null || (lat === 0 && lon === 0)) {
+  // Reject invalid coordinates (null, undefined, or 0,0)
+  if (lat == null || lon == null || (lat === 0 && lon === 0)) {
     console.warn("Invalid coordinates received", position);
-    // fallback to last known
+    // Fallback to last known location
     const last = JSON.parse(localStorage.getItem("lastKnownLocation") || '{}');
     if (last.latitude && last.longitude) {
-        document.querySelectorAll('.location-display').forEach(el => el.textContent = last.locationName || `Lat: ${last.latitude}, Lon: ${last.longitude}`);
-        let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
-        survey.answers = survey.answers || {};
-        survey.answers.latitude = last.latitude;
-        survey.answers.longitude = last.longitude;
-        survey.answers.locationName = last.locationName;
-        localStorage.setItem("currentSurvey", JSON.stringify(survey));
+      document.querySelectorAll('.location-display').forEach(el => el.textContent = last.locationName || `Lat: ${last.latitude}, Lon: ${last.longitude}`);
+      let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
+      survey.answers = survey.answers || {};
+      survey.answers.latitude = last.latitude;
+      survey.answers.longitude = last.longitude;
+      survey.answers.locationName = last.locationName;
+      localStorage.setItem("currentSurvey", JSON.stringify(survey));
     } else {
-        document.querySelectorAll('.location-display').forEach(el => el.textContent = '-');
+      document.querySelectorAll('.location-display').forEach(el => el.textContent = '-');
     }
     return;
-}
-
-  // const lat = position?.coords?.latitude;
-  // const lon = position?.coords?.longitude;
-
-  // if (lat == null || lon == null) {
-  //   // Use last known location
-  //   const last = JSON.parse(localStorage.getItem("lastKnownLocation") || '{}');
-  //   if (last.latitude && last.longitude) {
-  //     document.querySelectorAll('.location-display').forEach(el => el.textContent = last.locationName || `Lat: ${last.latitude}, Lon: ${last.longitude}`);
-  //     let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
-  //     survey.answers = survey.answers || {};
-  //     survey.answers.latitude = last.latitude;
-  //     survey.answers.longitude = last.longitude;
-  //     survey.answers.locationName = last.locationName;
-  //     localStorage.setItem("currentSurvey", JSON.stringify(survey));
-  //   } else {
-  //     document.querySelectorAll('.location-display').forEach(el => el.textContent = '-');
-  //   }
-  //   return;
-  // }
+  }
 
   if (navigator.onLine) {
     document.querySelectorAll('.location-display').forEach(el => el.textContent = 'Menentukan lokasi anda...');
@@ -232,19 +212,17 @@ if (lat == null || lon == null || (lat === 0 && lon === 0)) {
   }
 }
 
-
 function fetchLocationName(lat, lon) {
   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
 
   fetch(url, {
     headers: {
-      'User-Agent': 'SurveyApp/1.0 (youremail@example.com)'  // Replace with your email
+      'User-Agent': 'SurveyApp/1.0 (youremail@example.com)' // Replace with your email
     }
   })
     .then(response => response.json())
     .then(data => {
       const address = data.address || {};
-      // Construct full address string (you can customize which parts to include)
       const parts = [
         address.road,
         address.neighbourhood,
@@ -272,19 +250,16 @@ function fetchLocationName(lat, lon) {
       localStorage.setItem("lastKnownLocation", JSON.stringify({
         latitude: lat,
         longitude: lon,
-        locationName: locationName  // or rawLocation in offline case
+        locationName: locationName
       }));
-
     })
     .catch(error => {
       console.error('Reverse geocoding failed:', error);
       document.querySelectorAll('.location-display').forEach(el => {
-        el.textContent = 'Tidak dapat menentuk lokasi';
+        el.textContent = 'Tidak dapat menentuk lokasi (tiada internet)';
       });
     });
 }
-
-
 
 function handleError(error) {
   console.error('Error getting location:', error);
@@ -311,6 +286,7 @@ requestLocation();
 // Listen for connection changes
 window.addEventListener("online", requestLocation);
 window.addEventListener("offline", requestLocation);
+
 
   // const INACTIVITY_LIMIT = 15 * 60 * 1000; // 5 minutes in milliseconds
   // let inactivityTimer;
