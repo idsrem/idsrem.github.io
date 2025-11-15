@@ -171,25 +171,47 @@
 // }
 
 function updateLocation(position) {
-  const lat = position?.coords?.latitude;
-  const lon = position?.coords?.longitude;
+const lat = position?.coords?.latitude;
+const lon = position?.coords?.longitude;
 
-  if (lat == null || lon == null) {
-    // Use last known location
+// Reject invalid coordinates (null, undefined, or 0,0)
+if (lat == null || lon == null || (lat === 0 && lon === 0)) {
+    console.warn("Invalid coordinates received", position);
+    // fallback to last known
     const last = JSON.parse(localStorage.getItem("lastKnownLocation") || '{}');
     if (last.latitude && last.longitude) {
-      document.querySelectorAll('.location-display').forEach(el => el.textContent = last.locationName || `Lat: ${last.latitude}, Lon: ${last.longitude}`);
-      let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
-      survey.answers = survey.answers || {};
-      survey.answers.latitude = last.latitude;
-      survey.answers.longitude = last.longitude;
-      survey.answers.locationName = last.locationName;
-      localStorage.setItem("currentSurvey", JSON.stringify(survey));
+        document.querySelectorAll('.location-display').forEach(el => el.textContent = last.locationName || `Lat: ${last.latitude}, Lon: ${last.longitude}`);
+        let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
+        survey.answers = survey.answers || {};
+        survey.answers.latitude = last.latitude;
+        survey.answers.longitude = last.longitude;
+        survey.answers.locationName = last.locationName;
+        localStorage.setItem("currentSurvey", JSON.stringify(survey));
     } else {
-      document.querySelectorAll('.location-display').forEach(el => el.textContent = '-');
+        document.querySelectorAll('.location-display').forEach(el => el.textContent = '-');
     }
     return;
-  }
+}
+
+  // const lat = position?.coords?.latitude;
+  // const lon = position?.coords?.longitude;
+
+  // if (lat == null || lon == null) {
+  //   // Use last known location
+  //   const last = JSON.parse(localStorage.getItem("lastKnownLocation") || '{}');
+  //   if (last.latitude && last.longitude) {
+  //     document.querySelectorAll('.location-display').forEach(el => el.textContent = last.locationName || `Lat: ${last.latitude}, Lon: ${last.longitude}`);
+  //     let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
+  //     survey.answers = survey.answers || {};
+  //     survey.answers.latitude = last.latitude;
+  //     survey.answers.longitude = last.longitude;
+  //     survey.answers.locationName = last.locationName;
+  //     localStorage.setItem("currentSurvey", JSON.stringify(survey));
+  //   } else {
+  //     document.querySelectorAll('.location-display').forEach(el => el.textContent = '-');
+  //   }
+  //   return;
+  // }
 
   if (navigator.onLine) {
     document.querySelectorAll('.location-display').forEach(el => el.textContent = 'Menentukan lokasi anda...');
@@ -273,9 +295,9 @@ function handleError(error) {
 
 function requestLocation() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(updateLocation, handleError, {
+    navigator.geolocation.watchPosition(updateLocation, handleError, {
       enableHighAccuracy: true,
-      maximumAge: 5000,
+      maximumAge: 0,
       timeout: 10000
     });
   } else {
@@ -289,7 +311,6 @@ requestLocation();
 // Listen for connection changes
 window.addEventListener("online", requestLocation);
 window.addEventListener("offline", requestLocation);
-
 
   // const INACTIVITY_LIMIT = 15 * 60 * 1000; // 5 minutes in milliseconds
   // let inactivityTimer;
