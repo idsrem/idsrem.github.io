@@ -328,13 +328,17 @@ function updateLocation(position) {
 
 
 function fetchLocationName(lat, lon) {
-  // Use your local proxy instead of calling Nominatim directly
-  const url = `https://atiqahst-github-io.onrender.com/reverse?lat=${lat}&lon=${lon}`;
+  const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
 
-  fetch(url)
+  fetch(url, {
+    headers: {
+      'User-Agent': 'SurveyApp/1.0 (youremail@example.com)'  // Replace with your email
+    }
+  })
     .then(response => response.json())
     .then(data => {
       const address = data.address || {};
+      // Construct full address string (you can customize which parts to include)
       const parts = [
         address.road,
         address.neighbourhood,
@@ -362,17 +366,17 @@ function fetchLocationName(lat, lon) {
       localStorage.setItem("lastKnownLocation", JSON.stringify({
         latitude: lat,
         longitude: lon,
-        locationName: locationName
+        locationName: locationName  // or rawLocation in offline case
       }));
+
     })
     .catch(error => {
-      console.error('Reverse geocoding via proxy failed:', error);
+      console.error('Reverse geocoding failed:', error);
       document.querySelectorAll('.location-display').forEach(el => {
         el.textContent = 'Tidak dapat menentuk lokasi (tiada internet)';
       });
     });
 }
-
 
 
 

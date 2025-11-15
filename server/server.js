@@ -65,16 +65,6 @@ app.post('/export', async (req, res) => {
 });
 
 
-app.get('/reverse', async (req, res) => {
-    const { lat, lon } = req.query;
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
-    const response = await fetch(url, {
-        headers: { 'User-Agent': 'SurveyApp/1.0 (youremail@example.com)' }
-    });
-    const data = await response.json();
-    res.json(data);
-});
-
 
 app.post('/login', async (req, res) => {
   const { enumerator_code, password } = req.body;
