@@ -213,7 +213,7 @@ function updateLocation(position) {
 }
 
 function fetchLocationName(lat, lon) {
-  const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
+  const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
 
   fetch(url, {
     headers: {
