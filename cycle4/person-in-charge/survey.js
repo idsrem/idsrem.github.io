@@ -1792,8 +1792,8 @@ function handleAnswer(questionId, selectedOption) {
             //pemimpinsabahlain: currentSurvey.answers.pemimpinsabahlain || "-",
             //isiboranglagi: currentSurvey.answers.isiBorangLagi || "-",
             lokasi: currentSurvey.answers.locationName || lastLocation.lastLocation || "-",
-            latitude: currentSurvey.answers.latitude ?? lastLocation.latitude ?? 0,
-            longitude: currentSurvey.answers.longitude ?? lastLocation.longitude ?? 0,
+            latitude: currentSurvey.answers.latitude ?? lastLocation.latitude ?? null,
+            longitude: currentSurvey.answers.longitude ?? lastLocation.longitude ?? null,
             starttime: formattedStartTime,
             endtime: formattedEndTime,
             pushed: false
