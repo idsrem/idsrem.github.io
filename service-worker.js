@@ -1,5 +1,5 @@
 // Use a versioned cache name to ensure caches are updated with each new version
-const CACHE_NAME = 'offline-cache-v4.1.11'  // Change the version number whenever there's an update
+const CACHE_NAME = 'offline-cache-v4.2.10'  // Change the version number whenever there's an update
 const OFFLINE_URL = 'index.html';      // The file to display when offline
 const CACHE_ASSETS = [
   '/',
@@ -17,18 +17,47 @@ const CACHE_ASSETS = [
   'fasa2(test)/questions2.js',
 
 
-  'cycle4/index.html',
-  'cycle4/enumerator.js',
-  'cycle4/survey.js',
-  'cycle4/listOfQuestions.js',
-  'cycle4/index.css',
+  // 'cycle4/index.html',
+  // 'cycle4/enumerator.js',
+  // 'cycle4/survey.js',
+  // 'cycle4/listOfQuestions.js',
+  // 'cycle4/index.css',
+
+  // 'cycle4/index.html',
+  // 'cycle4/main.html',
+  // 'cycle4/enumerator.js',
+  // 'cycle4/survey.js',
+  // 'cycle4/listOfQuestions.js',
+  // 'cycle4/index.css'
 
   'cycle4/index.html',
-  'cycle4/main.html',
+  'cycle4/enumerator_history_respondents.html',
   'cycle4/enumerator.js',
-  'cycle4/survey.js',
+  'cycle4/index.css',
   'cycle4/listOfQuestions.js',
-  'cycle4/index.css'
+  'cycle4/login.css',
+  'cycle4/logout.html',
+  'cycle4/main.html',
+  'cycle4/survey.js',
+  'cycle4/user_profile.css',
+  'cycle4/user_profile.html',
+  'cycle4/person-in-charge/enumerator_history_respondents_pic.html',
+  'cycle4/person-in-charge/enumerator_history_respondents_pic.css',
+  'cycle4/person-in-charge/enumerator.js',
+  'cycle4/person-in-charge/index.css',
+  'cycle4/person-in-charge/main.html',
+  'cycle4/person-in-charge/listOfQuestions.js',
+  'cycle4/person-in-charge/survey.js',
+  'cycle4/person-in-charge/user_profile_pic.css',
+  'cycle4/person-in-charge/user_profile_pic.html',
+  'cycle4/admin/index.html',
+  'cycle4/admin/index.css',
+  'cycle4/admin/responses_records_v2.css',
+  'cycle4/admin/responses_records_v2.html',
+  'cycle4/admin/user_management_2.html',
+  'cycle4/admin/user_management_2.css',
+  'cycle4/admin/user_profile_admin.html',
+  'cycle4/admin/user_profile_admin.css'
 ];
 // Install event - add assets to cache
 self.addEventListener('install', (event) => {

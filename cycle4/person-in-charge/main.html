@@ -411,7 +411,7 @@ function handleError(error) {
 
 function requestLocation() {
   if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(updateLocation, handleError, {
+    navigator.geolocation.getCurrentPosition(updateLocation, handleError, {
       enableHighAccuracy: true,
       maximumAge: 0,
       timeout: 10000
