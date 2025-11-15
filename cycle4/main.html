@@ -174,7 +174,7 @@ function updateLocation(position) {
   const lat = position?.coords?.latitude;
   const lon = position?.coords?.longitude;
 
-  if (!lat || !lon) {
+  if (lat == null || lon == null) {
     // Use last known location
     const last = JSON.parse(localStorage.getItem("lastKnownLocation") || '{}');
     if (last.latitude && last.longitude) {
@@ -275,8 +275,8 @@ function requestLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(updateLocation, handleError, {
       enableHighAccuracy: true,
-      maximumAge: 0,
-      timeout: 1000
+      maximumAge: 5000,
+      timeout: 10000
     });
   } else {
     alert('Geolocation tidak disokong oleh pelayar anda.');

@@ -173,22 +173,147 @@
 //   }
 // }
 
+// function updateLocation(position) {
+//   const lat = position.coords.latitude;
+//   const lon = position.coords.longitude;
+
+//   if (navigator.onLine) {
+//     document.querySelectorAll('.location-display').forEach(el => {
+//       el.textContent = 'Menentukan lokasi anda (atas talian)...';
+//     });
+//     fetchLocationName(lat, lon);
+//   } else {
+//     // OFFLINE: fallback to raw GPS coordinates
+//     const rawLocation = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)}`;
+//     document.querySelectorAll('.location-display').forEach(el => {
+//       el.textContent = rawLocation;
+//     });
+
+//     let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
+//     survey.answers = survey.answers || {};
+//     survey.answers.latitude = lat;
+//     survey.answers.longitude = lon;
+//     survey.answers.locationName = rawLocation;
+//     localStorage.setItem("currentSurvey", JSON.stringify(survey));
+
+//     // Store last known location for fallback
+//   localStorage.setItem("lastKnownLocation", JSON.stringify({
+//   latitude: lat,
+//   longitude: lon,
+//   locationName: rawLocation
+// }));
+
+//   }
+// }
+
+// function fetchLocationName(lat, lon) {
+//   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
+
+//   fetch(url, {
+//     headers: {
+//       'User-Agent': 'SurveyApp/1.0 (youremail@example.com)'  // Replace with your email
+//     }
+//   })
+//     .then(response => response.json())
+//     .then(data => {
+//       const address = data.address || {};
+//       // Construct full address string (you can customize which parts to include)
+//       const parts = [
+//         address.road,
+//         address.neighbourhood,
+//         address.suburb,
+//         address.city || address.town || address.village || address.hamlet,
+//         address.state,
+//         address.postcode,
+//         address.country
+//       ];
+//       const locationName = parts.filter(Boolean).join(', ') || 'Lokasi tidak dapat dikenalpasti';
+
+//       document.querySelectorAll('.location-display').forEach(el => {
+//         el.textContent = locationName;
+//       });
+
+//       // Save lat, lon, and location name
+//       let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
+//       survey.answers = survey.answers || {};
+//       survey.answers.latitude = lat;
+//       survey.answers.longitude = lon;
+//       survey.answers.locationName = locationName;
+//       localStorage.setItem("currentSurvey", JSON.stringify(survey));
+
+//       // Store last known location for fallback
+//       localStorage.setItem("lastKnownLocation", JSON.stringify({
+//         latitude: lat,
+//         longitude: lon,
+//         locationName: locationName  // or rawLocation in offline case
+//       }));
+
+//     })
+//     .catch(error => {
+//       console.error('Reverse geocoding failed:', error);
+//       document.querySelectorAll('.location-display').forEach(el => {
+//         el.textContent = 'Tidak dapat menentuk lokasi (tiada internet)';
+//       });
+//     });
+// }
+
+
+
+// function handleError(error) {
+//   console.error('Error getting location:', error);
+//   document.querySelectorAll('.location-display').forEach(el => {
+//     el.textContent = 'Akses lokasi ditolak atau tidak tersedia';
+//   });
+// }
+
+// function requestLocation() {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(updateLocation, handleError, {
+//       enableHighAccuracy: true,
+//       maximumAge: 5000,
+//       timeout: 10000
+//     });
+//   } else {
+//     alert('Geolocation tidak disokong oleh pelayar anda.');
+//   }
+// }
+
+// // Call this once on page load
+// requestLocation();
+
+// // Listen for connection changes
+// window.addEventListener("online", requestLocation);
+// window.addEventListener("offline", requestLocation);
+
+
 function updateLocation(position) {
-  const lat = position.coords.latitude;
-  const lon = position.coords.longitude;
+  const lat = position?.coords?.latitude;
+  const lon = position?.coords?.longitude;
+
+  if (lat == null || lon == null) {
+    // Use last known location
+    const last = JSON.parse(localStorage.getItem("lastKnownLocation") || '{}');
+    if (last.latitude && last.longitude) {
+      document.querySelectorAll('.location-display').forEach(el => el.textContent = last.locationName || `Lat: ${last.latitude}, Lon: ${last.longitude}`);
+      let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
+      survey.answers = survey.answers || {};
+      survey.answers.latitude = last.latitude;
+      survey.answers.longitude = last.longitude;
+      survey.answers.locationName = last.locationName;
+      localStorage.setItem("currentSurvey", JSON.stringify(survey));
+    } else {
+      document.querySelectorAll('.location-display').forEach(el => el.textContent = '-');
+    }
+    return;
+  }
 
   if (navigator.onLine) {
-    document.querySelectorAll('.location-display').forEach(el => {
-      el.textContent = 'Menentukan lokasi anda (atas talian)...';
-    });
+    document.querySelectorAll('.location-display').forEach(el => el.textContent = 'Menentukan lokasi anda...');
     fetchLocationName(lat, lon);
   } else {
-    // OFFLINE: fallback to raw GPS coordinates
+    // Offline fallback
     const rawLocation = `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)}`;
-    document.querySelectorAll('.location-display').forEach(el => {
-      el.textContent = rawLocation;
-    });
-
+    document.querySelectorAll('.location-display').forEach(el => el.textContent = rawLocation);
     let survey = JSON.parse(localStorage.getItem("currentSurvey") || '{"answers":{}}');
     survey.answers = survey.answers || {};
     survey.answers.latitude = lat;
@@ -196,28 +321,20 @@ function updateLocation(position) {
     survey.answers.locationName = rawLocation;
     localStorage.setItem("currentSurvey", JSON.stringify(survey));
 
-    // Store last known location for fallback
-  localStorage.setItem("lastKnownLocation", JSON.stringify({
-  latitude: lat,
-  longitude: lon,
-  locationName: rawLocation
-}));
-
+    // Save last known location
+    localStorage.setItem("lastKnownLocation", JSON.stringify({ latitude: lat, longitude: lon, locationName: rawLocation }));
   }
 }
 
-function fetchLocationName(lat, lon) {
-  const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`;
 
-  fetch(url, {
-    headers: {
-      'User-Agent': 'SurveyApp/1.0 (youremail@example.com)'  // Replace with your email
-    }
-  })
+function fetchLocationName(lat, lon) {
+  // Use your local proxy instead of calling Nominatim directly
+  const url = `https://atiqahst-github-io.onrender.com/reverse?lat=${lat}&lon=${lon}`;
+
+  fetch(url)
     .then(response => response.json())
     .then(data => {
       const address = data.address || {};
-      // Construct full address string (you can customize which parts to include)
       const parts = [
         address.road,
         address.neighbourhood,
@@ -245,17 +362,17 @@ function fetchLocationName(lat, lon) {
       localStorage.setItem("lastKnownLocation", JSON.stringify({
         latitude: lat,
         longitude: lon,
-        locationName: locationName  // or rawLocation in offline case
+        locationName: locationName
       }));
-
     })
     .catch(error => {
-      console.error('Reverse geocoding failed:', error);
+      console.error('Reverse geocoding via proxy failed:', error);
       document.querySelectorAll('.location-display').forEach(el => {
         el.textContent = 'Tidak dapat menentuk lokasi (tiada internet)';
       });
     });
 }
+
 
 
 
@@ -270,8 +387,8 @@ function requestLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(updateLocation, handleError, {
       enableHighAccuracy: true,
-      maximumAge: 0,
-      timeout: 1000
+      maximumAge: 5000,
+      timeout: 10000
     });
   } else {
     alert('Geolocation tidak disokong oleh pelayar anda.');

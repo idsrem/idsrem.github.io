@@ -195,6 +195,12 @@ document.addEventListener("DOMContentLoaded", () => {
     usernameEl.title = userData.role || ""; // Optional: show role as tooltip
   }
 });
+
+  if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+    window.location.href = 'index.html'; // Redirect to login if not authenticated
+    }
+
+    
 </script>
 
 
