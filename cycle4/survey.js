@@ -442,7 +442,12 @@ const dunToRelevantParties = {
   "N44 Tulid": ["WARISAN", "PH - PKR", "BEBAS - Edwin Laimin", "BEBAS - Clarence Carter Maraat", "PKS", "KDM", "STAR", "BEBAS - Suman @ Susunah Yasambun", "BEBAS - Jordan Jude Ellron", "RUMPUN", "PIS", "Tidak Pasti"],
   "N20 Api - Api": ["WARISAN", "PH - PKR", "PBK", "PIS", "STAR", "Tidak Pasti"],
   "N19 Likas": ["WARISAN", "PIS", "PBK", "PH - DAP", "SAPP", "PKS", "Tidak Pasti"],
-  "N72 Merotai": ["WARISAN", "PH - PKR", "PIS", "PN", "Tidak Pasti"]
+  "N72 Merotai": ["WARISAN", "PH - PKR", "PIS", "PN", "Tidak Pasti"],
+  "N34 Lumadan": ["WARISAN", "KDM", "STAR", "GRS", "BN", "PIS", "Tidak Pasti"],
+  "N23 Petagas": ["WARISAN", "ANAK NEGERI", "PN", "UPKO", "BEBAS - Patrick @ Peter Manius", "PH - PKR", "BEBAS - Awang Ahmad Sah", "KDM", "STAR", "PIS", "Tidak Pasti"],
+  "N48 Sugut": ["WARISAN", "PN", "BEBAS - Roger Langgau", "PIS", "PPRS", "BN", "GRS", "Tidak Pasti"],
+  "N49 Labuk": ["WARISAN", "PN", "ANAK NEGERI", "PIS", "GRS", "UPKO", "BN", "KDM", "Tidak Pasti"],
+  "N14 Tamparuli": ["WARISAN", "STAR", "ANAK NEGERI", "BEBAS - Andrew Mali", "BEBAS - Vun Yuk Fook", "BEBAS - Johan Jahid", "BEBAS - Samson S.koroh @ Razali Suffian", "BEBAS - Raymond Alfred @ Jenry","UPKO", "PIS", "RUMPUN", "Tidak Pasti"],
 };
 
 if (question.id === "cenderungUntukUndi") {
