@@ -38,27 +38,27 @@ function updateClockAndSurvey() {
 
     //!-- REMEMEBER TO UNCOMMENT WHEN THE TIME COMES
     // Working hours logic: 8:30 AM to 5:30 PM
-    const currentMinutes = hours * 60 + minutes;
-    const startMinutes = 6 * 60;
-    const endMinutes = 20 * 60;
+    // const currentMinutes = hours * 60 + minutes;
+    // const startMinutes = 6 * 60;
+    // const endMinutes = 20 * 60;
 
-    const isWithinAllowedTime = currentMinutes >= startMinutes && currentMinutes <= endMinutes;
+    // const isWithinAllowedTime = currentMinutes >= startMinutes && currentMinutes <= endMinutes;
 
-    const surveyContainer = document.getElementById("survey-container");
-    const surveyCloseModal = document.getElementById("surveyCloseModal");
-    const containerView = document.querySelector(".container-view");
+    // const surveyContainer = document.getElementById("survey-container");
+    // const surveyCloseModal = document.getElementById("surveyCloseModal");
+    // const containerView = document.querySelector(".container-view");
 
-    if (isWithinAllowedTime) {
-        //Show everything
-        surveyContainer.style.display = "block";
-        containerView.style.display = "flex";
-        surveyCloseModal.style.display = "none";
-    } else {
-        // Hide entire app UI, show only pop-up
-        surveyContainer.style.display = "none";
-        containerView.style.display = "none";
-        surveyCloseModal.style.display = "block";
-    }
+    // if (isWithinAllowedTime) {
+    //     //Show everything
+    //     surveyContainer.style.display = "block";
+    //     containerView.style.display = "flex";
+    //     surveyCloseModal.style.display = "none";
+    // } else {
+    //     // Hide entire app UI, show only pop-up
+    //     surveyContainer.style.display = "none";
+    //     containerView.style.display = "none";
+    //     surveyCloseModal.style.display = "block";
+    // }
 }
 
 // Initial check
@@ -400,6 +400,10 @@ function showIdInput() {
         const textElement = document.createElement("p");
         textElement.textContent = question.text;
         questionDiv.appendChild(textElement);
+
+        // const dunToRelevantParties = {
+        //     "N22 Tanjong Aru": ["WARISAN", "PN", "PH(DAP, PKR)", "STAR", "UPKO", "ANAK NEGERI", "BEBAS", "PKDM", "PIS", "Tidak Pasti", "Lain - Lain"]
+        // };
     
         // Create the Previous Button if it's not the first question
         if (index > 1) {
@@ -428,6 +432,169 @@ function showIdInput() {
             surveyContainer.appendChild(backButton);
         }
 
+const dunToRelevantParties = {
+  "N22 Tanjong Aru": ["WARISAN", "STAR", "PBK", "PIS", "UPKO", "BEBAS - Mohamed Zaim Ansawi", "BEBAS - Ritchie Jay Cheng", "PN", "PH - DAP", "Tidak Pasti"],
+  "N56 Tanjong Papat": ["WARISAN", "PH - DAP", "PKS", "KDM", "PIS", "SAPP", "PN", "PR", "Tidak Pasti"],
+  "N69 Sri Tanjong": ["WARISAN", "PH - DAP", "STAR", "PIS", "KDM", "BEBAS - Wong Su Vui", "Tidak Pasti"],
+  "N21 Luyang": ["WARISAN", "PH - DAP", "SAPP", "PN", "PIS", "Tidak Pasti"],
+  "N21 Tambunan": ["WARISAN", "KDM", "STAR", "GRS", "ANAK NEGERI", "PIS", "SPP", "Tidak Pasti"],
+};
+
+if (question.id === "cenderungUntukUndi") {
+    const currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
+    const selectedDun = currentSurvey.answers?.dun?.trim();
+
+    console.log("Selected DUN =", selectedDun);
+
+    // Remove **all existing** "cenderungUntukUndi" questions
+    document.querySelectorAll('.survey-question[data-qid="cenderungUntukUndi"]').forEach(el => el.remove());
+
+    const relevantParties = dunToRelevantParties[selectedDun];
+
+    if (relevantParties && relevantParties.length > 0) {
+        // Render filtered question
+        const questionDiv = document.createElement("div");
+        questionDiv.classList.add("survey-question");
+        questionDiv.setAttribute("data-qid", "cenderungUntukUndi");
+
+        const questionText = document.createElement("p");
+        questionText.textContent = question.text;
+        questionDiv.appendChild(questionText);
+
+        const optionsContainer = document.createElement("div");
+        optionsContainer.classList.add("survey-options");
+
+        const questionIndex = surveyQuestions.findIndex(q => q.id === question.id);
+
+        relevantParties.forEach(optionName => {
+            const btn = document.createElement("button");
+            btn.textContent = optionName;
+            btn.setAttribute("data-value", optionName);
+            btn.addEventListener("click", () => handleOptionClick(question, { name: optionName }, questionIndex));
+            optionsContainer.appendChild(btn);
+        });
+
+        questionDiv.appendChild(optionsContainer);
+        surveyContainer.appendChild(questionDiv);
+
+        return; 
+    }
+}
+
+
+
+// function normalizeKey(s) {
+//   return (s || "")
+//     .toString()
+//     .trim()
+//     .toLowerCase()
+//     .replace(/[\(\)\-]/g, "")     // remove () and -
+//     .replace(/\s+/g, " ")         // collapse multiple spaces
+//     .replace(/[^a-z0-9 ]/g, "");  // remove non-alphanumerics except space
+// }
+
+// function buildDunLookup(map) {
+//   const lookup = {};
+//   Object.keys(map).forEach(rawKey => {
+//     const val = map[rawKey];
+//     const fullKey = normalizeKey(rawKey);
+
+//     // exact name
+//     lookup[fullKey] = val;
+
+//     // code only (N22)
+//     const codeMatch = rawKey.match(/^(n\d+)/i);
+//     if (codeMatch && codeMatch[1]) {
+//       lookup[normalizeKey(codeMatch[1])] = val;
+//     }
+
+//     // name only (Tanjong Aru)
+//     const nameOnly = fullKey.replace(/^n\d+\s*/, "");
+//     lookup[nameOnly] = val;
+//   });
+
+//   return lookup;
+// }
+
+
+// const dunLookup = buildDunLookup(dunToRelevantParties);
+// console.log("DEBUG: dunLookup keys:", Object.keys(dunLookup));
+
+// if (question.id === "cenderungUntukUndi") {
+//   // Safe parse
+//   let currentSurvey = { answers: {} };
+//   try { currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} }; }
+//   catch (e) { console.warn("Failed parse currentSurvey:", e); }
+
+//   const selectedDunRaw = currentSurvey.answers?.dun || "";
+//   console.log("DEBUG: selectedDunRaw (from localStorage) =", selectedDunRaw);
+
+//   const candidates = [];
+//   if (selectedDunRaw) {
+//     candidates.push(normalizeKey(selectedDunRaw)); // e.g. "n22 tanjong aru"
+//     const codeMatch = selectedDunRaw.match(/^(n\d+)/i);
+//     if (codeMatch && codeMatch[1]) candidates.push(normalizeKey(codeMatch[1])); // e.g. "n22"
+//   }
+//   console.log("DEBUG: candidates for lookup =", candidates);
+
+//   let relevantPartyNames = null;
+//   for (const c of candidates) {
+//     if (dunLookup[c]) {
+//       relevantPartyNames = dunLookup[c];
+//       console.log("DEBUG: matched lookup key:", c, "->", relevantPartyNames);
+//       break;
+//     }
+//   }
+
+//   // Normalize default question.options into {name:...}
+//   const defaultOptions = Array.isArray(question.options)
+//     ? question.options.map(opt => (typeof opt === "string" ? { name: opt } : opt))
+//     : [];
+
+//   const optionsToUse = (Array.isArray(relevantPartyNames) && relevantPartyNames.length)
+//     ? relevantPartyNames.map(p => ({ name: p }))
+//     : defaultOptions;
+
+//   // Remove any previously rendered question with same id to avoid duplicates
+//   const prev = document.querySelector(`.survey-question[data-qid="${question.id}"]`);
+//   if (prev) {
+//     console.log("DEBUG: removing previously rendered question node for", question.id);
+//     prev.remove();
+//   }
+
+//   // Render question wrapper with data-qid so next time we can find it
+//   const questionDiv = document.createElement("div");
+//   questionDiv.classList.add("survey-question");
+//   questionDiv.setAttribute("data-qid", question.id);
+
+//   const questionText = document.createElement("p");
+//   questionText.textContent = question.text || "Parti mana anda akan undi (DUN)?";
+//   questionDiv.appendChild(questionText);
+
+//   const optionsContainer = document.createElement("div");
+//   optionsContainer.classList.add("survey-options");
+
+//   optionsToUse.forEach(option => {
+//     const btn = document.createElement("button");
+//     btn.type = "button";
+//     btn.textContent = option.name;
+//     btn.setAttribute("data-value", option.name);
+//     btn.addEventListener("click", () => handleAnswer(question.id, option.name));
+//     optionsContainer.appendChild(btn);
+//   });
+
+//   questionDiv.appendChild(optionsContainer);
+
+//   // Append to your container (adjust id/class to match your app)
+//   const target = document.getElementById("questions") || document.body;
+//   if (target === document.body) {
+//     console.warn("DEBUG: survey container not found; appended to document.body. Replace with your actual container.");
+//   }
+//   target.appendChild(questionDiv);
+
+//   // Final debug: list what was rendered
+//   console.log("DEBUG: rendered options:", optionsToUse.map(o => o.name));
+// }
 
 
         if (question.id === "mengundiAdun") {
@@ -949,6 +1116,7 @@ document.addEventListener("DOMContentLoaded", updateTodayRespondentsDisplay);
         if (question.id === "bangsa" && option.name === "Lain - Lain"){
             showBangsaLainInput(question.text, question.id, index + 1);
         }
+
 
         else if (question.id === "mengundiAdun" && option.name === "Tidak Pasti"){
             showAdunLainInput(question.text, question.id, index + 1);

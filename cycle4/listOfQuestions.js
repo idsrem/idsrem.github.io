@@ -1,3 +1,16 @@
+export const dunToRelevantParties = {
+  "N22 Tanjong Aru": [
+    "WARISAN", "PN", "PH (DAP, PKR)", "STAR", "UPKO",
+    "ANAK NEGERI", "BEBAS - PERSON 1", "PKDM", "PIS",
+    "Tidak Pasti", "Lain - Lain"
+  ],
+  "N56 Tanjong Papat": [
+    "PN", "PH (DAP, PKR)", "STAR", "UPKO",
+    "ANAK NEGERI", "BEBAS", "PKDM", "PIS",
+    "Tidak Pasti", "Lain - Lain"
+  ]
+};
+
 export const surveyQuestions = [
     {
         id: "introduction",
