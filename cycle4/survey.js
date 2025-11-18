@@ -447,7 +447,7 @@ const dunToRelevantParties = {
   "N23 Petagas": ["WARISAN", "ANAK NEGERI", "PN", "UPKO", "BEBAS - Patrick @ Peter Manius", "PH - PKR", "BEBAS - Awang Ahmad Sah", "KDM", "STAR", "PIS", "Tidak Pasti"],
   "N48 Sugut": ["WARISAN", "PN", "BEBAS - Roger Langgau", "PIS", "PPRS", "BN", "GRS", "Tidak Pasti"],
   "N49 Labuk": ["WARISAN", "PN", "ANAK NEGERI", "PIS", "GRS", "UPKO", "BN", "KDM", "Tidak Pasti"],
-  "N14 Tamparuli": ["WARISAN", "STAR", "ANAK NEGERI", "BEBAS - Andrew Mali", "BEBAS - Vun Yuk Fook", "BEBAS - Johan Jahid", "BEBAS - Samson S.koroh @ Razali Suffian", "BEBAS - Raymond Alfred @ Jenry","UPKO", "PIS", "RUMPUN", "Tidak Pasti"],
+  "N14 Tamparuli": ["WARISAN", "STAR", "ANAK NEGERI", "BEBAS - Andrew Mali", "BEBAS - Vun Yuk Fook", "BEBAS - Johan Jahid", "BEBAS - Samson S.koroh @ Razali Suffian", "BEBAS - Raymond Alfred @ Jenry","UPKO", "PIS", "RUMPUN", "KDM", "GRS", "Tidak Pasti"],
   "N61 Segama": ["WARISAN", "PIS", "BEBAS - Alif Afiandy Ali", "BEBAS - Norman Kasimin", "PH - PKR", "SAPP", "Tidak Pasti"],
   "N40 Bingkor": ["WARISAN", "GAS", "UPKO", "GRS", "PKS", "PIS", "KDM", "BEBAS - Ahamin Salim", "STAR", "SPP", "Tidak Pasti"],
   "N32 Klias": ["WARISAN", "PKS", "BEBAS - Edwin Louis", "PN", "PPRS", "KDM", "PIS", "GRS", "BN", "Tidak Pasti"],
