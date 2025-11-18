@@ -449,7 +449,9 @@ const dunToRelevantParties = {
   "N49 Labuk": ["WARISAN", "PN", "ANAK NEGERI", "PIS", "GRS", "UPKO", "BN", "KDM", "Tidak Pasti"],
   "N14 Tamparuli": ["WARISAN", "STAR", "ANAK NEGERI", "BEBAS - Andrew Mali", "BEBAS - Vun Yuk Fook", "BEBAS - Johan Jahid", "BEBAS - Samson S.koroh @ Razali Suffian", "BEBAS - Raymond Alfred @ Jenry","UPKO", "PIS", "RUMPUN", "Tidak Pasti"],
   "N61 Segama": ["WARISAN", "PIS", "BEBAS - Alif Afiandy Ali", "BEBAS - Norman Kasimin", "PH - PKR", "SAPP", "Tidak Pasti"],
-  "N40 Bingkor": ["WARISAN", "GAS", "UPKO", "GRS", "PKS", "PIS", "KDM", "BEBAS - Ahamin Salim", "Tidak Pasti"],
+  "N40 Bingkor": ["WARISAN", "GAS", "UPKO", "GRS", "PKS", "PIS", "KDM", "BEBAS - Ahamin Salim", "STAR", "SPP", "Tidak Pasti"],
+  "N32 Klias": ["WARISAN", "PKS", "BEBAS - Edwin Louis", "PN", "PPRS", "KDM", "PIS", "GRS", "BN", "Tidak Pasti"],
+  "N4 Tanjung Kapor": ["WARISAN", "BN", "BEBAS - Abdul Rahim Madtaip", "BEBAS - Datuk Verson Bahanda", "ANAK NEGERI", "PBK", "PIS", "SPP", "GRS", "PN", "STAR", "Tidak Pasti"],
 };
 
 if (question.id === "cenderungUntukUndi") {
