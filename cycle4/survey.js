@@ -437,7 +437,12 @@ const dunToRelevantParties = {
   "N56 Tanjong Papat": ["WARISAN", "PH - DAP", "PKS", "KDM", "PIS", "SAPP", "PN", "PR", "Tidak Pasti"],
   "N69 Sri Tanjong": ["WARISAN", "PH - DAP", "STAR", "PIS", "KDM", "BEBAS - Wong Su Vui", "Tidak Pasti"],
   "N21 Luyang": ["WARISAN", "PH - DAP", "SAPP", "PN", "PIS", "Tidak Pasti"],
-  "N21 Tambunan": ["WARISAN", "KDM", "STAR", "GRS", "ANAK NEGERI", "PIS", "SPP", "Tidak Pasti"],
+  "N39 Tambunan": ["WARISAN", "KDM", "STAR", "GRS", "ANAK NEGERI", "PIS", "SPP", "Tidak Pasti"],
+  "N52 Sungai Sibuga": ["WARISAN", "PIS", "PN", "GRS", "BN", "Tidak Pasti"],
+  "N44 Tulid": ["WARISAN", "PH - PKR", "BEBAS - Edwin Laimin", "BEBAS - Clarence Carter Maraat", "PKS", "KDM", "STAR", "BEBAS - Suman @ Susunah Yasambun", "BEBAS - Jordan Jude Ellron", "RUMPUN", "PIS", "Tidak Pasti"],
+  "N20 Api - Api": ["WARISAN", "PH - PKR", "PBK", "PIS", "STAR", "Tidak Pasti"],
+  "N19 Likas": ["WARISAN", "PIS", "PBK", "PH - DAP", "SAPP", "PKS", "Tidak Pasti"],
+  "N72 Merotai": ["WARISAN", "PH - PKR", "PIS", "PN", "Tidak Pasti"]
 };
 
 if (question.id === "cenderungUntukUndi") {
