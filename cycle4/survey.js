@@ -38,27 +38,27 @@ function updateClockAndSurvey() {
 
     //!-- REMEMEBER TO UNCOMMENT WHEN THE TIME COMES
     // Working hours logic: 8:30 AM to 5:30 PM
-    // const currentMinutes = hours * 60 + minutes;
-    // const startMinutes = 6 * 60;
-    // const endMinutes = 20 * 60;
+    const currentMinutes = hours * 60 + minutes;
+    const startMinutes = 6 * 60;
+    const endMinutes = 20 * 60;
 
-    // const isWithinAllowedTime = currentMinutes >= startMinutes && currentMinutes <= endMinutes;
+    const isWithinAllowedTime = currentMinutes >= startMinutes && currentMinutes <= endMinutes;
 
-    // const surveyContainer = document.getElementById("survey-container");
-    // const surveyCloseModal = document.getElementById("surveyCloseModal");
-    // const containerView = document.querySelector(".container-view");
+    const surveyContainer = document.getElementById("survey-container");
+    const surveyCloseModal = document.getElementById("surveyCloseModal");
+    const containerView = document.querySelector(".container-view");
 
-    // if (isWithinAllowedTime) {
-    //     //Show everything
-    //     surveyContainer.style.display = "block";
-    //     containerView.style.display = "flex";
-    //     surveyCloseModal.style.display = "none";
-    // } else {
-    //     // Hide entire app UI, show only pop-up
-    //     surveyContainer.style.display = "none";
-    //     containerView.style.display = "none";
-    //     surveyCloseModal.style.display = "block";
-    // }
+    if (isWithinAllowedTime) {
+        //Show everything
+        surveyContainer.style.display = "block";
+        containerView.style.display = "flex";
+        surveyCloseModal.style.display = "none";
+    } else {
+        // Hide entire app UI, show only pop-up
+        surveyContainer.style.display = "none";
+        containerView.style.display = "none";
+        surveyCloseModal.style.display = "block";
+    }
 }
 
 // Initial check
@@ -488,9 +488,16 @@ if (question.id === "cenderungUntukUndi") {
         relevantParties.forEach(optionName => {
             const btn = document.createElement("button");
             btn.textContent = optionName;
+            btn.style.backgroundColor = "#2B6290";
+            btn.style.fontWeight = "800";
+            btn.style.borderRadius = "30px";
             btn.setAttribute("data-value", optionName);
             btn.addEventListener("click", () => handleOptionClick(question, { name: optionName }, questionIndex));
             optionsContainer.appendChild(btn);
+
+            if (optionName === "Tidak Pasti") {
+            btn.style.backgroundColor = "#A9A9A9"; // light gray            // black text // optional
+        }
         });
 
         questionDiv.appendChild(optionsContainer);
