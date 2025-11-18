@@ -451,13 +451,12 @@ const dunToRelevantParties = {
   "N61 Segama": ["WARISAN", "PIS", "BEBAS - Alif Afiandy Ali", "BEBAS - Norman Kasimin", "PH - PKR", "SAPP", "Tidak Pasti"],
   "N40 Bingkor": ["WARISAN", "GAS", "UPKO", "GRS", "PKS", "PIS", "KDM", "BEBAS - Ahamin Salim", "STAR", "SPP", "Tidak Pasti"],
   "N32 Klias": ["WARISAN", "PKS", "BEBAS - Edwin Louis", "PN", "PPRS", "KDM", "PIS", "GRS", "BN", "Tidak Pasti"],
-  "N4 Tanjung Kapor": ["WARISAN", "BN", "BEBAS - Abdul Rahim Madtaip", "BEBAS - Datuk Verson Bahanda", "ANAK NEGERI", "PBK", "PIS", "SPP", "GRS", "PN", "STAR", "Tidak Pasti"],
+  "N4 Tanjong Kapor": ["WARISAN", "BN", "BEBAS - Abdul Rahim Madtaip", "BEBAS - Datuk Verson Bahanda", "ANAK NEGERI", "PBK", "PIS", "SPP", "GRS", "PN", "STAR", "Tidak Pasti"],
   "N2 Bengkoka": ["WARISAN", "GRS", "STAR", "PIS", "BEBAS - Mohd Izahan Abdullah", "BN", "UPKO", "PN", "KDM", "PBK", "BEBAS - Jomin @ Munir Mogompit @ Magempit", "Tidak Pasti"],
   "N3 Pitas": ["WARISAN", "BEBAS - Mohammad Noor Nazri Santong", "PIS", "GRS", "KDM", "BN", "Tidak Pasti"],
   "N5 Matunggong": ["WARISAN", "PKS", "BEBAS - Ainin Ekon", "KDM", "PIS", "GRS", "Tidak Pasti"],
   "N33 Kuala Penyu": ["WARISAN", "PIS", "BN", "STAR", "GRS", "PKS", "Tidak Pasti"],
   "N15 Kiulu": ["WARISAN", "KDM", "PKS", "ANAK NEGERI", "GRS", "UPKO", "PIS", "STAR", "Tidak Pasti"],
-
 };
 
 if (question.id === "cenderungUntukUndi") {
