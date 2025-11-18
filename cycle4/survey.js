@@ -440,7 +440,7 @@ const dunToRelevantParties = {
   "N39 Tambunan": ["WARISAN", "KDM", "STAR", "GRS", "ANAK NEGERI", "PIS", "SPP", "Tidak Pasti"],
   "N52 Sungai Sibuga": ["WARISAN", "PIS", "PN", "GRS", "BN", "Tidak Pasti"],
   "N44 Tulid": ["WARISAN", "PH - PKR", "BEBAS - Edwin Laimin", "BEBAS - Clarence Carter Maraat", "PKS", "KDM", "STAR", "BEBAS - Suman @ Susunah Yasambun", "BEBAS - Jordan Jude Ellron", "RUMPUN", "PIS", "BEBAS - Engah Sintan @ Dahlan Abdullah", "UPKO", "BEBAS - Lautis @ Laulis Anggang", "Tidak Pasti"],
-  "N20 Api - Api": ["WARISAN", "PH - PKR", "PBK", "PIS", "STAR", "Tidak Pasti"],
+  "N20 Api-Api": ["WARISAN", "PH - PKR", "PBK", "PIS", "STAR", "Tidak Pasti"],
   "N19 Likas": ["WARISAN", "PIS", "PBK", "PH - DAP", "SAPP", "PKS", "Tidak Pasti"],
   "N72 Merotai": ["WARISAN", "PH - PKR", "PIS", "PN", "Tidak Pasti"],
   "N34 Lumadan": ["WARISAN", "KDM", "STAR", "GRS", "BN", "PIS", "Tidak Pasti"],
@@ -452,6 +452,12 @@ const dunToRelevantParties = {
   "N40 Bingkor": ["WARISAN", "GAS", "UPKO", "GRS", "PKS", "PIS", "KDM", "BEBAS - Ahamin Salim", "STAR", "SPP", "Tidak Pasti"],
   "N32 Klias": ["WARISAN", "PKS", "BEBAS - Edwin Louis", "PN", "PPRS", "KDM", "PIS", "GRS", "BN", "Tidak Pasti"],
   "N4 Tanjung Kapor": ["WARISAN", "BN", "BEBAS - Abdul Rahim Madtaip", "BEBAS - Datuk Verson Bahanda", "ANAK NEGERI", "PBK", "PIS", "SPP", "GRS", "PN", "STAR", "Tidak Pasti"],
+  "N2 Bengkoka": ["WARISAN", "GRS", "STAR", "PIS", "BEBAS - Mohd Izahan Abdullah", "BN", "UPKO", "PN", "KDM", "PBK", "BEBAS - Jomin @ Munir Mogompit @ Magempit", "Tidak Pasti"],
+  "N3 Pitas": ["WARISAN", "BEBAS - Mohammad Noor Nazri Santong", "PIS", "GRS", "KDM", "BN", "BEBAS - Mohd Izahan Abdullah", "BN", "Tidak Pasti"],
+//   "N2 Bengkoka": ["WARISAN", "GRS", "STAR", "PIS", "BEBAS - Mohd Izahan Abdullah", "BN", "UPKO", "PN", "KDM", "PBK", "BEBAS - Jomin @ Munir Mogompit @ Magempit", "Tidak Pasti"],
+//   "N2 Bengkoka": ["WARISAN", "GRS", "STAR", "PIS", "BEBAS - Mohd Izahan Abdullah", "BN", "UPKO", "PN", "KDM", "PBK", "BEBAS - Jomin @ Munir Mogompit @ Magempit", "Tidak Pasti"],
+//   "N2 Bengkoka": ["WARISAN", "GRS", "STAR", "PIS", "BEBAS - Mohd Izahan Abdullah", "BN", "UPKO", "PN", "KDM", "PBK", "BEBAS - Jomin @ Munir Mogompit @ Magempit", "Tidak Pasti"],
+//   "N2 Bengkoka": ["WARISAN", "GRS", "STAR", "PIS", "BEBAS - Mohd Izahan Abdullah", "BN", "UPKO", "PN", "KDM", "PBK", "BEBAS - Jomin @ Munir Mogompit @ Magempit", "Tidak Pasti"],
 };
 
 if (question.id === "cenderungUntukUndi") {
