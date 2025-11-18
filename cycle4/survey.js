@@ -439,7 +439,7 @@ const dunToRelevantParties = {
   "N21 Luyang": ["WARISAN", "PH - DAP", "SAPP", "PN", "PIS", "Tidak Pasti"],
   "N39 Tambunan": ["WARISAN", "KDM", "STAR", "GRS", "ANAK NEGERI", "PIS", "SPP", "Tidak Pasti"],
   "N52 Sungai Sibuga": ["WARISAN", "PIS", "PN", "GRS", "BN", "Tidak Pasti"],
-  "N44 Tulid": ["WARISAN", "PH - PKR", "BEBAS - Edwin Laimin", "BEBAS - Clarence Carter Maraat", "PKS", "KDM", "STAR", "BEBAS - Suman @ Susunah Yasambun", "BEBAS - Jordan Jude Ellron", "RUMPUN", "PIS", "Tidak Pasti"],
+  "N44 Tulid": ["WARISAN", "PH - PKR", "BEBAS - Edwin Laimin", "BEBAS - Clarence Carter Maraat", "PKS", "KDM", "STAR", "BEBAS - Suman @ Susunah Yasambun", "BEBAS - Jordan Jude Ellron", "RUMPUN", "PIS", "BEBAS - Engah Sintan @ Dahlan Abdullah", "UPKO", "BEBAS - Lautis @ Laulis Anggang", "Tidak Pasti"],
   "N20 Api - Api": ["WARISAN", "PH - PKR", "PBK", "PIS", "STAR", "Tidak Pasti"],
   "N19 Likas": ["WARISAN", "PIS", "PBK", "PH - DAP", "SAPP", "PKS", "Tidak Pasti"],
   "N72 Merotai": ["WARISAN", "PH - PKR", "PIS", "PN", "Tidak Pasti"],
@@ -448,6 +448,8 @@ const dunToRelevantParties = {
   "N48 Sugut": ["WARISAN", "PN", "BEBAS - Roger Langgau", "PIS", "PPRS", "BN", "GRS", "Tidak Pasti"],
   "N49 Labuk": ["WARISAN", "PN", "ANAK NEGERI", "PIS", "GRS", "UPKO", "BN", "KDM", "Tidak Pasti"],
   "N14 Tamparuli": ["WARISAN", "STAR", "ANAK NEGERI", "BEBAS - Andrew Mali", "BEBAS - Vun Yuk Fook", "BEBAS - Johan Jahid", "BEBAS - Samson S.koroh @ Razali Suffian", "BEBAS - Raymond Alfred @ Jenry","UPKO", "PIS", "RUMPUN", "Tidak Pasti"],
+  "N61 Segama": ["WARISAN", "PIS", "BEBAS - Alif Afiandy Ali", "BEBAS - Norman Kasimin", "PH - PKR", "SAPP", "Tidak Pasti"],
+  "N40 Bingkor": ["WARISAN", "GAS", "UPKO", "GRS", "PKS", "PIS", "KDM", "BEBAS - Ahamin Salim", "Tidak Pasti"],
 };
 
 if (question.id === "cenderungUntukUndi") {
