@@ -432,6 +432,7 @@ function showIdInput() {
             surveyContainer.appendChild(backButton);
         }
 
+
 const dunToRelevantParties = {
   "N22 Tanjong Aru": ["WARISAN", "STAR", "PBK", "PIS", "UPKO", "BEBAS - Mohamed Zaim Ansawi", "BEBAS - Ritchie Jay Cheng", "PN", "PH - DAP", "Tidak Pasti"],
   "N56 Tanjong Papat": ["WARISAN", "PH - DAP", "PKS", "KDM", "PIS", "SAPP", "PN", "PR", "Tidak Pasti"],
@@ -457,7 +458,22 @@ const dunToRelevantParties = {
   "N5 Matunggong": ["WARISAN", "PKS", "BEBAS - Ainin Ekon", "KDM", "PIS", "GRS", "Tidak Pasti"],
   "N33 Kuala Penyu": ["WARISAN", "PIS", "BN", "STAR", "GRS", "PKS", "Tidak Pasti"],
   "N15 Kiulu": ["WARISAN", "KDM", "PKS", "ANAK NEGERI", "GRS", "UPKO", "PIS", "STAR", "Tidak Pasti"],
-};
+
+  "N26 Moyog": ["WARISAN", "PH - PKR", "STAR", "KDM", "GRS", "PBK", "BEBAS - Ricky Chang Onn Pin @ Ricky Richard", "PKS", "PN", "UPKO", "PIS", "BEBAS - Peter Maurice Lidadun", "Tidak Pasti"],
+  "N25 Kapayan": ["WARISAN", "ANAK NEGERI", "PH - DAP", "PIS", "KDM", "ASPIRASI", "BEBAS - Sabaria @ Sabariah Aziz", "PBK", "STAR", "UPKO", "BEBAS - Len Lip Fong @ Land Lip Fong", "BEBAS - Cyril Gerald Austin", "Tidak Pasti"],
+  "N70 Kukusan": ["WARISAN", "BEBAS - Rina Jainal", "BEBAS - Hairul Amin Arif", "PN", "PIS", "PPRS", "ANAK NEGERI", "BN", "GRS", "STAR", "Tidak Pasti"],
+  "N71 Tanjung Batu": ["WARISAN", "PN", "BN", "PIS", "GRS", "Tidak Pasti"],
+  "N73 Sebatik": ["WARISAN", "ANAK NEGERI", "BEBAS - Husni Frans", "GRS", "PN", "BN", "STAR", "PIS", "RUMPUN", "PPRS", "Tidak Pasti"],
+  "N51 Sungai Manila": ["WARISAN", "PIS", "PN", "BN", "PPRS", "GRS", "Tidak Pasti"],
+  "N11 Kedamaian": ["WARISAN", "UPKO", "PBM", "PIS", "GRS", "STAR", "KDM", "ANAK NEGERI", "Tidak Pasti"],
+  "N13 Pantai Dalit": ["WARISAN", "PN","GRS", "STAR", "KDM", "PIS", "BN", "Tidak Pasti"],
+  "N43 Kemabong": ["WARISAN", "PH - DAP", "PPRS", "PIS", "BEBAS - Petrus Yahya", "STAR", "KDM", "GRS", "BN", "Tidak Pasti"],
+  "N42 Melalap": ["WARISAN", "KDM", "PH - PKR", "STAR", "BEBAS - Gabriel George Tulas", "UPKO", "PIS", "BEBAS - Fatimah Ibrahim","Tidak Pasti"],
+  "N16 Karambunai": ["WARISAN", "BN", "PBK", "PKS", "GAS", "GRS", "SPP", "PN", "STAR", "PERPADUAN", "PIS","Tidak Pasti"],
+  "N18 Inanam": ["WARISAN", "RUMPUN", "PBK", "BEBAS - Shone Elric Jr. Majimbun", "KDM", "STAR", "UPKO", "GAS", "PH", "PR", "BEBAS - Roland Chia Ming Shen", "PIS", "ANAK NEGERI", "Tidak Pasti"],
+  "N06 Bandau": ["WARISAN", "GRS", "UPKO", "BEBAS - Datuk Dr. Maijol Mahap", "BN", "PKS", "PIS", "KDM", "ASPIRASI", "STAR", "PBK", "PH", "BEBAS - Jolius Majawai", "Tidak Pasti"],
+}
+
 
 if (question.id === "cenderungUntukUndi") {
     const currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
