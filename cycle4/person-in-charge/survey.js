@@ -460,7 +460,7 @@ const dunToRelevantParties = {
   "N15 Kiulu": ["WARISAN", "KDM", "PKS", "ANAK NEGERI", "GRS", "UPKO", "PIS", "STAR", "Tidak Pasti"],
 
   "N26 Moyog": ["WARISAN", "PH - PKR", "STAR", "KDM", "GRS", "PBK", "BEBAS - Ricky Chang Onn Pin @ Ricky Richard", "PKS", "PN", "UPKO", "PIS", "BEBAS - Peter Maurice Lidadun", "Tidak Pasti"],
-  "N25 Kapayan": ["WARISAN", "ANAK NEGERI", "PH - DAP", "PIS", "KDM", "ASPIRASI", "BEBAS - Sabaria @ Sabariah Aziz", "PBK", "STAR", "UPKO", "BEBAS - Len Lip Fong @ Land Lip Fong", "BEBAS - Cyril Gerald Austin", "Tidak Pasti"],
+  "N25 Kapayan": ["WARISAN", "ANAK NEGERI", "PH - DAP", "PIS", "KDM", "ASPIRASI", "BEBAS - Sabaria @ Sabariah Aziz", "PBK", "STAR", "UPKO", "BEBAS - Len Lip Fong @ Land Lip Fong", "BEBAS - Cyril Gerald Liew @ Cyril Gerald Austin", "Tidak Pasti"],
   "N70 Kukusan": ["WARISAN", "BEBAS - Rina Jainal", "BEBAS - Hairul Amin Arif", "PN", "PIS", "PPRS", "ANAK NEGERI", "BN", "GRS", "STAR", "Tidak Pasti"],
   "N71 Tanjung Batu": ["WARISAN", "PN", "BN", "PIS", "GRS", "Tidak Pasti"],
   "N73 Sebatik": ["WARISAN", "ANAK NEGERI", "BEBAS - Husni Frans", "GRS", "PN", "BN", "STAR", "PIS", "RUMPUN", "PPRS", "Tidak Pasti"],
