@@ -469,9 +469,11 @@ const dunToRelevantParties = {
   "N43 Kemabong": ["WARISAN", "PH - DAP", "PPRS", "PIS", "BEBAS - Petrus Yahya", "STAR", "KDM", "GRS", "BN", "Tidak Pasti"],
   "N42 Melalap": ["WARISAN", "KDM", "PH - PKR", "STAR", "BEBAS - Gabriel George Tulas", "UPKO", "PIS", "BEBAS - Fatimah Ibrahim","Tidak Pasti"],
   "N16 Karambunai": ["WARISAN", "BN", "PBK", "PKS", "GAS", "GRS", "SPP", "PN", "STAR", "PERPADUAN", "PIS","Tidak Pasti"],
+  "N63 Kunak": ["WARISAN", "BN", "PPRS", "PIS", "PN", "GRS", "Tidak Pasti"],
   "N18 Inanam": ["WARISAN", "RUMPUN", "PBK", "BEBAS - Shone Elric Jr. Majimbun", "KDM", "STAR", "UPKO", "GAS", "PH", "PR", "BEBAS - Roland Chia Ming Shen", "PIS", "ANAK NEGERI", "Tidak Pasti"],
-  "N06 Bandau": ["WARISAN", "GRS", "UPKO", "BEBAS - Datuk Dr. Maijol Mahap", "BN", "PKS", "PIS", "KDM", "ASPIRASI", "STAR", "PBK", "PH", "BEBAS - Jolius Majawai", "Tidak Pasti"],
+  "N6 Bandau": ["WARISAN", "GRS", "UPKO", "BEBAS - Datuk Dr. Maijol Mahap", "BN", "PKS", "PIS", "KDM", "ASPIRASI", "STAR", "PBK", "PH", "BEBAS - Jolius Majawai", "Tidak Pasti"],
 }
+
 
 if (question.id === "cenderungUntukUndi") {
     const currentSurvey = JSON.parse(localStorage.getItem("currentSurvey")) || { answers: {} };
