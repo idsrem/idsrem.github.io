@@ -36,7 +36,7 @@ export const surveyQuestions = [
         options: [
             {code: "P167", name: "Kudat", dun: ["N1 Banggi", "N2 Bengkoka", "N3 Pitas", "N4 Tanjong Kapor"]},
             {code: "P168", name: "Kota Marudu", dun: ["N5 Matunggong", "N6 Bandau", "N7 Tandek"]},
-            {code: "P169", name: "Kota Belud",  dun: ["N8 Pintasan", "N9 Tempasuk", "N10 Usukan", "N11 Kedamaian"]},
+            {code: "P169", name: "Kota Belud",  dun: ["N8 Pintasan", "N9 Tempasuk", "N10 Usukan", "N11 Kadamaian"]},
             {code: "P170", name: "Tuaran",  dun: ["N12 Sulaman", "N13 Pantai Dalit", "N14 Tamparuli", "N15 Kiulu"]},
             {code: "P171", name: "Sepanggar", dun: ["N16 Karambunai", "N17 Darau", "N18 Inanam"]},
             {code: "P172", name: "Kota Kinabalu",  dun: ["N19 Likas", "N20 Api-Api", "N21 Luyang"]},
