@@ -475,6 +475,7 @@ const dunToRelevantParties = {
   "N10 Usukan": ["WARISAN", "PIS", "BN", "BEBAS - Ajun Meliyon", "GRS", "STAR", "Tidak Pasti"],
   "N8 Pintasan": ["WARISAN", "PN", "GRS", "BEBAS - Syarif Mohd Shukree Danchingan", "STAR", "BEBAS - Datuk Fairuz Renddan", "BEBAS - Tajuddin Padis", "KDM", "BN", "PIS", "BEBAS - Mohd Rizal Saiman", "Tidak Pasti"],
   "N9 Tempasuk": ["WARISAN", "STAR", "PIS", "BN", "PKS", "GRS", "KDM", "Tidak Pasti"],
+  "N31 Membakut": ["WARISAN", "BN", "GRS", "UPKO", "PIS", "STAR", "PKS", "BEBAS - Haslan Wasli", "PPRS", "ANAK NEGERI", "Tidak Pasti"],
 }
 
 
