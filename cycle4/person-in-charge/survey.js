@@ -478,12 +478,12 @@ const dunToRelevantParties = {
   "N9 Tempasuk": ["WARISAN", "STAR", "PIS", "BN", "PKS", "GRS", "KDM", "Tidak Pasti"],
   "N31 Membakut": ["WARISAN", "BN", "GRS", "UPKO", "PIS", "STAR", "PKS", "BEBAS - Haslan Wasli", "PPRS", "ANAK NEGERI", "Tidak Pasti"],
 
-  "N7 Tandek": ["WARISAN", "PIS", "KDM", "STAR", "PBK", "UPKO", "GRS","Tidak Pasti"],
+  "N7 Tandek": ["WARISAN", "PIS", "KDM", "PKS", "STAR", "PBK", "UPKO", "GRS","Tidak Pasti"],
   "N9 Tempasuk": ["WARISAN", "KDM", "GRS", "PKS", "BN", "PIS", "STAR", "Tidak Pasti"],
   "N35 Sindumin": ["WARISAN", "PIS", "BEBAS - Abdillah Jalaf", "BEBAS - Ibrahim Tuah @ Jipun", "PH - PKR",  "BEBAS - Wilson Liou", "PKS", "STAR ", "PN", "KDM", "Tidak Pasti"],
   "N17 Darau": ["WARISAN", "PIS", "BN", "KDM", "PN", "GRS", "Tidak Pasti"],
-  "N50 Gum-Gum": ["WARISAN", "PN", "BN", "PH - PKR", "BEBAS - Asmawi Asa", "BEBAS - Mohd Yusuf Yoda", "PIS", "BEBAS - Fadly Voon", "BEBAS - Datuk Salzo Asa", "UPKO", "Tidak Pasti"],
-  "N66 Bugaya": ["WARISAN", "GRS", "ASPIRASI", "PR", "STAR", "PIS", "RUMPUN", "PN", "BN", "Tidak Pasti"],
+  "N50 Gum-Gum": ["WARISAN", "PN", "PH - PKR", "BEBAS - Asmawi Asa", "BEBAS - Mohd Yusuf Yoda", "PIS", "BEBAS - Fadly Voon", "BEBAS - Datuk Salzo Asa", "UPKO", "Tidak Pasti"],
+  "N66 Bugaya": ["WARISAN", "GRS", "ASPIRASI", "PR", "STAR", "PIS", "RUMPUN", "PN", "Tidak Pasti"],
 }
 
 
