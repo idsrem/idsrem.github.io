@@ -472,6 +472,9 @@ const dunToRelevantParties = {
   "N63 Kunak": ["WARISAN", "BN", "PPRS", "PIS", "PN", "GRS", "Tidak Pasti"],
   "N18 Inanam": ["WARISAN", "RUMPUN", "PBK", "BEBAS - Shone Elric Jr. Majimbun", "KDM", "STAR", "UPKO", "GAS", "PH", "PR", "BEBAS - Roland Chia Ming Shen", "PIS", "ANAK NEGERI", "Tidak Pasti"],
   "N6 Bandau": ["WARISAN", "GRS", "UPKO", "BEBAS - Datuk Dr. Maijol Mahap", "BN", "PKS", "PIS", "KDM", "ASPIRASI", "STAR", "PBK", "PH", "BEBAS - Jolius Majawai", "Tidak Pasti"],
+  "N10 Usukan": ["WARISAN", "PIS", "BN", "BEBAS - Ajun Meliyon", "GRS", "STAR", "Tidak Pasti"],
+  "N8 Pintasan": ["WARISAN", "PN", "GRS", "BEBAS - Syarif Mohd Shukree Danchingan", "STAR", "BEBAS - Datuk Fairuz Renddan", "BEBAS - Tajuddin Padis", "KDM", "BN", "PIS", "BEBAS = Mohd Rizal Saiman", "Tidak Pasti"],
+  "N9 Tempasuk": ["WARISAN", "STAR", "PIS", "BN", "PKS", "GRS", "KDM", "Tidak Pasti"],
 }
 
 

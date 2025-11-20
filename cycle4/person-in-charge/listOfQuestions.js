@@ -129,7 +129,7 @@ export const surveyQuestions = [
             {name: "UPKO"},
             {name: "ANAK NEGERI"},
             {name: "BEBAS"},
-            {name: "PKDM"},
+            {name: "KDM"},
             {name: "PIS"},
             {name: "Tidak Pasti"},
             {name: "Lain - Lain"}
