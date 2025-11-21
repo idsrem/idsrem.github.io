@@ -484,6 +484,11 @@ const dunToRelevantParties = {
   "N17 Darau": ["WARISAN", "PIS", "BN", "KDM", "PN", "GRS", "Tidak Pasti"],
   "N50 Gum-Gum": ["WARISAN", "PN", "PH - PKR", "BEBAS - Asmawi Asa", "BEBAS - Mohd Yusuf Yoda", "PIS", "BEBAS - Fadly Voon", "BEBAS - Datuk Salzo Asa", "UPKO", "Tidak Pasti"],
   "N66 Bugaya": ["WARISAN", "GRS", "ASPIRASI", "PR", "STAR", "PIS", "RUMPUN", "BN", "PN", "Tidak Pasti"],
+
+  "N30 Bongawan": ["WARISAN", "GRS", "STAR", "BN", "BEBAS - MD HARIS MD TAHIR", "KDM", "PPRS", "PN", "PIS", "Tidak Pasti"],
+  "N54 Karamunting": ["WARISAN", "PH - PKR", "BN", "KDM", "PIS", "Tidak Pasti"],
+  "N64 Sulabayan": ["WARISAN", "PPRS", "PIS", "BEBAS - ABDILLAH ABDUL HAMID", "PH - AMANAH", "STAR", "ANAK NEGERI", "PN", "Tidak Pasti"],
+  "N65 Senallang": ["WARISAN", "PIS", "GRS", "BERSAMA", "Tidak Pasti"],
 }
 
 
