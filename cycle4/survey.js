@@ -487,7 +487,7 @@ const dunToRelevantParties = {
   "N30 Bongawan": ["WARISAN", "GRS", "STAR", "BN", "BEBAS - MD HARIS MD TAHIR", "KDM", "PPRS", "PN", "PIS", "Tidak Pasti"],
   "N54 Karamunting": ["WARISAN", "PH - PKR", "BN", "KDM", "PIS", "Tidak Pasti"],
   "N64 Sulabayan": ["WARISAN", "PPRS", "PIS", "BEBAS - ABDILLAH ABDUL HAMID", "PH - AMANAH", "STAR", "ANAK NEGERI", "PN", "Tidak Pasti"],
-  "N65 Senallang": ["WARISAN", "PIS", "GRS", "BERSAMA", "Tidak Pasti"],
+  "N65 Senallang": ["WARISAN", "PIS", "GRS", "BERSAMA", "Tidak Pasti"],  
 }
 
 
